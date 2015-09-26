@@ -10,13 +10,21 @@ div {
 }*/
 /* -------------------------------------------------------------------------*/
 
+p {
+    color: grey;
+}
+
+.jumbotron p {
+    color: white;
+}
+
 .nav li {
   display: inline;
 }
 
 .nav a{
     color: #363BFC;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     padding-top: 14px;
     padding-bottom: 14px;
@@ -38,7 +46,7 @@ div {
 
 .picture-grid h2 {
     color: #393c3d;
-    font-size: 24px;
+    /*font-size: 24px;*/
 }
 
 .picture-grid p {
@@ -56,6 +64,44 @@ div {
 	font-size: 18px;
 	color: #ffffff;
 }
+
+.article .row {
+  margin: 0;
+}
+
+.articles{
+    /*background-image:  url('http://s3.amazonaws.com/codecademy-content/courses/ltp2/img/reader/bg.png');*/
+    background-image:  url('https://upload.wikimedia.org/wikipedia/commons/1/1a/Code.jpg');
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+   
+.article {
+  color: #222;
+  background: rgba(255,255,255,.9);
+  border-spacing: 2px;
+  border-color: gray;
+  font-family: arial,sans-serif;
+  border-bottom: 1px #e5e5e5 solid;
+}
+
+.current .item {
+  background: rgba(206,220,206,.9);
+}
+.item {
+    cursor: pointer;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.description {
+    display: none;
+}
+
+.active {
+    background-color: red;
+}
+
 /*
 
 

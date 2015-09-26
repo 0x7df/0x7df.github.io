@@ -6,9 +6,9 @@
         <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
         <!--<link type="text/css" rel="stylesheet" href="./colours/colours.css"/>-->
         <link type="text/css" rel="stylesheet" href="./stylesheet.css"/>
-        <script src="jquery.min.js"></script>
-        <script src="app.js"></script>
         <script src="script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="app.js"></script>
         <title>0x7df</title>
     </head>
     
@@ -19,17 +19,17 @@
         <div class="nav">
             <div class="container">
                 <ul class="pull-left">
-		            <li id="menu"><a class="dropdown-toggle" href="#">Lorem</a></li>
-    		        <li id="menu"><a href="#">Ipsum</a></li>
+		            <li id="menu"><a href="#">Home</a></li>
+    		        <li id="menu"><a class="dropdown-toggle" href="#">Ipsum</a></li>
                 </ul>
                 <ul class="pull-right">
     		        <li id="menu"><a href="#">Dolor</a></li>
 	        	    <li id="menu"><a href="#">Sit amet</a></li>
-	    	        <li id="menu"><a href="#">Aliquip</a></li>
+	    	        <li id="menu"><a class="dropdown-toggle href="#">Credits</a></li>
     	        </ul>
             </div>
         </div>
-            
+        
         <!-- Banner -->
         <!-- NB #7df is interpreted as #77ddff -->
         <div class="jumbotron" id="banner">
@@ -41,11 +41,23 @@
             </div>
         </div>
         
-        
+        <!-- Picture grid -->
         <div class="picture-grid">
         <div class="container">
             <h2>More Content</h2>
-            <p>Want to see some nice pictures? Here they are.</p>
+            <p>Want to see some nice pictures? Here they are. We can understand
+            a lot about the properties of thermal radiation from thought
+            experiments, in particular by considering a hollow enclosure of
+            any shape, whose walls are opaque to radiation and which are held
+            everywhere at a constant temperature. The inner surface emits
+            thermal radiation, and therefore the interior space is filled with
+            a radiation field. The walls also absorb radiation. If at a
+            particular time a small volume dv  of space around a point P
+            contains an amount of radiation Q , then the quantity Q/dv is
+            called the energy density at point P . We can show that the energy
+            density in a constant-temperature enclosure is independent of the
+            nature of the walls of the enclosure, and depends only on the
+            temperature of the walls.</p>
             <div class="row">
                 <div class="col-md-4">
                     <div class="thumbnail">
@@ -84,7 +96,63 @@
         </div>
         </div>
         
-        <!------------------------------------------------------------------->
+        <!-- Articles -->
+        <div class="articles container">
+            <div class="article current">
+                <div class="item row">
+                    <div class="col-xs-3">
+                        <p>Date</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p>Article 1 title</p>
+                    </div>
+                    <div class="col-xs-3"></div>
+                </div>
+                <div class="description row">
+                    <div class="col-xs-12">
+                        <h1>Article 1 big title</h1>
+                        <p>The third Legacy 500 has joined Embraer's flight test programme aimed at delivering the midsiz...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                <div class="item row">
+                    <div class="col-xs-3">
+                        <p>Date</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p>Article 2 title</p>
+                    </div>
+                    <div class="col-xs-3"></div>
+                    
+                </div>
+                <div class="description row">
+                    <div class="col-xs-12">
+                        <h1>Article 2 big title</h1>
+                        <p>The third Legacy 500 has joined Embraer's flight test programme aimed at delivering the midsiz...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="article">
+                <div class="item row">
+                    <div class="col-xs-3">
+                        <p>Date</p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p>Article 3 title</p>
+                    </div>
+                    <div class="col-xs-3"></div>
+                </div>
+                <div class="description row">
+                    <div class="col-xs-12">
+                        <h1>Article 3 big title</h1>
+                        <p>The third Legacy 500 has joined Embraer's flight test programme aimed at delivering the midsiz...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Learn more ------------------------------------------------------>
         <div class="learn-more">
         <div class="container">
             <div class="row">
@@ -96,6 +164,7 @@
                     <h3>Something else</h3>
                     <p></p>
                     <button type="button" onclick="testJavaScript()">Try JavaScript</button>
+                    <button class="like-button" type="button">Like!</button>
                 </div>
                 <div class="col-md-4">
                     <h3>Some links</h3>
@@ -134,9 +203,8 @@
         </div>
         </div>
         
+        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="app.js"></script>-->
+        
     </body>
 </html>
-                       <!--
-                        <p style="font-family: Arial; color: red; font-size: 1.333em"> Hello, World! </p>
-        <!------------------------------------------------------------------->
-        <!------------------------------------------------------------------->
