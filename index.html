@@ -20,31 +20,86 @@
         <script src="script.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="app.js"></script>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
         <title>0x7df</title>
+         <!-- You can use open graph tags to customize link previews.
+    Learn more: https://developers.facebook.com/docs/sharing/webmasters -->
+    <meta property="og:url"           content="http://www.your-domain.com/your-page.html" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Your Website Title" />
+    <meta property="og:description"   content="Your description" />
+    <meta property="og:image"         content="http://www.your-domain.com/path/image.jpg" />
     </head>
     
     <body style="background-color: white">
-        
+    
         <!------------------------------------------------------------------->
         <!-- Top menu -->
         <div class="nav">
             <div class="container">
-                <ul class="pull-left">
-		            <li id="menu"><a href="#">Home</a></li>
-    		        <li id="menu"><a class="dropdown-toggle" href="#">Ipsum</a></li>
-                </ul>
-                <ul class="pull-right">
-    		        <li id="menu"><a href="#">Dolor</a></li>
-	        	    <li id="menu"><a href="#">Sit amet</a></li>
-	    	        <li id="menu"><a class="dropdown-toggle href="#">Credits</a></li>
-    	        </ul>
+                <div class="pull-left">
+                    <ul>
+		                <li class="inline-menu dropdown-toggle"><a href="#">Home</a>
+                        <div class="dropdown-menu start-hidden" style="position: absolute; top: 16px; left: 0">
+                            <p>Menu item a: make it longer</p>
+                            <p>Menu item b</p>
+                        </div>
+                        </li>
+    		            <li class="inline-menu dropdown-toggle"><a href="#">Ipsum</a>
+                        <div class="dropdown-menu start-hidden" style="position: absolute; top: 16px; left: 0">
+                            <p>Menu item x: make it longer</p>
+                            <p>Menu item y</p>
+                        </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="pull-right">
+                    <ul>
+    		            <li class="inline-menu dropdown-toggle"><a href="#">Dolor</a>
+                        <div class="dropdown-menu start-hidden" style="position: absolute; top: 16px; right: 0">
+                            <p>Menu item 2: make it longer</p>
+                            <p>Menu item 4</p>
+                        </div>
+                        </li>
+	        	        <li class="inline-menu dropdown-toggle"><a href="#">Sit amet</a>
+                        <div class="dropdown-menu start-hidden" style="position: absolute; top: 16px; right: 0">
+                            <p>Menu item l: make it longer</p>
+                            <p>Menu item m</p>
+                        </div>
+                        </li>
+	    	            <li class="inline-menu dropdown-toggle"><a href="#">Credits</a>
+                        <div class="dropdown-menu start-hidden" style="position: absolute; top: 16px; right: 0">
+                            <p>Colours:      <br><a href="https://paletton.com/#uid=53Z0u0k++NJtrZOLn+V+WuM+5od">Paletton</a></p>
+                            <p>Layout:       <br><a href="https://getbootstrap.com">Bootstrap</a></p> 
+                            <p>Coding skills:<br><a href="https://www.codecademy.com">Codecademy</a></p>
+                            <p>Coding skills:<br><a href="https://www.freecodecamp.com">FreeCodeCamp</a></p>
+                            <p>Hosting:      <br><a href="https://aws.amazon.com">Amazon Web Services</a></p>
+
+                        </div>
+                        </li>
+    	            </ul>
+                </div>
             </div>
         </div>
+        
+        
         
         <!-- Banner -->
         <!-- NB #7df is interpreted as #77ddff -->
         <div class="jumbotron" id="banner">
             <div class="container">
+                <img class="pull-left"
+                     src="http://www.gravatar.com/avatar/0723cc2b49b99576a19c545249ecb61c"
+                     alt="0x7df Gravatar"/>
+                
+                <ul class="pull-right">
+                    <li>Hello</li>
+                    <li>Link</li>
+                    <li>More</li>
+                </ul>
+             </div>
+             <div class="container">
                 <h1><!-- style="text-align: center; font-size: 50;"-->0x7df</h1>
                 <p> Physics, computer science, Python, Julia, Fortran, MPI,
                     OpenMP, programming, agile, software, mathematics, CUDA,
@@ -188,42 +243,62 @@
                     <h3>Some links</h3>
                     <p> Here are some links to my other sites: </p>
                     <ul>
-                        <li><a href="https://twitter.com/@0x7df">     0x7df Twitter feed </a></li>
-                        <li><a href="https://0x7df.wordpress.com">    0x7df WordPress blog     </a></li>
-                        <li><a href="https://github.com/0x7df">       0x7df GitHub site  </a></li>
-                        <li><a href="https://www.facebook.com/0x7df"> 0x7df FaceBook page </a></li>
-                        <li><a href="https://stackoverflow.com/users/4802778/0x7df"> 0x7df StackOverflow profile </a></li>
-                        <li><a href="https://0x7df.github.io"> 0x7df site on GitHub Pages
+                        <li><a href="https://twitter.com/@0x7df">              0x7df Twitter feed          </a></li>
+                        <li><a href="https://0x7df.wordpress.com">             0x7df WordPress blog        </a></li>
+                        <li><a href="https://github.com/0x7df">                0x7df GitHub site           </a></li>
+                        <li><a href="https://www.facebook.com/0x7df">          0x7df FaceBook page         </a></li>
+                        <li><a href="https://stackoverflow.com/users/4802778"> 0x7df StackOverflow profile </a></li>
+                        <li><a href="https://0x7df.github.io">                 0x7df site on GitHub Pages  </a></li>
+                        <li><a href="https://www.freecodecamp.com/0x7df">      0x7df FreeCodeCamp profile  </a></li>
+                        
                     </ul>
                 </div>
             </div>
         
+        
         <div class="row" id="footer">
-                <div class="col-md-12">
-            <div style="
-            	border-radius: 5px;
-	            border: 2px solid #6495ED;
-	            background-color: #BCD2EE;
-	            height: 50px;
-            	width: 120px;
-	            margin: auto;
-	            text-align: center;
-            ">
-                
-			    <a href="https://www.facebook.com/0x7df" style="text-decoration: none;
-                    color: #3D59AB;
-    	            font-family: Verdana, sans-serif;
+            
+            <div class="col-xs-4">
+                <p>Should be here</p>
+            </div>
+            <div class="col-xs-2">
+                <div style="
+                    border-radius: 5px;
+	                border: 2px solid #6495ED;
+	                background-color: #BCD2EE;
+	                height: 50px;
+            	    width: 120px;
+	                margin: auto;
+	                text-align: center;
                 ">
-                    Friend us on <span>Facebook!</span>
-                </a>
-    		</div>
+                
+			        <a href="https://www.facebook.com/0x7df" style="text-decoration: none;
+                        color: #3D59AB;
+    	                font-family: Verdana, sans-serif;
+                    ">
+                        Friend us on <span>Facebook!</span>
+                    </a>
+    		    </div>
+            </div>
+            <div class="col-xs-2">
+                <div style="
+	                margin: auto;
+	                text-align: center;
+                ">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-via="0x7df" data-size="large" data-dnt="true">Tweet</a>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <a href="https://twitter.com/0x7df" class="twitter-follow-button" data-show-count="false" data-size="large" data-dnt="true">Follow @0x7df</a>
+            </div>
+            <div class="col-xs-2">
+                <p>Last block</p>
             </div>
         </div>
+        
         </div>
         </div>
         
-        <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="app.js"></script>-->
         
     </body>
 </html>

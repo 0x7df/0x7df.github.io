@@ -1,7 +1,4 @@
-    /*$('.dropdown-toggle').click(function() {
-        $('.dropdown-menu').toggle();
-    });
-    
+    /*
     $('.like-button').click(function() {
         $(this).toggleClass('active');
     });
@@ -11,6 +8,13 @@
     });*/
     
 var main = function() {
+    
+    /* Control drop-down menus at the top of the page */
+    $('.dropdown-toggle').click(function() {
+        $(this).siblings().children('.dropdown-menu').hide();
+        $(this).children('.dropdown-menu').toggle();
+    });
+    
     $('.article').click(function() {
         $('.article').removeClass('current');
         $(this).siblings().children('.description').hide();
