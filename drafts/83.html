@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="0x7df, 0x7df subtitle">
+        <meta name="description" content="Dose and Units Dose is the amount of energy absorbed per unit mass, usually measured in J/kg. There are two measures, however: Absorbed dose is the energy deposited the medium, irrespective of the ...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.io/favicon.ico">
 
-        <title>Homepage - 0x7df</title>
+        <title>Radiation protection - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.io/theme/css/all.min.css" rel="stylesheet">
@@ -16,6 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.io/feeds/uncategorized.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -51,17 +52,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">0x7df</h1>
+                      <h1 class="header-title">Radiation protection</h1>
+                      <p class="header-date">By <a href="http://0x7df.io/author/0x7df.html">0x7df</a>, Sun 22 February 2015, in category <a href="http://0x7df.io/category/uncategorized.html">Uncategorized</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Physics, computer science, Python, Julia, Fortran, MPI, OpenMP, programming, agile, software, mathematics, CUDA, GPU, PHP, SQL, Scrum, Kanban, lean, Git, ...</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -69,39 +76,55 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="http://0x7df.io/index.html">Recent Posts </a></h2>
-            <dl class="dl-horizontal">
-                <dt>Sat 03 October 2015</dt>
-                <dd><a href="http://0x7df.io/static-site-generators.html">Static site generators - Pelican and Nikola</a></dd>
-                <dt>Mon 31 August 2015</dt>
-                <dd><a href="http://0x7df.io/virtual-temperature.html">Virtual Temperature</a></dd>
-                <dt>Sun 30 August 2015</dt>
-                <dd><a href="http://0x7df.io/geopotential.html">Geopotential</a></dd>
-                <dt>Sun 17 May 2015</dt>
-                <dd><a href="http://0x7df.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html">Thermal radiation, Kirchhoff's law, and black bodies (1/4)</a></dd>
-                <dt>Sun 10 May 2015</dt>
-                <dd><a href="http://0x7df.io/python-wordcloud-for-wordpress.html">Python wordcloud for WordPress</a></dd>
-                <dt>Sat 02 May 2015</dt>
-                <dd><a href="http://0x7df.io/hydrostatic-balance-in-the-atmosphere.html">Hydrostatic balance in the atmosphere</a></dd>
-                <dt>Sun 26 April 2015</dt>
-                <dd><a href="http://0x7df.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html">Creating a new Ubuntu virtual machine in Oracle VirtualBox</a></dd>
-                <dt>Tue 21 April 2015</dt>
-                <dd><a href="http://0x7df.io/cuda-basics-part-2.html">CUDA basics part 2</a></dd>
-                <dt>Sat 11 April 2015</dt>
-                <dd><a href="http://0x7df.io/python-code-analysis-using-prospector.html">Python code analysis using Prospector</a></dd>
-                <dt>Sun 05 April 2015</dt>
-                <dd><a href="http://0x7df.io/cuda-basics-part-1.html">CUDA basics part 1</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <h2>Dose and Units</h2>
+<p><em>Dose</em> is the amount of energy absorbed per unit mass, usually measured
+in J/kg. There are two measures, however:</p>
+<ul>
+<li><em>Absorbed dose</em> is the energy deposited the medium, irrespective of
+    the type of radiation and the nature of the medium. This is not a
+    good measure of the biological effects of ionising radiation on
+    living tissue, since different types of radiation cause different
+    amounts of damage for the same energy deposited. The type of tissue
+    also makes a difference.</li>
+<li><em>Dose equivalent</em> is therefore also used. This is the absorbed dose
+    multiplied by a dimensionless quality factor (which is a function of
+    the type of radiation), and another dimensionless number depending
+    on the type of tissue, which together make up a radiation weighting
+    factor. X-rays, gamma rays, electrons, positrons and muons have a
+    quality factor of 1, protons 2, neutrons 5-20 depending on their
+    energy, and alpha particles, heavy nuclei and fission fragments 20.
+    The dose equivalent is also measured in J/kg, since the radiation
+    weighting factor is dimensionless.</li>
+</ul>
+<p>Because of the confusion arising from measuring both quantities in J/kg,
+the units <em>gray</em> (Gy) and <em>sievert</em> (Sv) are used for absorbed dose and
+dose equivalent, respectively.</p>
+<h2>Typical values</h2>
+<ul>
+<li>The average dose equivalent from natural background radiation is
+    about 2 mSv/year.</li>
+<li>For full-body doses received in a short period (up to about an
+    hour):<ul>
+<li>1 Sv causes nausea</li>
+<li>2-5 Sv causes hair loss, haemorrhaging and death in many cases</li>
+<li>3 Sv causes death within three days in 50% of cases</li>
+<li>6 Sv causes death in almost all cases</li>
+</ul>
+</li>
+</ul>
+<h2>Risk vs. Dose</h2>
+<p>The broad view is that the relationship between risk and dose is more or
+less linear down to as low as 100 mSv. However, there is controversy
+over whether this relationship is linear at very low doses, or whether
+there is some threshold dose below which the radiation causes no harm,
+or even is beneficial. Statistical studies are reaching their limits due
+to the size of populations required to demonstrate statistically
+significant risk at lower exposure levels.</p>
+
+
+        
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-right" href="http://0x7df.io/index2.html">Next <i class="fa fa-caret-right"></i></a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->

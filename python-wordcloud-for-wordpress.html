@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="There is a Python routine available on Github for creating a word cloud, created by Andreas Mueller: https://github.com/amueller/word_cloud. A blog post here, and the Github repo that it goes with ...">
+        <meta name="keywords" content="api, html, python, twitter, wordcloud, wordpress, xml">
+        <link rel="icon" href="http://0x7df.io/favicon.ico">
+
+        <title>Python wordcloud for WordPress - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.io/feeds/programming.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.io/"><img class="mr20" src="http://0x7df.io/images/0x7df_60x60_no-bg.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.io">Home</a>
+                                <a href="http://0x7df.io/">Blog Home</a>
+                                <a href="http://0x7df.io/categories.html">Categories</a>
+                            <a  href="http://0x7df.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="http://0x7df.io/pages/about.html">About</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Python wordcloud for WordPress</h1>
+                      <p class="header-date">By <a href="http://0x7df.io/author/0x7df.html">0x7df</a>, Sun 10 May 2015, in category <a href="http://0x7df.io/category/programming.html">Programming</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://0x7df.io/tag/api.html">api</a>, <a href="http://0x7df.io/tag/html.html">html</a>, <a href="http://0x7df.io/tag/python.html">python</a>, <a href="http://0x7df.io/tag/twitter.html">twitter</a>, <a href="http://0x7df.io/tag/wordcloud.html">wordcloud</a>, <a href="http://0x7df.io/tag/wordpress.html">wordpress</a>, <a href="http://0x7df.io/tag/xml.html">xml</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>There is a <a href="http://www.python.org">Python</a> routine available on
+<a href="https://github.com/">Github</a> for creating a word cloud, created by
+<a href="http://peekaboo-vision.blogspot.co.uk/">Andreas Mueller</a>:
+<a href="https://github.com/amueller/word_cloud">https://github.com/amueller/word_cloud</a>.</p>
+<p><a href="http://sebastianraschka.com/Articles/2014_twitter_wordcloud.html">A blog post
+here</a>,
+and <a href="https://github.com/rasbt/datacollect">the Github repo that it goes
+with</a> (both due to <a href="http://sebastianraschka.com/">Sebastien
+Raschka</a>), make it easy to use the
+<a href="https://dev.twitter.com/rest/public">Twitter API</a> to download your
+<a href="https://support.twitter.com/articles/164083-what-s-a-twitter-timeline#">Twitter
+timeline</a>
+(as a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> file),
+and then use the word cloud script to produce a word cloud from it.</p>
+<p><a href="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png"><img alt="my_twitter_wordcloud_1" src="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png?w=660" /></a></p>
+<p>To add something to this, I did the same thing with my
+<a href="https://wordpress.com">WordPress</a> blog posts. I didn't want to bother
+fighting with the WordPress API, so I simply exported the blog contents
+to an XML file, which WordPress allows you to do through the admin
+interface (so you can archive your blog locally and/or transfer it into
+a different blog). Hence, this really just ends up being about XML
+parsing. Here is the source code:</p>
+<p>[code lang="python"]<br />
+#!/usr/bin/python</p>
+<p>from HTMLParser import HTMLParser<br />
+import xml.etree.ElementTree as ET<br />
+import matplotlib.pyplot as plt<br />
+from wordcloud import WordCloud, STOPWORDS</p>
+<p>#
+http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python<br />
+class MLStripper(HTMLParser):<br />
+def <strong>init</strong>(self):<br />
+self.reset()<br />
+self.fed = []<br />
+def handle_data(self, d):<br />
+self.fed.append(d)<br />
+def get_data(self):<br />
+return ''.join(self.fed)</p>
+<p>tree = ET.parse('0x7df.wordpress.2015-04-25.xml')</p>
+<p>root = tree.getroot()</p>
+<p>postwords = []</p>
+<p>for child in root.iter():<br />
+if child.tag == 'item':<br />
+if child.find('{http://wordpress.org/export/1.2/}status').text ==
+'publish':<br />
+postbody =
+child.find('{http://purl.org/rss/1.0/modules/content/}encoded').text<br />
+s = MLStripper()<br />
+s.feed(postbody)<br />
+postwords += s.get_data().split()</p>
+<p>keywords = ' '.join([wd for wd in postwords<br />
+if 'http' not in wd and<br />
+'bg=' not in wd and<br />
+not wd.startswith('$') and<br />
+not wd.startswith('[') and<br />
+not wd.startswith('&amp;')<br />
+])</p>
+<p>wordcloud = WordCloud(<br />
+font_path='./SaucerBB.ttf',<br />
+stopwords=STOPWORDS,<br />
+background_color='black',<br />
+width=1800,<br />
+height=1800<br />
+).generate(keywords)</p>
+<p>plt.imshow(wordcloud)<br />
+plt.axis('off')<br />
+plt.savefig('./my_wordpress_wordcloud_2.png', dpi=300)<br />
+plt.show()<br />
+[/code]</p>
+<p>I used the standard library light-weight
+<code>&lt;a href="https://docs.python.org/2/library/xml.etree.elementtree.html" target="_blank"&gt;xml.etree.ElementTree&lt;/a&gt;</code>
+parser. I get the root of the <a href="http://en.wikipedia.org/wiki/XML">XML</a>
+document, and iterate over its children; this is recursive, so it
+descends down the tree to all nodes. Whenever I encounter a node which
+has the tag <code>item</code> (which contains the post information), I search
+amongst its immediate children using the <code>find()</code> method, to find one
+with tag <code>{http://wordpress.org/export/1.2/}status</code>, which contains the
+status of the post, i.e. whether it's published, draft, etc. If it's
+published (the text that the XML tag contains <code>== publish</code>), then I
+search again using <code>find()</code> for the tag
+<code>{http://purl.org/rss/1.0/modules/content/}encoded</code>, which contains the
+blog post text. I put this in the <code>postbody</code> variable.</p>
+<p>The next few lines use the <code>class</code> defined earlier on in the script -
+<code>MLStripper()</code> - to strip out the <a href="http://www.w3schools.com/html/">HTML</a>
+tags from the blog post. (This came from
+<a href="//stackoverflow.com/questions/753052/strip-html-from-strings-in-python">StackOverflow</a>.)
+The rest of the script is essentially the same as <a href="http://sebastianraschka.com/Articles/2014_twitter_wordcloud.html">Raschka's code for
+Twitter</a>,
+tweaked a little where necessary.<br />
+The result is:</p>
+<p><a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"><img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660" /></a></p>
+<p>The font is called Saucer BB, from
+<a href="http://www.1001fonts.com/saucer-bb-font.html">here</a>.</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

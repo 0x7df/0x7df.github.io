@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Overview I write code documentation in Doxygen, and in some cases include a fair amount of information about the mathematical theory of the problem that the code is solving. It seemed worthwhile ...">
+        <meta name="keywords" content="doxygen, latex, markdown, python, regular expressions, text processing, wordpress">
+        <link rel="icon" href="http://0x7df.io/favicon.ico">
+
+        <title>Converting from Doxygen to WordPress - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.io/feeds/programming.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.io/"><img class="mr20" src="http://0x7df.io/images/0x7df_60x60_no-bg.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.io">Home</a>
+                                <a href="http://0x7df.io/">Blog Home</a>
+                                <a href="http://0x7df.io/categories.html">Categories</a>
+                            <a  href="http://0x7df.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="http://0x7df.io/pages/about.html">About</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Converting from Doxygen to WordPress</h1>
+                      <p class="header-date">By <a href="http://0x7df.io/author/0x7df.html">0x7df</a>, Sun 29 March 2015, in category <a href="http://0x7df.io/category/programming.html">Programming</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://0x7df.io/tag/doxygen.html">doxygen</a>, <a href="http://0x7df.io/tag/latex.html">latex</a>, <a href="http://0x7df.io/tag/markdown.html">markdown</a>, <a href="http://0x7df.io/tag/python.html">python</a>, <a href="http://0x7df.io/tag/regular-expressions.html">regular expressions</a>, <a href="http://0x7df.io/tag/text-processing.html">text processing</a>, <a href="http://0x7df.io/tag/wordpress.html">wordpress</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h2>Overview</h2>
+<p>I write code documentation in <a href="www.doxygen.org/">Doxygen</a>, and in some
+cases include a fair amount of information about the mathematical theory
+of the problem that the code is solving. It seemed worthwhile posting
+the same content on <a href="https://wordpress.com">Wordpress</a>. However, the
+syntax isn't 100% interchangeable, despite both applications supporting
+<a href="http://daringfireball.net/projects/markdown/">Markdown</a>. This is mainly
+because Doxygen extends Markdown by providing <a href="http://www.stack.nl/~dimitri/doxygen/manual/commands.html">a large range of special
+commands</a>,
+which begin with a <code>/</code> or a <code>@</code>.</p>
+<p>The bulk of the changes that need to be made are to the equations.
+Doxygen and WordPress both allow 
+<a href="http://www.latex.org"><img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX" /></a>
+equations; Doxygen by actually
+calling <img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX" />
+to generate
+<a href="en.wikipedia.org/wiki/Portable_Network_Graphics">PNG</a>-format images
+which it embeds in the <a href="www.w3schools.com/html/">HTML</a>files that it
+generates, and WordPress by using one of <a href="https://wordpress.org/plugins/search.php?q=latex">various
+plug-ins</a> (see
+documentation <a href="https://en.support.wordpress.com/latex/">here</a>). However,
+while the code for the actual equation is identical in both, being
+standard
+<a href="http://www.ams.org/publications/authors/tex/amsmath">amsmath</a>-style
+<a href="http://www.latex.org"><img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX" /></a>,
+the delimiters that identify it as maths and separate it from the body
+of the text are different. References also need to be handled
+differently.</p>
+<p>[caption id="" align="alignright" width="404"]<img alt="xkcd:
+Automation" src="http://imgs.xkcd.com/comics/automation.png" /> xkcd: Automation
+- http://imgs.xkcd.com/comics/automation.png[/caption]</p>
+<p>Rather than do the conversion by hand, I knocked up a simple
+<a href="http://python.org">Python</a> script to do it (and in doing so risked
+falling into the trap of spending more time writing code to automate the
+task than I would have spent doing it manually) using simple <a href="www.regular-expressions.info/">regular
+expressions</a> in some cases. This post
+describes how the script works, so along the way we'll learn a bit of
+Python, something about regular expressions, and a bit about Doxygen and
+WordPress syntax.</p>
+<p>Let's jump straight in. The script is called from the command line:</p>
+<p>[code lang="bash"]</p>
+<blockquote>
+<p>python dox2wp.py /path/to/doxygen/data/example.md</p>
+</blockquote>
+<p>[/code]</p>
+<p>The script is called <code>dox2wp.py</code>, and we've passed the full path to a
+Doxygen Markdown file called <code>example.md</code> as an argument to the Python
+script.</p>
+<h2>Main script</h2>
+<p>The first part of the script looks like this:</p>
+<p>[code lang="python"]<br />
+if <strong>name</strong> == "<strong>main</strong>":</p>
+<p>args = sys.argv[1:]</p>
+<p>reffile = '/default/path/to/references.md'</p>
+<p>for arg in args:<br />
+errmsg = processdox(arg,reffile)<br />
+for msg in errmsg:<br />
+print msg<br />
+[/code]</p>
+<p>The first line - <code>if __name__ == "__main__":</code> - is a fairly standard
+Python construct that checks that the module being executed has been
+called from the command-line or interpreter directly, and not by some
+other Python module or function. <a href="http://stackoverflow.com/a/419185/3832350">This
+answer</a> on
+<a href="http://stackoverflow.com">StackOverflow</a>gives more details. The next
+line retrieves the arguments that were passed in to the Python script
+using the <code>sys</code> module's <code>argv</code> function  (this assumes <code>sys</code> has been
+imported using <code>import sys</code> somewhere prior to this statement; usually
+at the very top of the file). The <code>argv</code> function returns the arguments
+as a list; the zeroth element corresponds to the name of the script, so
+we ignore that and just get elements 1 through to the end of the list
+and store them in a new list called <code>args</code>. You can find documentation
+for the <code>sys</code> module <a href="https://docs.python.org/2/library/sys.html">here</a>.</p>
+<p>Next we define a hard-wired path to a file, which we'll come back to
+later.</p>
+<p>The next chunk of code is where the main business happens. We loop over
+all the items in <code>args</code>, each of which is assumed to be a Markdown file
+we want to process. For each, we call the function <code>processdox</code>, passing
+in both the path to the file, and the hard-wired path mentioned above.
+The <code>processdox</code> function returns a list of error messages, which we
+bind to the variable <code>errmsg</code>. The last action in this script is to loop
+over the error messages returned by the processing function, and print
+them to the screen.</p>
+<h2>Function `processdox`</h2>
+<p>The body of the <code>processdox</code> function is given below:</p>
+<p>[code lang="python"]<br />
+def processdox(filename,reffile):</p>
+<p>errmsg = checkfile(filename)</p>
+<p>if len(errmsg) == 0:<br />
+processfile(filename,reffile=reffile)</p>
+<p>return errmsg<br />
+[/code]</p>
+<p>The first line is the function definition, which also specifies the
+arguments that function accepts: <code>filename</code> and <code>reffile</code>. Then, two
+functions are called: the first, <code>checkfile</code>, does some error-checking,
+and the second, <code>processfile</code>, does the main work - but only if the
+length of the list <code>errmsg</code> is zero (i.e. it contains no data, which is
+a way of checking that <code>checkfile</code> didn't return any error messages).</p>
+<h2>Error checking</h2>
+<p>Let's see the file-checking function <code>checkfile</code> next:</p>
+<p>[code lang="python"]<br />
+def checkfile(filename):</p>
+<p>errmsg = []</p>
+<p>filebase, fileext = os.path.splitext(filename)</p>
+<p>if fileext != '.md':<br />
+errmsg.append(filename+' is not Markdown')</p>
+<p>if not os.path.isfile(filename):<br />
+errmsg.append(filename+' does not exist or is<br />
+not a file')</p>
+<p>return errmsg<br />
+[/code]</p>
+<p>This first declares the <code>errmsg</code> variable as an empty list, and then
+uses the standard <code>os.path</code> module's <code>splitext</code> function, which returns
+the file's extension, and everything up to that extension (as a tuple),
+which we write into <code>fileext</code> and <code>filebase</code>. Doing this allows us to
+check easily that the file extension is <code>.md</code>. The next check is that
+the filename given refers to something that exists and is a file (e.g.
+as opposed to a directory), using the <code>isfile()</code> function. Documentation
+for <code>os.path</code> can be found
+<a href="https://docs.python.org/2/library/os.path.html#module-os.path">here</a>.</p>
+<p>Notice that all we do on finding an error is to append an error message
+to the previously defined list, using <code>errmsg.append()</code>. The reason for
+this is that, although it scarcely matters for this almost trivial
+application, I find it good practice to let a piece of code go on for as
+long as it can after encountering errors, because there may be further
+errors that will get picked up subsequently. If it stopped immediately,
+the user would fix that error, and start it again, whereupon the next
+error encountered would cause it to bail out again. For software with
+complicated input this could go on for a long time and cause a lot of
+frustration. The behaviour here, however, is to keep going and identify
+as many errors as possible before stopping, so we minimise the number of
+iterations the user will have to go through to fix everything.</p>
+<p>For example, if we call:</p>
+<p>[code lang="bash"]  </p>
+<blockquote>
+<p>python dox2wp.py isnotmarkdown.txt doesnotexist.md \<br />
+existsbutisafolder.md realmarkdown.md<br />
+[/code]</p>
+</blockquote>
+<p>then we get:</p>
+<p>[code]<br />
+isnotmarkdown.txt is not Markdown<br />
+doesnotexist.md does not exist or is not a file<br />
+existsbutisafolder.md does not exist or is not a file<br />
+[/code]</p>
+<p>Note there's no error message referring to <code>realmarkdown.md</code>, which
+meets the criteria and so is processed successfully.</p>
+<p>It's important to understand that this isn't the same as being
+fault-tolerant or trying to recover from the errors. In principle, as
+soon as the user does something that doesn't seem to fit in with the way
+a piece of code is intended to work, we should stop and let the user
+know; trying to recover starts to get into the realm of making
+assumptions about what the user wants. All we're doing here is
+continuing to progress through the <em>error-checking</em> when an error is
+encountered; as soon as one is, the actual processing is prevented by
+the <code>if</code> statement around the call to <code>processfile</code>. We do allow the
+application to continue to the next Markdown file if an error was
+encountered previously, but since processing of each file is completely
+independent, this seems safe enough.</p>
+<p>Of course, all this is total overkill for what we're trying to do, but
+is useful to illustrate the principles in a simple application.</p>
+<h2>The actual format conversion part</h2>
+<h3>Preamble</h3>
+<p>Function <code>processfile</code> executes the real work. This is somewhat longer
+so we'll deal with it in sections. It starts with:</p>
+<p>[code lang="python"]<br />
+def processfile(filename,reffile='references.md'):</p>
+<p>fi = open(filename,'r')<br />
+fo = open(filename+'.txt','w')<br />
+fr = open(reffile,'r')<br />
+[/code]</p>
+<p>After the function definition, which like the previous one we saw
+defines the input arguments <code>filename</code> and <code>reffile</code> (but with the
+addition that the <code>reffile</code> variable defaults to <code>references.md</code> if no
+argument is passed in), the next three lines open some files. <code>filename</code>
+and <code>reffile</code> are opened as read-only (with some obvious error-checking
+around <code>reffile</code> clearly missing). A new file called <code>reffile + '.txt'</code>
+is opened as writeable, and this will contain the output; the filename
+will be the same as the input but with <code>.txt</code> appended, e.g.
+<code>example.md.txt</code> if the input was <code>example.md</code>.</p>
+<p>The next stage is to define some regular expressions that will get used
+later; we define them here rather than nearer to where they get used
+because their use will be inside a loop, and there's no point
+re-defining them every time the loop is executed, because they're always
+the same.</p>
+<p>[code lang="python"]<br />
+p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br />
+p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br />
+[/code]</p>
+<p>We'll come back to these when they're needed.</p>
+<p>The final part of the pre-amble involved setting up a counter and an
+empty list for the references, again which we'll come to when we need
+them.</p>
+<p>[code lang="python"]<br />
+refnum = 1<br />
+footnotes = []<br />
+[/code]</p>
+<p>In the next stage we enter the loop over individual lines in the input
+file, which Python implements very simply as <code>for line in fi:</code>, with
+<code>line</code> being the variable name into which each successive line is
+placed, and <code>fi</code> just being the pointer to the opened text file.</p>
+<p>The first text-processing operation is to replace &lt; and &gt; with their
+HTML equivalents: <code>&amp;lt;</code> and <code>&amp;gt;</code>, respectively.</p>
+<p>[code lang="python"]<br />
+for line in fi:</p>
+<p># Some of the later changes insert "&lt;" and "&gt;" so do<br />
+# these as early as possible<br />
+line = line.replace('&lt;','&lt;')<br />
+line = line.replace('&gt;','&gt;')<br />
+[/code]</p>
+<p>The reason for this is that, for this to work overall, the final output
+needs to be copied and pasted into WordPress's HTML editor, rather than
+the Visual editor. Consequently, there's a risk that any &lt; and &gt;
+symbols appearing in mathematical formulae will get interpreted as
+delimiters for an HTML tag. E.g. if:</p>
+<div class="math">$$ a &lt; b$ and also $ b &gt; c $$</div>
+<p>appeared on a single line then the string:</p>
+<div class="math">$$ &lt; b$ and also $ b &gt; $$</div>
+<p>would get interpreted as an HTML tag (and ignored as not recognised),
+leaving:</p>
+<div class="math">$$ a c $$</div>
+<p>I wasn't expecting this, at least not when the &lt; and &gt; symbols were
+safely inside the correct <code>$latex</code> and <code>$</code> delimiters identifying them
+as maths - but it happened, which seems like a flaw in the WordPress
+parsing.</p>
+<h3>Special commands</h3>
+<p>Subsequently, we remove some of the Doxygen special commands:</p>
+<p>[code lang="python"]<br />
+# Remove the table of contents special command<br />
+line = line.replace('\\tableofcontents','')</p>
+<p># Replace the Doxygen special commands for sections<br />
+# with Markdown<br />
+if '\section' in line:<br />
+fields = line.split()<br />
+line = '# ' + ' '.join(fields[2:])<br />
+if '\subsection' in line:<br />
+fields = line.split()<br />
+line = '## ' + ' '.join(fields[2:])<br />
+if '\subsubsection' in line:<br />
+fields = line.split()<br />
+line = '### ' + ' '.join(fields[2:])<br />
+[/code]</p>
+<p>The first special command is <code>\tableofcontents</code>, which appears on its
+own and causes Doxygen to automatically insert a contents table into the
+rendered page at that location. We strip this out by replacing it with
+an empty string, using the <code>replace</code> string method.</p>
+<p>Next are <code>\section</code>, <code>\subsection</code> and <code>\subsubsection</code>. Each of these
+special commands is followed by two arguments: first an identifying tag,
+which can then be used elsewhere in the Doxygen pages to create a link
+to this section, followed by the actual title of the section, e.g.:</p>
+<p>[code]<br />
+\subsection introdoxy Introduction to Doxygen<br />
+[/code]</p>
+<p>We don't care about the ID tag, but we want to keep the title and retain
+it at the same location as the section title in the WordPress post. To
+do this we split the line into a list of tokens, separated by
+whitespace, using <code>line.split()</code>. The resulting list, in <code>fields</code>, would
+look like this for the example above if we printed it out:</p>
+<p>[code lang="python"]<br />
+['\\subsection', 'introdoxy', 'Introduction', 'to', 'Doxygen']<br />
+[/code]</p>
+<p>The idea is to discard the first two elements and keep the rest, joining
+them back together into a string, and stripping out the quotation marks.</p>
+<p>[code]<br />
+line = '## ' + ' '.join(fields[2:])<br />
+[/code]</p>
+<p>Here the <code>string.join(list)</code> syntax in Python joins all the elements of
+<code>list</code> together into a single string, using <code>string</code> as the delimiter.
+Hence in our example, <code>' '.join(fields[2:])</code> would yield
+<code>Introduction to Doxygen</code>, and we prepend <code>##</code> to this string to turn it
+into standard Markdown format for a level 2 section header.</p>
+<p>There's probably a more compact way to deal with the multiple cases
+(i.e. <code>\section</code>, <code>\subsection</code>, etc.) involving counting how many times
+the string <code>sub</code> appears and prepending the appropriate number of hashes
+accordingly; but for only three cases, writing them out explicitly isn't
+difficult, and leads to easier-to-understand code.</p>
+<h3>References</h3>
+<p>The next section of code deals with references. In Doxygen, we insert
+references into the main body of the text like this:</p>
+<div class="highlight"><pre>@ref ref01 &quot;Fick (1855)&quot;
+</pre></div>
+
+
+<p>(or we could use <code>\ref</code> instead of <code>@ref</code>). Elsewhere, there would be a
+references section - in this case in a separate file called
+<code>references.md</code>, which is why we've previously seen that file being
+hard-wired in the main script and then passed in to this function as an
+argument. In the references section, there would be an entry like:</p>
+<div class="highlight"><pre>-# \anchor ref01 Fick, A, 1855. On liquid diffusion. The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science, X, 30-39.
+</pre></div>
+
+
+<p>The initial <code>-#</code> is to create a numbered list, and the <code>\anchor ref01</code>
+creates an anchor that the earlier <code>@ref ref01</code> syntax can link to. The
+remainder is the text that appears in the references section.</p>
+<p>What we want to do is replace the in-line reference with a link to a
+footnote, and use the long reference text as the footnote.</p>
+<p>For an individual references, the code that does this looks like this:</p>
+<p>[code lang="python"]<br />
+# References</p>
+<p>refidstr = 'fn'+str(refnum)<br />
+refnum += 1</p>
+<p>fields = istr.split()<br />
+reftxt = " ".join(fields[2:]).strip('"')</p>
+<p>ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
+line = line.replace(istr,ostr)</p>
+<p>doxref = fields[1]<br />
+for refline in fr:<br />
+if doxref in refline:<br />
+reffull = ' '.join(refline.strip().split()[3:])<br />
+break<br />
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+[/code]</p>
+<p>Although you don't see it here, the Doxygen text containing the in-line
+reference is contained in <code>istr</code> - we'll explain how it got there
+shortly. The first thing we do is create a unique string for the anchor
+that will be used as the ID for the footnote; i.e. if the anchor is
+<code>fn1</code>, then the inline reference will be:</p>
+<p>[code lang="html"]<br />
+<a href="fn1">Fick (1855)</a><br />
+[/code]</p>
+<p>and the footnote would be:</p>
+<p>[code lang="html"]<br />
+<a name="fn1">Fick, A, 1855. On liquid diffusion...</a><br />
+[/code]</p>
+<p>We have previously set up a counter for the references we discover,
+which was <code>refnum</code>, so the code <code>refidstr = 'fn'+str(refnum)</code> will
+create <code>fn1</code> for the first reference, <code>fn2</code> for the second, etc. You can
+see that <code>refnum</code> is incremented by 1 in the next line of the code
+fragment above to ensure this.</p>
+<p>Next, we want to extract the text for the in-line reference ("Fick
+(1855)" in our example), for which we use the same kind of trick as we
+did for the section headings. The only difference here is that we have
+to add the <code>strip('"')</code> function to strip off the quotation marks.</p>
+<p>At this point we have enough information to construct the new text for
+the in-line reference:</p>
+<p>[code lang="python"]<br />
+ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
+[/code]</p>
+<p>and replace the original string with the new one:</p>
+<p>[code lang="python"]<br />
+line = line.replace(istr,ostr)<br />
+[/code]</p>
+<p>There's one final job; we have to create the footnote and put it at the
+bottom of the page. We'll store it in a list called <code>footnotes</code> in the
+interim, and then write the list out after all the other processing has
+been finished, so it appears in its proper place at the bottom of the
+page.</p>
+<p>[code lang="python"]<br />
+doxref = fields[1]<br />
+for refline in fr:<br />
+if doxref in refline:<br />
+reffull = ' '.join(refline.strip().split()[3:])<br />
+break<br />
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+[/code]</p>
+<p>So what is this doing? We know the text that Doxygen is using - <code>ref01</code>
+- in our example, because we can extract it from the second token of the
+<code>istr</code> line (where the first token is just the <code>@ref</code> code). Then we
+have to search line-by-line through the reference file, <code>fr</code>, until we
+find a line that contains the string we're after - this will cause
+<code>if doxref in refline</code> to return true. We know this is the right line,
+so we can extract the long text of the reference into <code>reffull</code> using
+the same <code>split</code> then <code>join</code> technique as we've seen before, starting at
+the fourth token (the first three being <code>-#</code>, <code>\anchor</code> and <code>ref01</code>, all
+of which we want to discard).</p>
+<p>The real code, however, is a bit more complex; firstly because we need
+to find the appropriate text strings in our Doxygen code before we can
+format them (recall we haven't explained how <code>istr</code> gets defined yet),
+and also because there might be more than one reference on one line, so
+we have to deal with that. We do this via regular expressions, which
+first requires that the Python <code>re</code> module is imported (documented
+<a href="https://docs.python.org/2/library/re.html">here</a>). Once it is, we can
+compile a regular expression using the code we saw earlier but didn't
+explain:</p>
+<p>[code lang="python"]<br />
+p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br />
+[/code]</p>
+<p>The regular expression is the bit inside the single quotes:</p>
+<div class="highlight"><pre>@ref [^&quot;]* &quot;[^&quot;]*&quot;
+</pre></div>
+
+
+<p>and the <code>[</code>, <code>]</code>, <code>^</code> and <code>*</code> characters are special characters that
+have particular meanings in the regular expression language. The caret,
+<code>^</code>, is a <code>not</code> operator, so <code>^"</code> means not the quotation mark
+character. Using <code>[ ]</code> defines a set of characters that are allowed, so
+for example <code>[aeiou]</code> would match any vowel character. So <code>[^"]</code> means
+any character from the set of characters that are not the quotation mark
+<code>"</code>. Finally, the <code>*</code> character means match any number of whatever went
+previously. Hence, for example, <code>a*</code> would match <code>a</code>, <code>aa</code>, <code>aaa</code>, etc.
+Putting all this together, the regular expression <code>[^"]*</code>, which appears
+twice, means match any string of any length that doesn't contain a
+quotation mark. The reason we need to specify that the string shouldn't
+contain quotation marks is that these are used as delimiters, to
+surround the in-line text of the reference. If we could guarantee that
+quotation marks would never appear elsewhere on the same line, it
+wouldn't matter; but we can't.</p>
+<p>Now we understand the regular expression syntax used, we need to
+understand the rest of the line. Compiling the regular expression
+creates a special regular expression object, which we've bound to <code>p2</code>,
+and which can be used later. We do this by writing:</p>
+<p>[code lang="python"]<br />
+for item in p2.finditer(line):<br />
+istr = item.group()<br />
+[/code]</p>
+<p>This calls the <code>finditer</code> method of the <code>p2</code> regular expression object
+on the text string <code>line</code>, which returns an iterator of all the
+instances where the pattern represented by <code>p2</code> was matched. We need to
+do this because there could be more than one match in any given <code>line</code>.
+The second line returns the actual matched text string from <code>item</code>,
+using the <code>group</code> method, and puts it into <code>istr</code>. We now have the full
+thing:</p>
+<p>[code lang="python"]<br />
+# Loop over all matches against p2 in line<br />
+for item in p2.finditer(line):</p>
+<p># Extract the matched text<br />
+istr = item.group()</p>
+<p># Create the unique reference (and increment the counter for next
+time)<br />
+refidstr = 'fn'+str(refnum)<br />
+refnum += 1</p>
+<p># Get the in-line reference text<br />
+fields = istr.split()<br />
+reftxt = " ".join(fields[2:]).strip('"')</p>
+<p># Construct the WordPress-format inline reference and<br />
+# replace the old Doxygen-format one<br />
+ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
+line = line.replace(istr,ostr)</p>
+<p># Get the full reference text to use as the footnote<br />
+doxref = fields[1]<br />
+fr.seek(0)<br />
+for refline in fr:<br />
+if doxref in refline:<br />
+reffull = ' '.join(refline.strip().split()[3:])<br />
+break<br />
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+[/code]</p>
+<p>The only additonal thing here that you haven't already seen is the
+<code>fr.seek(0)</code> line, which rewinds the references file to the beginning
+each time we do a search through it. It's common snafu in Python that
+once you've done a <code>for line in file:</code>-type of construct, you can't just
+do another one. The file pointer is left at the end, so the second time
+round nothing will happen (and it's not an error).</p>
+<h3>Maths</h3>
+<p>The final set of replacement operations we want to conduct is to replace
+any Doxygen-style maths delimiters with the appropriate WordPress ones.
+Doxygen allows several different kinds of delimiter. Firstly, in-line
+equations can be included by surrounding them with <code>\f$</code> tags; e.g.:</p>
+<p><code>...the equation \f$ E = mc^2 \f$ is well-known...</code></p>
+<p>Alternatively, we can create a numbered equation on its own line by
+using the opening delimiter <code>\f{equation}</code> and the closing delimiter
+<code>\f}</code>. For example:</p>
+<p>[code]<br />
+\f{equation}<br />
+F = ma<br />
+\f}<br />
+[/code]</p>
+<p>Then finally, a non-numbered equation can be created on its own line by
+using:</p>
+<p>[code]<br />
+\f[<br />
+a^2 + b^2 = c^2<br />
+\f]<br />
+[/code]</p>
+<p>In WordPress, there is only one way to embed mathematics, which is to
+use the opening delimiter <code>$latex</code> followed by the closing delimiter
+<code>$</code>. This is used whether we want the maths in-line or on its own line;
+there's no support for equation numbering.</p>
+<p>Replacing the second two types is trivial, because the opening and
+closing delimiters are different, as they are for WordPress. Hence:</p>
+<p>[code lang="python"]<br />
+# Replace the maths delimiters<br />
+line = line.replace('\\f{equation}','<span class="math">\(')  
+line = line.replace('\\\\f[','\)</span>')<br />
+line = line.replace('\\f}','<span class="math">\(')  
+line = line.replace('\\\\f]','\)</span>')<br />
+[/code]</p>
+<p>does the trick nicely. Note we add an extra <code>\</code> to protect the <code>\</code> that
+appears in the string we want to match. Without this, the <code>\f</code> would be
+interpreted as the form-feed escape sequence.</p>
+<p>For the in-line equations it's slightly more complex, because the start
+and end delimiter in Doxygen are the same, but we need to replace them
+with different start and end delimiters for WordPress to understand. We
+go back to regular expressions:</p>
+<p>[code lang="python"]<br />
+# Replace the inline maths delimiters<br />
+for item in p1.finditer(line):<br />
+istr = item.group()<br />
+ostr = '<span class="math">\('+istr.strip('@f\)</span>')+'$'<br />
+line = line.replace(istr,ostr)<br />
+[/code]</p>
+<p>We saw <code>p1</code> defined earlier as:</p>
+<p>[code lang="python"]<br />
+p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br />
+[/code]</p>
+<p>Here we are trying to match something that begins and ends with a
+literal <code>@f$</code>, which we have to write as <code>@f$</code> because <code>$</code> is also a
+special character in the regular expression language, but we want it to
+be interpreted literally. In between we will allow any expression of any
+length as long as it doesn't contain a <code>@</code> symbol. This is represented
+by <code>[^@]*</code>. The rest should be self-explanatory.</p>
+<h2>Summary</h2>
+<p>So that's a lengthy explanation of a fairly short and simple script (it
+certainly took a lot longer to write...). It's also a fairly esoteric
+use case I should think, so will probably be of use to all of 3 other
+people if I'm lucky! The final, full script is reproduced below.</p>
+<hr />
+<p>[code lang="python"]<br />
+import sys<br />
+import os<br />
+import re</p>
+<h2>#</h2>
+<p>def checkfile(filename):</p>
+<p>errmsg = []</p>
+<p>filebase, fileext = os.path.splitext(filename)</p>
+<p>if fileext != '.md':<br />
+errmsg.append(filename+' is not Markdown')</p>
+<p>if not os.path.isfile(filename):<br />
+errmsg.append(filename+' does not exist or is not<br />
+a file')</p>
+<p>return errmsg</p>
+<h2>#</h2>
+<p>def processfile(filename,reffile='references.md'):</p>
+<p>fi = open(filename,'r')<br />
+fo = open(filename+'.txt','w')<br />
+fr = open(reffile,'r')</p>
+<p>p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br />
+p2 = re.compile('@ref [^"]<em> "[^"]</em>"')</p>
+<p>refnum = 1<br />
+footnotes = []</p>
+<p>for line in fi:</p>
+<p># Some of the later changes insert "&lt;" and "&gt;" so do these<br />
+# as early as possible<br />
+line = line.replace('&lt;','&lt;')<br />
+line = line.replace('&gt;','&gt;')</p>
+<p># Remove the table of contents special command<br />
+line = line.replace('\\tableofcontents','')</p>
+<p># Replace the Doxygen special commands for sections with<br />
+# Markdown<br />
+if '\section' in line:<br />
+fields = line.split()<br />
+line = '# ' + ' '.join(fields[2:])<br />
+if '\subsection' in line:<br />
+fields = line.split()<br />
+line = '## ' + ' '.join(fields[2:])<br />
+if '\subsubsection' in line:<br />
+fields = line.split()<br />
+line = '### ' + ' '.join(fields[2:])</p>
+<p># References<br />
+# Doxygen format is '@ref doxref "reference text"'<br />
+# Replace with an HTML link to a footnote '<a href="fn1">reference
+text</a>'<br />
+for item in p2.finditer(line):<br />
+istr = item.group()<br />
+refidstr = 'fn'+str(refnum)<br />
+fields = istr.split()<br />
+reftxt = " ".join(fields[2:]).strip('"')<br />
+doxref = fields[1]<br />
+fr.seek(0)<br />
+for refline in fr:<br />
+if doxref in refline:<br />
+reffull = ' '.join(refline.strip().split()[3:])<br />
+break<br />
+ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
+line = line.replace(istr,ostr)<br />
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+refnum += 1</p>
+<p># Replace the maths delimiters<br />
+line = line.replace('\\f{equation}','<span class="math">\(')  
+line = line.replace('\\\\f[','\)</span>')<br />
+line = line.replace('\\f}','<span class="math">\(')  
+line = line.replace('\\\\f]','\)</span>')</p>
+<p># Replace the inline maths delimiters<br />
+for item in p1.finditer(line):<br />
+istr = item.group()<br />
+ostr = '<span class="math">\('+istr.strip('@f\)</span>')+'$'<br />
+line = line.replace(istr,ostr)</p>
+<p>fo.write(line+'\n')</p>
+<p># Write out the footnotes generated by processing the references<br />
+fo.write('<hr>\n')<br />
+fo.write('<ol>\n')<br />
+for fn in footnotes:<br />
+fo.write('<li>'+fn+'\n')<br />
+fo.write('</ol>\n')</p>
+<p>fi.close()<br />
+fo.close()<br />
+fr.close()</p>
+<p>return</p>
+<h2>#</h2>
+<p>def processdox(filename,reffile):</p>
+<p>errmsg = checkfile(filename)</p>
+<p>if len(errmsg) == 0:<br />
+processfile(filename,reffile=reffile)</p>
+<p>return errmsg</p>
+<h2>#</h2>
+<p>if <strong>name</strong> == "<strong>main</strong>":</p>
+<p>args = sys.argv[1:]</p>
+<p>reffile = '/default/path/to/references.md'</p>
+<p>for arg in args:<br />
+errmsg = processdox(arg,reffile)<br />
+for msg in errmsg:<br />
+print msg<br />
+[/code]</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
