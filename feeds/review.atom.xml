@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.io/" rel="alternate"></link><link href="http://0x7df.io/feeds/review.atom.xml" rel="self"></link><id>http://0x7df.io/</id><updated>2015-10-03T20:06:00+01:00</updated><entry><title>Static site generators - Pelican and Nikola</title><link href="http://0x7df.io/static-site-generators.html" rel="alternate"></link><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-10-03:static-site-generators.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
+&lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
+&lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
+&lt;p&gt;Many options are available for static site generation, with
+&lt;a href="http://octopress.org"&gt;Octopress&lt;/a&gt; being a popular choice. I was interested in a Python-
+based one, &lt;a href="https://jakevdp.github.io/blog/2013/05/07/migrating-from-octopress-to-pelican"&gt;for reasons that have been discussed elsewhere&lt;/a&gt;, and the
+usual options that come up are &lt;a href="http://hyde.github.io"&gt;Hyde&lt;/a&gt;, &lt;a href="https://getnikola.com"&gt;Nikola&lt;/a&gt;, and
+Pelican. &lt;a href="https://jakevdp.github.io/blog/2013/05/07/migrating-from-octopress-to-pelican"&gt;The article cited above&lt;/a&gt; suggested Hyde wasn't
+well documented, so I skipped that altogether in the interests of time. The
+Nikola documentation looked great, so I started with that; however, I spent
+quite a while trying to install it, eventually with no luck. I needed to
+install some prerequisites, the installation took a long time, and I ended up
+with some missing packages. I'm sure another hour of Googling
+&lt;a href="http://stackoverflow.com"&gt;StackOverflow&lt;/a&gt; and messing would have sorted it, but I lost
+interest and moved on to Pelican; this &lt;a href="http://docs.getpelican.com/en/stable/quickstart.html"&gt;installed out of the box in a few
+seconds&lt;/a&gt;, and I was away.&lt;/p&gt;
+&lt;h2&gt;Importing from Wordpress&lt;/h2&gt;
+&lt;p&gt;Importing from Wordpress just involves exporting the &lt;a href="http://0x7df.wordpress.com"&gt;original blog&lt;/a&gt; as
+an XML file, which can be done from the "WP Admin" menu under "Tools". Pelican
+provides a command for importing from this file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;wpfile&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;markdown&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="nb"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;--wpfile&lt;/code&gt; flag specifies that the source is Wordpress (various
+alternatives are available), the &lt;code&gt;-m&lt;/code&gt; option specified that the output should
+be Markdown (as opposed to reStructured Text), and &lt;code&gt;--dir-page&lt;/code&gt; tells Pelican
+to include the "Pages" from the Wordpress blog as well as the blog articles,
+and put them in a &lt;code&gt;pages&lt;/code&gt; directory.&lt;/p&gt;
+&lt;h2&gt;Maths pain&lt;/h2&gt;
+&lt;p&gt;The original Wordpress articles that I imported contained a lot of maths, and
+there was a significant amount of pain involved in converting the syntax used
+by Wordpress to the syntax required by Pelican. in fact, Pelican doesn't
+natively support maths, so a plugin is required: for this I used
+&lt;a href="https://github.com/barrysteyn/pelican_plugin-render_math"&gt;render-math&lt;/a&gt;. As per the docs, for this I needed to install
+&lt;a href="https://github.com/mintchaos/typogrify"&gt;Typogrify&lt;/a&gt; first, then add the following to the &lt;code&gt;pelicanconf.py&lt;/code&gt;
+settings file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;PLUGIN_PATHS = [&amp;quot;..&amp;quot;]
+PLUGINS = [&amp;quot;pelican_plugin-render_math&amp;quot;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to point Pelican at the location where I cloned the plugin.&lt;/p&gt;
+&lt;p&gt;The text wrangling that was required to convert the Wordpress-syntax maths
+delimiters:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;\&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt; ...maths... \&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to those required for Pelican (i.e.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;$$ ...maths... $$
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;for displayed equations and:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;...math...&lt;span class="err"&gt;$&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;for in-line equations), was both annoying and unnecessary in theory (since
+both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.io/drafts/slug.html"&gt;a different
+post&lt;/a&gt;. Once
+done, I could move on to themes.&lt;/p&gt;
+&lt;h2&gt;Pelican themes&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://pelicanthemes.com/"&gt;This website&lt;/a&gt; shows examples of available themes, from
+which I chose the &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; theme; I cloned this directly into the Pelican
+install directory:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cd /usr/local/lib/python2.7/dist-packages/pelican/themes/
+sudo git clone https://github.com/molivier/nest.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(The &lt;code&gt;pelican-themes -lv&lt;/code&gt; command can be used to determine the path to the
+Pelican installation directory.)&lt;/p&gt;
+&lt;p&gt;(Afterwards I realised a &lt;a href="http://github.com"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/getpelican/pelican-themes"&gt;pelican-themes&lt;/a&gt; containing
+a large number of themes is available, making it a lot easier to switch while
+looking for a good theme.)&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category></entry></feed>

@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.io/" rel="alternate"></link><link href="http://0x7df.io/feeds/maths.atom.xml" rel="self"></link><id>http://0x7df.io/</id><updated>2015-03-13T05:01:00+00:00</updated><entry><title>Combinations and permutations</title><link href="http://0x7df.io/combinations-and-permutations.html" rel="alternate"></link><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-03-13:combinations-and-permutations.html</id><summary type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png" /&gt;&lt;/a&gt;I
+recently had to explain the formulae for calculating the number of
+combinations and permutations, when selecting &lt;span class="math"&gt;\( r $\)&lt;/span&gt;
+items out of a pool of &lt;span class="math"&gt;\( n\)&lt;/span&gt;. In case you're ever
+in the same boat, here's a refresher. There are four scenarios:&lt;/p&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;span style="color:#333399;"&gt;Combinations&lt;/span&gt;&lt;span
+style="color:#333399;"&gt;(order doesn't matter):&lt;/span&gt;
+
+&lt;/td&gt;
+&lt;td&gt;
+&lt;span style="color:#333399;"&gt;Permutations&lt;/span&gt; &lt;span
+style="color:#333399;"&gt;(order does matter):&lt;/span&gt;
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;span style="color:#333399;"&gt;Selected items are replaced:&lt;/span&gt;
+
+&lt;/td&gt;
+&lt;td align="center"&gt;
+$$ \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!}
+$$
+
+&lt;/td&gt;
+&lt;td align="center"&gt;
+$$ n^r $$
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;span style="color:#333399;"&gt;Selected items are not replaced:&lt;/span&gt;
+
+&lt;/td&gt;
+&lt;td align="center"&gt;
+$$ \frac{n!}{r!\left(n-r\right)!} $$
+
+&lt;/td&gt;
+&lt;td align="center"&gt;
+$$ \frac{n!}{\left(n-r\right)!} $$
+
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;The factorial function&lt;/h3&gt;
+&lt;p&gt;The exclamation mark represents &lt;a href="http://mathworld.wolfram.com/Factorial.html"&gt;the
+&lt;em&gt;factorial&lt;/em&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ x! = x \times \left(x-1\right) \times \left(x-2\right)
+\times \ldots \times 2 \times 1 $$&lt;/div&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class="math"&gt;$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
+$$&lt;/div&gt;
+&lt;p&gt;You can invoke it in &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt; like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;120&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or perhaps, if you're going to use it a lot:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="mi"&gt;24&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In &lt;a href="http://julialang.org/"&gt;Julia&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;julia
+julia&amp;gt; factorial&lt;span class="o"&gt;(&lt;/span&gt;7&lt;span class="o"&gt;)&lt;/span&gt;
+5040
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;One last thing to know about the factorial function, is that &lt;span class="math"&gt;\( 0! = 1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Permutations vs. combinations&lt;/h3&gt;
+&lt;p&gt;To get the formula right, there are two choices to make. First, we have
+to decide whether or not the order that items are selected in matters to
+us. The various different arrangements of some group of items are called
+&lt;em&gt;permutations&lt;/em&gt; when the order matters; e.g. if the arrangement (1, 2, 3)
+is considered different from (2, 3, 1). If the order doesn't matter -
+e.g. if the arrangements (a, b, c), (b, c, a), (b, a, c), etc., are
+considered to be the same - then the arrangements are referred to as
+&lt;em&gt;combinations&lt;/em&gt;.  This depends on the application.&lt;/p&gt;
+&lt;h3&gt;With vs. without replacement&lt;/h3&gt;
+&lt;p&gt;The second thing we have to consider is whether or not each item that
+gets selected is put back into the pool before the next selection is
+made. In a &lt;a href="http://en.wikipedia.org/wiki/Lottery"&gt;lottery&lt;/a&gt;, when a ball
+is selected, it can't get selected again - this scenario is selection
+&lt;em&gt;without replacement&lt;/em&gt;. For a group of kids playing &lt;a href="http://en.wikipedia.org/wiki/Hot_potato_%28game%29"&gt;pass the
+parcel&lt;/a&gt;, as far as
+they're concerned the same individual can get selected any number of
+times - you stay in the game even after you've been selected and you
+hope you might get chosen again. So this is selection &lt;em&gt;with
+replacement&lt;/em&gt;. (NB in practice that's not a very sensible way to play
+pass the parcel if you want an easy time, so adults running the game are
+more likely to see it as selection &lt;em&gt;without replacement&lt;/em&gt;...)&lt;/p&gt;
+&lt;p&gt;This leads to our four scenarios. Now let's work out the equations.&lt;/p&gt;
+&lt;h3&gt;1. Permutations without replacement&lt;/h3&gt;
+&lt;p&gt;You have &lt;span class="math"&gt;\( n\)&lt;/span&gt; distinct items and you have to
+select &lt;span class="math"&gt;\( r\)&lt;/span&gt;. The order doesn't matter, and the
+items aren't replaced in the pool once selected. There are &lt;span class="math"&gt;\( n\)&lt;/span&gt;
+possibilities for the first item, but because there is
+no replacement, there are only &lt;span class="math"&gt;\( n-1 $\)&lt;/span&gt;
+possibilities for the second item, then only &lt;span class="math"&gt;\( n-2\)&lt;/span&gt;
+possibilities for the third, etc. Since, to get the
+total number, we're going to multiply these together, we start to see
+that the formula for the total number of combinations, say &lt;span class="math"&gt;\( M\)&lt;/span&gt;,
+is going to look something like:&lt;/p&gt;
+&lt;div class="math"&gt;$$ M = n \times \left(n-1\right) \times \left(n-2\right)
+\times \ldots $$&lt;/div&gt;
+&lt;p&gt;If we continued this series of terms right to the end,  down to 1, then
+that would be the same as taking the factorial of &lt;span class="math"&gt;\( n\)&lt;/span&gt;.
+However, the number of terms we need to multiply
+together is the same as the number of selections in whatever game we're
+playing. We need to remember we're only selecting &lt;span class="math"&gt;\( r\)&lt;/span&gt;
+items, so there are going to be only &lt;span class="math"&gt;\( r\)&lt;/span&gt;
+terms:&lt;/p&gt;
+&lt;div class="math"&gt;$$ M = n \times \left(n-1\right) \times \left(n-2\right)
+\times \ldots \times \left(n-r+1\right) $$&lt;/div&gt;
+&lt;p&gt;So just taking the factorial of &lt;span class="math"&gt;\( n\)&lt;/span&gt; will only
+give the right answer if we want to select all the items eventually,
+i.e. if &lt;span class="math"&gt;\( r = n\)&lt;/span&gt;. In general we need to truncate
+the series after &lt;span class="math"&gt;\( r\)&lt;/span&gt; terms. How do we do this?
+The answer is going to be &lt;span class="math"&gt;\( n!/\left(n-r\right)!\)&lt;/span&gt;,
+and this will be easiest to see using an example. Let
+&lt;span class="math"&gt;\($ n = 6\)&lt;/span&gt; and &lt;span class="math"&gt;\( r = 3\)&lt;/span&gt;. We
+can write the answer out the long way: &lt;span class="math"&gt;\( M = 6 \times 5 \times 4
+and compare this with the formula for $ n!\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ n! = 6 \times 5 \times 4 \times 3 \times 2 \times 1
+$$&lt;/div&gt;
+&lt;p&gt;Clearly, &lt;span class="math"&gt;\( M = n! /\left(3 \times 2 \times 1 \right)
+$, which of course is the same as $ M = n! / 3!\)&lt;/span&gt;.
+After working out another couple of simple examples
+like this, you will see that the denominator always needs to be
+&lt;span class="math"&gt;\( \left(n-r\right)!\)&lt;/span&gt;, to cancel out the last
+&lt;span class="math"&gt;\( \left(n-r\right)!\)&lt;/span&gt; terms of the factorial of &lt;span class="math"&gt;\( n
+$, leaving just the first $ r $\)&lt;/span&gt;
+terms that we need. Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ M = \frac{n!}{\left(n-r\right)!} $$&lt;/div&gt;
+&lt;h3&gt;2. Permutations with replacement&lt;/h3&gt;
+&lt;p&gt;The difference here from the last example is that each time we make a
+selection, we replace the item afterwards. Every selection is made from
+the same original pool, rather than from a gradually decreasing pool. So
+in this case the formula is going to look something like:&lt;/p&gt;
+&lt;div class="math"&gt;$$ M = n \times n \times n \times \ldots $$&lt;/div&gt;
+&lt;p&gt;The logic above about there only being &lt;span class="math"&gt;\( r\)&lt;/span&gt; terms
+is exactly the same here, so we end up with:&lt;/p&gt;
+&lt;div class="math"&gt;$$ M = n^r $$&lt;/div&gt;
+&lt;p&gt;Simple!&lt;/p&gt;
+&lt;h3&gt;3. Combinations without replacement&lt;/h3&gt;
+&lt;p&gt;Now we take the first scenario - permutations without replacement - and
+adapt it to the scenario where we don't distinguish between different
+orderings of the selected items. Clearly, we're going to have reduce the
+number - there will be fewer combinations than there are permutations.
+Let's assume &lt;span class="math"&gt;\( n = 5\)&lt;/span&gt; and &lt;span class="math"&gt;\( r = 3\)&lt;/span&gt;.
+Imagine the items are numbered balls like in a
+lottery, and imagine the selected balls are (1, 3, 4). If these were
+your numbers, you'd win no matter what order they came out in, so the
+permutations of the &lt;span class="math"&gt;\( r\)&lt;/span&gt; selected items - (1, 3,
+4), (1, 4, 3), (3, 1, 4), (3, 4, 1), (4, 1, 3) and (4, 3, 1) - are the
+same, and should be considered just one distinct arrangement. Of course,
+we already know that there are &lt;span class="math"&gt;\( r!\)&lt;/span&gt; permutations
+of &lt;span class="math"&gt;\( r\)&lt;/span&gt; selected items, so if we care about the
+order of the selected items, then there are going to be &lt;span class="math"&gt;\( r!\)&lt;/span&gt;
+more possibilities than if we don't. So, all we have to
+do to get the number of combinations is reduce the number of
+permutations by a factor of &lt;span class="math"&gt;\( r!\)&lt;/span&gt;. Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ M = \frac{n!}{r!\left(n-r\right)!} $$&lt;/div&gt;
+&lt;h3&gt;4. Combinations with replacement&lt;/h3&gt;
+&lt;p&gt;This scenario is slightly more complicated. &lt;em&gt;Without&lt;/em&gt; replacement, to
+get from the number of permutations to the number of combinations, we
+just reduced by a factor of &lt;span class="math"&gt;\( r!\)&lt;/span&gt;. You might
+therefore think that the answer here is going to be the number of
+permutations &lt;em&gt;with&lt;/em&gt; replacement, similarly reduced by a factor of
+&lt;span class="math"&gt;\($ r!\)&lt;/span&gt;; but it isn't. Let's take a simple example:
+a pool of three numbers, and selection of two items. The permutations
+without replacement are:&lt;/p&gt;
+&lt;p&gt;(1,2) &lt;span style="color:#ff0000;"&gt;(2,1)&lt;/span&gt; (1,3) &lt;span
+style="color:#ff0000;"&gt;(3,1)&lt;/span&gt; (2,3) &lt;span
+style="color:#ff0000;"&gt;(3,2)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;and the additional ones if replacement is allowed are:&lt;/p&gt;
+&lt;p&gt;(1,1) (2,2) (3,3)&lt;/p&gt;
+&lt;p&gt;The permutations highlighted in red are the ones you'd get rid of if you
+were interested only in combinations. Notice that there aren't any red
+ones in the second batch - the "extra" possibilities that arise when
+replacement is allowed are the same for permutations as for combinations
+(in this special case of selecting two items). When you generalise this
+idea to larger numbers, you do end up with some red items in the second
+batch, but not as high a proportion as in the first batch. So we have to
+reduce the second batch by some different factor, not &lt;span class="math"&gt;\( r!\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This shows us why reducing the total number of permutations by
+&lt;span class="math"&gt;\( r!\)&lt;/span&gt; doesn't work with replacement, but it doesn't
+actually help us do the calculation, because we can't easily work out
+how big the second batch is, nor what factor to reduce it by. However,
+what if we pretend that, whenever we get repetition due to the items
+being replaced, an item being selected a second time is actually a new
+item? So instead of (1,1) we could perhaps write (1,1′), with the prime
+on the second 1 indicating our pretense that it's a different item. If
+we had (1,1,2,1) for an &lt;span class="math"&gt;\( r = 4\)&lt;/span&gt; trial, we'd call
+it (1,1′,2,1′′), indicating that the three instances where 1 was
+selected should all be treated as if they were different items. We're
+now back in the realm of permutations without replacement, for which the
+formula is &lt;span class="math"&gt;\( m! /r!\left(m-r\right)!\)&lt;/span&gt;, where now
+we're using &lt;span class="math"&gt;\( m\)&lt;/span&gt;, for the "expanded" number of
+items to choose from as a consequence of replacement being allowed,
+rather than &lt;span class="math"&gt;\( n\)&lt;/span&gt;, the true number of distinct
+items. Now we just need to work out &lt;span class="math"&gt;\( m\)&lt;/span&gt;. It turns
+out that:&lt;/p&gt;
+&lt;div class="math"&gt;$$ m = n + r - 1 $$&lt;/div&gt;
+&lt;p&gt;That is, selecting &lt;em&gt;with&lt;/em&gt; replacement from a pool of &lt;span class="math"&gt;\( n\)&lt;/span&gt;
+is like selecting &lt;em&gt;without&lt;/em&gt; replacement from a pool of
+&lt;/p&gt;
+&lt;div class="math"&gt;$$ n + r - 1$. There are $ r -1
+extra possibilities to select from, because once we
+have selected the first item, the remaining $ r - 1$
+items could be (in reality) the same item every time,
+but we are pretending that they are different. Hence, substituting for
+$$&lt;/div&gt;
+&lt;p&gt; m$:&lt;/p&gt;
+&lt;div class="math"&gt;$$ m! /\left(m - r\right)! = \left(n + r - 1\right)! /\left(n
+- 1\right)! $$&lt;/div&gt;
+&lt;p&gt;This gives us the number of permutations, which we &lt;em&gt;can&lt;/em&gt; now reduce by
+&lt;span class="math"&gt;\($ r!\)&lt;/span&gt; to get the number of combinations. Our final
+formula is therefore:&lt;/p&gt;
+&lt;div class="math"&gt;$$ M = \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!}
+$$&lt;/div&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><category term="combinations"></category><category term="combinatorics"></category><category term="factorial"></category><category term="julia"></category><category term="permutations"></category><category term="python"></category></entry></feed>
