@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="0x7df, 0x7df subtitle">
+        <meta name="description" content="In a genetic algorithm, a population of random solutions to the problem in question is generated. Each individual solution is encoded in a binary string (its genotype). The ‘fitness’ of each ...">
         <meta name="keywords" content="">
         <link rel="icon" href="/favicon.ico">
 
-        <title>Homepage - 0x7df</title>
+        <title>Genetic algorithms - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="/theme/css/all.min.css" rel="stylesheet">
@@ -50,17 +50,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">0x7df</h1>
+                      <h1 class="header-title">Genetic algorithms</h1>
+                      <p class="header-date">By <a href="/author/0x7df.html">0x7df</a>, Wed 03 June 2015, in category <a href="/category/uncategorized.html">Uncategorized</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Physics, computer science, Python, Julia, Fortran, MPI, OpenMP, programming, agile, software, mathematics, CUDA, GPU, PHP, SQL, Scrum, Kanban, lean, Git, ...</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -68,39 +74,61 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="/index.html">Recent Posts </a></h2>
-            <dl class="dl-horizontal">
-                <dt>Sat 03 October 2015</dt>
-                <dd><a href="/static-site-generators.html">Static site generators - Pelican and Nikola</a></dd>
-                <dt>Mon 31 August 2015</dt>
-                <dd><a href="/virtual-temperature.html">Virtual Temperature</a></dd>
-                <dt>Sun 30 August 2015</dt>
-                <dd><a href="/geopotential.html">Geopotential</a></dd>
-                <dt>Sun 17 May 2015</dt>
-                <dd><a href="/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html">Thermal radiation, Kirchhoff's law, and black bodies (1/4)</a></dd>
-                <dt>Sun 10 May 2015</dt>
-                <dd><a href="/python-wordcloud-for-wordpress.html">Python wordcloud for WordPress</a></dd>
-                <dt>Sat 02 May 2015</dt>
-                <dd><a href="/hydrostatic-balance-in-the-atmosphere.html">Hydrostatic balance in the atmosphere</a></dd>
-                <dt>Sun 26 April 2015</dt>
-                <dd><a href="/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html">Creating a new Ubuntu virtual machine in Oracle VirtualBox</a></dd>
-                <dt>Tue 21 April 2015</dt>
-                <dd><a href="/cuda-basics-part-2.html">CUDA basics part 2</a></dd>
-                <dt>Sat 11 April 2015</dt>
-                <dd><a href="/python-code-analysis-using-prospector.html">Python code analysis using Prospector</a></dd>
-                <dt>Sun 05 April 2015</dt>
-                <dd><a href="/cuda-basics-part-1.html">CUDA basics part 1</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <p>In a genetic algorithm, a population of random solutions to the problem
+in question is generated. Each individual solution is encoded in a
+binary string (its genotype). The ‘fitness’ of each individual (i.e. how
+good a solution to the problem it is) is assessed.</p>
+<p>An iterative process then follows, whereby the fittest half of the
+population is kept, and the other half discarded. The fit solutions are
+paired up and allowed to mate: that is, the binary strings of each
+parent are broken in half at some random point, and one half from the
+mother and one half from the father joined together to create a new
+individual – a daughter solution. This is called crossing over. In this
+way each coupled pair of parents spawns two daughter solutions, thus
+restoring the total population to its original size.</p>
+<p>The theory is that the population of solutions will evolve as the
+iterations progress, and become on average better and better solutions
+to the given problem. After some number of generations, the process is
+stopped, and the fittest individual out of the final population is
+assumed to be the best possible solution to the problem in question.</p>
+<p>An important additional process is the application of random mutations.
+After the crossing over process, some bits in the binary strings of the
+daughter solutions are mutated at random (that is, changed from a 1 to a
+0 or vice versa). This is done by generating a random number between 0
+and 1 for each bit in each string: if the number is greater than some
+threshold, then the bit is mutated. The size of the threshold dictates
+how much mutation will occur.</p>
+<p>It is also important to note that the fittest half of the population is
+not necessarily the best choice of individuals to go forward and mate.
+Sometimes this can cause the GA to approach the solution very quickly,
+thereby reducing the amount of genetic diversity in the population. If
+this occurs the algorithm slows down and can fail. To maintain genetic
+diversity whilst still allowing the overall population to improve, we
+simply allow the fitter solutions a higher probability of going forward.
+For example, if the range of possible fitnesses is normalised to the
+range 0 to 1, then a random number can be generated for each individual:
+and the individual goes forward if the random number is lower than its
+normalised fitness. That way, the fitter the solution, the more likely
+it is to survive, but the element of randomness means the culling of
+unfit solutions does not happen too quickly.</p>
+<p>An iteration would go as follows:</p>
+<ul>
+<li>Assess the fitness of the population (and any other interesting
+    stats)</li>
+<li>Determine whether this is to be the final population, and if so,
+    finish</li>
+<li>Cycle through all the individuals, selecting which will survive, and
+    copying their genotypes to a temporary population</li>
+<li>Randomly pair up individuals in the temporary population</li>
+<li>Generate a cross-over point for each pair</li>
+<li>Cross over each pair, creating two daughters for each pair</li>
+<li>Perform mutation on the offspring</li>
+</ul>
+
+
+        
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-right" href="/index2.html">Next <i class="fa fa-caret-right"></i></a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->
