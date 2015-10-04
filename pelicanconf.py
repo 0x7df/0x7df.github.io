@@ -53,8 +53,8 @@ SITESUBTITLE = u'0x7df subtitle'
 # Minified CSS
 NEST_CSS_MINIFY = True
 # Add items to top menu before pages
-MENUITEMS = [('Home', 'http://0x7df.io'),
-             ('Blog Home', '/'),
+MENUITEMS = [('Home', '/'),
+             ('Site Home', 'http://0x7df.io'),
              ('Categories','/categories.html')
             ]
 # Add header background image from content/images : 'background.jpg'
