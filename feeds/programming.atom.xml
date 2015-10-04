@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.io/" rel="alternate"></link><link href="http://0x7df.io/feeds/programming.atom.xml" rel="self"></link><id>http://0x7df.io/</id><updated>2015-10-03T20:06:00+01:00</updated><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.io/static-site-generation.html" rel="alternate"></link><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/programming.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-10-03T20:06:00+01:00</updated><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
 &lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
 &lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
 &lt;p&gt;Many options are available for static site generation, with
@@ -59,7 +59,7 @@ delimiters:&lt;/p&gt;
 
 
 &lt;p&gt;for in-line equations), was both annoying and unnecessary in theory (since
-both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.io/drafts/slug.html"&gt;a different
+both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.github.io/drafts/slug.html"&gt;a different
 post&lt;/a&gt;. Once
 done, I could move on to themes.&lt;/p&gt;
 &lt;h2&gt;Pelican themes&lt;/h2&gt;
@@ -122,7 +122,7 @@ flag is supplied - as &lt;em&gt;totally derivative&lt;/em&gt;. Assume it blows a
 already there and replaces it with the new content. So you never manually
 modify anything on that branch; keep all your content, configuration files,
 tools, and anything else you care about, on a different branch, and keep the
-destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="http://0x7df.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-05-10:python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
+destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="http://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
 &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; for creating a word cloud, created by
 &lt;a href="http://peekaboo-vision.blogspot.co.uk/"&gt;Andreas Mueller&lt;/a&gt;:
 &lt;a href="https://github.com/amueller/word_cloud"&gt;https://github.com/amueller/word_cloud&lt;/a&gt;.&lt;/p&gt;
@@ -214,7 +214,7 @@ tweaked a little where necessary.&lt;br /&gt;
 The result is:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"&gt;&lt;img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;The font is called Saucer BB, from
-&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</summary><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Python code analysis using Prospector</title><link href="http://0x7df.io/python-code-analysis-using-prospector.html" rel="alternate"></link><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-04-11:python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
+&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</summary><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Python code analysis using Prospector</title><link href="http://0x7df.github.io/python-code-analysis-using-prospector.html" rel="alternate"></link><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-11:python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
 post&lt;/a&gt;
 I came across introduced me to
 &lt;a href="https://github.com/landscapeio/prospector"&gt;Prospector&lt;/a&gt;, a
@@ -547,7 +547,7 @@ adding them to a profile. The useful extra options are:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="http://0x7df.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-03-29:converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-29:converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;I write code documentation in &lt;a href="www.doxygen.org/"&gt;Doxygen&lt;/a&gt;, and in some
 cases include a fair amount of information about the mathematical theory
 of the problem that the code is solving. It seemed worthwhile posting

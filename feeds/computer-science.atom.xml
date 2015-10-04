@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.io/" rel="alternate"></link><link href="http://0x7df.io/feeds/computer-science.atom.xml" rel="self"></link><id>http://0x7df.io/</id><updated>2015-04-21T20:58:00+01:00</updated><entry><title>CUDA basics part 2</title><link href="http://0x7df.io/cuda-basics-part-2.html" rel="alternate"></link><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-04-21:cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/computer-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-04-21T20:58:00+01:00</updated><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
 GPUs&lt;/a&gt;,
 which showed how to do a vector addition. This illustrated some of the
@@ -381,7 +381,7 @@ deviceC, ...&lt;/code&gt;&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="C"></category><category term="CUDA"></category><category term="GPU"></category><category term="HPC"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.io/cuda-basics-part-1.html" rel="alternate"></link><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="C"></category><category term="CUDA"></category><category term="GPU"></category><category term="HPC"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
 Architecture)&lt;/a&gt;is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
