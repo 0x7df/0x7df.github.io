@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Introduction CUDA (Compute Unified Device Architecture)is an extension of C/C++, developed by NVIDIA, the GPUmanufacturer, for programming their devices. (There is also a Fortran version, ...">
+        <meta name="keywords" content="C, CUDA, GPU, HPC, massively parallel, parallel computing, parallel programming">
+        <link rel="icon" href="http://0x7df.io/favicon.ico">
+
+        <title>CUDA basics part 1 - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.io/feeds/computer-science.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.io/"><img class="mr20" src="http://0x7df.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.io">Home</a>
+                                <a href="http://0x7df.io/">Blog Home</a>
+                                <a href="http://0x7df.io/categories.html">Categories</a>
+                            <a  href="http://0x7df.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="http://0x7df.io/pages/about.html">About</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">CUDA basics part 1</h1>
+                      <p class="header-date">By <a href="http://0x7df.io/author/0x7df.html">0x7df</a>, Sun 05 April 2015, in category <a href="http://0x7df.io/category/computer-science.html">Computer science</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://0x7df.io/tag/c.html">C</a>, <a href="http://0x7df.io/tag/cuda.html">CUDA</a>, <a href="http://0x7df.io/tag/gpu.html">GPU</a>, <a href="http://0x7df.io/tag/hpc.html">HPC</a>, <a href="http://0x7df.io/tag/massively-parallel.html">massively parallel</a>, <a href="http://0x7df.io/tag/parallel-computing.html">parallel computing</a>, <a href="http://0x7df.io/tag/parallel-programming.html">parallel programming</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h2>Introduction</h2>
+<p><a href="http://en.wikipedia.org/wiki/CUDA">CUDA (Compute Unified Device
+Architecture)</a>is an extension of
+<a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm">C/C++</a>,
+developed by <a href="http://www.nvidia.com/page/home.html">NVIDIA</a>, the
+<a href="http://www.webopedia.com/TERM/G/GPU.html">GPU</a>manufacturer, for
+programming their devices. (There is also a <a href="https://www.pgroup.com/resources/cudafortran.htm">Fortran
+version</a>, developed by
+<a href="http://www.pgroup.com/">PGI</a>.) The purpose of CUDA is to allow
+developers to program GPUs much more easily than previously, and since
+its inception in 2007, the use of GPUs has opened up beyond just
+graphics to more general, e.g. scientific, computing, which is often
+referred to as general-purpose GPU computing -
+<a href="http://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units">GPGPU</a>.</p>
+<p>CUDA is proprietary, which in my opinion disqualifies it from use in
+major code development. The lifetime of high-performance scientific and
+engineering codes is typically decades, and given <a href="http://dx.doi.org/10.1017/S0962492912000050">the uncertainty
+surrounding supercomputing
+architectures</a>, a credible
+candidate for a programming model needs to be supported by a wide range
+of compilers and on a wide range of platforms. (A similar programming
+language is <a href="https://www.khronos.org/opencl/">OpenCL</a>, which as the name
+suggests, is an open standard, being developed by a consortium of
+organisations.) However, the <a href="https://www.coursera.org/course/hetero">point has been
+made</a>that CUDA is a useful
+teaching vehicle for the basic concepts of programming heterogeneous,
+many-core supercomputers.</p>
+<h2>Heterogeneous Computing</h2>
+<p>Let's assume here that the model is heterogeneous; i.e. there are CPUs
+(hosts) and GPUs (devices) working in conjunction, and that the
+application runs on the CPU host, handing specific, highly
+<a href="http://queue.acm.org/detail.cfm?id=1365499">data-parallel</a> parts of the
+program off to the device as and when appropriate. Also , we assume
+initially that the CPU part is basically serial; that is, we're not
+combining CUDA with <a href="http://www.mpi-forum.org/">MPI</a> at this stage.</p>
+<p>To exploit this kind of architecture, it's necessary to <em>kernelise</em> the
+code: identify parts of it suitable for a high level of concurrency,
+turn them into kernel functions that are handed over to the GPU device.
+These will typically be portions of the code that are highly
+data-parallel - i.e. loops over large sets of data items where the
+iterations of the loops are independent of each other. A nice example is
+a simple "DAXPY" loop (i.e. a double precision <em>Ax</em> + <em>y</em> vector
+addition) or "DAXBY" loop (<em>Ax</em> × <em>y</em>), implemented here in C:</p>
+<div class="highlight"><pre>void vectorAdd(int n, double a, double *x, double *y) {
+    for (int i = 0; i &lt; n; ++i) {  
+        y[i] = a*x[i] + y[i];
+    }
+}
+</pre></div>
+
+
+<p>Note that the element indices are all <code>i</code>; there's no use of data from
+previous iterations of the loop. It's this absence of <em>loop-carried
+dependencies</em> that makes this loop data-parallel, and therefore suitable
+for threading. Essentially, we can calculate all the iterations of the
+loop independently, in any order; hence we can pass it to a GPU and
+invoke as many threads as there are elements, to do the work as
+concurrently as possible.</p>
+<h2>GPU hardware overview</h2>
+<h3>Threading</h3>
+<p>This post is about how to program using CUDA, but to understand what's
+going on it's necessary to have a minimum of knowledge about the
+hardware architecture. A single GPU is comprised of a set of what are
+known, in NVIDIA's terminology, as <em>streaming multiprocessors</em> (SMs);
+these are, according to <a href="http://booksite.elsevier.com/9780123838728/">Hennessy and
+Patterson</a>, "multithreaded
+<a href="http://en.wikipedia.org/wiki/SIMD">SIMD</a> processors", with the nearest
+non-GPU equivalent being a multithreaded <a href="http://www.phy.ornl.gov/csep/ca/node24.html">vector
+processor</a>. The typical
+number of SMs in one GPU is between 2 and 30, varying from generation to
+generation. Each SM can support a maximum number of threads at one time,
+typically in the low thousands (e.g. 1,536) ; so overall the GPU can
+handle tens of thousands of threads simultaneously. A key aspect of the
+GPU is that, as well as being massively multithreaded, it also has a
+SIMD aspect. The threads assigned to a streaming multiprocessor are
+grouped into sets of 32 threads, called <em>warps</em>. Each 32-thread warp is
+dealt with by the SM in a SIMD fashion; that is, each instruction is
+fetched once and executed for all 32 threads at the same time. So all
+the threads in a particular warp are progressed in lock-step. Hence
+there are two types of parallelism at play in a GPU:</p>
+<ol>
+<li>Multithreading (a kind of<a href="en.wikipedia.org/wiki/SPMD">SPMD - single program/multiple data
+    parallelism</a>), where different
+    processors execute the same program independently, on different
+    subsets of the data; and</li>
+<li>SIMD (single instruction/multiple data), where each processor is
+    executing the same instruction at the same time as every other.</li>
+</ol>
+<p>Note that the SIMD aspect causes problems in cases where, as a result of
+the logic of the particular bit of code being executed, different
+threads within the same warp end up going down different paths through
+the code, and therefore require different instructions. The GPU can
+handle this <em>control divergence</em>, but execution becomes inefficient; so
+it's something the programmer needs to be aware of and think explicitly
+about avoiding.</p>
+<h3>Memory</h3>
+<p>As will become clear, it's also vitally important to understand the
+memory hierarchy of a GPU. As well as, and separate from, the host CPU's
+memory (and we'll ignore the
+<a href="http://www.bottomupcs.com/memory.html">hierarchy</a>there), the GPU device
+has several different levels of memory:</p>
+<p><img alt="gpu_layout" src="https://0x7df.files.wordpress.com/2015/02/gpu_layout.png" /></p>
+<ul>
+<li>The main <em>global memory</em> or <em>device memory</em>, which is accessible to
+    all the threads on the GPU,</li>
+<li>The <em>constant memory</em>, also globally accessible,</li>
+<li>The <em>shared memory</em>, of which each streaming multiprocessor has its
+    own private bank, accessible to only the threads on that SM, and</li>
+<li>The per-thread <em>private memory</em>.</li>
+</ul>
+<p>On reaching a portion of the code that is data parallel and suitable for
+passing to the GPU, the programmer allocates memory in the device's
+global memory, and then uses CUDA commands to transfer data items from
+the CPU host memory into the global memory. Calculated quantities then
+need to be explicitly transferred back again. This is where we see the
+first key difference from <a href="www.openmp.org">OpenMP</a> threading; in that
+model, variables and arrays in memory are declared as either private
+(each thread has its own copy) or global (every thread sees the same bit
+of memory); but either way they all reside on the same memory hardware.
+In CUDA we explicitly have to transfer data from CPU to GPU memory space
+and back again.</p>
+<p>The global (device) memory is the only memory that the host CPU can read
+and write to. Transfers into shared memory and private memory can be
+done only by the GPU itself.</p>
+<h2>Threads and blocks</h2>
+<p>When we implement a CUDA kernel function, which is a chunk of highly
+data-parallel code that will be handled by a large set of threads
+working concurrently, we arrange the threads into a <em>grid</em> of <em>thread
+blocks</em>. We'll worry about why this is, later; for now just note that a
+grid is a three-dimensional construction of <em>l ×</em> <em>m</em> × <em>n</em> thread
+blocks, each of which is three-dimensional grouping of <em>i</em> × <em>j</em> × <em>k</em>
+threads. The actual values of <em>i</em>, <em>j</em>, ... to be used are defined in
+the host code by the special CUDA statements:</p>
+<div class="highlight"><pre>dim3 gridDims(l,m,n);  
+dim3 blockDims(i,j,l);  
+myKernel&lt;&lt;&lt;gridDims,blockDims&gt;&gt;&gt;(args);
+</pre></div>
+
+
+<p>The third statement launches the kernel function called <code>myKernel</code>, and
+is a standard C function call statement - i.e. <code>myKernel(args)</code> - but
+with the special CUDA notation - <code>&lt;&lt;&lt;gridDims, blockDims&gt;&gt;&gt;</code> - rather
+unpleasantly intruding between the function name and its arguments. The
+previous two lines define the variables <code>gridDims</code> and <code>blockDims</code> as
+having <code>dim3</code> type.</p>
+<p>CUDA requires that the blocks be independent of each other; there is no
+way to communicate between different blocks that are executing.</p>
+<p>The reason for grouping threads together into blocks, is so that the
+streaming multiprocessor can switch between threads (or really between
+warps, which are sets of 32 threads that are always executed in
+lock-step) - this means that one warp is waiting for a memory access,
+the SM can switch to another in the meantime.</p>
+<h2>Vector addition - host code</h2>
+<p>The host C code running on the CPU will look something like this:</p>
+<div class="highlight"><pre>int main(int argc, char **argv) {
+    int n, gridSize;  
+    float *hostX, *hostY;  
+    float *deviceX, *deviceY;  
+    cudaError_t err;
+
+    // Allocate and populate the hostX and hostY vectors
+
+    // Allocate GPU memory  
+    int size = n*sizeof(float);  
+    err = cudaMalloc((void **) &amp;deviceX, size);  
+    err = cudaMalloc((void **) &amp;deviceY, size);
+
+    // Copy memory to the GPU  
+    err = cudaMemcpy(deviceX, hostX, size, cudaMemcpyHostToDevice);  
+    err = cudaMemcpy(deviceY, hostY, size, cudaMemcpyHostToDevice);
+
+    // Initialize the grid and block dimensions  
+    dim3 gridDims(ceil(n/256),1,1);  
+    dim3 blockDims(256,1,1);
+
+    // Launch the GPU Kernel  
+    myKernel&lt;&lt;&lt;gridDims,blockDims&gt;&gt;&gt;(n, deviceX, deviceY);
+
+    // Copy the GPU memory back to the CPU  
+    err = cudaMemcpy(hostY, deviceY, size, cudaMemcpyDeviceToHost);
+
+    // Free the GPU memory  
+    err = cudaFree(deviceX);  
+    err = cudaFree(deviceY);
+
+    // Do something with the solution, free the host  
+    // arrays, return  
+}
+</pre></div>
+
+
+<p>In the definition of the grid and block dimensions, we've chosen to have
+256 threads per block, and therefore <em>n</em>/256 blocks (and we've used the
+ceiling function to make sure the number of blocks is rounded <em>up</em> to
+the nearest integer if <em>n</em> isn't divisible by 256). The grid and the
+blocks are one-dimensional, for simplicity.</p>
+<p>Hopefully, the various CUDA functions that are called - <code>cudaMalloc</code>,
+<code>cudaMemcpy</code> and <code>cudaFree</code> - are fairly self-explanatory, and are <a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide">well
+documented</a>.</p>
+<h2>Vector addition - kernel code</h2>
+<p>The CUDA kernel function that is called looks like this:</p>
+<div class="highlight"><pre>__global__ void vecAdd(int n, float *x, float *y) {  
+    int i = threadIdx.x + blockDim.x*blockIdx.x;  
+    if (i &lt; n) y[i] = x[i] + y[i];  
+}
+</pre></div>
+
+
+<p>The first difference from an ordinary C function is the <code>__global__</code>
+keyword at the beginning of the function declaration. The compiler needs
+to distinguish between functions for the host CPU and kernel functions
+intended for the GPU; it does this using the keywords <code>__host__</code> for the
+former, and either <code>__global__</code> or <code>__device__</code> for the latter. The
+second difference is the existence of the pre-defined variables
+<code>threadIdx</code> and <code>blockIdx</code>, which give the (<em>x</em>, <em>y</em>, <em>z</em>) indices of
+the thread within the block, and of the block within the grid,
+respectively; and <code>blockDim</code>, which gives the (<em>x</em>, <em>y</em>, <em>z</em>) dimensions
+of the block, as defined in the function call.</p>
+<p>The <code>if</code> statement is included for the case where <em>n</em> is not divisible
+by 256 and therefore we have <code>ceil(n/256)</code> blocks, resulting in there
+being more threads than elements in the vector(s).</p>
+<h2>Parallel efficiency</h2>
+<p>If we ignore the multiplication by the constant <em>A</em> for the moment, and
+concentrate on the vector addition <code>y[i] = x[i] + y[i]</code>, we can see that
+there are three memory accesses (two reads and a write) for each
+statement, and only one floating-point calculation (the addition). The
+<a href="http://www.greatlakesconsortium.org/events/GPUMulticore/Chapter4-CudaMemoryModel.pdf">compute-to-global-memory-access (CGMA)
+ratio</a>
+is therefore 1:3, or 1/3. This is an important metric of the performance
+of an application or section of code. We often refer to codes as being
+either <em>compute-bound</em> or <em>memory-bound</em>, depending on whether the
+limiting factor on improving their performance is the rate at which we
+can do computations, or the rate at which we can retrieve and send data
+to and from memory. We'll see now that for a typical GPU, this vector
+addition operation is very clearly memory-limited.</p>
+<p>A typical memory bandwidth for a GPU might be, say, 200GB/s, which means
+that we can load/store:</p>
+<div class="math">$$ \frac{200\,\mathrm{GB/s}}{8\,\mathrm{B/memory\:access}} =
+25 \times 10^9\,\mathrm{memory\:access/s} $$</div>
+<p>Crudely, this limits the actual computation rate to</p>
+<div class="math">$$ 25 \times
+10^9\,\mathrm{memory\:access/s}\,\times\,0.33\,\mathrm{FLOP}/\mathrm{memory\:access}
+\approx 8\,\mathrm{GFLOP/s} $$</div>
+<p>The peak theoretical performance of the GPU might be, say, 1000 GFLOP/s
+double-precision – i.e. the actual performance obtained is  less than 1%
+of peak. This is the case no matter how many threads there are - the
+limiting factor is how quickly data can be transferred between the
+global memory and the processors.</p>
+<p>For this function - simple vector addition - there isn't a great deal we
+can do about the fact that it's memory bound. You have to bring back
+each pair of elements from <em>x</em> and <em>y</em> from memory, then put the result
+back again - the number of memory operations is irreducible. For more
+complex operations, where pieces of data are typically used multiple
+times, the trick is to use shared memory, which is much, much faster
+than global memory. However, there is obviously much less of it, so only
+small chunks of data can be placed there at a time; this means that
+programmers need to think very carefully about memory access patterns in
+their code, to ensure that multiple uses of a given chunk of data are
+grouped as closely together as possible in the flow of the program, so
+data isn't continually being placed and replaced in shared memory, via
+expensive global memory operations. This is analogous to moving data
+from memory into local
+<a href="http://searchstorage.techtarget.com/definition/cache-memory">cache</a> in
+a normal CPU, except that in CUDA programming for GPUs, the programmer
+is explicitly controlling movement of data between the shared and global
+memory.</p>
+<p>Actually, one way to improve the vector addition might be to
+utilise <a href="www.cs.iastate.edu/~prabhu/Tutorial/PIPELINE/instrLevParal.html">instruction-level parallelism
+(ILP)</a>.
+In the kernel, the single floating-point operation has to wait for both
+of the input vector elements (<code>x[i]</code> and <code>y[i]</code>) to be retrieved from
+global memory before it can begin. Hence if the global memory reads and
+writes take <em>M</em> clock cycles each, and the floating operation takes <em>N</em>,
+then the total number of clock cycles is <em>(M+1)+N+M</em> (assuming the
+second load begins one clock cycle after the first, but otherwise that
+they are done simultaneously). This is <em>2M+N+1</em>, so to go through it <em>k</em>
+times is <em>k(2M+N+1)</em>.</p>
+<p>However, if within the kernel we loaded two values of each input vector,
+say <code>x[i+1]</code> and <code>y[i+1]</code> as well as <code>x[i]</code> and <code>y[i]</code>, then the
+computation of <code>x[i] + y[i]</code> starts after <em>M+1</em> cycles and takes <em>N</em>
+cycles, so the result is written back to global memory after <em>(M+1)+N+M</em>
+cycles as before; <em>but</em>, x[i+1] can start to load after 2 cycles, and
+y[i+1] after 3 cycles, so computation of <code>x[i+1] + y[i+1]</code> can begin
+after <em>M+3</em> cycles, and still takes <em>N</em>. Hence <code>y[i+1]</code> has been written
+back to global memory after <em>(M+3)+N+M</em> cycles. This means the whole
+operation to get <code>x[i] + y[i]</code> and <code>x[i+1] + y[i+1]</code> takes <em>(M+3)+N+M</em>
+cycles overall, which is only 2 cycles more than it took to get only
+<code>x[i] + y[i]</code> in the original kernel. For <em>k</em> elements, it will take
+<em>k(2M+N+3)/2</em>. This is basically going to take half the time of the
+original (as long as <em>2M+N</em> is large enough that the constant doesn't
+matter).</p>
+<p>Nothing has been done to reduce the
+<a href="http://www.hardwaresecrets.com/article/Understanding-RAM-Timings/26/2">latency</a>of
+the memory operations, or to do fewer of them; instead they've been
+overlapped as much as possible. This is called <em>latency-hiding</em> - doing
+other useful things while waiting for data to return from memory.
+Actually, at a different level, the concept of latency-hiding is also
+fundamental to the GPU and threading; by dividing up the data to be
+processed into small chunks, and having many different threads operate
+on those chunks, the GPU has much more flexibility to schedule work so
+that memory latency can be hidden. For this reason, GPUs are described
+as <em>throughput-oriented</em> - they are more concerned with operating on
+lots of data concurrently so they need to worry less about latency;
+whereas CPUs, on the other hand, are <em>latency-oriented</em>, and are
+designed with as many tricks as possible up their sleeve to reduce
+latency, under the assumption of, basically, a sequential execution
+model.</p>
+<p>If the same sequential processor were handling all the elements, like in
+a typical CPU, then this
+<a href="cs.stanford.edu/people/eroberts/courses/soco/projects/risc/pipelining/">pipelining</a>
+is the sort of thing modern processors try to do for you anyway, without
+you having to worry about it.</p>
+<hr />
+<div style="background:#FFFFFF;margin:0 10px 10px 0;padding:0 10px 0 0;text-align:left;font-family:Arial, Helvetica, sans-serif;line-height:1em;">
+<div style="font-size:11px;padding:0 0 10px;font-weight:bold;color:#045989;">
+
+High-performance computing systems: Status and outlook
+
+</div>
+
+<div style="font-size:11px;">
+
+J. J. Dongarra and A. J. van der Steen (2012).
+<a href="http://journals.cambridge.org/action/displayJournal?jid=ANU">Acta Numerica</a>,
+<a href="http://journals.cambridge.org/action/displayIssue?iid=8539365">Volume 21 </a>,
+<a href="http://journals.cambridge.org/action/displayAbstract?aid=8539374">May 2012, pp.379-474</a>
+
+</div>
+
+</div>
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
