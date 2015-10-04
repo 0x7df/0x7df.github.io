@@ -1,4 +1,4 @@
-Title: Static site generators - Pelican and Nikola
+Title: StaProgrammingnerators - Pelican and Nikola
 Date: 2015-10-03 20:06
 Category: Review
 Modified: 2015-10-03 20:06
@@ -112,3 +112,62 @@ Pelican installation directory.)
 (Afterwards I realised a [GitHub][] repository [pelican-themes][] containing
 a large number of themes is available, making it a lot easier to switch while
 looking for a good theme.)
+
+Deployment to GitHub
+--------------------
+
+[aws]: http://aws.amazon.com/
+[ghp]: https://pages.github.com/
+[ghp-import]: https://github.com/davisp/ghp-import/
+[peliblog]: http://martinbrochhaus.com/pelican2.html
+[blogcomm]: http://martinbrochhaus.com/pelican2.html#comment-1819417669
+
+Although I have a domain - [0x7df.io][http://0x7df.io] - and a website hosted
+on [Amazon Web Services][aws], I wanted both to keep this separate to begin
+with, and try out hosting on [GitHub Pages][ghp].
+
+There are two ways to manage a website/blog on GitHub pages. The first is to
+create a special branch, which has to be called `gh-pages` inside a repository;
+the web documents committed on that branch then become available at:
+`http://username.github.io/project/`. This is ideal for creating
+project-specific sites, like documentation. The second method, which is what I
+used, is to create a special repository, called `username.github.io` which
+contains the web pages. These are then available at
+`http://username.github.io/`; they're considered the general user or
+organisation web pages, as opposed to being specific to any one project. In
+this case, the data doesn't need to be on the `gh-pages` branch, but can be on
+the more usual branch `master`.
+
+I used the [ghp-import][] tool to do the uploading - this is used by the
+Pelican `Makefile` and is recommended [elsewhere][peliblog]. I installed it
+with:
+
+    sudo apt-get install ghp-import
+
+even though this isn't documented. As suggested [here][blogcomm], I added all
+the content and tools to a
+different branch called `source`, but it can be anything - to keep it
+separate from the output, which I want to commit to the `master` branch. After
+making changes to the content, running `make html` to re-build, checking on a
+local development server that runs in the background (initiated by `python -m
+pelican.server &` inside the `output` directory), then committing to the
+`source` branch of my repository, I can just run `make github` to call
+`ghp-import`. This commits the changes to the built website (in the `output`
+directory) to branch `master`, and pushes the modified `master` branch to the
+repository on GitHub. With this workflow there is never a need to explicitly
+switch to `master` and do any commits - this is all handled by `ghp-import`.
+
+If you're using the project-specific `gh-pages` branch, the `ghp-import` will
+still do the job. It defaults actually to committing the built website to this
+branch, and in my workflow requires the `-b master` switch to tell it to commit
+to `master` instead. Note that the `-p` flag to `ghp-import` will handle the
+push to GitHub, although in the Pelican Makefile this flag isn't used and the
+push is a separate command.
+
+Either way, it's worth being very clear that `ghp-import` treats the branch it
+commits to - `gh-pages` by default or whatever branch you specify if the `-b`
+flag is supplied - as *totally derivative*. Assume it blows away whatever is
+already there and replaces it with the new content. So you never manually
+modify anything on that branch; keep all your content, configuration files,
+tools, and anything else you care about, on a different branch, and keep the
+destination branch for `ghp-import` clean.
