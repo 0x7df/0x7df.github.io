@@ -4,17 +4,19 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="The ideal-gas equation of state is: $$ p = \rho R T $$ where \( R\) is the individual gas constant for the gas in question, and: $$ R = \frac{nR^*}{m} = \frac{R^*}{M} $$ where \( R^*\) is the ...">
+        <meta name="description" content="Equation of state for dry air The ideal-gas equation of state is: $$ p = \rho R T $$ where \( R\) is the individual gas constant for the gas in question, and: $$ R = \frac{nR^*}{m} = \frac{R^*}{M} ...">
         <meta name="keywords" content="">
-        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="http://0x7df.io/favicon.ico">
 
         <title>Virtual Temperature - 0x7df</title>
 
         <!-- Stylesheets -->
-        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <link href="http://0x7df.io/theme/css/all.min.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
+        <link href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.io/feeds/atmospheric-science.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -36,14 +38,14 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="/"><img class="mr20" src="/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                        <a class="pull-left" href="http://0x7df.io/"><img class="mr20" src="http://0x7df.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
                     </div>
                     <div class="nav pull-right">
                                 <a href="http://0x7df.io">Home</a>
-                                <a href="/">Blog Home</a>
-                                <a href="/categories.html">Categories</a>
-                            <a  href="/pages/0x7df-application.html">0x7df application</a>
-                            <a  href="/pages/about.html">About</a>
+                                <a href="http://0x7df.io/">Blog Home</a>
+                                <a href="http://0x7df.io/categories.html">Categories</a>
+                            <a  href="http://0x7df.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="http://0x7df.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -56,7 +58,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Virtual Temperature</h1>
-                      <p class="header-date">By <a href="/author/0x7df.html">0x7df</a>, Mon 31 August 2015, in category <a href="/category/atmospheric-science.html">Atmospheric science</a></p>
+                      <p class="header-date">By <a href="http://0x7df.io/author/0x7df.html">0x7df</a>, Mon 31 August 2015, in category <a href="http://0x7df.io/category/atmospheric-science.html">Atmospheric science</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -75,7 +77,8 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>The ideal-gas equation of state is:</p>
+        <h2>Equation of state for dry air</h2>
+<p>The ideal-gas equation of state is:</p>
 <div class="math">$$ p = \rho R T $$</div>
 <p>where <span class="math">\( R\)</span> is the individual gas constant for the
 gas in question, and:</p>
@@ -86,8 +89,9 @@ mass of the sample of gas, respectively; and <span class="math">\( M = m/n\)</sp
 is the molecular mass of the gas.</p>
 <p>Dry air is typically assumed to be a perfect gas, with an individual gas
 constant of <span class="math">\( 287~\mathrm{J/kg.K}\)</span>  or <span class="math">\( 2.87 \times 10^6~\mathrm{cm^2/s^2.K}\)</span>.</p>
+<h2>Moist air and virtual temperature</h2>
 <p>Water vapour is also assumed to be a perfect gas, with an individual gas
-constant of <span class="math">\( 461.5~\mathrm{J/kg.K}\)</span>. The ratio of $ R / R_v $:</p>
+constant of <span class="math">\( 461.5~\mathrm{J/kg.K}\)</span>. The ratio of <span class="math">\( R / R_v\)</span>:</p>
 <div class="math">$$ \sigma = \frac{R}{R_v} = \frac{M_v}{M} = 0.622 $$</div>
 <p>where <span class="math">\( R, M\)</span> are the gas constant and molecular mass
 of dry air, and <span class="math">\( R_v, M_v\)</span> of water vapour.</p>
@@ -96,16 +100,13 @@ individual gas constant of moist air, consisting of some mixture of dry
 air and water vapour, we first write the equation of state for water
 vapour:</p>
 <div class="math">$$ e = \rho_v R_v T $$</div>
-<p>where <span class="math">\( e\)</span> is the water vapour pressure and <span class="math">\(
-\rho_v\)</span> is the density of water vapour. The pressure of
-the moist air is the sum of the partial pressures of the dry air and the
-water vapour:</p>
+<p>where <span class="math">\( e\)</span> is the water vapour pressure and <span class="math">\( \rho_v\)</span> is the density of water
+vapour. The pressure of the moist air is the sum of the partial pressures of
+the dry air and the water vapour:</p>
 <div class="math">$$ p_m = p + e = \rho R T + \rho_v R_v T $$</div>
 <div class="math">$$ p_m = \rho R T + \rho_v \frac{R}{\sigma} T $$</div>
-<div class="math">$$ p_m = RT\left(\rho + \frac{\rho_v}{\sigma}\right)
-$$</div>
-<div class="math">$$ p_m = RT\frac{1}{V}\left(m + \frac{m_v}{\sigma}\right)
-$$</div>
+<div class="math">$$ p_m = RT\left(\rho + \frac{\rho_v}{\sigma}\right) $$</div>
+<div class="math">$$ p_m = RT\frac{1}{V}\left(m + \frac{m_v}{\sigma}\right) $$</div>
 <div class="math">$$ p_m = RT \frac{\rho_m}{m + m_v}\left(m +
 \frac{m_v}{\sigma}\right) $$</div>
 <p>This allows us to introduce the <em>virtual temperature</em>, which is the
@@ -113,8 +114,7 @@ fictitious temperature that dry air would have to have to achieve
 the same (lower) density of the moist air, at the same pressure:</p>
 <div class="math">$$ p_m = \rho_m RT_v $$</div>
 <p>From comparing the last two equations we can see that:</p>
-<div class="math">$$ T_v = \left[m + \frac{m_v}{\sigma}\right]\frac{1}{m+m_v}
-T $$</div>
+<div class="math">$$ T_v = \left[m + \frac{m_v}{\sigma}\right]\frac{1}{m+m_v} T $$</div>
 <div class="math">$$ T_v = \left[m + m_v + \frac{m_v}{\sigma} - m_v\right]
 \frac{1}{m + m_v} T $$</div>
 <div class="math">$$ T_v = \left[1 + \frac{m_v}{m +
@@ -124,12 +124,11 @@ m_v}\left(\frac{1}{\sigma} - 1\right)\right] T $$</div>
 <p>By definition, the mixing ratio <span class="math">\( \mu = m_v/(m + m_v)\)</span>
 is the ratio of the mass of water vapour to the mass of
 moist air:</p>
-<div class="math">$$ T_v = \left[1 + \frac{1-\sigma}{\sigma} \mu \right] T
-$$</div>
+<div class="math">$$ T_v = \left[1 + \frac{1-\sigma}{\sigma} \mu \right] T $$</div>
 <p>The virtual temperature is always slightly higher, by at most a few
 degrees, than the true temperature of the moist air.</p>
-<h2>Geopotential</h2>
-<p>Elsewhere we have seen that the geopotential is:</p>
+<h2>Geopotential in terms of virtual temperature</h2>
+<p><a href="http://0x7df.io/geopotential.html">Elsewhere</a> we have seen that the geopotential is:</p>
 <div class="math">$$ d\phi = -\frac{1}{\rho} dp $$</div>
 <p>Substituting in the equation of state for moist air, involving the
 virtual temperature:</p>
@@ -206,9 +205,10 @@ virtual temperature:</p>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="/archives.html">Archives</a></li>
-                            <li><a href="/tags.html">Tags</a></li>
-                            <li><a href="/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">

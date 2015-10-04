@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.io/" rel="alternate"></link><link href="http://0x7df.io/feeds/atmospheric-science.atom.xml" rel="self"></link><id>http://0x7df.io/</id><updated>2015-08-31T22:02:00+01:00</updated><entry><title>Virtual Temperature</title><link href="http://0x7df.io/virtual-temperature.html" rel="alternate"></link><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+&lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the
+gas in question, and:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R = \frac{nR^*}{m} = \frac{R^*}{M} $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( R^*\)&lt;/span&gt; is the universal gas constant (&lt;span class="math"&gt;\( 8.31~
+\mathrm{J/mol.K}\)&lt;/span&gt;) and &lt;span class="math"&gt;\( n, m\)&lt;/span&gt; are the number of moles and the
+mass of the sample of gas, respectively; and &lt;span class="math"&gt;\( M = m/n\)&lt;/span&gt;
+is the molecular mass of the gas.&lt;/p&gt;
+&lt;p&gt;Dry air is typically assumed to be a perfect gas, with an individual gas
+constant of &lt;span class="math"&gt;\( 287~\mathrm{J/kg.K}\)&lt;/span&gt;  or &lt;span class="math"&gt;\( 2.87 \times 10^6~\mathrm{cm^2/s^2.K}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h2&gt;Moist air and virtual temperature&lt;/h2&gt;
+&lt;p&gt;Water vapour is also assumed to be a perfect gas, with an individual gas
+constant of &lt;span class="math"&gt;\( 461.5~\mathrm{J/kg.K}\)&lt;/span&gt;. The ratio of &lt;span class="math"&gt;\( R / R_v\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \sigma = \frac{R}{R_v} = \frac{M_v}{M} = 0.622 $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( R, M\)&lt;/span&gt; are the gas constant and molecular mass
+of dry air, and &lt;span class="math"&gt;\( R_v, M_v\)&lt;/span&gt; of water vapour.&lt;/p&gt;
+&lt;p&gt;Moist air is a mixture of dry air and water vapour. To determine the
+individual gas constant of moist air, consisting of some mixture of dry
+air and water vapour, we first write the equation of state for water
+vapour:&lt;/p&gt;
+&lt;div class="math"&gt;$$ e = \rho_v R_v T $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( e\)&lt;/span&gt; is the water vapour pressure and &lt;span class="math"&gt;\( \rho_v\)&lt;/span&gt; is the density of water
+vapour. The pressure of the moist air is the sum of the partial pressures of
+the dry air and the water vapour:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p_m = p + e = \rho R T + \rho_v R_v T $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ p_m = \rho R T + \rho_v \frac{R}{\sigma} T $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ p_m = RT\left(\rho + \frac{\rho_v}{\sigma}\right) $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ p_m = RT\frac{1}{V}\left(m + \frac{m_v}{\sigma}\right) $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ p_m = RT \frac{\rho_m}{m + m_v}\left(m +
+\frac{m_v}{\sigma}\right) $$&lt;/div&gt;
+&lt;p&gt;This allows us to introduce the &lt;em&gt;virtual temperature&lt;/em&gt;, which is the
+fictitious temperature that dry air would have to have to achieve
+the same (lower) density of the moist air, at the same pressure:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p_m = \rho_m RT_v $$&lt;/div&gt;
+&lt;p&gt;From comparing the last two equations we can see that:&lt;/p&gt;
+&lt;div class="math"&gt;$$ T_v = \left[m + \frac{m_v}{\sigma}\right]\frac{1}{m+m_v} T $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ T_v = \left[m + m_v + \frac{m_v}{\sigma} - m_v\right]
+\frac{1}{m + m_v} T $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ T_v = \left[1 + \frac{m_v}{m +
+m_v}\left(\frac{1}{\sigma} - 1\right)\right] T $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ T_v = \left[1 + \frac{m_v}{m + m_v}\frac{1 -
+\sigma}{\sigma} \right] \frac{1}{m + m_v} T $$&lt;/div&gt;
+&lt;p&gt;By definition, the mixing ratio &lt;span class="math"&gt;\( \mu = m_v/(m + m_v)\)&lt;/span&gt;
+is the ratio of the mass of water vapour to the mass of
+moist air:&lt;/p&gt;
+&lt;div class="math"&gt;$$ T_v = \left[1 + \frac{1-\sigma}{\sigma} \mu \right] T $$&lt;/div&gt;
+&lt;p&gt;The virtual temperature is always slightly higher, by at most a few
+degrees, than the true temperature of the moist air.&lt;/p&gt;
+&lt;h2&gt;Geopotential in terms of virtual temperature&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://0x7df.io/geopotential.html"&gt;Elsewhere&lt;/a&gt; we have seen that the geopotential is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ d\phi = -\frac{1}{\rho} dp $$&lt;/div&gt;
+&lt;p&gt;Substituting in the equation of state for moist air, involving the
+virtual temperature:&lt;/p&gt;
+&lt;div class="math"&gt;$$ d\phi = -RT_v \frac{dp}{p} $$&lt;/div&gt;
+&lt;p&gt;Integrating:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi = \phi_0 - R \int_{p_0}^p T_v d\ln p $$&lt;/div&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary></entry><entry><title>Geopotential</title><link href="http://0x7df.io/geopotential.html" rel="alternate"></link><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-08-30:geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
+&lt;p&gt;is the gravitational potential - i.e. the gravitational potential energy
+per unit mass - at a location in the earth's atmosphere. It is often
+used as a vertical coordinate instead of height above sea level,
+&lt;span class="math"&gt;\( z\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The geopotential at height &lt;span class="math"&gt;\( z\)&lt;/span&gt; is the difference
+between the gravitational potential energy at some reference height,
+&lt;span class="math"&gt;\( z_0\)&lt;/span&gt;, usually taken to be zero (sea level), and
+that at &lt;span class="math"&gt;\( z\)&lt;/span&gt;. This difference is numerically equal
+to the work done in raising the parcel from &lt;span class="math"&gt;\( z_0\)&lt;/span&gt;
+to &lt;span class="math"&gt;\( z\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi(z) = \int_{z_0}^z g(z') dz' $$&lt;/div&gt;
+&lt;p&gt;The simplification to:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
+&lt;p&gt;assumes that &lt;span class="math"&gt;\( g\)&lt;/span&gt; is constant with height. If the
+variation is to be taken into account, a suitable profile for
+&lt;span class="math"&gt;\( g(z)\)&lt;/span&gt; is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi(z) = \frac{g_0}{\left[ 1 + \left(
+z/E\right)\right]^2} $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( g_0\)&lt;/span&gt; is the value at sea level and
+&lt;span class="math"&gt;\( E\)&lt;/span&gt; is the earth's mean radius. Substituting into
+the definition of geopotential:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi(z) = \int_{z_0}^z g(z') dz' $$&lt;/div&gt;
+&lt;p&gt;gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi(z) = \int_{z_0}^z \frac{g_0}{\left[ 1 + z' / E
+\right]^2} dz' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \phi(z) = g_0 E^2 \int_{z_0}^z \frac{1}{\left[ E+z'
+\right]^2} dz' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \phi(z) = g_0 \frac{z-z_0}{\left( 1+z/E \right) \left(
+1+z_0/E \right)} $$&lt;/div&gt;
+&lt;p&gt;or, if we take &lt;span class="math"&gt;\( z_0\)&lt;/span&gt; to be zero:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi(z) = g_0 \frac{z}{1+z/E} $$&lt;/div&gt;
+&lt;p&gt;The assumption that gravity is constant is equivalent to assuming that
+&lt;span class="math"&gt;\( z \ll E\)&lt;/span&gt; so that &lt;span class="math"&gt;\( z/E \ll 1\)&lt;/span&gt;,
+and therefore that the denominator on the right-hand
+side of the above equation is unity.&lt;/p&gt;
+&lt;p&gt;In terms of differentials:&lt;/p&gt;
+&lt;div class="math"&gt;$$ d\phi = g dz $$&lt;/div&gt;
+&lt;p&gt;and taking into consideration the hydrostatic equation:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dp = -\rho g dz $$&lt;/div&gt;
+&lt;p&gt;we obtain:&lt;/p&gt;
+&lt;div class="math"&gt;$$ d\phi = -\frac{dp}{\rho} = -\alpha dp $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( \alpha = 1 / \rho\)&lt;/span&gt; is the specific volume
+(volume per unit mass).&lt;/p&gt;
+&lt;p&gt;The geopotential is larger than the geometric height by a factor of
+&lt;span class="math"&gt;\( g\)&lt;/span&gt; - e.g. the geopotential in &lt;span class="math"&gt;\( \mathrm{J/kg}\)&lt;/span&gt; is about 10
+times the magnitude of the geometric altitude in metres. To make the
+geopotential have numerical magnitude more nearly equal to the geometric
+height, it is often expressed in units a factor of &lt;span class="math"&gt;\( g_0\)&lt;/span&gt;
+smaller; these units are usually called &lt;em&gt;geopotential
+metres&lt;/em&gt;, or &lt;em&gt;dynamic metres&lt;/em&gt;, or &lt;em&gt;geodynamic metres&lt;/em&gt;. That is, the
+geopotential in these units, is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \mathrm{gpm}(z) = \frac{\phi(z)}{g_0} $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \mathrm{gpm}(z) = \frac{\int_{z_0}^z g(z') dz'}{g_0} $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \mathrm{gpm}(z) = \frac{z}{1+z/E} $$&lt;/div&gt;
+&lt;h2&gt;Rogers and Yau Problem 3.2b&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Show that the geopotential at pressure level &lt;span class="math"&gt;\( p\)&lt;/span&gt;
+of an atmosphere in hydrostatic equilibium is given
+by:&lt;/p&gt;
+&lt;p&gt;
+&lt;div class="math"&gt;$$ \phi(p) = R\bar T\ln{\left(p_0/p\right)} $$&lt;/div&gt;
+&lt;/p&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( \phi(p_0) = 0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The differential expression for hydrostatic equilibrium is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dp = -g\rho dz $$&lt;/div&gt;
+&lt;p&gt;From the definition of geopotential:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi(z) = g \int_{z_0}^z dz' $$&lt;/div&gt;
+&lt;p&gt;we have:&lt;/p&gt;
+&lt;div class="math"&gt;$$ d\phi = g dz $$&lt;/div&gt;
+&lt;p&gt;Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dp = -\rho d\phi $$&lt;/div&gt;
+&lt;p&gt;Introducing the equation of state gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dp = \frac{p}{RT} d\phi $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \int \frac{dp}{p} = -\frac{1}{R} \int \frac{d\phi}{T} $$&lt;/div&gt;
+&lt;p&gt;Performing the integration gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \ln(p) = -\frac{1}{R\bar T} \phi(p) + C $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( \bar T\)&lt;/span&gt; is the average temperature
+through the layer from &lt;span class="math"&gt;\( p_0\)&lt;/span&gt; to &lt;span class="math"&gt;\( p\)&lt;/span&gt;.
+Since &lt;span class="math"&gt;\( \phi(p_0) = 0\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ C = \ln{p_0} $$&lt;/div&gt;
+&lt;p&gt;Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi(p) = R\bar T\ln{(p_0/p)} $$&lt;/div&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.io,2015-05-02:hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
+unit area, of the air column above that altitude. The pressure,
+therefore, decreases with altitude as there is less air above pressing
+down. To find the rate of decrease of pressure with height, consider a
+vertical column of air with unit cross-sectional area, having
+pressure &lt;span class="math"&gt;\( p\)&lt;/span&gt; at height &lt;span class="math"&gt;\( z
+$. At height $ z + dz\)&lt;/span&gt; the pressure
+has decreased to some value &lt;span class="math"&gt;\( p-dp\)&lt;/span&gt;, and the
+pressure difference &lt;span class="math"&gt;\( dp\)&lt;/span&gt; is equal to the weight
+of the slice of the vertical air column having thickness &lt;span class="math"&gt;\( dz\)&lt;/span&gt;
+(at height &lt;span class="math"&gt;\( z\)&lt;/span&gt;).
+Assuming &lt;span class="math"&gt;\( dz\)&lt;/span&gt; is small enough that the air
+density, &lt;span class="math"&gt;\( \rho\)&lt;/span&gt;, and the acceleration due to
+gravity, &lt;span class="math"&gt;\( g\)&lt;/span&gt;, can both be considered constant
+within the slice:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dp = -g \rho dz $$&lt;/div&gt;
+&lt;p&gt;Here &lt;span class="math"&gt;\( g\)&lt;/span&gt; is the acceleration of gravity that
+transforms the areal mass element &lt;span class="math"&gt;\( \rho dz\)&lt;/span&gt; into
+an areal weight element &lt;span class="math"&gt;\( g\rho dz\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This equation is called the &lt;em&gt;hydrostatic equation&lt;/em&gt;. It is commonly
+written as:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial p}{\partial z} = -g \rho $$&lt;/div&gt;
+&lt;p&gt;This expresses that the upward vertical pressure-gradient force is
+balanced by the downward gravitational force, a situation usually
+referred to as &lt;em&gt;hydrostatic equilibrium&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;With increasing altitude, the density of air also decreases (e.g. from
+an average of 1.2 kg/m^3^ at the surface to an average of 0.7 kg/m^3^ at
+5 km); hence the rate of change of pressure with height decreases with
+height. Air temperature also affects density (in a way described by the
+equation of state), and therefore the rate of pressure decrease with
+altitude.&lt;/p&gt;
+&lt;p&gt;Substituting in the equation of state allows us to integrate the
+hydrostatic equation to obtain an expression for &lt;span class="math"&gt;\( p(z)\)&lt;/span&gt;.
+The equation of state for dry air is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( R = R^{*}/m\)&lt;/span&gt; is the individual gas
+constant for dry air, and &lt;span class="math"&gt;\( R^{*}\)&lt;/span&gt; and &lt;span class="math"&gt;\( m
+are the universal gas constant and the molecular weight
+of dry air, respectively. (The equation of state for moist air can be
+obtained by replacing $ T\)&lt;/span&gt; with &lt;span class="math"&gt;\( T_v\)&lt;/span&gt;,
+which is the &lt;em&gt;virtual temperature&lt;/em&gt;. It can be shown
+that moist air is lighter than dry air of the same temperature and
+pressure, because the water vapour is lighter than the dry air it
+replaces; so that in cases where only the density of air is important,
+dry air of slightly higher temperature may be substituted for moist air.
+Virtual temperature is the fictitious temperature to which dry air must
+be raised to have the same density as the moist air in question, and of
+course it depends on the moisture content as well as the pressure.)&lt;/p&gt;
+&lt;p&gt;Making this substitution gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial p}{\partial z} = -\frac{g}{RT}p
+$$&lt;/div&gt;
+&lt;p&gt;and hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{dp}{p} = \frac{g}{RT}dz $$&lt;/div&gt;
+&lt;p&gt;By integration:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = p_0 \exp \left( -\frac{g}{R} \int_{z_0}^z
+\frac{1}{T} dz' \right) $$&lt;/div&gt;
+&lt;p&gt;(assuming &lt;span class="math"&gt;\( g\)&lt;/span&gt; is constant with height).&lt;/p&gt;
+&lt;p&gt;In the special case where the temperature is constant with height, the
+pressure profile is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = p_0 \exp \left( -\frac{g(z-z_0)}{RT} \right)
+$$&lt;/div&gt;
+&lt;p&gt;The temperature in the atmosphere varies by a factor of two, whereas the
+pressure varies by six orders of magnitude.&lt;/p&gt;
+&lt;h2&gt;Model atmospheres&lt;/h2&gt;
+&lt;p&gt;The following is question 3.5 from &lt;a href="https://www.elsevier.com/books/a-short-course-in-cloud-physics/yau/978-0-7506-3215-7"&gt;&lt;em&gt;A Short Course in Cloud Physics&lt;/em&gt;,
+by Rogers and
+Yau&lt;/a&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Two model atmospheres often used in theoretical work are the
+homogeneous atmosphere:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\( \rho(z) = \rho_0 $\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;and the exponential atmosphere:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\( \rho(z) = \rho_0 e^{-z/H} $\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;where&lt;/em&gt; &lt;span class="math"&gt;\( \rho_0\)&lt;/span&gt; &lt;em&gt;is the density at the
+surface and H is called the scale height of the atmosphere. The top of
+the homogeneous atmosphere is defined as the altitude where the
+pressure falls to zero. Prove that the height of the top of the
+homogeneous atmosphere equals the scale height of the exponential
+atmosphere.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;For this problem we need the equation of &lt;a href="en.wikipedia.org/wiki/Hydrostatic_equilibrium"&gt;hydrostatic
+balance&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial p}{\partial z} = -\rho(z) g $$&lt;/div&gt;
+&lt;p&gt;which describes the equilibrium achieved in a fluid under gravity, where
+the upward&lt;a href="en.wikipedia.org/wiki/Pressure-gradient_force"&gt;pressure gradient
+force&lt;/a&gt; balances the
+opposing force due to gravity.&lt;/p&gt;
+&lt;p&gt;First consider the &lt;a href="http://glossary.ametsoc.org/wiki/Homogeneous_atmosphere"&gt;homogeneous
+atmosphere&lt;/a&gt;;
+using this equation it is very simple to calculate the height at which
+the pressure falls to zero because, since the density is constant, the
+gradient of pressure with height is also constant:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial p}{\partial z} = -\rho_0 g $$&lt;/div&gt;
+&lt;p&gt;That is, the pressure falls off linearly:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p(z) = \left( -\rho_0 g \right) z + p_0 $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( p_0\)&lt;/span&gt; is the pressure at the surface
+(&lt;span class="math"&gt;\( z = 0\)&lt;/span&gt;). From this equation we see that the
+pressure falls to zero when:&lt;/p&gt;
+&lt;div class="math"&gt;$$ z|_{p=0} = \frac{p_0}{\rho_0 g} $$&lt;/div&gt;
+&lt;p&gt;Now consider the &lt;a href="http://en.wikipedia.org/wiki/Barometric_formula"&gt;exponential
+atmosphere&lt;/a&gt;; we can
+determine &lt;em&gt;H&lt;/em&gt; in the following way. First, we integrate the equation for
+hydrostatic balance from some height &lt;span class="math"&gt;\( z = z'\)&lt;/span&gt; up
+to &lt;span class="math"&gt;\( z = \infty\)&lt;/span&gt; to obtain the pressure at height
+&lt;span class="math"&gt;\($ z'\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \int_{z'}^{\infty} \frac{\partial p}{\partial z} dz =
+-\rho_0 g \int_{z'}^{\infty} e^{-z/H} dz $$&lt;/div&gt;
+&lt;p&gt;If we assume that the pressure tends to zero as height tends to
+infinity, and we set &lt;span class="math"&gt;\( z' = 0\)&lt;/span&gt;, then:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p_0 = \rho_0 g H $$&lt;/div&gt;
+&lt;p&gt;Consequently:&lt;/p&gt;
+&lt;div class="math"&gt;$$ H = \frac{p_0}{\rho_0 g} $$&lt;/div&gt;
+&lt;p&gt;Hence, as long as &lt;span class="math"&gt;\( p_0\)&lt;/span&gt; has the same value in
+both the homogeneous and exponential atmospheres, the height of the top
+of the homogeneous atmosphere is equal to the scale height of the
+exponential atmosphere.&lt;/p&gt;
+&lt;div&gt;
+
+[![Pressure (mb) vs. height (m) for two model
+atmospheres](https://plot.ly/~0x7df/11.png)](https://plot.ly/~0x7df/11/ "Pressure (mb) vs. height (m) for two model atmospheres")  
+&lt;https://plot.ly/embed.js&gt;
+
+&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry></feed>

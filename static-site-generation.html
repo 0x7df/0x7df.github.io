@@ -5,16 +5,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="This post discusses moving setting up and using a static site generator, Pelican, and moving existing posts from Wordpress to Pelican. Comparing and choosing a generator Many options are available ...">
-        <meta name="keywords" content="blog, pelican, publishing, python">
-        <link rel="icon" href="/favicon.ico">
+        <meta name="keywords" content="blog, github, latex, pelican, publishing, python">
+        <link rel="icon" href="http://0x7df.io/favicon.ico">
 
-        <title>Static site generators - Pelican and Nikola - 0x7df</title>
+        <title>Static site generation, Pelican, and GitHub hosting - 0x7df</title>
 
         <!-- Stylesheets -->
-        <link href="/theme/css/all.min.css" rel="stylesheet">
+        <link href="http://0x7df.io/theme/css/all.min.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
+        <link href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.io/feeds/programming.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -36,14 +38,14 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="/"><img class="mr20" src="/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                        <a class="pull-left" href="http://0x7df.io/"><img class="mr20" src="http://0x7df.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
                     </div>
                     <div class="nav pull-right">
                                 <a href="http://0x7df.io">Home</a>
-                                <a href="/">Blog Home</a>
-                                <a href="/categories.html">Categories</a>
-                            <a  href="/pages/0x7df-application.html">0x7df application</a>
-                            <a  href="/pages/about.html">About</a>
+                                <a href="http://0x7df.io/">Blog Home</a>
+                                <a href="http://0x7df.io/categories.html">Categories</a>
+                            <a  href="http://0x7df.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="http://0x7df.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -55,13 +57,13 @@
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">Static site generators - Pelican and Nikola</h1>
-                      <p class="header-date">By <a href="/author/0x7df.html">0x7df</a>, Sat 03 October 2015, modified Sat 03 October 2015, in category <a href="/category/review.html">Review</a></p>
+                      <h1 class="header-title">Static site generation, Pelican, and GitHub hosting</h1>
+                      <p class="header-date">By <a href="http://0x7df.io/author/0x7df.html">0x7df</a>, Sat 03 October 2015, modified Sat 03 October 2015, in category <a href="http://0x7df.io/category/programming.html">Programming</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="/tag/blog.html">blog</a>, <a href="/tag/pelican.html">pelican</a>, <a href="/tag/publishing.html">publishing</a>, <a href="/tag/python.html">python</a>                      </p>
+<a href="http://0x7df.io/tag/blog.html">blog</a>, <a href="http://0x7df.io/tag/github.html">github</a>, <a href="http://0x7df.io/tag/latex.html">latex</a>, <a href="http://0x7df.io/tag/pelican.html">pelican</a>, <a href="http://0x7df.io/tag/publishing.html">publishing</a>, <a href="http://0x7df.io/tag/python.html">python</a>                      </p>
                   </div>
               </div>
         </div>
@@ -135,7 +137,7 @@ delimiters:</p>
 
 
 <p>for in-line equations), was both annoying and unnecessary in theory (since
-both platforms are using LaTeX, dammit), and is the subject of <a href="/drafts/slug.html">a different
+both platforms are using LaTeX, dammit), and is the subject of <a href="http://0x7df.io/drafts/slug.html">a different
 post</a>. Once
 done, I could move on to themes.</p>
 <h2>Pelican themes</h2>
@@ -152,6 +154,53 @@ Pelican installation directory.)</p>
 <p>(Afterwards I realised a <a href="http://github.com">GitHub</a> repository <a href="https://github.com/getpelican/pelican-themes">pelican-themes</a> containing
 a large number of themes is available, making it a lot easier to switch while
 looking for a good theme.)</p>
+<h2>Deployment to GitHub</h2>
+<p>Although I have a domain - <a href="http://0x7df.io">0x7df.io</a> - and a website hosted
+on <a href="http://aws.amazon.com/">Amazon Web Services</a>, I wanted both to keep this separate to begin
+with, and try out hosting on <a href="https://pages.github.com/">GitHub Pages</a>.</p>
+<p>There are two ways to manage a website/blog on GitHub pages. The first is to
+create a special branch, which has to be called <code>gh-pages</code> inside a repository;
+the web documents committed on that branch then become available at:
+<code>http://username.github.io/project/</code>. This is ideal for creating
+project-specific sites, like documentation. The second method, which is what I
+used, is to create a special repository, called <code>username.github.io</code> which
+contains the web pages. These are then available at
+<code>http://username.github.io/</code>; they're considered the general user or
+organisation web pages, as opposed to being specific to any one project. In
+this case, the data doesn't need to be on the <code>gh-pages</code> branch, but can be on
+the more usual branch <code>master</code>.</p>
+<p>I used the <a href="https://github.com/davisp/ghp-import/">ghp-import</a> tool to do the uploading - this is used by the
+Pelican <code>Makefile</code> and is recommended <a href="http://martinbrochhaus.com/pelican2.html">elsewhere</a>. I installed it
+with:</p>
+<div class="highlight"><pre>sudo apt-get install ghp-import
+</pre></div>
+
+
+<p>even though this isn't documented. As suggested <a href="http://martinbrochhaus.com/pelican2.html#comment-1819417669">here</a>, I added all
+the content and tools to a
+different branch called <code>source</code>, but it can be anything - to keep it
+separate from the output, which I want to commit to the <code>master</code> branch. After
+making changes to the content, running <code>make html</code> to re-build, checking on a
+local development server that runs in the background (initiated by <code>python -m
+pelican.server &amp;</code> inside the <code>output</code> directory), then committing to the
+<code>source</code> branch of my repository, I can just run <code>make github</code> to call
+<code>ghp-import</code>. This commits the changes to the built website (in the <code>output</code>
+directory) to branch <code>master</code>, and pushes the modified <code>master</code> branch to the
+repository on GitHub. With this workflow there is never a need to explicitly
+switch to <code>master</code> and do any commits - this is all handled by <code>ghp-import</code>.</p>
+<p>If you're using the project-specific <code>gh-pages</code> branch, the <code>ghp-import</code> will
+still do the job. It defaults actually to committing the built website to this
+branch, and in my workflow requires the <code>-b master</code> switch to tell it to commit
+to <code>master</code> instead. Note that the <code>-p</code> flag to <code>ghp-import</code> will handle the
+push to GitHub, although in the Pelican Makefile this flag isn't used and the
+push is a separate command.</p>
+<p>Either way, it's worth being very clear that <code>ghp-import</code> treats the branch it
+commits to - <code>gh-pages</code> by default or whatever branch you specify if the <code>-b</code>
+flag is supplied - as <em>totally derivative</em>. Assume it blows away whatever is
+already there and replaces it with the new content. So you never manually
+modify anything on that branch; keep all your content, configuration files,
+tools, and anything else you care about, on a different branch, and keep the
+destination branch for <code>ghp-import</code> clean.</p>
 
 
         
@@ -165,9 +214,10 @@ looking for a good theme.)</p>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="/archives.html">Archives</a></li>
-                            <li><a href="/tags.html">Tags</a></li>
-                            <li><a href="/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
