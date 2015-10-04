@@ -1,9 +1,9 @@
-Title: StaProgrammingnerators - Pelican and Nikola
+Title: Static site generation, Pelican, and GitHub hosting
 Date: 2015-10-03 20:06
-Category: Review
+Category: Programming
 Modified: 2015-10-03 20:06
-Tags: pelican, publishing, blog, python
-Slug: static-site-generators
+Tags: pelican, publishing, blog, python, github, latex
+Slug: static-site-generation
 Authors: 0x7df
 Summary: Comparison of static site generators
 
@@ -122,7 +122,7 @@ Deployment to GitHub
 [peliblog]: http://martinbrochhaus.com/pelican2.html
 [blogcomm]: http://martinbrochhaus.com/pelican2.html#comment-1819417669
 
-Although I have a domain - [0x7df.io][http://0x7df.io] - and a website hosted
+Although I have a domain - [0x7df.io](http://0x7df.io) - and a website hosted
 on [Amazon Web Services][aws], I wanted both to keep this separate to begin
 with, and try out hosting on [GitHub Pages][ghp].
 
