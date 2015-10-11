@@ -4,6 +4,7 @@ Author: 0x7df
 Category: Uncategorized
 Slug: connecting-wordpress-to-twitter-via-ifttt
 Status: published
+Tags: computing
 
 It's possible to string together web services - like
 [WordPress](https://wordpress.com), [Twitter](http://twitter.com),

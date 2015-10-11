@@ -2,7 +2,7 @@ Title: CUDA basics part 1
 Date: 2015-04-05 20:59
 Author: 0x7df
 Category: Computer science
-Tags: C, CUDA, GPU, HPC, massively parallel, parallel computing, parallel programming
+Tags: c, cuda, gpu, hpc, massively parallel, parallel computing, parallel programming
 Slug: cuda-basics-part-1
 Status: published
 

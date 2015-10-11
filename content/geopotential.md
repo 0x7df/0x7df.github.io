@@ -4,6 +4,7 @@ Author: 0x7df
 Category: Atmospheric science
 Slug: geopotential
 Status: published
+Tags: atmospheric science, meteorology, physics
 
 The *geopotential*:
 

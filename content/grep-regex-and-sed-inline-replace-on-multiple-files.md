@@ -4,6 +4,7 @@ Author: 0x7df
 Category: Uncategorized
 Slug: slug
 Status: draft
+Tags: bash, computing, linux, programming
 
 I am importing my WordPress blog posts into Pelican, in which I'm using the
 render-math plugin. This expects in-line equations to be delimited by single

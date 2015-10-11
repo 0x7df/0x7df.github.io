@@ -5,6 +5,7 @@ Category: Maths
 Tags: combinations, combinatorics, factorial, julia, permutations, python
 Slug: combinations-and-permutations
 Status: published
+Summary: The mathematics of combinations and permutations
 
 [![abstract-balls-blue-200](https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png)](https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png)I
 recently had to explain the formulae for calculating the number of

@@ -4,6 +4,7 @@ Author: 0x7df
 Category: Atmospheric science
 Slug: virtual-temperature
 Status: published
+Tags: atmospheric science, meteorology, physics
 
 Equation of state for dry air
 -----------------------------

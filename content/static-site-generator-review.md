@@ -4,8 +4,9 @@ Category: Programming
 Modified: 2015-10-03 20:06
 Tags: pelican, publishing, blog, python, github, latex
 Slug: static-site-generation
-Authors: 0x7df
+Author: 0x7df
 Summary: Comparison of static site generators
+Status: published
 
 [wordpress]: http://www.wordpress.com
 [pelican]: http://blog.getpelican.com
