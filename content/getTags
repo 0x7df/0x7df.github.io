@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Get unique tags from all Blog posts
+
+# Print all lines beginning with "Tags: " in all files with the ".md" extension
+# (i.e. Markdown), extract all the comma-separated tags from these lines,
+# remove leading zeroes, dort alphabetically and remove repeated items, then
+# write to file "./tags.txt".
+
+grep -h '^Tags\: ' *.md \
+  | cut -d":" -f2       \
+  | awk -F, '{ for (i = 0; ++i <= NF;) print $i }' \
+  | sed 's/^ //'        \
+  | sort | uniq         \
+> ./tags.txt
+
