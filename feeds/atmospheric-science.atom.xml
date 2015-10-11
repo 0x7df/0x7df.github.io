@@ -113,7 +113,7 @@ virtual temperature:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary></entry><entry><title>Geopotential</title><link href="http://0x7df.github.io/geopotential.html" rel="alternate"></link><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
+&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Geopotential</title><link href="http://0x7df.github.io/geopotential.html" rel="alternate"></link><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
 &lt;p&gt;is the gravitational potential - i.e. the gravitational potential energy
 per unit mass - at a location in the earth's atmosphere. It is often
@@ -254,7 +254,7 @@ Since &lt;span class="math"&gt;\( \phi(p_0) = 0\)&lt;/span&gt;:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
+&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
 unit area, of the air column above that altitude. The pressure,
 therefore, decreases with altitude as there is less air above pressing
 down. To find the rate of decrease of pressure with height, consider a

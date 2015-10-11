@@ -381,7 +381,7 @@ deviceC, ...&lt;/code&gt;&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="C"></category><category term="CUDA"></category><category term="GPU"></category><category term="HPC"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
 Architecture)&lt;/a&gt;is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
@@ -768,4 +768,4 @@ J. J. Dongarra and A. J. van der Steen (2012).
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="C"></category><category term="CUDA"></category><category term="GPU"></category><category term="HPC"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry></feed>
+&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry></feed>
