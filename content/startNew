@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TITLE=$(echo ${1} | tr " " _ | tr [[:upper:]] [[:lower:]])
+TITLE=$(echo ${1} | tr " " "-" | tr [[:upper:]] [[:lower:]])
 
 echo "Title: ${1}
 Date: 
