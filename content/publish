@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sed -i -e s/'^Date: $'/"Date: $(date +"%Y-%M-%d %H:%m")"/ \
+       -e s/'^Status: draft$'/"Status: published"/        \
+${1}
