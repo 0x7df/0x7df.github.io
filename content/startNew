@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "Title: 
+Date: 
+Category: 
+Modified: 
+Tags: 
+Slug: 
+Author: 0x7df
+Summary: 
+Status: draft
+
+" > ${1}.md
+ 
