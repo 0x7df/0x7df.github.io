@@ -1,8 +1,10 @@
 #!/bin/bash
 
-echo "Title: 
+TITLE=$(echo ${1} | tr " " _ | tr [[:upper:]] [[:lower:]])
+
+echo "Title: ${1}
 Date: 
-Category: 
+Category: ${2} 
 Modified: 
 Tags: 
 Slug: 
@@ -10,5 +12,5 @@ Author: 0x7df
 Summary: 
 Status: draft
 
-" > ${1}.md
+" > ${TITLE}.md
  
