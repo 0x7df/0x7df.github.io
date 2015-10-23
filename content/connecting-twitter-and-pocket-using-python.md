@@ -1,12 +1,12 @@
 Title: Connecting Twitter and Pocket using Python
-Date: 
+Date: 2015-46-23 09:10
 Category: programming 
 Modified: 
 Tags: python, api, twitter, pocket 
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 [am]: http://adilmoujahid.com/posts/2014/07/twitter-analytics/
 [Tweepy]: http://tweepy.readthedocs.org
