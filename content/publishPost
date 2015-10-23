@@ -1,0 +1,18 @@
+#!/bin/bash
+
+sed -i -e s/'^Date: $'/"Date: $(date +"%Y-%m-%d %H:%M")"/ \
+       -e s/'^Status: draft$'/"Status: published"/        \
+${1}
+
+echo "Publishing ${1}"
+
+git status
+git add ${1}
+git status
+git commit -m"Published ${1}"
+git status
+git push
+git status
+
+make -C .. html
+make -C .. github
