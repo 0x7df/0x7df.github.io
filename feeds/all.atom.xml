@@ -1,5 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-10-11T00:00:00+01:00</updated><entry><title>Remembering Bayes's formula</title><link href="http://0x7df.github.io/remembering-bayess-formula.html" rel="alternate"></link><updated>2015-10-11T00:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-11:remembering-bayess-formula.html</id><summary type="html">&lt;p&gt;It's probably just me, but I could never remember Bayes's formula:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-10-23T00:00:00+01:00</updated><entry><title>Connecting Twitter and Pocket using Python</title><link href="http://0x7df.github.io/connecting-twitter-and-pocket-using-python.html" rel="alternate"></link><updated>2015-10-23T00:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-23:connecting-twitter-and-pocket-using-python.html</id><summary type="html">&lt;p&gt;&lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;This&lt;/a&gt; blog post gives an intro to connecting to the Twitter Streaming
+API using the &lt;a href="https://python.org"&gt;Python&lt;/a&gt; library &lt;a href="http://tweepy.readthedocs.org"&gt;Tweepy&lt;/a&gt;. There are two Python routines:
+one to connect to Twitter and download relevant tweets to a file, and a
+second to post-process the file using &lt;a href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt; and create some graphs
+using &lt;a href="http://matplotlib.org"&gt;Matplotlib&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In particular the scripts use &lt;a href="https://en.wikipedia.org/wiki/Regular_expression"&gt;regular expressions&lt;/a&gt; to identify tweets
+that contain links, where those tweets have previously been filtered by
+keywords such as 'python', 'javascript', 'tutorial', etc.&lt;/p&gt;
+&lt;p&gt;I liked the idea of extracting these links automatically, and thought about
+going a step further and collecting those links in &lt;a href="http://getpocket.com"&gt;Pocket&lt;/a&gt;, using the
+&lt;a href="http://getpocket.com/developer/"&gt;Pocket API&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;None of this required the tweets to be written to a file first, so I adapted
+the scripts to do everything in real time rather than post-processing, and
+Pandas wasn't required.&lt;/p&gt;
+&lt;p&gt;The script needs to connect to the Pocket account using previously retrieved
+credentials. It uses &lt;a href="https://github.com/tapanpandita/pocket"&gt;pocket&lt;/a&gt;, another Python library for
+connecting to the Pocket API; an example of its use is &lt;a href="https://w.wol.ph/2013/09/18/batch-adding-data-to-pocket/"&gt;here&lt;/a&gt;.
+My code for connecting to Pocket looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pocket&lt;/span&gt;
+
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pocket_api_key.txt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_uri&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; \
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c"&gt;# Pocket authentication&lt;/span&gt;
+    &lt;span class="n"&gt;pocket_instance&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pocket&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Pocket&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next, I connect to the Twitter Streaming API using 
+the &lt;code&gt;filter&lt;/code&gt; method, which returns only tweets that contain certain pre-defined
+keywords. This is straight from &lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;the original post&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy.streaming&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;StreamListener&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OAuthHandler&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Stream&lt;/span&gt;
+
+&lt;span class="c"&gt;# Read the Twitter API key data from a file (not in the repository)&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;twitter_api_key.txt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; \
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+
+&lt;span class="c"&gt;# Set the keywords to filter the Twitter stream for&lt;/span&gt;
+&lt;span class="n"&gt;keywords&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;fortran&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;bash&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;linux&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;css&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s"&gt;&amp;#39;jquery&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;api&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;git&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;vim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;julia&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c"&gt;# This is a basic listener that prints received tweets to stdout&lt;/span&gt;
+&lt;span class="c"&gt;# Over-ride the tweepy.Stream listener to provide methods&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;StdOutListener&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;StreamListener&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Create stream listener class for Twitter Streaming API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;on_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Process individual tweet.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;myrespond&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;on_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Handle error from Twitter Streaming API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;420&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+
+        &lt;span class="c"&gt;# Handle Twitter authentication and connection to Twitter Streaming API&lt;/span&gt;
+        &lt;span class="n"&gt;listener&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StdOutListener&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;auth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OAuthHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Stream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;listener&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c"&gt;# Filter Twitter stream according to keywords&lt;/span&gt;
+        &lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;track&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(Clearly the error-handling needs finishing.) Each tweet is processed by the
+function &lt;code&gt;myrespond()&lt;/code&gt;, which looks for tweets that also
+contain the word 'tutorial', and extracts the link if there is one.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Get dictionary value given key.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;word_in_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Search for work in text string.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;extract_link&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Extract link from tweet or return null string.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;regex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;r&amp;#39;https?:..[^\s&amp;lt;&amp;gt;&amp;quot;]+|www\.[^\s&amp;lt;&amp;gt;&amp;quot;]+&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;match&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;regex&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;myrespond&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Respond to relevant tweet.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;tweet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;lang&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;en&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;extract_link&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word_in_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;tutorial&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;pocket_instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-----------------------------------------------------------&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;myrespond()&lt;/code&gt; function uses the &lt;code&gt;json&lt;/code&gt; library to turn the JSON-format data
+containing the tweet into a Python dictionary, then another function &lt;code&gt;getdata&lt;/code&gt;
+to access individual data items; if the language is English, then the text of
+the tweet is extracted and the &lt;code&gt;re&lt;/code&gt; library used to return the link. Finally,
+the Pocket API is used to add the link to Pocket.&lt;/p&gt;
+&lt;p&gt;There's probably some sophistication that could be added to this to ensure
+better quality links are identified; I could, for example, use my own tweets
+and blog posts as a reference corpus, and test the similarity of tweets
+to the text in my corpus; and then only add links that have a similarity score
+above some threshold.&lt;/p&gt;
+&lt;p&gt;The full code is on &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;, at
+&lt;a href="https://github.com/0x7df/twitter2pocket"&gt;https://github.com/0x7df/twitter2pocket&lt;/a&gt;.&lt;/p&gt;</summary><category term="python"></category><category term="api"></category><category term="twitter"></category><category term="pocket"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
+&lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
+&lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
+&lt;p&gt;Many options are available for static site generation, with
+&lt;a href="http://octopress.org"&gt;Octopress&lt;/a&gt; being a popular choice. I was interested in a Python-
+based one, &lt;a href="https://jakevdp.github.io/blog/2013/05/07/migrating-from-octopress-to-pelican"&gt;for reasons that have been discussed elsewhere&lt;/a&gt;, and the
+usual options that come up are &lt;a href="http://hyde.github.io"&gt;Hyde&lt;/a&gt;, &lt;a href="https://getnikola.com"&gt;Nikola&lt;/a&gt;, and
+Pelican. &lt;a href="https://jakevdp.github.io/blog/2013/05/07/migrating-from-octopress-to-pelican"&gt;The article cited above&lt;/a&gt; suggested Hyde wasn't
+well documented, so I skipped that altogether in the interests of time. The
+Nikola documentation looked great, so I started with that; however, I spent
+quite a while trying to install it, eventually with no luck. I needed to
+install some prerequisites, the installation took a long time, and I ended up
+with some missing packages. I'm sure another hour of Googling
+&lt;a href="http://stackoverflow.com"&gt;StackOverflow&lt;/a&gt; and messing would have sorted it, but I lost
+interest and moved on to Pelican; this &lt;a href="http://docs.getpelican.com/en/stable/quickstart.html"&gt;installed out of the box in a few
+seconds&lt;/a&gt;, and I was away.&lt;/p&gt;
+&lt;h2&gt;Importing from Wordpress&lt;/h2&gt;
+&lt;p&gt;Importing from Wordpress just involves exporting the &lt;a href="http://0x7df.wordpress.com"&gt;original blog&lt;/a&gt; as
+an XML file, which can be done from the "WP Admin" menu under "Tools". Pelican
+provides a command for importing from this file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;wpfile&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;markdown&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="nb"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;--wpfile&lt;/code&gt; flag specifies that the source is Wordpress (various
+alternatives are available), the &lt;code&gt;-m&lt;/code&gt; option specified that the output should
+be Markdown (as opposed to reStructured Text), and &lt;code&gt;--dir-page&lt;/code&gt; tells Pelican
+to include the "Pages" from the Wordpress blog as well as the blog articles,
+and put them in a &lt;code&gt;pages&lt;/code&gt; directory.&lt;/p&gt;
+&lt;h2&gt;Maths pain&lt;/h2&gt;
+&lt;p&gt;The original Wordpress articles that I imported contained a lot of maths, and
+there was a significant amount of pain involved in converting the syntax used
+by Wordpress to the syntax required by Pelican. in fact, Pelican doesn't
+natively support maths, so a plugin is required: for this I used
+&lt;a href="https://github.com/barrysteyn/pelican_plugin-render_math"&gt;render-math&lt;/a&gt;. As per the docs, for this I needed to install
+&lt;a href="https://github.com/mintchaos/typogrify"&gt;Typogrify&lt;/a&gt; first, then add the following to the &lt;code&gt;pelicanconf.py&lt;/code&gt;
+settings file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;PLUGIN_PATHS = [&amp;quot;..&amp;quot;]
+PLUGINS = [&amp;quot;pelican_plugin-render_math&amp;quot;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to point Pelican at the location where I cloned the plugin.&lt;/p&gt;
+&lt;p&gt;The text wrangling that was required to convert the Wordpress-syntax maths
+delimiters:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;\&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt; ...maths... \&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to those required for Pelican (i.e.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;$$ ...maths... $$
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;for displayed equations and:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;...math...&lt;span class="err"&gt;$&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;for in-line equations), was both annoying and unnecessary in theory (since
+both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.github.io/drafts/slug.html"&gt;a different
+post&lt;/a&gt;. Once
+done, I could move on to themes.&lt;/p&gt;
+&lt;h2&gt;Pelican themes&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://pelicanthemes.com/"&gt;This website&lt;/a&gt; shows examples of available themes, from
+which I chose the &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; theme; I cloned this directly into the Pelican
+install directory:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;cd /usr/local/lib/python2.7/dist-packages/pelican/themes/
+sudo git clone https://github.com/molivier/nest.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(The &lt;code&gt;pelican-themes -lv&lt;/code&gt; command can be used to determine the path to the
+Pelican installation directory.)&lt;/p&gt;
+&lt;p&gt;(Afterwards I realised a &lt;a href="http://github.com"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/getpelican/pelican-themes"&gt;pelican-themes&lt;/a&gt; containing
+a large number of themes is available, making it a lot easier to switch while
+looking for a good theme.)&lt;/p&gt;
+&lt;h2&gt;Deployment to GitHub&lt;/h2&gt;
+&lt;p&gt;Although I have a domain - &lt;a href="http://0x7df.io"&gt;0x7df.io&lt;/a&gt; - and a website hosted
+on &lt;a href="http://aws.amazon.com/"&gt;Amazon Web Services&lt;/a&gt;, I wanted both to keep this separate to begin
+with, and try out hosting on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;There are two ways to manage a website/blog on GitHub pages. The first is to
+create a special branch, which has to be called &lt;code&gt;gh-pages&lt;/code&gt; inside a repository;
+the web documents committed on that branch then become available at:
+&lt;code&gt;http://username.github.io/project/&lt;/code&gt;. This is ideal for creating
+project-specific sites, like documentation. The second method, which is what I
+used, is to create a special repository, called &lt;code&gt;username.github.io&lt;/code&gt; which
+contains the web pages. These are then available at
+&lt;code&gt;http://username.github.io/&lt;/code&gt;; they're considered the general user or
+organisation web pages, as opposed to being specific to any one project. In
+this case, the data doesn't need to be on the &lt;code&gt;gh-pages&lt;/code&gt; branch, but can be on
+the more usual branch &lt;code&gt;master&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I used the &lt;a href="https://github.com/davisp/ghp-import/"&gt;ghp-import&lt;/a&gt; tool to do the uploading - this is used by the
+Pelican &lt;code&gt;Makefile&lt;/code&gt; and is recommended &lt;a href="http://martinbrochhaus.com/pelican2.html"&gt;elsewhere&lt;/a&gt;. I installed it
+with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install ghp-import
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;even though this isn't documented. As suggested &lt;a href="http://martinbrochhaus.com/pelican2.html#comment-1819417669"&gt;here&lt;/a&gt;, I added all
+the content and tools to a
+different branch called &lt;code&gt;source&lt;/code&gt;, but it can be anything - to keep it
+separate from the output, which I want to commit to the &lt;code&gt;master&lt;/code&gt; branch. After
+making changes to the content, running &lt;code&gt;make html&lt;/code&gt; to re-build, checking on a
+local development server that runs in the background (initiated by &lt;code&gt;python -m
+pelican.server &amp;amp;&lt;/code&gt; inside the &lt;code&gt;output&lt;/code&gt; directory), then committing to the
+&lt;code&gt;source&lt;/code&gt; branch of my repository, I can just run &lt;code&gt;make github&lt;/code&gt; to call
+&lt;code&gt;ghp-import&lt;/code&gt;. This commits the changes to the built website (in the &lt;code&gt;output&lt;/code&gt;
+directory) to branch &lt;code&gt;master&lt;/code&gt;, and pushes the modified &lt;code&gt;master&lt;/code&gt; branch to the
+repository on GitHub. With this workflow there is never a need to explicitly
+switch to &lt;code&gt;master&lt;/code&gt; and do any commits - this is all handled by &lt;code&gt;ghp-import&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you're using the project-specific &lt;code&gt;gh-pages&lt;/code&gt; branch, the &lt;code&gt;ghp-import&lt;/code&gt; will
+still do the job. It defaults actually to committing the built website to this
+branch, and in my workflow requires the &lt;code&gt;-b master&lt;/code&gt; switch to tell it to commit
+to &lt;code&gt;master&lt;/code&gt; instead. Note that the &lt;code&gt;-p&lt;/code&gt; flag to &lt;code&gt;ghp-import&lt;/code&gt; will handle the
+push to GitHub, although in the Pelican Makefile this flag isn't used and the
+push is a separate command.&lt;/p&gt;
+&lt;p&gt;Either way, it's worth being very clear that &lt;code&gt;ghp-import&lt;/code&gt; treats the branch it
+commits to - &lt;code&gt;gh-pages&lt;/code&gt; by default or whatever branch you specify if the &lt;code&gt;-b&lt;/code&gt;
+flag is supplied - as &lt;em&gt;totally derivative&lt;/em&gt;. Assume it blows away whatever is
+already there and replaces it with the new content. So you never manually
+modify anything on that branch; keep all your content, configuration files,
+tools, and anything else you care about, on a different branch, and keep the
+destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Remembering Bayes's formula</title><link href="http://0x7df.github.io/remembering-bayess-formula.html" rel="alternate"></link><updated>2015-10-23T00:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:remembering-bayess-formula.html</id><summary type="html">&lt;p&gt;It's probably just me, but I could never remember Bayes's formula:&lt;/p&gt;
 &lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A) P(A)}{P(B)} $$&lt;/div&gt;
 &lt;p&gt;as-is. I don't use it very often, so I didn't have it at my fingertips.
 However, I found it easy to remember:&lt;/p&gt;
@@ -142,130 +396,7 @@ in the test.&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="bayes"></category><category term="mathematics"></category><category term="probabililty"></category><category term="statistics"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
-&lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
-&lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
-&lt;p&gt;Many options are available for static site generation, with
-&lt;a href="http://octopress.org"&gt;Octopress&lt;/a&gt; being a popular choice. I was interested in a Python-
-based one, &lt;a href="https://jakevdp.github.io/blog/2013/05/07/migrating-from-octopress-to-pelican"&gt;for reasons that have been discussed elsewhere&lt;/a&gt;, and the
-usual options that come up are &lt;a href="http://hyde.github.io"&gt;Hyde&lt;/a&gt;, &lt;a href="https://getnikola.com"&gt;Nikola&lt;/a&gt;, and
-Pelican. &lt;a href="https://jakevdp.github.io/blog/2013/05/07/migrating-from-octopress-to-pelican"&gt;The article cited above&lt;/a&gt; suggested Hyde wasn't
-well documented, so I skipped that altogether in the interests of time. The
-Nikola documentation looked great, so I started with that; however, I spent
-quite a while trying to install it, eventually with no luck. I needed to
-install some prerequisites, the installation took a long time, and I ended up
-with some missing packages. I'm sure another hour of Googling
-&lt;a href="http://stackoverflow.com"&gt;StackOverflow&lt;/a&gt; and messing would have sorted it, but I lost
-interest and moved on to Pelican; this &lt;a href="http://docs.getpelican.com/en/stable/quickstart.html"&gt;installed out of the box in a few
-seconds&lt;/a&gt;, and I was away.&lt;/p&gt;
-&lt;h2&gt;Importing from Wordpress&lt;/h2&gt;
-&lt;p&gt;Importing from Wordpress just involves exporting the &lt;a href="http://0x7df.wordpress.com"&gt;original blog&lt;/a&gt; as
-an XML file, which can be done from the "WP Admin" menu under "Tools". Pelican
-provides a command for importing from this file:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;wpfile&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;markdown&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="nb"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;The &lt;code&gt;--wpfile&lt;/code&gt; flag specifies that the source is Wordpress (various
-alternatives are available), the &lt;code&gt;-m&lt;/code&gt; option specified that the output should
-be Markdown (as opposed to reStructured Text), and &lt;code&gt;--dir-page&lt;/code&gt; tells Pelican
-to include the "Pages" from the Wordpress blog as well as the blog articles,
-and put them in a &lt;code&gt;pages&lt;/code&gt; directory.&lt;/p&gt;
-&lt;h2&gt;Maths pain&lt;/h2&gt;
-&lt;p&gt;The original Wordpress articles that I imported contained a lot of maths, and
-there was a significant amount of pain involved in converting the syntax used
-by Wordpress to the syntax required by Pelican. in fact, Pelican doesn't
-natively support maths, so a plugin is required: for this I used
-&lt;a href="https://github.com/barrysteyn/pelican_plugin-render_math"&gt;render-math&lt;/a&gt;. As per the docs, for this I needed to install
-&lt;a href="https://github.com/mintchaos/typogrify"&gt;Typogrify&lt;/a&gt; first, then add the following to the &lt;code&gt;pelicanconf.py&lt;/code&gt;
-settings file:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;PLUGIN_PATHS = [&amp;quot;..&amp;quot;]
-PLUGINS = [&amp;quot;pelican_plugin-render_math&amp;quot;]
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;to point Pelican at the location where I cloned the plugin.&lt;/p&gt;
-&lt;p&gt;The text wrangling that was required to convert the Wordpress-syntax maths
-delimiters:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;\&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt; ...maths... \&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;to those required for Pelican (i.e.:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;$$ ...maths... $$
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;for displayed equations and:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;...math...&lt;span class="err"&gt;$&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;for in-line equations), was both annoying and unnecessary in theory (since
-both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.github.io/drafts/slug.html"&gt;a different
-post&lt;/a&gt;. Once
-done, I could move on to themes.&lt;/p&gt;
-&lt;h2&gt;Pelican themes&lt;/h2&gt;
-&lt;p&gt;&lt;a href="http://pelicanthemes.com/"&gt;This website&lt;/a&gt; shows examples of available themes, from
-which I chose the &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; theme; I cloned this directly into the Pelican
-install directory:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;cd /usr/local/lib/python2.7/dist-packages/pelican/themes/
-sudo git clone https://github.com/molivier/nest.git
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;(The &lt;code&gt;pelican-themes -lv&lt;/code&gt; command can be used to determine the path to the
-Pelican installation directory.)&lt;/p&gt;
-&lt;p&gt;(Afterwards I realised a &lt;a href="http://github.com"&gt;GitHub&lt;/a&gt; repository &lt;a href="https://github.com/getpelican/pelican-themes"&gt;pelican-themes&lt;/a&gt; containing
-a large number of themes is available, making it a lot easier to switch while
-looking for a good theme.)&lt;/p&gt;
-&lt;h2&gt;Deployment to GitHub&lt;/h2&gt;
-&lt;p&gt;Although I have a domain - &lt;a href="http://0x7df.io"&gt;0x7df.io&lt;/a&gt; - and a website hosted
-on &lt;a href="http://aws.amazon.com/"&gt;Amazon Web Services&lt;/a&gt;, I wanted both to keep this separate to begin
-with, and try out hosting on &lt;a href="https://pages.github.com/"&gt;GitHub Pages&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;There are two ways to manage a website/blog on GitHub pages. The first is to
-create a special branch, which has to be called &lt;code&gt;gh-pages&lt;/code&gt; inside a repository;
-the web documents committed on that branch then become available at:
-&lt;code&gt;http://username.github.io/project/&lt;/code&gt;. This is ideal for creating
-project-specific sites, like documentation. The second method, which is what I
-used, is to create a special repository, called &lt;code&gt;username.github.io&lt;/code&gt; which
-contains the web pages. These are then available at
-&lt;code&gt;http://username.github.io/&lt;/code&gt;; they're considered the general user or
-organisation web pages, as opposed to being specific to any one project. In
-this case, the data doesn't need to be on the &lt;code&gt;gh-pages&lt;/code&gt; branch, but can be on
-the more usual branch &lt;code&gt;master&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;I used the &lt;a href="https://github.com/davisp/ghp-import/"&gt;ghp-import&lt;/a&gt; tool to do the uploading - this is used by the
-Pelican &lt;code&gt;Makefile&lt;/code&gt; and is recommended &lt;a href="http://martinbrochhaus.com/pelican2.html"&gt;elsewhere&lt;/a&gt;. I installed it
-with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install ghp-import
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;even though this isn't documented. As suggested &lt;a href="http://martinbrochhaus.com/pelican2.html#comment-1819417669"&gt;here&lt;/a&gt;, I added all
-the content and tools to a
-different branch called &lt;code&gt;source&lt;/code&gt;, but it can be anything - to keep it
-separate from the output, which I want to commit to the &lt;code&gt;master&lt;/code&gt; branch. After
-making changes to the content, running &lt;code&gt;make html&lt;/code&gt; to re-build, checking on a
-local development server that runs in the background (initiated by &lt;code&gt;python -m
-pelican.server &amp;amp;&lt;/code&gt; inside the &lt;code&gt;output&lt;/code&gt; directory), then committing to the
-&lt;code&gt;source&lt;/code&gt; branch of my repository, I can just run &lt;code&gt;make github&lt;/code&gt; to call
-&lt;code&gt;ghp-import&lt;/code&gt;. This commits the changes to the built website (in the &lt;code&gt;output&lt;/code&gt;
-directory) to branch &lt;code&gt;master&lt;/code&gt;, and pushes the modified &lt;code&gt;master&lt;/code&gt; branch to the
-repository on GitHub. With this workflow there is never a need to explicitly
-switch to &lt;code&gt;master&lt;/code&gt; and do any commits - this is all handled by &lt;code&gt;ghp-import&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;If you're using the project-specific &lt;code&gt;gh-pages&lt;/code&gt; branch, the &lt;code&gt;ghp-import&lt;/code&gt; will
-still do the job. It defaults actually to committing the built website to this
-branch, and in my workflow requires the &lt;code&gt;-b master&lt;/code&gt; switch to tell it to commit
-to &lt;code&gt;master&lt;/code&gt; instead. Note that the &lt;code&gt;-p&lt;/code&gt; flag to &lt;code&gt;ghp-import&lt;/code&gt; will handle the
-push to GitHub, although in the Pelican Makefile this flag isn't used and the
-push is a separate command.&lt;/p&gt;
-&lt;p&gt;Either way, it's worth being very clear that &lt;code&gt;ghp-import&lt;/code&gt; treats the branch it
-commits to - &lt;code&gt;gh-pages&lt;/code&gt; by default or whatever branch you specify if the &lt;code&gt;-b&lt;/code&gt;
-flag is supplied - as &lt;em&gt;totally derivative&lt;/em&gt;. Assume it blows away whatever is
-already there and replaces it with the new content. So you never manually
-modify anything on that branch; keep all your content, configuration files,
-tools, and anything else you care about, on a different branch, and keep the
-destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="bayes"></category><category term="mathematics"></category><category term="probabililty"></category><category term="statistics"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
 &lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
 &lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the
