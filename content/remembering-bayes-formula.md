@@ -1,5 +1,5 @@
 Title: Remembering Bayes's formula 
-Date:  
+Date: 2015-10-03
 Category: Statistics
 Modified: 
 Tags: bayes, mathematics, probabililty, statistics 
