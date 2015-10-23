@@ -43,7 +43,10 @@ Pandas wasn't required.
 The script needs to connect to the Pocket account using previously retrieved
 credentials. It uses [pocket][python-pocket], another Python library for
 connecting to the Pocket API; an example of its use is [here][pocket-eg].
+My code for connecting to Pocket looks like this:
 
+    import pocket
+    
     with open('pocket_api_key.txt') as fileHandle:
         (pckt_consumer_key, pckt_access_token, redirect_uri) = \
             [item.strip('\n') for item in fileHandle.readlines()]
@@ -52,7 +55,7 @@ connecting to the Pocket API; an example of its use is [here][pocket-eg].
         # Pocket authentication
         pocket_instance = pocket.Pocket(pckt_consumer_key, pckt_access_token)
 
-Next, it connects to the Twitter Streaming API using 
+Next, I connect to the Twitter Streaming API using 
 the `filter` method, which returns only tweets that contain certain pre-defined
 keywords. This is straight from [the original post][am].
 
@@ -98,9 +101,13 @@ keywords. This is straight from [the original post][am].
             # Filter Twitter stream according to keywords
             stream.filter(track=keywords)
 
-Each tweet is processed by the function `myrespond()`, which looks for tweets that also
+(Clearly the error-handling needs finishing.) Each tweet is processed by the
+function `myrespond()`, which looks for tweets that also
 contain the word 'tutorial', and extracts the link if there is one.
 
+    import re
+    import json
+    
     def getdata(tweet, key):
         """Get dictionary value given key."""
         try:
@@ -150,4 +157,5 @@ above some threshold.
 
 [GitHub]: https://github.com
 
-The full code is on [GitHub][], at https://github.com/0x7df/twitter2pocket.
+The full code is on [GitHub][], at
+[https://github.com/0x7df/twitter2pocket](https://github.com/0x7df/twitter2pocket).
