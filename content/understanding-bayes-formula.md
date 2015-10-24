@@ -1,8 +1,8 @@
 Title: Understanding Bayes's formula
 Date: 
-Category: 
+Category: statistics 
 Modified: 
-Tags: 
+Tags: mathematics, probability 
 Slug: 
 Author: 0x7df
 Summary: 
