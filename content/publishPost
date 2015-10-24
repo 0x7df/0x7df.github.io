@@ -6,13 +6,16 @@ ${1}
 
 echo "Publishing ${1}"
 
-git status
 git add ${1}
-git status
 git commit -m"Published ${1}"
-git status
 git push
-git status
 
 make -C .. html
 make -C .. github
+
+# Add trigger for IFTTT Maker channel here, using curl, to Tweet link to new
+# post
+#
+# APIKEY=$(cat ./file-containing-secret-key)
+# PAYLOAD= 'value1', 'value2', 'value3'...
+# curl -??? http://...ifttt.../{event}.../${APIKEY}
