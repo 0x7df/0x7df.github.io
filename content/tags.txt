@@ -1,19 +1,30 @@
+
+algorithm
 api
+atmospheric science
+bash
+bayes
 black body
 blog
 c
 cold war
 combinations
 combinatorics
+computing
 cuda
 cyclomatic complexity
+diffusion
 doxygen
 economics
+evolutionary algorithsm
+evolutionary computing
 exponential atmosphere
 factorial
 fluid dynamics
+fusion
 game theory
 github
+google
 gpu
 graph theory
 homogeneous atmosphere
@@ -21,26 +32,40 @@ hpc
 html
 hydrostatic balance
 hydrostatic equilibrium
+javascript
 julia
 latex
 linux
 markdown
 massively parallel
+mathematics
 mccabe
 meteorology
 nash equilibrium
+neutron transport
+nuclear
 parallel computing
 parallel programming
 particle physics
 pelican
 pep8
 permutations
+physics
+plasma physics
+pocket 
+probabililty
+probability 
+programming
 prospector
 publishing
 pylint
 python
+radiation
 regular expressions
+review
 static analysis
+statistics
+statistics 
 text processing
 thermal radiation
 thermodynamics
@@ -53,3 +78,4 @@ wordcloud
 wordpress
 xml
 yaml
+youtube
