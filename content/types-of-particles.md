@@ -19,8 +19,7 @@ Integer spin
 ## Hadrons
 
 All particles that undergo strong interactions, being composed of quarks (and
-gluons). Includes baryons, hyperons and mesons. Hadrons can be bosons or
-fermions.
+gluons). Includes baryons (e.g. protons and neutrons), hyperons and mesons. Hadrons can be bosons or fermions.
 
 ## Leptons
 
@@ -43,7 +42,16 @@ Quark-antiquark pairs contained in every hadron as well as valence quarks
 
 ## Baryon
 
-A form of hadron which is also a fermion. (Hadrons that are bosons are mesons.)
+A form of hadron (formed of quarks, undergoes strong interactions), which is
+also a fermion. (Hadrons that are bosons are mesons.)
+
+p = uud
+n = udd
+
+where u = up quark, d = down quark.
+
+q[u] = +2/3 e
+q[d] = -1/3 e
 
 ## Colourless hadron
 
@@ -57,3 +65,25 @@ zero is said to be colourless.
 ## Charmonium
 
 Symbol - ch. Bound state of $c\bar c$ (charmed quark - charmed anti-quark).
+
+## Quarks
+
+Constituents of hadrons.
+
+Three families: (u, d), (c, s) and (t, b), where u, d, c, s, t, b = "up",
+"down", "charmed", "strange", "top" and "bottom". All have baryon number $B =
+1/2$. Charges:
+
+q[u, c, t] = +2/3 e
+q[d, s, b] = -1/3 e
+
+Each quark has its own antiquark, with opposite charge.
+
+Pointlike.
+
+Fermionic (spin angular momentum $s = 1/2$)
+
+Each comes in three different colours: red, blue and green.
+
+Colour is the source of the strong force field in the same way that charge is
+the source of the electric field.

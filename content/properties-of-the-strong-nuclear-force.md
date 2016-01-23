@@ -27,4 +27,8 @@ nucleon) despite Coulomb repulsion indicates this.
 total binding energy of the nucleus is proportional to the number of
 constituents.
 
+# Weak force
 
+Responsible for beta decay. Short-range (i.e. only inside the nucleus).
+Weak (hence lifetime of beta decay is long - typically 900 s as opposed to
+$10^{-23}$ for strong force). Stronger only then gravitational force.
