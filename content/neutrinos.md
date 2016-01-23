@@ -26,15 +26,7 @@ Straight tracks seen predominantly $e^+$ and $e^-$ production violates ELN and
 MLN muon neutrinos
 
 
-Title: The need for the neutrino
-Date: 
-Category:  
-Modified: 
-Tags: 
-Slug: 
-Author: 0x7df
-Summary: 
-Status: draft
+# The need for the neutrino
 
 If beta decay were a simple two-body decay process:
 
@@ -77,3 +69,23 @@ Cross-section determined:
 $$ \sigma \approx 11 \times 10^{-44} cm^2 $$
 
 which agreed with the theoretical value calculated by Bethe.
+
+# Antineutrino
+
+$\nu^{e^-}$ or $\bar\nu$
+
+Accompanies electrons
+
+Right-handed (spin parallel to velocity)
+
+# Neutrino
+
+$\nu^{e^+}$ or $\nu$
+
+Accompanies positrons
+
+Left-handed (spin and velocity anti-parallel)
+
+Both are chargeless, massless (nearly), fermions, spin angular momentum $s =
+1/2$, no structure (point particles), no nucleon number, no magnetic dipole
+moment.
