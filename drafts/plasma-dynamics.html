@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="$$ P(C|E) = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}} = \frac{8}{8+99} $$ $$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} = \frac{P(E|C)P(C)}{P(E|C)P(C) + P(E|!C)P(!C)} $$ $$ P(C|E) = ...">
-        <meta name="keywords" content="mathematics, probability">
+        <meta name="description" content="If electrons are displaced within an electrically-neutral plasma, the resultant charge separation sets up an electric field that exerts a restoring force on the electrons. The electrons are ...">
+        <meta name="keywords" content="plasma physics">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
-        <title>Understanding Bayes's formula - 0x7df</title>
+        <title>Plasma Dynamics - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
@@ -16,7 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
-        <link href="http://0x7df.github.io/feeds/statistics.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/physics.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -57,13 +57,13 @@
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">Understanding Bayes's formula</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 23 January 2016, modified Sat 23 January 2016, in category <a href="http://0x7df.github.io/category/statistics.html">Statistics</a></p>
+                      <h1 class="header-title">Plasma Dynamics</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 23 January 2016, modified Sat 23 January 2016, in category <a href="http://0x7df.github.io/category/physics.html">Physics</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-<a href="http://0x7df.github.io/tag/mathematics.html">mathematics</a>, <a href="http://0x7df.github.io/tag/probability.html">probability</a>                      </p>
+<a href="http://0x7df.github.io/tag/plasma-physics.html">plasma physics</a>                      </p>
                   </div>
               </div>
         </div>
@@ -77,25 +77,55 @@
 
         <!-- Content -->
     <div class="container content">
-        <div class="math">$$ P(C|E) = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FP}} = \frac{8}{8+99} $$</div>
-<div class="math">$$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} = 
-            \frac{P(E|C)P(C)}{P(E|C)P(C) + P(E|!C)P(!C)} $$</div>
-<div class="math">$$ P(C|E) = \frac{(8/10)(1/100)}{(8/10)(1/100) + (1/10)(99/100)} $$</div>
-<div class="math">$$ P(C|E) = \frac{(n_{E,C}/n_C)(n_C/n)}
-                 {(n_{E,C}/n_C)(n_C/n) + (n_{E,!C}/n_{!C})(n_{!C}/n)} $$</div>
-<div class="math">$$ P(C|E) = \frac{n_{E,C}}{n_{E,C} + n_{E,!C}} $$</div>
-<h2>Generally</h2>
-<div class="math">$$ P(C_i|E) = \frac{P(E|C_i)P(C_i)}{\sum_j P(E|C_j)P(C_j)} $$</div>
-<div class="math">$$ P(C_i|E) = \frac{\frac{n_{E,C_i}}{n_{C_i}}\frac{n_{C_i}}{n}}
-                   {\sum_j \frac{n_{E,C_j}}{n_{C_j}}\frac{n_{C_j}}{n}} $$</div>
-<div class="math">$$ P(C_i|E) = \frac{n_{E,C_i}}{n_E} $$</div>
-<h2>Intuitive</h2>
-<div class="math">$$ P(C|E) = \frac{P(E|C)}{\sum P(E|C_j)} $$</div>
-<p>Equivalent to:</p>
-<div class="math">$$ PC|E) = \frac{TP}{TP +FP} $$</div>
-<p>where <span class="math">\(TP\)</span> and <span class="math">\(FP\)</span> are the true and false positive <em>rates</em> (whereas
-previously, above, they were the true and false positive absolute numbers).
-This is fine if the different causes <span class="math">\(C_i\)</span> are equal probability.</p>
+        <p>If electrons are displaced within an electrically-neutral plasma, the resultant
+charge separation sets up an electric field that exerts a restoring force on the
+electrons. The electrons are accelerated back to their original positions, at
+which point they have non-zero velocity and so overshoot, thus setting up a
+field in the opposite direction. This sets up an oscillation with a frequency
+characteristic of the plasma, called the <em>electron plasma frequency</em>. It can be
+shown to be proportional to the square root of the electron density.</p>
+<p>If a test charge <span class="math">\(Q\)</span> is placed within an electrically neutral plasma, it draws
+towards it the oppositely-charged components and repels the like-charged
+components. The result is that outside this cloud of oppositely-charged
+particles, the plasma is shielded from the test charge and feels no electric
+field due to it. The radius of this cloud depends on the balance between the
+strength of the field due to <span class="math">\(Q\)</span> and the thermal velocities of the plasma
+particles which allow them to escape from it. The <em>Debye length</em> is a
+characteristic distance of the plasma that is proportional to <span class="math">\(\sqrt T\)</span> and
+inversely proportional to the square root of the electron density. It is a
+measure of the range of the effect of the test charge <span class="math">\(Q\)</span>.</p>
+<p>In an external magnetic field the <em>Lorentz force</em> is:</p>
+<div class="math">$$ m \mathbf{j} = -e\mathbf{v}\wedge\mathbf{B} $$</div>
+<p>If we introduce:</p>
+<div class="math">$$ \mathbf{\omega}_{\mathrm{ce}} = \frac{e\mathbf{B}}{m} $$</div>
+<p>then:</p>
+<div class="math">$$ \dot{\mathbf{v}} = \mathbf{\omega}_{\mathrm{ce}} \wedge \mathbf{v} $$</div>
+<p>where <span class="math">\(\mathbf{\omega}_{\mathrm{ce}}\)</span> is the <em>electron cyclotron frequency</em>.
+Under normal fusion plasma conditions, it is about the same as the electron
+plasma frequency.</p>
+<p>The magnitude of the velocity component parallel to the <span class="math">\(B\)</span>-field is unaffected,
+and the <span class="math">\(B\)</span>-field force is always perpendicular to the particle motion, therefore
+it clearly causes the electron to follow a circular path (in the perpendicular
+plane). Adding the constant speed in the parallel direction, we see the electron
+has a helical path. The frequency of this helical motion is
+<span class="math">\(\mathbf{\omega}_{\mathrm{ce}}\)</span>. The amplitude of this helical motion is
+<span class="math">\(v_\perp/\omega_{\mathrm{ce}}\)</span>, and this is known as the <em>Larmor radius</em>.</p>
+<p>Since <span class="math">\(\mathbf{\nabla}\cdot\mathbf{B} = 0\)</span>, and <span class="math">\(B\)</span>-field for which <span class="math">\(\partial
+B_z/\partial z \ne 0\)</span>, i.e. the <span class="math">\(z\)</span>-component is increasing in the
+<span class="math">\(z\)</span>-direction, must also have a radial component. For example:</p>
+<div class="math">$$ \mathbf{\nabla}\cdot\mathbf{B} = \frac{1}{r} \frac{\partial}{\partial
+r}\left(rB_r\right) + \frac{\partial B_z}{\partial z} = 0$$</div>
+<p>Therefore:</p>
+<div class="math">$$ B_r = -\frac{1}{2}r\left(\frac{\partial B_z}{\partial z}\right) $$</div>
+<p>Consequently a particle in such a field experiences a force:</p>
+<div class="math">$$ F = -e\mathbf{v}_\perp \mathbf{\hat e} \wedge B_r \mathbf{\hat e}_r $$</div>
+<div class="math">$$ F = -\frac{v_\perp^2}{2l_c}\mathbf{\hat e}_z $$</div>
+<p>where <span class="math">\(l_c\)</span> is a characteristic length of the <span class="math">\(B\)</span>-field:</p>
+<div class="math">$$ l_c = \left( \frac{1}{B_0} \frac{\partial B}{\partial z} \right)^{-1} $$</div>
+<p>Note that this net force turns out to be in the negative <span class="math">\(z\)</span>-direction so it
+acts to retard the motion of the particle towards the region of increased <span class="math">\(B_z\)</span>.
+Eventually the particle will turn round if <span class="math">\(v_\perp / v_z\)</span> is small enough.
+Hence particles can become trapped in a central region.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
