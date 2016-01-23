@@ -23,6 +23,8 @@ elastic scattering
 6. Strong - the fact that nuclear binding energies are high (of order MeV per
 nucleon) despite Coulomb repulsion indicates this.
 7. Saturated - the fact that the binding energy per nucleon is fairly constant
-(7 - 9 MeV) indicates that the strong force is saturated.
+(7 - 9 MeV) indicates that the strong force is saturated. This means that the
+total binding energy of the nucleus is proportional to the number of
+constituents.
 
 
