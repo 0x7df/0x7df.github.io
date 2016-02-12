@@ -48,7 +48,7 @@ DEFAULT_METADATA = {
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-PLUGIN_PATHS = ["plugins", ".."]
+PLUGIN_PATHS = ["plugins", "."]
 PLUGINS = ["pelican_plugin-render_math"]
 
 # NEST Template
