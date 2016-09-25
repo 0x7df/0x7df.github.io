@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/maths.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-03-13T05:01:00+00:00</updated><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:combinations-and-permutations.html</id><summary type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png" /&gt;&lt;/a&gt;I
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/maths.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-03-13T05:01:00+00:00</updated><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:combinations-and-permutations.html</id><summary type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png" /&gt;&lt;/a&gt;I
 recently had to explain the formulae for calculating the number of
 combinations and permutations, when selecting &lt;span class="math"&gt;\( r $\)&lt;/span&gt;
 items out of a pool of &lt;span class="math"&gt;\( n\)&lt;/span&gt;. In case you're ever
@@ -61,7 +61,7 @@ $$ \frac{n!}{\left(n-r\right)!} $$
 &lt;div class="math"&gt;$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
 $$&lt;/div&gt;
 &lt;p&gt;You can invoke it in &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt; like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="mi"&gt;120&lt;/span&gt;
@@ -69,7 +69,7 @@ $$&lt;/div&gt;
 
 
 &lt;p&gt;or perhaps, if you're going to use it a lot:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="mi"&gt;24&lt;/span&gt;
@@ -77,7 +77,7 @@ $$&lt;/div&gt;
 
 
 &lt;p&gt;In &lt;a href="http://julialang.org/"&gt;Julia&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;julia
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ julia
 julia&amp;gt; factorial&lt;span class="o"&gt;(&lt;/span&gt;7&lt;span class="o"&gt;)&lt;/span&gt;
 5040
 &lt;/pre&gt;&lt;/div&gt;

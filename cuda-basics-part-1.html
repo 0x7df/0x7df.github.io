@@ -120,7 +120,7 @@ data-parallel - i.e. loops over large sets of data items where the
 iterations of the loops are independent of each other. A nice example is
 a simple "DAXPY" loop (i.e. a double precision <em>Ax</em> + <em>y</em> vector
 addition) or "DAXBY" loop (<em>Ax</em> × <em>y</em>), implemented here in C:</p>
-<div class="highlight"><pre>void vectorAdd(int n, double a, double *x, double *y) {
+<div class="highlight"><pre><span></span>void vectorAdd(int n, double a, double *x, double *y) {
     for (int i = 0; i &lt; n; ++i) {  
         y[i] = a*x[i] + y[i];
     }
@@ -210,7 +210,7 @@ grid is a three-dimensional construction of <em>l ×</em> <em>m</em> × <em>n</
 blocks, each of which is three-dimensional grouping of <em>i</em> × <em>j</em> × <em>k</em>
 threads. The actual values of <em>i</em>, <em>j</em>, ... to be used are defined in
 the host code by the special CUDA statements:</p>
-<div class="highlight"><pre>dim3 gridDims(l,m,n);  
+<div class="highlight"><pre><span></span>dim3 gridDims(l,m,n);  
 dim3 blockDims(i,j,l);  
 myKernel&lt;&lt;&lt;gridDims,blockDims&gt;&gt;&gt;(args);
 </pre></div>
@@ -231,7 +231,7 @@ lock-step) - this means that one warp is waiting for a memory access,
 the SM can switch to another in the meantime.</p>
 <h2>Vector addition - host code</h2>
 <p>The host C code running on the CPU will look something like this:</p>
-<div class="highlight"><pre>int main(int argc, char **argv) {
+<div class="highlight"><pre><span></span>int main(int argc, char **argv) {
     int n, gridSize;  
     float *hostX, *hostY;  
     float *deviceX, *deviceY;  
@@ -278,7 +278,7 @@ blocks are one-dimensional, for simplicity.</p>
 documented</a>.</p>
 <h2>Vector addition - kernel code</h2>
 <p>The CUDA kernel function that is called looks like this:</p>
-<div class="highlight"><pre>__global__ void vecAdd(int n, float *x, float *y) {  
+<div class="highlight"><pre><span></span>__global__ void vecAdd(int n, float *x, float *y) {  
     int i = threadIdx.x + blockDim.x*blockIdx.x;  
     if (i &lt; n) y[i] = x[i] + y[i];  
 }

@@ -97,7 +97,7 @@ seconds</a>, and I was away.</p>
 <p>Importing from Wordpress just involves exporting the <a href="http://0x7df.wordpress.com">original blog</a> as
 an XML file, which can be done from the "WP Admin" menu under "Tools". Pelican
 provides a command for importing from this file:</p>
-<div class="highlight"><pre><span class="n">pelican</span><span class="o">-</span><span class="kn">import</span> <span class="o">--</span><span class="n">wpfile</span> <span class="o">-</span><span class="n">m</span> <span class="n">markdown</span> <span class="o">--</span><span class="nb">dir</span><span class="o">-</span><span class="n">page</span> <span class="p">[</span><span class="n">wordpress</span><span class="o">-</span><span class="n">filename</span><span class="p">]</span><span class="o">.</span><span class="n">xml</span>
+<div class="highlight"><pre><span></span><span class="n">pelican</span><span class="o">-</span><span class="kn">import</span> <span class="o">--</span><span class="n">wpfile</span> <span class="o">-</span><span class="n">m</span> <span class="n">markdown</span> <span class="o">--</span><span class="nb">dir</span><span class="o">-</span><span class="n">page</span> <span class="p">[</span><span class="n">wordpress</span><span class="o">-</span><span class="n">filename</span><span class="p">]</span><span class="o">.</span><span class="n">xml</span>
 </pre></div>
 
 
@@ -114,7 +114,7 @@ natively support maths, so a plugin is required: for this I used
 <a href="https://github.com/barrysteyn/pelican_plugin-render_math">render-math</a>. As per the docs, for this I needed to install
 <a href="https://github.com/mintchaos/typogrify">Typogrify</a> first, then add the following to the <code>pelicanconf.py</code>
 settings file:</p>
-<div class="highlight"><pre>PLUGIN_PATHS = [&quot;..&quot;]
+<div class="highlight"><pre><span></span>PLUGIN_PATHS = [&quot;..&quot;]
 PLUGINS = [&quot;pelican_plugin-render_math&quot;]
 </pre></div>
 
@@ -122,17 +122,17 @@ PLUGINS = [&quot;pelican_plugin-render_math&quot;]
 <p>to point Pelican at the location where I cloned the plugin.</p>
 <p>The text wrangling that was required to convert the Wordpress-syntax maths
 delimiters:</p>
-<div class="highlight"><pre><span class="x">\</span><span class="p">$</span><span class="nv">latex</span><span class="x"> ...maths... \</span><span class="p">$</span><span class="nv">latex</span><span class="x"></span>
+<div class="highlight"><pre><span></span><span class="x">\</span><span class="p">$</span><span class="nv">latex</span><span class="x"> ...maths... \</span><span class="p">$</span><span class="nv">latex</span><span class="x"></span>
 </pre></div>
 
 
 <p>to those required for Pelican (i.e.:</p>
-<div class="highlight"><pre>$$ ...maths... $$
+<div class="highlight"><pre><span></span>$$ ...maths... $$
 </pre></div>
 
 
 <p>for displayed equations and:</p>
-<div class="highlight"><pre><span class="nv">$ </span>...math...<span class="err">$</span>
+<div class="highlight"><pre><span></span>$ ...math...$
 </pre></div>
 
 
@@ -144,7 +144,7 @@ done, I could move on to themes.</p>
 <p><a href="http://pelicanthemes.com/">This website</a> shows examples of available themes, from
 which I chose the <a href="https://github.com/molivier/nest">Nest</a> theme; I cloned this directly into the Pelican
 install directory:</p>
-<div class="highlight"><pre>cd /usr/local/lib/python2.7/dist-packages/pelican/themes/
+<div class="highlight"><pre><span></span>cd /usr/local/lib/python2.7/dist-packages/pelican/themes/
 sudo git clone https://github.com/molivier/nest.git
 </pre></div>
 
@@ -172,7 +172,7 @@ the more usual branch <code>master</code>.</p>
 <p>I used the <a href="https://github.com/davisp/ghp-import/">ghp-import</a> tool to do the uploading - this is used by the
 Pelican <code>Makefile</code> and is recommended <a href="http://martinbrochhaus.com/pelican2.html">elsewhere</a>. I installed it
 with:</p>
-<div class="highlight"><pre>sudo apt-get install ghp-import
+<div class="highlight"><pre><span></span>sudo apt-get install ghp-import
 </pre></div>
 
 

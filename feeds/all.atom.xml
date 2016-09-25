@@ -1,136 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2016-01-23T00:00:00+00:00</updated><entry><title>Connecting Twitter and Pocket using Python</title><link href="http://0x7df.github.io/connecting-twitter-and-pocket-using-python.html" rel="alternate"></link><updated>2016-01-23T00:00:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-23:connecting-twitter-and-pocket-using-python.html</id><summary type="html">&lt;p&gt;&lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;This&lt;/a&gt; blog post gives an intro to connecting to the Twitter Streaming
-API using the &lt;a href="https://python.org"&gt;Python&lt;/a&gt; library &lt;a href="http://tweepy.readthedocs.org"&gt;Tweepy&lt;/a&gt;. There are two Python routines:
-one to connect to Twitter and download relevant tweets to a file, and a
-second to post-process the file using &lt;a href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt; and create some graphs
-using &lt;a href="http://matplotlib.org"&gt;Matplotlib&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;In particular the scripts use &lt;a href="https://en.wikipedia.org/wiki/Regular_expression"&gt;regular expressions&lt;/a&gt; to identify tweets
-that contain links, where those tweets have previously been filtered by
-keywords such as 'python', 'javascript', 'tutorial', etc.&lt;/p&gt;
-&lt;p&gt;I liked the idea of extracting these links automatically, and thought about
-going a step further and collecting those links in &lt;a href="http://getpocket.com"&gt;Pocket&lt;/a&gt;, using the
-&lt;a href="http://getpocket.com/developer/"&gt;Pocket API&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;None of this required the tweets to be written to a file first, so I adapted
-the scripts to do everything in real time rather than post-processing, and
-Pandas wasn't required.&lt;/p&gt;
-&lt;p&gt;The script needs to connect to the Pocket account using previously retrieved
-credentials. It uses &lt;a href="https://github.com/tapanpandita/pocket"&gt;pocket&lt;/a&gt;, another Python library for
-connecting to the Pocket API; an example of its use is &lt;a href="https://w.wol.ph/2013/09/18/batch-adding-data-to-pocket/"&gt;here&lt;/a&gt;.
-My code for connecting to Pocket looks like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pocket&lt;/span&gt;
-
-&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;pocket_api_key.txt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_uri&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; \
-        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
-
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="c"&gt;# Pocket authentication&lt;/span&gt;
-    &lt;span class="n"&gt;pocket_instance&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pocket&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Pocket&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Next, I connect to the Twitter Streaming API using 
-the &lt;code&gt;filter&lt;/code&gt; method, which returns only tweets that contain certain pre-defined
-keywords. This is straight from &lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;the original post&lt;/a&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy.streaming&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;StreamListener&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OAuthHandler&lt;/span&gt;
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Stream&lt;/span&gt;
-
-&lt;span class="c"&gt;# Read the Twitter API key data from a file (not in the repository)&lt;/span&gt;
-&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;twitter_api_key.txt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; \
-        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
-
-&lt;span class="c"&gt;# Set the keywords to filter the Twitter stream for&lt;/span&gt;
-&lt;span class="n"&gt;keywords&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;fortran&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;bash&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;linux&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;css&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-            &lt;span class="s"&gt;&amp;#39;jquery&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;api&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;git&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;vim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;julia&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-
-&lt;span class="c"&gt;# This is a basic listener that prints received tweets to stdout&lt;/span&gt;
-&lt;span class="c"&gt;# Over-ride the tweepy.Stream listener to provide methods&lt;/span&gt;
-&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;StdOutListener&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;StreamListener&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-
-    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Create stream listener class for Twitter Streaming API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;on_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Process individual tweet.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-        &lt;span class="n"&gt;myrespond&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
-
-    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;on_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Handle error from Twitter Streaming API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;420&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
-
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-
-        &lt;span class="c"&gt;# Handle Twitter authentication and connection to Twitter Streaming API&lt;/span&gt;
-        &lt;span class="n"&gt;listener&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StdOutListener&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-        &lt;span class="n"&gt;auth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OAuthHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Stream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;listener&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-        &lt;span class="c"&gt;# Filter Twitter stream according to keywords&lt;/span&gt;
-        &lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;track&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;(Clearly the error-handling needs finishing.) Each tweet is processed by the
-function &lt;code&gt;myrespond()&lt;/code&gt;, which looks for tweets that also
-contain the word 'tutorial', and extracts the link if there is one.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
-
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Get dictionary value given key.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt;
-
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;word_in_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Search for work in text string.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()):&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
-
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;extract_link&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Extract link from tweet or return null string.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;regex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;r&amp;#39;https?:..[^\s&amp;lt;&amp;gt;&amp;quot;]+|www\.[^\s&amp;lt;&amp;gt;&amp;quot;]+&amp;#39;&lt;/span&gt;
-    &lt;span class="n"&gt;match&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;regex&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
-
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;myrespond&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Respond to relevant tweet.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;tweet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;lang&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;en&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-        &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;extract_link&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word_in_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;tutorial&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;
-            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;
-            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;pocket_instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;-----------------------------------------------------------&amp;quot;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;The &lt;code&gt;myrespond()&lt;/code&gt; function uses the &lt;code&gt;json&lt;/code&gt; library to turn the JSON-format data
-containing the tweet into a Python dictionary, then another function &lt;code&gt;getdata&lt;/code&gt;
-to access individual data items; if the language is English, then the text of
-the tweet is extracted and the &lt;code&gt;re&lt;/code&gt; library used to return the link. Finally,
-the Pocket API is used to add the link to Pocket.&lt;/p&gt;
-&lt;p&gt;There's probably some sophistication that could be added to this to ensure
-better quality links are identified; I could, for example, use my own tweets
-and blog posts as a reference corpus, and test the similarity of tweets
-to the text in my corpus; and then only add links that have a similarity score
-above some threshold.&lt;/p&gt;
-&lt;p&gt;The full code is on &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;, at
-&lt;a href="https://github.com/0x7df/twitter2pocket"&gt;https://github.com/0x7df/twitter2pocket&lt;/a&gt;.&lt;/p&gt;</summary><category term="python"></category><category term="api"></category><category term="twitter"></category><category term="pocket"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-10-03T20:06:00+01:00</updated><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><published>2015-10-03T20:06:00+01:00</published><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
 &lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
 &lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
 &lt;p&gt;Many options are available for static site generation, with
@@ -150,7 +19,7 @@ seconds&lt;/a&gt;, and I was away.&lt;/p&gt;
 &lt;p&gt;Importing from Wordpress just involves exporting the &lt;a href="http://0x7df.wordpress.com"&gt;original blog&lt;/a&gt; as
 an XML file, which can be done from the "WP Admin" menu under "Tools". Pelican
 provides a command for importing from this file:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;wpfile&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;markdown&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="nb"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;wpfile&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;markdown&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="nb"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;page&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;wordpress&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -167,7 +36,7 @@ natively support maths, so a plugin is required: for this I used
 &lt;a href="https://github.com/barrysteyn/pelican_plugin-render_math"&gt;render-math&lt;/a&gt;. As per the docs, for this I needed to install
 &lt;a href="https://github.com/mintchaos/typogrify"&gt;Typogrify&lt;/a&gt; first, then add the following to the &lt;code&gt;pelicanconf.py&lt;/code&gt;
 settings file:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;PLUGIN_PATHS = [&amp;quot;..&amp;quot;]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;PLUGIN_PATHS = [&amp;quot;..&amp;quot;]
 PLUGINS = [&amp;quot;pelican_plugin-render_math&amp;quot;]
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -175,17 +44,17 @@ PLUGINS = [&amp;quot;pelican_plugin-render_math&amp;quot;]
 &lt;p&gt;to point Pelican at the location where I cloned the plugin.&lt;/p&gt;
 &lt;p&gt;The text wrangling that was required to convert the Wordpress-syntax maths
 delimiters:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="x"&gt;\&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt; ...maths... \&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;\&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt; ...maths... \&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;to those required for Pelican (i.e.:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;$$ ...maths... $$
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$$ ...maths... $$
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;for displayed equations and:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;...math...&lt;span class="err"&gt;$&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ...math...$
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -197,7 +66,7 @@ done, I could move on to themes.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://pelicanthemes.com/"&gt;This website&lt;/a&gt; shows examples of available themes, from
 which I chose the &lt;a href="https://github.com/molivier/nest"&gt;Nest&lt;/a&gt; theme; I cloned this directly into the Pelican
 install directory:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;cd /usr/local/lib/python2.7/dist-packages/pelican/themes/
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cd /usr/local/lib/python2.7/dist-packages/pelican/themes/
 sudo git clone https://github.com/molivier/nest.git
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -225,7 +94,7 @@ the more usual branch &lt;code&gt;master&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;I used the &lt;a href="https://github.com/davisp/ghp-import/"&gt;ghp-import&lt;/a&gt; tool to do the uploading - this is used by the
 Pelican &lt;code&gt;Makefile&lt;/code&gt; and is recommended &lt;a href="http://martinbrochhaus.com/pelican2.html"&gt;elsewhere&lt;/a&gt;. I installed it
 with:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;sudo apt-get install ghp-import
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sudo apt-get install ghp-import
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -253,150 +122,7 @@ flag is supplied - as &lt;em&gt;totally derivative&lt;/em&gt;. Assume it blows a
 already there and replaces it with the new content. So you never manually
 modify anything on that branch; keep all your content, configuration files,
 tools, and anything else you care about, on a different branch, and keep the
-destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Remembering Bayes's formula</title><link href="http://0x7df.github.io/remembering-bayess-formula.html" rel="alternate"></link><updated>2016-01-23T00:00:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:remembering-bayess-formula.html</id><summary type="html">&lt;p&gt;It's probably just me, but I could never remember Bayes's formula:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A) P(A)}{P(B)} $$&lt;/div&gt;
-&lt;p&gt;as-is. I don't use it very often, so I didn't have it at my fingertips.
-However, I found it easy to remember:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(A,B) = P(A|B) P(B) $$&lt;/div&gt;
-&lt;p&gt;which is the more general formula that says that the probability of &lt;span class="math"&gt;\(A\)&lt;/span&gt; &lt;em&gt;and&lt;/em&gt;
-&lt;span class="math"&gt;\(B\)&lt;/span&gt; is the probability of &lt;span class="math"&gt;\(A\)&lt;/span&gt; given &lt;span class="math"&gt;\(B\)&lt;/span&gt; multiplied by the probability of just &lt;span class="math"&gt;\(B\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;This sticks. So:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(A,B) = P(A|B) P(B) $$&lt;/div&gt;
-&lt;div class="math"&gt;$$ P(A,B) = P(B|A) P(A) $$&lt;/div&gt;
-&lt;p&gt;Therefore:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(A|B)P(B) = P(B|A)P(A) $$&lt;/div&gt;
-&lt;p&gt;and:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A)P(A)}{P(B)} $$&lt;/div&gt;
-&lt;p&gt;which is Bayes's formula.&lt;/p&gt;
-&lt;p&gt;The other trick I use to help remember what it all means is, once I've got the
-formula, not to use &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt;
-as the symbols representing events, but instead to use &lt;span class="math"&gt;\(C\)&lt;/span&gt; and &lt;span class="math"&gt;\(E\)&lt;/span&gt; for "cause"
-and "effect":&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} $$&lt;/div&gt;
-&lt;p&gt;You could use &lt;span class="math"&gt;\(T\)&lt;/span&gt; and &lt;span class="math"&gt;\(O\)&lt;/span&gt;, for "theory" and "observation", or whatever works
-for you.&lt;/p&gt;
-&lt;p&gt;Then it's easier to know, given some situation, which numbers to put where. To
-illustrate this, we'll use a 
-classic example from &lt;a href="https://faculty.washington.edu/jmiyamot/p548/eddydm%20prob%20reas%20i%20clin%20medicine.pdf"&gt;Eddy, D. M. (1982), &lt;em&gt;Probabilistic reasoning in
-clinical medicine: problems and opportunities&lt;/em&gt;&lt;/a&gt;, in &lt;a href="https://books.google.co.uk/books?id=MScNAAAAQBAJ"&gt;Kahneman &lt;em&gt;et al.&lt;/em&gt;
-(Eds.),
-&lt;em&gt;Judgement under uncertainty: heuristics and biases&lt;/em&gt;, Cambridge University
-Press&lt;/a&gt;. &lt;/p&gt;
-&lt;p&gt;In this example, the following problem concerning diagnosing breast cancer
-using a mammogram is set:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Suppose a physician has had experience with a number of women who, in all
-important aspects... are similar to this particular patient. And suppose the
-physician knows from this experience that the frequency of cancer in this
-group is, say, 1 out of 100... Now let the physician order a mammogram and
-receive a report that... the lesion is malignant.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Values of 80% for true positives and 10% for false positives are reported for
-this particular kind of diagnostic test (or thereabouts).&lt;/p&gt;
-&lt;p&gt;Now we can distinguish between cause and effect; we let "the patient has
-cancer" be the cause, &lt;span class="math"&gt;\(C\)&lt;/span&gt;, and "the test is positive" be the effect, &lt;span class="math"&gt;\(E\)&lt;/span&gt;.
-The question posed is what is the probability that the patient has cancer given
-that the test is reported as positive: i.e. what is &lt;span class="math"&gt;\(P(C|E)\)&lt;/span&gt;. Recall that:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} $$&lt;/div&gt;
-&lt;p&gt;We have to insert numbers in for the other values, to solve the problem. The
-first is &lt;span class="math"&gt;\(P(E|C)\)&lt;/span&gt;: the probability of the effect (a positive test) given that
-the cause is true (the patient has cancer). This is simply the true positive
-rate of the test, 0.8. Next, &lt;span class="math"&gt;\(P(C)\)&lt;/span&gt; is the probability that the patient has
-cancer; i.e. the base rate for the reference group. The doctor has already
-judged this to be 0.01 (1 in 100 for women similar to this one in all important
-aspects). The final number we need is &lt;span class="math"&gt;\(P(E)\)&lt;/span&gt;; i.e. the probability of this
-effect occurring. This isn't a conditional probability, but the probability
-irrespective of the cause. We can work this out by summing the conditional
-probabilities of the effect over all possible causes.&lt;/p&gt;
-&lt;p&gt;Generally then:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(E) = \sum_c P(E|c) P(c) $$&lt;/div&gt;
-&lt;p&gt;where we have used the symbol &lt;span class="math"&gt;\(c\)&lt;/span&gt; to represent causes. When &lt;span class="math"&gt;\(c = C\)&lt;/span&gt;, the cause
-is that the patient has cancer; all possible &lt;span class="math"&gt;\(c \ne C\)&lt;/span&gt; represent other causes.
-In this case we don't have to itemise all the possibilites, because no matter
-how many other reasons there are for the test coming up true, they are
-accounted for in the false positive rate.&lt;/p&gt;
-&lt;p&gt;Hence:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(E) = P(E|c{=}C) P(c{=}C) + P(E|c{\ne}C) P(c{\ne}C) $$&lt;/div&gt;
-&lt;p&gt;The first two quantities on the right hand side have been identified already:
-0.8 and 0.01. The probability of a positive test arising when no cancer is
-present is 0.1 (false positive rate of 10%), and the probability of no cancer
-is simply 1 - 0.01 = 0.99. Hence, and finally:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(C|E) = \frac{(0.8)(0.01)}{(0.8)(0.01) + (0.1)(0.99)} $$&lt;/div&gt;
-&lt;p&gt;which gives an answer of abut 0.075, or 7.5% probability that the patient
-actually has cancer given a positive test. The main reason this is so
-surprisingly low is
-the low relative incidence of cancer in the first place. If the rate of cancer
-in this group, the formula would be:&lt;/p&gt;
-&lt;div class="math"&gt;$$ P(C|E) = \frac{(0.8)(0.5)}{(0.8)(0.5) + (0.1)(0.5)} $$&lt;/div&gt;
-&lt;p&gt;giving nearly a 90% chance of the patient having cancer, given exactly the same
-test. This illustrates a key point - the usefulness of a test doesn't
-depend on only the intrinsic properties of the test, like its accuracy (true
-positive rate) and its false alarm rate, but also on how common the phenomenon
-being tested for is. Two tests with the same accuracy and false alarm rate,
-that test for, say, lung cancer and asthma, cannot be treated with the same
-degree of confidence given the different underlying prevalences of those two
-conditions. Interestingly, this also means the same test for the same disease
-might need to be treated with differing confidence in different
-populations; cystic fibrosis is much commoner in European countries than in
-Asia, so doctors in those locations would have different levels of confidence
-in the test.&lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    var location_protocol = (false) ? 'https' : document.location.protocol;
-    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</summary><category term="bayes"></category><category term="mathematics"></category><category term="probabililty"></category><category term="statistics"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><published>2015-08-31T22:02:00+01:00</published><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
 &lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
 &lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the
@@ -510,7 +236,7 @@ virtual temperature:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Geopotential</title><link href="http://0x7df.github.io/geopotential.html" rel="alternate"></link><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
+&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Geopotential</title><link href="http://0x7df.github.io/geopotential.html" rel="alternate"></link><published>2015-08-30T16:58:00+01:00</published><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
 &lt;p&gt;is the gravitational potential - i.e. the gravitational potential energy
 per unit mass - at a location in the earth's atmosphere. It is often
@@ -651,7 +377,7 @@ Since &lt;span class="math"&gt;\( \phi(p_0) = 0\)&lt;/span&gt;:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Thermal radiation, Kirchhoff's law, and black bodies (1/4)</title><link href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html" rel="alternate"></link><updated>2015-05-17T14:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-17:thermal-radiation-kirchhoffs-law-and-black-bodies-14.html</id><summary type="html">&lt;h2&gt;Thermal radiation&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Thermal radiation, Kirchhoff's law, and black bodies (1/4)</title><link href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html" rel="alternate"></link><published>2015-05-17T14:53:00+01:00</published><updated>2015-05-17T14:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-17:thermal-radiation-kirchhoffs-law-and-black-bodies-14.html</id><summary type="html">&lt;h2&gt;Thermal radiation&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="Thermal imaging" src="https://0x7df.files.wordpress.com/2015/05/sts-3_infrared_on_reentry.jpg?w=127" /&gt;&lt;/p&gt;
 &lt;p&gt;All matter continuously emits electromagnetic radiation as a consequence
 of its temperature. This radiation is called &lt;strong&gt;thermal radiation&lt;/strong&gt; or
@@ -851,7 +577,7 @@ This ratio is also called the &lt;strong&gt;emissivity&lt;/strong&gt;, or &lt;st
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="http://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
+&lt;/script&gt;</summary><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="http://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><published>2015-05-10T12:06:00+01:00</published><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
 &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; for creating a word cloud, created by
 &lt;a href="http://peekaboo-vision.blogspot.co.uk/"&gt;Andreas Mueller&lt;/a&gt;:
 &lt;a href="https://github.com/amueller/word_cloud"&gt;https://github.com/amueller/word_cloud&lt;/a&gt;.&lt;/p&gt;
@@ -943,7 +669,7 @@ tweaked a little where necessary.&lt;br /&gt;
 The result is:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"&gt;&lt;img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660" /&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;The font is called Saucer BB, from
-&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</summary><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
+&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</summary><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><published>2015-05-02T22:10:00+01:00</published><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
 unit area, of the air column above that altitude. The pressure,
 therefore, decreases with altitude as there is less air above pressing
 down. To find the rate of decrease of pressure with height, consider a
@@ -1123,7 +849,7 @@ atmospheres](https://plot.ly/~0x7df/11.png)](https://plot.ly/~0x7df/11/ "Pressur
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry><entry><title>Creating a new Ubuntu virtual machine in Oracle VirtualBox</title><link href="http://0x7df.github.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html" rel="alternate"></link><updated>2015-04-26T12:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-26:creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html</id><summary type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
+&lt;/script&gt;</summary><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry><entry><title>Creating a new Ubuntu virtual machine in Oracle VirtualBox</title><link href="http://0x7df.github.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html" rel="alternate"></link><published>2015-04-26T12:29:00+01:00</published><updated>2015-04-26T12:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-26:creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html</id><summary type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
 &lt;a href="http://osxdaily.com/2012/03/27/install-run-ubuntu-linux-virtualbox/"&gt;here&lt;/a&gt;gives
 instructions for Mac OS X, but are unlikely to be very different. This
 assumed you've already
@@ -1298,7 +1024,7 @@ Make sure the VM is shut down, select it in the VirtualBox Manager
 window, go to "Settings", "General", "Advanced" and select from the
 "Shared Clipboard" drop-down. Detailed descriptions with screen shots
 are
-&lt;a href="http://www.howtogeek.com/187535/how-to-copy-and-paste-between-a-virtualbox-host-machine-and-a-guest-machine"&gt;here&lt;/a&gt;.&lt;/p&gt;</summary><category term="linux"></category><category term="ubuntu"></category><category term="virtual machine"></category><category term="virtualbox"></category><category term="vm"></category></entry><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;a href="http://www.howtogeek.com/187535/how-to-copy-and-paste-between-a-virtualbox-host-machine-and-a-guest-machine"&gt;here&lt;/a&gt;.&lt;/p&gt;</summary><category term="linux"></category><category term="ubuntu"></category><category term="virtual machine"></category><category term="virtualbox"></category><category term="vm"></category></entry><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><published>2015-04-21T20:58:00+01:00</published><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
 GPUs&lt;/a&gt;,
 which showed how to do a vector addition. This illustrated some of the
@@ -1680,7 +1406,7 @@ deviceC, ...&lt;/code&gt;&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Python code analysis using Prospector</title><link href="http://0x7df.github.io/python-code-analysis-using-prospector.html" rel="alternate"></link><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-11:python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
+&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Python code analysis using Prospector</title><link href="http://0x7df.github.io/python-code-analysis-using-prospector.html" rel="alternate"></link><published>2015-04-11T23:32:00+01:00</published><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-11:python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
 post&lt;/a&gt;
 I came across introduced me to
 &lt;a href="https://github.com/landscapeio/prospector"&gt;Prospector&lt;/a&gt;, a
@@ -2013,7 +1739,7 @@ adding them to a profile. The useful extra options are:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
 Architecture)&lt;/a&gt;is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
@@ -2056,7 +1782,7 @@ data-parallel - i.e. loops over large sets of data items where the
 iterations of the loops are independent of each other. A nice example is
 a simple "DAXPY" loop (i.e. a double precision &lt;em&gt;Ax&lt;/em&gt; + &lt;em&gt;y&lt;/em&gt; vector
 addition) or "DAXBY" loop (&lt;em&gt;Ax&lt;/em&gt; × &lt;em&gt;y&lt;/em&gt;), implemented here in C:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;void vectorAdd(int n, double a, double *x, double *y) {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;void vectorAdd(int n, double a, double *x, double *y) {
     for (int i = 0; i &amp;lt; n; ++i) {  
         y[i] = a*x[i] + y[i];
     }
@@ -2146,7 +1872,7 @@ grid is a three-dimensional construction of &lt;em&gt;l ×&lt;/em&gt; &lt;em&gt
 blocks, each of which is three-dimensional grouping of &lt;em&gt;i&lt;/em&gt; × &lt;em&gt;j&lt;/em&gt; × &lt;em&gt;k&lt;/em&gt;
 threads. The actual values of &lt;em&gt;i&lt;/em&gt;, &lt;em&gt;j&lt;/em&gt;, ... to be used are defined in
 the host code by the special CUDA statements:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;dim3 gridDims(l,m,n);  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dim3 gridDims(l,m,n);  
 dim3 blockDims(i,j,l);  
 myKernel&amp;lt;&amp;lt;&amp;lt;gridDims,blockDims&amp;gt;&amp;gt;&amp;gt;(args);
 &lt;/pre&gt;&lt;/div&gt;
@@ -2167,7 +1893,7 @@ lock-step) - this means that one warp is waiting for a memory access,
 the SM can switch to another in the meantime.&lt;/p&gt;
 &lt;h2&gt;Vector addition - host code&lt;/h2&gt;
 &lt;p&gt;The host C code running on the CPU will look something like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;int main(int argc, char **argv) {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;int main(int argc, char **argv) {
     int n, gridSize;  
     float *hostX, *hostY;  
     float *deviceX, *deviceY;  
@@ -2214,7 +1940,7 @@ blocks are one-dimensional, for simplicity.&lt;/p&gt;
 documented&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Vector addition - kernel code&lt;/h2&gt;
 &lt;p&gt;The CUDA kernel function that is called looks like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;__global__ void vecAdd(int n, float *x, float *y) {  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;__global__ void vecAdd(int n, float *x, float *y) {  
     int i = threadIdx.x + blockDim.x*blockIdx.x;  
     if (i &amp;lt; n) y[i] = x[i] + y[i];  
 }
@@ -2400,7 +2126,7 @@ J. J. Dongarra and A. J. van der Steen (2012).
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-29:converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><published>2015-03-29T19:27:00+01:00</published><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-29:converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;I write code documentation in &lt;a href="www.doxygen.org/"&gt;Doxygen&lt;/a&gt;, and in some
 cases include a fair amount of information about the mathematical theory
 of the problem that the code is solving. It seemed worthwhile posting
@@ -2679,7 +2405,7 @@ difficult, and leads to easier-to-understand code.&lt;/p&gt;
 &lt;h3&gt;References&lt;/h3&gt;
 &lt;p&gt;The next section of code deals with references. In Doxygen, we insert
 references into the main body of the text like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;@ref ref01 &amp;quot;Fick (1855)&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;@ref ref01 &amp;quot;Fick (1855)&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2688,7 +2414,7 @@ references section - in this case in a separate file called
 &lt;code&gt;references.md&lt;/code&gt;, which is why we've previously seen that file being
 hard-wired in the main script and then passed in to this function as an
 argument. In the references section, there would be an entry like:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;-# \anchor ref01 Fick, A, 1855. On liquid diffusion. The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science, X, 30-39.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;-# \anchor ref01 Fick, A, 1855. On liquid diffusion. The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science, X, 30-39.
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2779,7 +2505,7 @@ explain:&lt;/p&gt;
 p2 = re.compile('@ref [^"]&lt;em&gt; "[^"]&lt;/em&gt;"')&lt;br /&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The regular expression is the bit inside the single quotes:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;@ref [^&amp;quot;]* &amp;quot;[^&amp;quot;]*&amp;quot;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;@ref [^&amp;quot;]* &amp;quot;[^&amp;quot;]*&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -3060,7 +2786,7 @@ print msg&lt;br /&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="doxygen"></category><category term="latex"></category><category term="markdown"></category><category term="python"></category><category term="regular expressions"></category><category term="text processing"></category><category term="wordpress"></category></entry><entry><title>Restarting the LHC</title><link href="http://0x7df.github.io/restarting-the-lhc.html" rel="alternate"></link><updated>2015-03-22T18:13:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-22:restarting-the-lhc.html</id><summary type="html">&lt;p&gt;[caption id="" align="alignleft" width="320"]&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron
+&lt;/script&gt;</summary><category term="doxygen"></category><category term="latex"></category><category term="markdown"></category><category term="python"></category><category term="regular expressions"></category><category term="text processing"></category><category term="wordpress"></category></entry><entry><title>Restarting the LHC</title><link href="http://0x7df.github.io/restarting-the-lhc.html" rel="alternate"></link><published>2015-03-22T18:13:00+00:00</published><updated>2015-03-22T18:13:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-22:restarting-the-lhc.html</id><summary type="html">&lt;p&gt;[caption id="" align="alignleft" width="320"]&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron
 Collider/ATLAS at CERN from Flickr via
 Wylio" src="https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg" title="'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio" /&gt;&lt;/a&gt;
 © 2007 &lt;a href="https://www.flickr.com/people/11304375@N07/" title="'The Large Hadron Collider/ATLAS at CERN' published on Flickr by Image Editor"&gt;Image
@@ -3509,7 +3235,7 @@ particles that display the same properties&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="particle physics"></category></entry><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:combinations-and-permutations.html</id><summary type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png" /&gt;&lt;/a&gt;I
+&lt;/script&gt;</summary><category term="particle physics"></category></entry><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:combinations-and-permutations.html</id><summary type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png" /&gt;&lt;/a&gt;I
 recently had to explain the formulae for calculating the number of
 combinations and permutations, when selecting &lt;span class="math"&gt;\( r $\)&lt;/span&gt;
 items out of a pool of &lt;span class="math"&gt;\( n\)&lt;/span&gt;. In case you're ever
@@ -3571,7 +3297,7 @@ $$ \frac{n!}{\left(n-r\right)!} $$
 &lt;div class="math"&gt;$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
 $$&lt;/div&gt;
 &lt;p&gt;You can invoke it in &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt; like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="mi"&gt;120&lt;/span&gt;
@@ -3579,7 +3305,7 @@ $$&lt;/div&gt;
 
 
 &lt;p&gt;or perhaps, if you're going to use it a lot:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;fac&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="mi"&gt;24&lt;/span&gt;
@@ -3587,7 +3313,7 @@ $$&lt;/div&gt;
 
 
 &lt;p&gt;In &lt;a href="http://julialang.org/"&gt;Julia&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;julia
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ julia
 julia&amp;gt; factorial&lt;span class="o"&gt;(&lt;/span&gt;7&lt;span class="o"&gt;)&lt;/span&gt;
 5040
 &lt;/pre&gt;&lt;/div&gt;
@@ -3802,7 +3528,7 @@ $$&lt;/div&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="combinations"></category><category term="combinatorics"></category><category term="factorial"></category><category term="julia"></category><category term="permutations"></category><category term="python"></category></entry><entry><title>Connecting Wordpress to Twitter with IFTTT</title><link href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html" rel="alternate"></link><updated>2015-02-14T20:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-02-14:connecting-wordpress-to-twitter-via-ifttt.html</id><summary type="html">&lt;p&gt;It's possible to string together web services - like
+&lt;/script&gt;</summary><category term="combinations"></category><category term="combinatorics"></category><category term="factorial"></category><category term="julia"></category><category term="permutations"></category><category term="python"></category></entry><entry><title>Connecting Wordpress to Twitter with IFTTT</title><link href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html" rel="alternate"></link><published>2015-02-14T20:40:00+00:00</published><updated>2015-02-14T20:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-02-14:connecting-wordpress-to-twitter-via-ifttt.html</id><summary type="html">&lt;p&gt;It's possible to string together web services - like
 &lt;a href="https://wordpress.com"&gt;WordPress&lt;/a&gt;, &lt;a href="http://twitter.com"&gt;Twitter&lt;/a&gt;,
 &lt;a href="https://www.facebook.com"&gt;Facebook&lt;/a&gt;, &lt;a href="https://www.gmail.com"&gt;Gmail&lt;/a&gt;,
 &lt;a href="https://www.tumblr.com"&gt;Tumblr&lt;/a&gt;, &lt;a href="https://evernote.com/"&gt;Evernote&lt;/a&gt;,

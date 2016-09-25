@@ -356,7 +356,7 @@ difficult, and leads to easier-to-understand code.</p>
 <h3>References</h3>
 <p>The next section of code deals with references. In Doxygen, we insert
 references into the main body of the text like this:</p>
-<div class="highlight"><pre>@ref ref01 &quot;Fick (1855)&quot;
+<div class="highlight"><pre><span></span>@ref ref01 &quot;Fick (1855)&quot;
 </pre></div>
 
 
@@ -365,7 +365,7 @@ references section - in this case in a separate file called
 <code>references.md</code>, which is why we've previously seen that file being
 hard-wired in the main script and then passed in to this function as an
 argument. In the references section, there would be an entry like:</p>
-<div class="highlight"><pre>-# \anchor ref01 Fick, A, 1855. On liquid diffusion. The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science, X, 30-39.
+<div class="highlight"><pre><span></span>-# \anchor ref01 Fick, A, 1855. On liquid diffusion. The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science, X, 30-39.
 </pre></div>
 
 
@@ -456,7 +456,7 @@ explain:</p>
 p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br />
 [/code]</p>
 <p>The regular expression is the bit inside the single quotes:</p>
-<div class="highlight"><pre>@ref [^&quot;]* &quot;[^&quot;]*&quot;
+<div class="highlight"><pre><span></span>@ref [^&quot;]* &quot;[^&quot;]*&quot;
 </pre></div>
 
 

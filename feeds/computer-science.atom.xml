@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/computer-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-04-21T20:58:00+01:00</updated><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/computer-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-04-21T20:58:00+01:00</updated><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><published>2015-04-21T20:58:00+01:00</published><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
 GPUs&lt;/a&gt;,
 which showed how to do a vector addition. This illustrated some of the
@@ -381,7 +381,7 @@ deviceC, ...&lt;/code&gt;&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
 Architecture)&lt;/a&gt;is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
@@ -424,7 +424,7 @@ data-parallel - i.e. loops over large sets of data items where the
 iterations of the loops are independent of each other. A nice example is
 a simple "DAXPY" loop (i.e. a double precision &lt;em&gt;Ax&lt;/em&gt; + &lt;em&gt;y&lt;/em&gt; vector
 addition) or "DAXBY" loop (&lt;em&gt;Ax&lt;/em&gt; × &lt;em&gt;y&lt;/em&gt;), implemented here in C:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;void vectorAdd(int n, double a, double *x, double *y) {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;void vectorAdd(int n, double a, double *x, double *y) {
     for (int i = 0; i &amp;lt; n; ++i) {  
         y[i] = a*x[i] + y[i];
     }
@@ -514,7 +514,7 @@ grid is a three-dimensional construction of &lt;em&gt;l ×&lt;/em&gt; &lt;em&gt
 blocks, each of which is three-dimensional grouping of &lt;em&gt;i&lt;/em&gt; × &lt;em&gt;j&lt;/em&gt; × &lt;em&gt;k&lt;/em&gt;
 threads. The actual values of &lt;em&gt;i&lt;/em&gt;, &lt;em&gt;j&lt;/em&gt;, ... to be used are defined in
 the host code by the special CUDA statements:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;dim3 gridDims(l,m,n);  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;dim3 gridDims(l,m,n);  
 dim3 blockDims(i,j,l);  
 myKernel&amp;lt;&amp;lt;&amp;lt;gridDims,blockDims&amp;gt;&amp;gt;&amp;gt;(args);
 &lt;/pre&gt;&lt;/div&gt;
@@ -535,7 +535,7 @@ lock-step) - this means that one warp is waiting for a memory access,
 the SM can switch to another in the meantime.&lt;/p&gt;
 &lt;h2&gt;Vector addition - host code&lt;/h2&gt;
 &lt;p&gt;The host C code running on the CPU will look something like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;int main(int argc, char **argv) {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;int main(int argc, char **argv) {
     int n, gridSize;  
     float *hostX, *hostY;  
     float *deviceX, *deviceY;  
@@ -582,7 +582,7 @@ blocks are one-dimensional, for simplicity.&lt;/p&gt;
 documented&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Vector addition - kernel code&lt;/h2&gt;
 &lt;p&gt;The CUDA kernel function that is called looks like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;__global__ void vecAdd(int n, float *x, float *y) {  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;__global__ void vecAdd(int n, float *x, float *y) {  
     int i = threadIdx.x + blockDim.x*blockIdx.x;  
     if (i &amp;lt; n) y[i] = x[i] + y[i];  
 }
