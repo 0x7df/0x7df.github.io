@@ -10,6 +10,7 @@ c
 cold war
 combinations
 combinatorics
+computational physics
 computing
 cuda
 cyclomatic complexity
@@ -44,6 +45,7 @@ meteorology
 nash equilibrium
 neutron transport
 nuclear
+numerical modelling
 parallel computing
 parallel programming
 particle physics
@@ -71,8 +73,8 @@ thermal radiation
 thermodynamics
 twitter
 ubuntu
-virtualbox
 virtual machine
+virtualbox
 vm
 wordcloud
 wordpress
