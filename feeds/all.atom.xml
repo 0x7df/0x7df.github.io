@@ -97,7 +97,138 @@ python -m SimpleHTTPServer
 
 
 &lt;/li&gt;
-&lt;/ol&gt;</summary><category term="linux"></category><category term="markdown"></category><category term="pelican"></category><category term="programming"></category><category term="publishing"></category><category term="python"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><published>2015-10-03T20:06:00+01:00</published><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
+&lt;/ol&gt;</summary><category term="linux"></category><category term="markdown"></category><category term="pelican"></category><category term="programming"></category><category term="publishing"></category><category term="python"></category></entry><entry><title>Connecting Twitter and Pocket using Python</title><link href="http://0x7df.github.io/connecting-twitter-and-pocket-using-python.html" rel="alternate"></link><published>2015-10-23T10:06:00+01:00</published><updated>2015-10-23T10:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-23:connecting-twitter-and-pocket-using-python.html</id><summary type="html">&lt;p&gt;&lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;This&lt;/a&gt; blog post gives an intro to connecting to the Twitter Streaming
+API using the &lt;a href="https://python.org"&gt;Python&lt;/a&gt; library &lt;a href="http://tweepy.readthedocs.org"&gt;Tweepy&lt;/a&gt;. There are two Python routines:
+one to connect to Twitter and download relevant tweets to a file, and a
+second to post-process the file using &lt;a href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt; and create some graphs
+using &lt;a href="http://matplotlib.org"&gt;Matplotlib&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In particular the scripts use &lt;a href="https://en.wikipedia.org/wiki/Regular_expression"&gt;regular expressions&lt;/a&gt; to identify tweets
+that contain links, where those tweets have previously been filtered by
+keywords such as 'python', 'javascript', 'tutorial', etc.&lt;/p&gt;
+&lt;p&gt;I liked the idea of extracting these links automatically, and thought about
+going a step further and collecting those links in &lt;a href="http://getpocket.com"&gt;Pocket&lt;/a&gt;, using the
+&lt;a href="http://getpocket.com/developer/"&gt;Pocket API&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;None of this required the tweets to be written to a file first, so I adapted
+the scripts to do everything in real time rather than post-processing, and
+Pandas wasn't required.&lt;/p&gt;
+&lt;p&gt;The script needs to connect to the Pocket account using previously retrieved
+credentials. It uses &lt;a href="https://github.com/tapanpandita/pocket"&gt;pocket&lt;/a&gt;, another Python library for
+connecting to the Pocket API; an example of its use is &lt;a href="https://w.wol.ph/2013/09/18/batch-adding-data-to-pocket/"&gt;here&lt;/a&gt;.
+My code for connecting to Pocket looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pocket&lt;/span&gt;
+
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pocket_api_key.txt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_uri&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; \
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# Pocket authentication&lt;/span&gt;
+    &lt;span class="n"&gt;pocket_instance&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pocket&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Pocket&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next, I connect to the Twitter Streaming API using 
+the &lt;code&gt;filter&lt;/code&gt; method, which returns only tweets that contain certain pre-defined
+keywords. This is straight from &lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;the original post&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy.streaming&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;StreamListener&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OAuthHandler&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;tweepy&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Stream&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Read the Twitter API key data from a file (not in the repository)&lt;/span&gt;
+&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;twitter_api_key.txt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; \
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Set the keywords to filter the Twitter stream for&lt;/span&gt;
+&lt;span class="n"&gt;keywords&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;python&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;fortran&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;bash&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;linux&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;css&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;jquery&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;api&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;git&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;vim&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;julia&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="c1"&gt;# This is a basic listener that prints received tweets to stdout&lt;/span&gt;
+&lt;span class="c1"&gt;# Over-ride the tweepy.Stream listener to provide methods&lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;StdOutListener&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;StreamListener&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Create stream listener class for Twitter Streaming API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;on_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Process individual tweet.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="n"&gt;myrespond&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;on_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Handle error from Twitter Streaming API.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;status&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;420&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# Handle Twitter authentication and connection to Twitter Streaming API&lt;/span&gt;
+        &lt;span class="n"&gt;listener&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StdOutListener&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;auth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OAuthHandler&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;consumer_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_access_token&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;access_token_secret&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;stream&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Stream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;auth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;listener&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# Filter Twitter stream according to keywords&lt;/span&gt;
+        &lt;span class="n"&gt;stream&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;track&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(Clearly the error-handling needs finishing.) Each tweet is processed by the
+function &lt;code&gt;myrespond()&lt;/code&gt;, which looks for tweets that also
+contain the word 'tutorial', and extracts the link if there is one.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Get dictionary value given key.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;val&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;val&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;word_in_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Search for work in text string.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;word&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;()):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;extract_link&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Extract link from tweet or return null string.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;regex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;r&amp;#39;https?:..[^\s&amp;lt;&amp;gt;&amp;quot;]+|www\.[^\s&amp;lt;&amp;gt;&amp;quot;]+&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;match&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;regex&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;myrespond&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Respond to relevant tweet.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;tweet&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;json&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loads&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;lang&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;lang&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;en&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;getdata&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tweet&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;extract_link&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;word_in_text&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tutorial&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;pocket_instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;-----------------------------------------------------------&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;myrespond()&lt;/code&gt; function uses the &lt;code&gt;json&lt;/code&gt; library to turn the JSON-format data
+containing the tweet into a Python dictionary, then another function &lt;code&gt;getdata&lt;/code&gt;
+to access individual data items; if the language is English, then the text of
+the tweet is extracted and the &lt;code&gt;re&lt;/code&gt; library used to return the link. Finally,
+the Pocket API is used to add the link to Pocket.&lt;/p&gt;
+&lt;p&gt;There's probably some sophistication that could be added to this to ensure
+better quality links are identified; I could, for example, use my own tweets
+and blog posts as a reference corpus, and test the similarity of tweets
+to the text in my corpus; and then only add links that have a similarity score
+above some threshold.&lt;/p&gt;
+&lt;p&gt;The full code is on &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;, at
+&lt;a href="https://github.com/0x7df/twitter2pocket"&gt;https://github.com/0x7df/twitter2pocket&lt;/a&gt;.&lt;/p&gt;</summary><category term="python"></category><category term="api"></category><category term="twitter"></category><category term="pocket"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><published>2015-10-03T20:06:00+01:00</published><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
 &lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
 &lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
 &lt;p&gt;Many options are available for static site generation, with
@@ -220,7 +351,150 @@ flag is supplied - as &lt;em&gt;totally derivative&lt;/em&gt;. Assume it blows a
 already there and replaces it with the new content. So you never manually
 modify anything on that branch; keep all your content, configuration files,
 tools, and anything else you care about, on a different branch, and keep the
-destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><published>2015-08-31T22:02:00+01:00</published><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Remembering Bayes's formula</title><link href="http://0x7df.github.io/remembering-bayess-formula.html" rel="alternate"></link><published>2015-10-03T00:00:00+01:00</published><updated>2015-10-03T00:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:remembering-bayess-formula.html</id><summary type="html">&lt;p&gt;It's probably just me, but I could never remember Bayes's formula:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A) P(A)}{P(B)} $$&lt;/div&gt;
+&lt;p&gt;as-is. I don't use it very often, so I didn't have it at my fingertips.
+However, I found it easy to remember:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A,B) = P(A|B) P(B) $$&lt;/div&gt;
+&lt;p&gt;which is the more general formula that says that the probability of &lt;span class="math"&gt;\(A\)&lt;/span&gt; &lt;em&gt;and&lt;/em&gt;
+&lt;span class="math"&gt;\(B\)&lt;/span&gt; is the probability of &lt;span class="math"&gt;\(A\)&lt;/span&gt; given &lt;span class="math"&gt;\(B\)&lt;/span&gt; multiplied by the probability of just &lt;span class="math"&gt;\(B\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This sticks. So:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A,B) = P(A|B) P(B) $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ P(A,B) = P(B|A) P(A) $$&lt;/div&gt;
+&lt;p&gt;Therefore:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A|B)P(B) = P(B|A)P(A) $$&lt;/div&gt;
+&lt;p&gt;and:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A)P(A)}{P(B)} $$&lt;/div&gt;
+&lt;p&gt;which is Bayes's formula.&lt;/p&gt;
+&lt;p&gt;The other trick I use to help remember what it all means is, once I've got the
+formula, not to use &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt;
+as the symbols representing events, but instead to use &lt;span class="math"&gt;\(C\)&lt;/span&gt; and &lt;span class="math"&gt;\(E\)&lt;/span&gt; for "cause"
+and "effect":&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} $$&lt;/div&gt;
+&lt;p&gt;You could use &lt;span class="math"&gt;\(T\)&lt;/span&gt; and &lt;span class="math"&gt;\(O\)&lt;/span&gt;, for "theory" and "observation", or whatever works
+for you.&lt;/p&gt;
+&lt;p&gt;Then it's easier to know, given some situation, which numbers to put where. To
+illustrate this, we'll use a 
+classic example from &lt;a href="https://faculty.washington.edu/jmiyamot/p548/eddydm%20prob%20reas%20i%20clin%20medicine.pdf"&gt;Eddy, D. M. (1982), &lt;em&gt;Probabilistic reasoning in
+clinical medicine: problems and opportunities&lt;/em&gt;&lt;/a&gt;, in &lt;a href="https://books.google.co.uk/books?id=MScNAAAAQBAJ"&gt;Kahneman &lt;em&gt;et al.&lt;/em&gt;
+(Eds.),
+&lt;em&gt;Judgement under uncertainty: heuristics and biases&lt;/em&gt;, Cambridge University
+Press&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;In this example, the following problem concerning diagnosing breast cancer
+using a mammogram is set:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Suppose a physician has had experience with a number of women who, in all
+important aspects... are similar to this particular patient. And suppose the
+physician knows from this experience that the frequency of cancer in this
+group is, say, 1 out of 100... Now let the physician order a mammogram and
+receive a report that... the lesion is malignant.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Values of 80% for true positives and 10% for false positives are reported for
+this particular kind of diagnostic test (or thereabouts).&lt;/p&gt;
+&lt;p&gt;Now we can distinguish between cause and effect; we let "the patient has
+cancer" be the cause, &lt;span class="math"&gt;\(C\)&lt;/span&gt;, and "the test is positive" be the effect, &lt;span class="math"&gt;\(E\)&lt;/span&gt;.
+The question posed is what is the probability that the patient has cancer given
+that the test is reported as positive: i.e. what is &lt;span class="math"&gt;\(P(C|E)\)&lt;/span&gt;. Recall that:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} $$&lt;/div&gt;
+&lt;p&gt;We have to insert numbers in for the other values, to solve the problem. The
+first is &lt;span class="math"&gt;\(P(E|C)\)&lt;/span&gt;: the probability of the effect (a positive test) given that
+the cause is true (the patient has cancer). This is simply the true positive
+rate of the test, 0.8. Next, &lt;span class="math"&gt;\(P(C)\)&lt;/span&gt; is the probability that the patient has
+cancer; i.e. the base rate for the reference group. The doctor has already
+judged this to be 0.01 (1 in 100 for women similar to this one in all important
+aspects). The final number we need is &lt;span class="math"&gt;\(P(E)\)&lt;/span&gt;; i.e. the probability of this
+effect occurring. This isn't a conditional probability, but the probability
+irrespective of the cause. We can work this out by summing the conditional
+probabilities of the effect over all possible causes.&lt;/p&gt;
+&lt;p&gt;Generally then:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(E) = \sum_c P(E|c) P(c) $$&lt;/div&gt;
+&lt;p&gt;where we have used the symbol &lt;span class="math"&gt;\(c\)&lt;/span&gt; to represent causes. When &lt;span class="math"&gt;\(c = C\)&lt;/span&gt;, the cause
+is that the patient has cancer; all possible &lt;span class="math"&gt;\(c \ne C\)&lt;/span&gt; represent other causes.
+In this case we don't have to itemise all the possibilites, because no matter
+how many other reasons there are for the test coming up true, they are
+accounted for in the false positive rate.&lt;/p&gt;
+&lt;p&gt;Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(E) = P(E|c{=}C) P(c{=}C) + P(E|c{\ne}C) P(c{\ne}C) $$&lt;/div&gt;
+&lt;p&gt;The first two quantities on the right hand side have been identified already:
+0.8 and 0.01. The probability of a positive test arising when no cancer is
+present is 0.1 (false positive rate of 10%), and the probability of no cancer
+is simply 1 - 0.01 = 0.99. Hence, and finally:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{(0.8)(0.01)}{(0.8)(0.01) + (0.1)(0.99)} $$&lt;/div&gt;
+&lt;p&gt;which gives an answer of abut 0.075, or 7.5% probability that the patient
+actually has cancer given a positive test. The main reason this is so
+surprisingly low is
+the low relative incidence of cancer in the first place. If the rate of cancer
+in this group, the formula would be:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{(0.8)(0.5)}{(0.8)(0.5) + (0.1)(0.5)} $$&lt;/div&gt;
+&lt;p&gt;giving nearly a 90% chance of the patient having cancer, given exactly the same
+test. This illustrates a key point - the usefulness of a test doesn't
+depend on only the intrinsic properties of the test, like its accuracy (true
+positive rate) and its false alarm rate, but also on how common the phenomenon
+being tested for is. Two tests with the same accuracy and false alarm rate,
+that test for, say, lung cancer and asthma, cannot be treated with the same
+degree of confidence given the different underlying prevalences of those two
+conditions. Interestingly, this also means the same test for the same disease
+might need to be treated with differing confidence in different
+populations; cystic fibrosis is much commoner in European countries than in
+Asia, so doctors in those locations would have different levels of confidence
+in the test.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><category term="bayes"></category><category term="mathematics"></category><category term="probabililty"></category><category term="statistics"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><published>2015-08-31T22:02:00+01:00</published><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
 &lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
 &lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the

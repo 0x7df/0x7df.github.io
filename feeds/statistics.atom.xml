@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/statistics.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-10-03T00:00:00+01:00</updated><entry><title>Remembering Bayes's formula</title><link href="http://0x7df.github.io/remembering-bayess-formula.html" rel="alternate"></link><published>2015-10-03T00:00:00+01:00</published><updated>2015-10-03T00:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:remembering-bayess-formula.html</id><summary type="html">&lt;p&gt;It's probably just me, but I could never remember Bayes's formula:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A) P(A)}{P(B)} $$&lt;/div&gt;
+&lt;p&gt;as-is. I don't use it very often, so I didn't have it at my fingertips.
+However, I found it easy to remember:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A,B) = P(A|B) P(B) $$&lt;/div&gt;
+&lt;p&gt;which is the more general formula that says that the probability of &lt;span class="math"&gt;\(A\)&lt;/span&gt; &lt;em&gt;and&lt;/em&gt;
+&lt;span class="math"&gt;\(B\)&lt;/span&gt; is the probability of &lt;span class="math"&gt;\(A\)&lt;/span&gt; given &lt;span class="math"&gt;\(B\)&lt;/span&gt; multiplied by the probability of just &lt;span class="math"&gt;\(B\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;This sticks. So:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A,B) = P(A|B) P(B) $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ P(A,B) = P(B|A) P(A) $$&lt;/div&gt;
+&lt;p&gt;Therefore:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A|B)P(B) = P(B|A)P(A) $$&lt;/div&gt;
+&lt;p&gt;and:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A)P(A)}{P(B)} $$&lt;/div&gt;
+&lt;p&gt;which is Bayes's formula.&lt;/p&gt;
+&lt;p&gt;The other trick I use to help remember what it all means is, once I've got the
+formula, not to use &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt;
+as the symbols representing events, but instead to use &lt;span class="math"&gt;\(C\)&lt;/span&gt; and &lt;span class="math"&gt;\(E\)&lt;/span&gt; for "cause"
+and "effect":&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} $$&lt;/div&gt;
+&lt;p&gt;You could use &lt;span class="math"&gt;\(T\)&lt;/span&gt; and &lt;span class="math"&gt;\(O\)&lt;/span&gt;, for "theory" and "observation", or whatever works
+for you.&lt;/p&gt;
+&lt;p&gt;Then it's easier to know, given some situation, which numbers to put where. To
+illustrate this, we'll use a 
+classic example from &lt;a href="https://faculty.washington.edu/jmiyamot/p548/eddydm%20prob%20reas%20i%20clin%20medicine.pdf"&gt;Eddy, D. M. (1982), &lt;em&gt;Probabilistic reasoning in
+clinical medicine: problems and opportunities&lt;/em&gt;&lt;/a&gt;, in &lt;a href="https://books.google.co.uk/books?id=MScNAAAAQBAJ"&gt;Kahneman &lt;em&gt;et al.&lt;/em&gt;
+(Eds.),
+&lt;em&gt;Judgement under uncertainty: heuristics and biases&lt;/em&gt;, Cambridge University
+Press&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;In this example, the following problem concerning diagnosing breast cancer
+using a mammogram is set:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Suppose a physician has had experience with a number of women who, in all
+important aspects... are similar to this particular patient. And suppose the
+physician knows from this experience that the frequency of cancer in this
+group is, say, 1 out of 100... Now let the physician order a mammogram and
+receive a report that... the lesion is malignant.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Values of 80% for true positives and 10% for false positives are reported for
+this particular kind of diagnostic test (or thereabouts).&lt;/p&gt;
+&lt;p&gt;Now we can distinguish between cause and effect; we let "the patient has
+cancer" be the cause, &lt;span class="math"&gt;\(C\)&lt;/span&gt;, and "the test is positive" be the effect, &lt;span class="math"&gt;\(E\)&lt;/span&gt;.
+The question posed is what is the probability that the patient has cancer given
+that the test is reported as positive: i.e. what is &lt;span class="math"&gt;\(P(C|E)\)&lt;/span&gt;. Recall that:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{P(E|C)P(C)}{P(E)} $$&lt;/div&gt;
+&lt;p&gt;We have to insert numbers in for the other values, to solve the problem. The
+first is &lt;span class="math"&gt;\(P(E|C)\)&lt;/span&gt;: the probability of the effect (a positive test) given that
+the cause is true (the patient has cancer). This is simply the true positive
+rate of the test, 0.8. Next, &lt;span class="math"&gt;\(P(C)\)&lt;/span&gt; is the probability that the patient has
+cancer; i.e. the base rate for the reference group. The doctor has already
+judged this to be 0.01 (1 in 100 for women similar to this one in all important
+aspects). The final number we need is &lt;span class="math"&gt;\(P(E)\)&lt;/span&gt;; i.e. the probability of this
+effect occurring. This isn't a conditional probability, but the probability
+irrespective of the cause. We can work this out by summing the conditional
+probabilities of the effect over all possible causes.&lt;/p&gt;
+&lt;p&gt;Generally then:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(E) = \sum_c P(E|c) P(c) $$&lt;/div&gt;
+&lt;p&gt;where we have used the symbol &lt;span class="math"&gt;\(c\)&lt;/span&gt; to represent causes. When &lt;span class="math"&gt;\(c = C\)&lt;/span&gt;, the cause
+is that the patient has cancer; all possible &lt;span class="math"&gt;\(c \ne C\)&lt;/span&gt; represent other causes.
+In this case we don't have to itemise all the possibilites, because no matter
+how many other reasons there are for the test coming up true, they are
+accounted for in the false positive rate.&lt;/p&gt;
+&lt;p&gt;Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(E) = P(E|c{=}C) P(c{=}C) + P(E|c{\ne}C) P(c{\ne}C) $$&lt;/div&gt;
+&lt;p&gt;The first two quantities on the right hand side have been identified already:
+0.8 and 0.01. The probability of a positive test arising when no cancer is
+present is 0.1 (false positive rate of 10%), and the probability of no cancer
+is simply 1 - 0.01 = 0.99. Hence, and finally:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{(0.8)(0.01)}{(0.8)(0.01) + (0.1)(0.99)} $$&lt;/div&gt;
+&lt;p&gt;which gives an answer of abut 0.075, or 7.5% probability that the patient
+actually has cancer given a positive test. The main reason this is so
+surprisingly low is
+the low relative incidence of cancer in the first place. If the rate of cancer
+in this group, the formula would be:&lt;/p&gt;
+&lt;div class="math"&gt;$$ P(C|E) = \frac{(0.8)(0.5)}{(0.8)(0.5) + (0.1)(0.5)} $$&lt;/div&gt;
+&lt;p&gt;giving nearly a 90% chance of the patient having cancer, given exactly the same
+test. This illustrates a key point - the usefulness of a test doesn't
+depend on only the intrinsic properties of the test, like its accuracy (true
+positive rate) and its false alarm rate, but also on how common the phenomenon
+being tested for is. Two tests with the same accuracy and false alarm rate,
+that test for, say, lung cancer and asthma, cannot be treated with the same
+degree of confidence given the different underlying prevalences of those two
+conditions. Interestingly, this also means the same test for the same disease
+might need to be treated with differing confidence in different
+populations; cystic fibrosis is much commoner in European countries than in
+Asia, so doctors in those locations would have different levels of confidence
+in the test.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</summary><category term="bayes"></category><category term="mathematics"></category><category term="probabililty"></category><category term="statistics"></category></entry></feed>
