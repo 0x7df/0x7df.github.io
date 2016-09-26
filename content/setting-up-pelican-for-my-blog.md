@@ -1,12 +1,12 @@
 Title: Setting up pelican for my blog
-Date: 2016-09-25 22:09
+Date: 2016-09-26 17:43
 Category:  
-Modified: 2016-09-25 22:09
+Modified: 2016-09-26 17:43
 Tags: linux, markdown, pelican, programming, publishing, python
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 1. Install pelican and its prerequisites:
 
