@@ -1,7 +1,7 @@
-Title: Setting up pelican for my blog
-Date: 2016-09-26 17:43
+Title: Setting up Pelican
+Date: 2016-09-26 17:52
 Category:  
-Modified: 2016-09-26 17:43
+Modified: 2016-09-26 17:52
 Tags: linux, markdown, pelican, programming, publishing, python
 Slug: 
 Author: 0x7df
@@ -65,4 +65,8 @@ Status: published
 1. Install ghp-import:
 
         git clone https://github.com/davisp/ghp-import.git
+
+1. Publish to GitHub:
+
+        make github
 
