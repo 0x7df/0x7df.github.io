@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2016-09-26T17:43:00+01:00</updated><entry><title>Setting up pelican for my blog</title><link href="http://0x7df.github.io/setting-up-pelican-for-my-blog.html" rel="alternate"></link><published>2016-09-26T17:43:00+01:00</published><updated>2016-09-26T17:43:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2016-09-26:setting-up-pelican-for-my-blog.html</id><summary type="html">&lt;ol&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2016-09-26T17:52:00+01:00</updated><entry><title>Setting up Pelican</title><link href="http://0x7df.github.io/setting-up-pelican.html" rel="alternate"></link><published>2016-09-26T17:52:00+01:00</published><updated>2016-09-26T17:52:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2016-09-26:setting-up-pelican.html</id><summary type="html">&lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Install pelican and its prerequisites:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install markdown
@@ -86,6 +86,13 @@ python -m SimpleHTTPServer
 &lt;li&gt;
 &lt;p&gt;Install ghp-import:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/davisp/ghp-import.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Publish to GitHub:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;make github
 &lt;/pre&gt;&lt;/div&gt;
 
 
