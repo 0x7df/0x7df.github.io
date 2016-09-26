@@ -1,7 +1,7 @@
 Title: Plasma Dynamics
-Date: 
+Date: 2016-09-25 22:34
 Category: physics 
-Modified: 
+Modified: 2016-09-25 22:34
 Tags: plasma physics
 Slug: 
 Author: 0x7df

@@ -1,7 +1,7 @@
 Title: Numerical weather prediction
-Date: 
+Date: 2016-09-25 22:34
 Category: atmospheric science 
-Modified: 
+Modified: 2016-09-25 22:34
 Tags: meteorology, computational physics, numerical modelling
 Slug: 
 Author: 0x7df

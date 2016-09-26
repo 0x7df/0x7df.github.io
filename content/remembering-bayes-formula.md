@@ -1,7 +1,7 @@
 Title: Remembering Bayes's formula 
 Date: 2015-10-03
 Category: Statistics
-Modified: 
+Modified: 2015-10-03
 Tags: bayes, mathematics, probabililty, statistics 
 Slug: 
 Author: 0x7df

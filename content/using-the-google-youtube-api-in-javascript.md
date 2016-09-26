@@ -1,7 +1,7 @@
 Title: Using the Google YouTube API in JavaScript
-Date: 
+Date: 2016-09-25 22:34
 Category: programming 
-Modified: 
+Modified: 2016-09-25 22:34
 Tags: javascript, api, google, youtube
 Slug: 
 Author: 0x7df

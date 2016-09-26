@@ -1,7 +1,7 @@
 Title: Understanding Bayes's formula
-Date: 
+Date: 2016-09-25 22:34
 Category: statistics 
-Modified: 
+Modified: 2016-09-25 22:34
 Tags: mathematics, probability 
 Slug: 
 Author: 0x7df
