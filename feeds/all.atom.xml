@@ -1,5 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-11T20:25:00+00:00</updated><entry><title>500 hPa geopotential height anomaly correlation</title><link href="http://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html" rel="alternate"></link><published>2017-02-11T20:25:00+00:00</published><updated>2017-02-11T20:25:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-11:/500-hpa-geopotential-height-anomaly-correlation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The 500 hPa &lt;a href="http://0x7df.github.io/geopotential.html"&gt;geopotential&lt;/a&gt; height anomaly
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-12T12:40:00+00:00</updated><entry><title>Fredholm integral equations and the resolvent kernel</title><link href="http://0x7df.github.io/fredholm-integral-equations-and-the-resolvent-kernel.html" rel="alternate"></link><published>2017-02-12T12:40:00+00:00</published><updated>2017-02-12T12:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-12:/fredholm-integral-equations-and-the-resolvent-kernel.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Consider the &lt;em&gt;inhomogeneous Fredholm integral equation&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ H \psi(\mu) = \lambda \int_a^b \sigma(\mu, \mu') \psi(\mu') d\mu'
+               + S(\mu) $$&lt;/div&gt;
+&lt;p&gt;The unknown to be solved for is &lt;span class="math"&gt;\(\psi(\mu)\)&lt;/span&gt; where &lt;span class="math"&gt;\(a \le \mu \le b\)&lt;/span&gt; is the
+independent variable, and the known function &lt;span class="math"&gt;\(\sigma(\mu, \mu')\)&lt;/span&gt; is known as
+the &lt;em&gt;kernel&lt;/em&gt;. This is an &lt;em&gt;inhomogeneous&lt;/em&gt; equation because the known function
+&lt;span class="math"&gt;\(S(\mu) \ne 0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;It is a &lt;em&gt;Fredholm&lt;/em&gt; equation because the limits on the integral are constants;
+if they were variables then the equation would be a &lt;em&gt;Volterra&lt;/em&gt; equation.&lt;/p&gt;
+&lt;p&gt;If &lt;span class="math"&gt;\(H = 0\)&lt;/span&gt;, then the equation is of the &lt;em&gt;first kind&lt;/em&gt;; &lt;span class="math"&gt;\(H = 1\)&lt;/span&gt; gives rise to a
+Fredholm equation of the &lt;em&gt;second kind&lt;/em&gt;, and otherwise the equation is of the
+&lt;em&gt;third kind&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;For Fredholm equations of the second kind, where &lt;span class="math"&gt;\(H = 1\)&lt;/span&gt;, we can look for
+iterative solutions, i.e.:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \psi_0(\mu) + \lambda\psi_1(\mu) + \lambda^2\psi_2(\mu)
+             + ... + \lambda^n\psi_n(\mu) + ... $$&lt;/div&gt;
+&lt;p&gt;When this is substituted into the original equation, we obtain:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi_0(\mu) = S(\mu) $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi_1(\mu) = \int_a^b \sigma(\mu, \mu') \psi_0(\mu') d\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi_2(\mu) = \int_a^b \sigma(\mu, \mu') \psi_1(\mu') d\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ ... $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi_n(\mu) = \int_a^b \sigma(\mu, \mu') \psi_{n-1}(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;This can be carried on until the iterative solution converges to some
+desired level of accuracy. The process is called &lt;em&gt;Neumann expansion&lt;/em&gt;. The
+condition for the series solution to be convergent is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ |\lambda| \le \frac{1}{||\sigma||} $$&lt;/div&gt;
+&lt;p&gt;where the square of the norm of the kernel is given by:&lt;/p&gt;
+&lt;div class="math"&gt;$$ ||\sigma||^2 = \int_a^b \int_a^b |\sigma(\mu, \mu')|^2 d\mu' d\mu $$&lt;/div&gt;
+&lt;p&gt;(See M. Masujima, &lt;em&gt;Applied Mathematical Methods in Theoretical Physics&lt;/em&gt;, 2005.)&lt;/p&gt;
+&lt;p&gt;An alternative approach is called &lt;em&gt;Fredholm theory&lt;/em&gt;. In Neumann iteration, we
+repeatedly operate on &lt;span class="math"&gt;\(S(\mu)\)&lt;/span&gt; using the kernel &lt;span class="math"&gt;\(\sigma(\mu, \mu')\)&lt;/span&gt;, to obtain
+a converged answer for &lt;span class="math"&gt;\(\psi(\mu)\)&lt;/span&gt;. One could ask instead: what &lt;em&gt;single&lt;/em&gt;
+operation, involving the kernel, could be applied to &lt;span class="math"&gt;\(S(\mu)\)&lt;/span&gt; to obtain the
+same value of &lt;span class="math"&gt;\(\psi(\mu)\)&lt;/span&gt;? That is, what &lt;span class="math"&gt;\(R(\mu, \mu')\)&lt;/span&gt; for which:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \int_a^b R(\mu, \mu') S(\mu') d\mu' + S(\mu) $$&lt;/div&gt;
+&lt;p&gt;The function &lt;span class="math"&gt;\(R(\mu, \mu')\)&lt;/span&gt; is called the &lt;em&gt;resolvent kernel&lt;/em&gt;, and it is easy to
+find &lt;span class="math"&gt;\(\psi(\mu)\)&lt;/span&gt; once this known. The proof of the above equation is complex
+(see J. Kondo, &lt;em&gt;Integral Equations&lt;/em&gt;, 1991), but the general method of obtaining
+&lt;span class="math"&gt;\(R(\mu, \mu')\)&lt;/span&gt; is quite simple.&lt;/p&gt;
+&lt;p&gt;We first define the &lt;em&gt;iterated kernels&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \sigma_1(\mu, \mu') = \sigma(\mu, \mu') $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \sigma_2(\mu, \mu') = \int_a^b \sigma(\mu, \mu'')\sigma(\mu'', \mu') d\mu'' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \sigma_3(\mu, \mu') = \int_a^b \int_a^b \sigma(\mu, \mu''') \sigma(\mu''', \mu'')\sigma(\mu'', \mu') d\mu'' d\mu''' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \sigma_n(\mu, \mu') = \int_a^b d\mu^{(n)} \int_a^b d\mu^{(n-1)} ... \int_a^b
+d\mu'' \sigma(\mu, \mu^{(n)}) \sigma(\mu^{(n)}, \mu^{(n-1)}) ... \sigma(\mu'', \mu')
+$$&lt;/div&gt;
+&lt;p&gt;(The notation &lt;span class="math"&gt;\(x^{(n)}\)&lt;/span&gt; indicates &lt;span class="math"&gt;\(x\)&lt;/span&gt; with &lt;span class="math"&gt;\(n\)&lt;/span&gt; primes). So we can re-write:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi_0(\mu) = S(\mu) $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi_1(\mu) = \int_a^b \sigma_1(\mu, \mu') S(\mu') d\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi_2(\mu) = \int_a^b \sigma_2(\mu, \mu') S(\mu') d\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ ... $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi_n(\mu) = \int_a^b \sigma_n(\mu, \mu') S(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;and further:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \psi_0(\mu) + \lambda\psi_1(\mu) + \lambda^2\psi_2(\mu) + ... +
+\lambda^n\psi_n(\mu) + ... $$&lt;/div&gt;
+&lt;p&gt;can be written:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \lambda \int_a^b \sigma_1(\mu, \mu') S(\mu') d\mu'
+             + \lambda^2 \int_a^b \sigma_2(\mu, \mu') S(\mu') d\mu' + ...
+             + \lambda^n \int_a^b \sigma_n(\mu, \mu') S(\mu') d\mu' + ... $$&lt;/div&gt;
+&lt;p&gt;or:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \sum_{n=1}^\infty \lambda^n \int_a^b \sigma_n(\mu,
+\mu') S(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;Bringing the summation inside the integral:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \int_a^b \sum_{n=1}^\infty \lambda^n \sigma_n(\mu,
+\mu') S(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;we can write:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \int_a^b R(\mu, \mu'; \lambda) S(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;where:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R(\mu, \mu'; \lambda) = \sum_{n=1}^{\infty} \lambda^n \sigma_n(\mu, \mu') $$&lt;/div&gt;
+&lt;p&gt;Like Neumann iteration, this is an iterative process, but it has two
+significant advantages:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Firstly, finding the resolvent kernel requires fewer iterations than Neumann
+expansion.&lt;/li&gt;
+&lt;li&gt;Secondly, finding the resolvent kernel requires knowledge of only the
+kernel, &lt;span class="math"&gt;\(\sigma(\mu, \mu')\)&lt;/span&gt;, not the function &lt;span class="math"&gt;\(S(\mu)\)&lt;/span&gt;. This is a practical
+advantage if the same kernel is applied in different circumstances involving
+different functions &lt;span class="math"&gt;\(S(\mu)\)&lt;/span&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Example 1&lt;/h2&gt;
+&lt;p&gt;As an example we can take the simplest possible equation of this form, for
+which the kernel and the source term are constants:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \sigma(\mu, \mu') = \sigma_0 $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ S(\mu) = S_0 $$&lt;/div&gt;
+&lt;p&gt;so that:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \lambda\int_a^b \sigma(\mu, \mu') \psi(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;becomes:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S_0 + \lambda\sigma_0\int_a^b \psi(\mu')d\mu' $$&lt;/div&gt;
+&lt;p&gt;This is easily solvable; because the right-hand side clearly has no dependence on &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;, we can see that
+&lt;span class="math"&gt;\(\psi(\mu)\)&lt;/span&gt; must be a constant &lt;span class="math"&gt;\(\psi_0\)&lt;/span&gt;, hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi_0 = \frac{S_0}{1 - \lambda\sigma_0(b-a)} $$&lt;/div&gt;
+&lt;p&gt;Now using the resolvent kernel method to obtain the solution, we write:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \int_a^b R(\mu, \mu'; \lambda) S(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;where:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R(\mu, \mu'; \lambda) = \sum_{n=1}^{\infty} \lambda^n \sigma_n(\mu, \mu') $$&lt;/div&gt;
+&lt;p&gt;We have:&lt;/p&gt;
+&lt;div class="math"&gt;$$\sigma_1(\mu, \mu') = \sigma_0 $$&lt;/div&gt;
+&lt;div class="math"&gt;$$\sigma_2(\mu, \mu') = \sigma_0^2 (b - a) $$&lt;/div&gt;
+&lt;div class="math"&gt;$$\sigma_3(\mu, \mu') = \sigma_0^3 (b - a)^2 $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ ... $$&lt;/div&gt;
+&lt;div class="math"&gt;$$\sigma_n(\mu, \mu') = \sigma_0^n (b - a)^{n-1} $$&lt;/div&gt;
+&lt;p&gt;hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R(\mu, \mu'; \lambda) = \sum_{n=1}^{\infty} \lambda^n \sigma_0^n (b -
+a)^{n-1} $$&lt;/div&gt;
+&lt;p&gt;and:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S_0 + \int_a^b \sum_{n=1}^{\infty} \lambda^n \sigma_0^n (b -
+a)^{n-1} S(\mu') d\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi_0 = S_0 \left(1 + \sum_{n=1}^{\infty} \left[ \lambda \sigma_0 (b -  
+a)\right]^n \right) $$&lt;/div&gt;
+&lt;p&gt;This is equal to:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi_0 = S_0 \left(1 - \frac{\lambda\sigma_0(b - a)}{\lambda\sigma_0(b - a)
+- 1} \right) $$&lt;/div&gt;
+&lt;p&gt;as long as &lt;span class="math"&gt;\(|\lambda\sigma_0(b-a)| &amp;lt; 1\)&lt;/span&gt;, hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi_0 = \frac{S_0}{1 - \lambda\sigma_0(b - a)} $$&lt;/div&gt;
+&lt;p&gt;which is the same solution as earlier, obtained by solving directly.&lt;/p&gt;
+&lt;h2&gt;Example 2&lt;/h2&gt;
+&lt;p&gt;Masujima (2005) gives the following example, with &lt;span class="math"&gt;\(\sigma(\mu, \mu') = e^{\mu -
+\mu'}\)&lt;/span&gt;, &lt;span class="math"&gt;\(a = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(b = 1\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \lambda\int_0^1 e^{\mu-\mu'}\psi(\mu')d\mu' $$&lt;/div&gt;
+&lt;p&gt;The iterated kernels simplify to:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \sigma_n(\mu, \mu') = e^{\mu - \mu'} $$&lt;/div&gt;
+&lt;p&gt;for all &lt;span class="math"&gt;\(n\)&lt;/span&gt;, and hence the resolvent kernel is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R(\mu, \mu'; \lambda) = \sum_{n=1}^{\infty} \lambda^n e^{\mu-\mu'} $$&lt;/div&gt;
+&lt;p&gt;which is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R(\mu, \mu'; \lambda) = \frac{\lambda}{1 - \lambda} e^{\mu - \mu'} $$&lt;/div&gt;
+&lt;p&gt;as long as &lt;span class="math"&gt;\(|\lambda| \lt 1\)&lt;/span&gt;; in which case:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \frac{\lambda}{1 - \lambda} \int_0^1 e^{\mu - \mu'}
+S(\mu') d\mu' $$&lt;/div&gt;
+&lt;h2&gt;Example 3&lt;/h2&gt;
+&lt;p&gt;We now consider the example where &lt;span class="math"&gt;\(\sigma(\mu, \mu') = \mu\mu'\)&lt;/span&gt; and &lt;span class="math"&gt;\(a = 0\)&lt;/span&gt; and
+&lt;span class="math"&gt;\(b = 1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \lambda \int_0^1 \mu \mu' \psi(\mu') d\mu' $$&lt;/div&gt;
+&lt;p&gt;The iterated kernels are:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \sigma_1(\mu, \mu') = \mu\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \sigma_2(\mu, \mu') = \int_0^1 \mu\mu''\mu''\mu' d\mu'' = \mu\mu'/3 $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \sigma_3(\mu, \mu') = \int_0^1 \int_0^1 \mu\mu'''\mu'''\mu''\mu''\mu'
+d\mu''d\mu''' = \mu \int_0^1 \mu'''^2 \int_0^1 \mu''^2 d\mu'' d\mu''' =
+\mu\mu'/9 $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \sigma_n(\mu,\mu') = \mu\mu'/3^{n-1} $$&lt;/div&gt;
+&lt;p&gt;Hence the resolvent kernel is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R(\mu, \mu'; \lambda) = \sum_{n=1}^\infty \lambda^n \mu\mu' / 3^{n-1} $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ R(\mu, \mu'; \lambda) = \frac{\mu\mu'\lambda}{1 - \lambda/3} $$&lt;/div&gt;
+&lt;p&gt;The solution is therefore:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S(\mu) + \frac{\lambda}{1 - \lambda/3} \mu \int_0^1 \mu' S(\mu')
+d\mu' $$&lt;/div&gt;
+&lt;p&gt;Consider three cases.&lt;/p&gt;
+&lt;h3&gt;Case 1: &lt;span class="math"&gt;\(S(\mu) = S_0\)&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;For constant source:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S_0 + \frac{\lambda}{1 - \lambda/3} \frac{\mu S_0}{2} $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S_0 \left( 1 + \frac{\lambda\mu}{2[1 - \lambda/3]}\right) $$&lt;/div&gt;
+&lt;p&gt;For &lt;span class="math"&gt;\(\lambda = 3/4\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$\psi(\mu) = S_0 \left(1 + \frac{\mu}{2}\right) $$&lt;/div&gt;
+&lt;p&gt;For &lt;span class="math"&gt;\(\lambda = 1\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = S_0 \left(1 + \frac{3\mu}{4}\right) $$&lt;/div&gt;
+&lt;h3&gt;Case 2: &lt;span class="math"&gt;\(S(\mu) = \mu\)&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;In this case:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \mu + \frac{\lambda}{1 - \lambda/3} \mu \int_0^1 \mu' \mu' d\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \mu + \frac{\lambda}{1 - \lambda/3} \mu \frac{1}{3} $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \frac{3\mu}{3 - \lambda} $$&lt;/div&gt;
+&lt;p&gt;For &lt;span class="math"&gt;\(\lambda = 1\)&lt;/span&gt;&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \frac{3\mu}{2} $$&lt;/div&gt;
+&lt;h3&gt;Case 3: &lt;span class="math"&gt;\(S(\mu) = 3\mu^2/2\)&lt;/span&gt;&lt;/h3&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \frac{3\mu^2}{2} + \frac{3\lambda}{2[1 - \lambda/3]} \mu \int_0^1 \mu'^3 d\mu' $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \frac{3\mu^2}{2} + \frac{3\lambda\mu}{8[1 - \lambda/3]} $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \frac{3}{2} \left( \mu^2 + \frac{\lambda\mu}{4[1 - \lambda/3]}
+\right) $$&lt;/div&gt;
+&lt;p&gt;For &lt;span class="math"&gt;\(\lambda = 1\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \psi(\mu) = \frac{3}{2}\left(\mu^2  + \frac{3\mu}{8} \right) $$&lt;/div&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="mathematics"></category></entry><entry><title>500 hPa geopotential height anomaly correlation</title><link href="http://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html" rel="alternate"></link><published>2017-02-11T20:25:00+00:00</published><updated>2017-02-11T20:25:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-11:/500-hpa-geopotential-height-anomaly-correlation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The 500 hPa &lt;a href="http://0x7df.github.io/geopotential.html"&gt;geopotential&lt;/a&gt; height anomaly
 correlation is a key indicator of the skill of numerical weather prediction.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.e-education.psu.edu/worldofweather/node/2031"&gt;Patterns of 500 hPa heights reveal short- and long-wave troughs and ridges.&lt;/a&gt; Surface low
 pressure tends to develop (or strengthen) to the east of 500 hPa short-wave
