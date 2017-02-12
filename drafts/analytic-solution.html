@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="\documentclass{article} \usepackage{times} \usepackage{amssymb,amsmath} \begin{document} \title{} \maketitle \begin{abstract} \end{abstract} \clearpage \section{} \subsection{} The neutrons...">
+        <meta name="description" content="The neutrons passing through point \(P\) on the surface of a sphere, and thus comprising the scalar flux there, can be divided into two types, depending on whether they have passed through sphere...">
         <meta name="keywords" content="neutron transport, physics">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -75,68 +75,47 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>\documentclass{article}<br>
-\usepackage{times}<br>
-\usepackage{amssymb,amsmath}</p>
-<p>\begin{document}</p>
-<p>\title{}</p>
-<p>\maketitle</p>
-<p>\begin{abstract}</p>
-<p>\end{abstract}</p>
-<p>\clearpage</p>
-<p>\section{}</p>
-<p>\subsection{}</p>
-<p>The neutrons passing through point<span class="math">\(P\)</span> on the surface of a sphere, and
+        <p>The neutrons passing through point <span class="math">\(P\)</span> on the surface of a sphere, and
 thus comprising the scalar flux there, can be divided into two types,
 depending on whether they have passed through sphere or not. The plane
-tangent to the sphere at<span class="math">\(P\)</span> divides the whole system into two
+tangential to the sphere at <span class="math">\(P\)</span> divides the whole system into two
 infinite half-spaces, in which, in the absence of scattering, the two
 types of neutron originate: the neutrons emitted in the half-space that
-does not contain the sphere arrive at<span class="math">\(P\)</span> without having passed
+does not contain the sphere arrive at <span class="math">\(P\)</span> without having passed
 through the sphere, whereas the neutrons emitted in the half-space that
-does contain the sphere cannot reach<span class="math">\(P\)</span> without crossing some secant
-line of the sphere. Hence we divide the scalar flux,<span class="math">\(\phi(P)\)</span> into
-two contributions,<span class="math">\(\phi_d(P)\)</span> and<span class="math">\(\phi_0(P)\)</span>, which have and
+does contain the sphere cannot reach <span class="math">\(P\)</span> without crossing some secant
+line of the sphere. Hence we divide the scalar flux, <span class="math">\(\phi(P)\)</span> into
+two contributions, <span class="math">\(\phi_d(P)\)</span> and <span class="math">\(\phi_0(P)\)</span>, which have and
 have not passed through the sphere respectively.</p>
-<p>Consider the simpler case of determining<span class="math">\(\phi_0(P)\)</span>. These neutrons
-have direction<span class="math">\(\hat\\Omega\)</span> such that<span class="math">\(\hat\\Omega\cdot\hat n
-\\le 0\)</span>, where<span class="math">\(\hat n\)</span> is the outward directed normal unit vector
-at<span class="math">\(P\)</span>. The angular flux<span class="math">\(\psi(P,\\Omega)\)</span> is given by:</p>
-<p>\</p>
-<div class="math">\begin{equation}  
-\psi(\mathbf{r},\\Omega) = \int_0^\infty
-\frac{S(\mathbf{r}-\\Omega x)}{4\pi} \mathrm{exp} \left[
--\int_0^x \\Sigma(\mathbf{r}-\\Omega x') dx' \right] dx  
-\\label{IntTransEqn}  
-\\end{equation}</div>
-<p>If the source density and the cross-section is constant in this region,
-<span class="math">\(S(\mathbf{r}) = S\)</span> and<span class="math">\(\\Sigma(\mathbf{r}) = \\Sigma_0\)</span>, this
+<p>Consider the simpler case of determining <span class="math">\(\phi_0(P)\)</span>. These neutrons
+have direction <span class="math">\(\hat\Omega\)</span> such that <span class="math">\(\hat\Omega\cdot\hat n
+\le 0\)</span>, where <span class="math">\(\hat n\)</span> is the unit vector at <span class="math">\(P\)</span> directly riadially outward.
+The angular flux <span class="math">\(\psi(P,\Omega)\)</span> is given by:</p>
+<div class="math">$$ \psi(\mathbf{r},\hat\Omega) = \int_0^\infty
+\frac{S(\mathbf{r}-\hat\Omega x)}{4\pi} \mathrm{exp} \left[
+-\int_0^x \Sigma(\mathbf{r}-\hat\Omega x') dx' \right] dx $$</div>
+<p>If the source density and the cross-section are constant in this region,
+<span class="math">\(S(\mathbf{r}) = S\)</span> and <span class="math">\(\Sigma(\mathbf{r}) = \Sigma_0\)</span>, this
 becomes simply:</p>
-<p>\</p>
-<div class="math">\begin{equation}  
-\psi(\mathbf{r},\\Omega) = \frac{S}{4\pi\\Sigma}  
-\\end{equation}</div>
-<p>In the other half-space, equation (\ref{IntTransEqn}) becomes:</p>
-<p>\</p>
-<div class="math">\begin{equation}  
-\psi(\mathbf{r},\\Omega) = \frac{S}{4\pi}
-\int_{c(\hat\\Omega)}^\infty \mathrm{exp} \left[ -\int_0^x
-\\Sigma(\mathbf{r}-\\Omega x') dx' \right] dx  
-\\end{equation}</div>
-<p>where<span class="math">\(c(\hat\\Omega)\)</span> is the chord length represented by the path of
+<div class="math">$$ \psi(\mathbf{r},\hat\Omega) = \frac{S}{4\pi\Sigma}  $$</div>
+<p>In the other half-space, the equation becomes:</p>
+<div class="math">$$
+\psi(\mathbf{r},\hat\Omega) = \frac{S}{4\pi}
+\int_{c(\hat\Omega)}^\infty \mathrm{exp} \left[ -\int_0^x
+\Sigma(\mathbf{r}-\hat\Omega x') dx' \right] dx  
+$$</div>
+<p>where <span class="math">\(c(\hat\Omega)\)</span> is the chord length represented by the path of
 the neutron across the sphere. This becomes:</p>
-<p>\</p>
-<div class="math">\begin{equation}  
-\psi(\mathbf{r},\\Omega) = \left{  
-\\begin{array}{l l}  
-\frac{S}{4\pi\\Sigma_0} \mathrm{exp}\left[-\\Sigma_d
-c(\hat\\Omega)\right] &amp; c(\hat\\Omega) &lt; x \\  
-\frac{S}{4\pi\\Sigma_d} \mathrm{exp}\left[-\\Sigma_d
-c(\hat\\Omega)\right] &amp; c(\hat\\Omega) \\ge x \\  
-\\end{array}  
+<div class="math">$$
+\psi(\mathbf{r},\hat\Omega) = \left\{  
+\begin{array}{l l}  
+\frac{S}{4\pi\Sigma_0} \mathrm{exp}\left[-\Sigma_d
+c(\hat\Omega)\right] &amp; c(\hat\Omega) \lt x \\  
+\frac{S}{4\pi\Sigma_d} \mathrm{exp}\left[-\Sigma_d
+c(\hat\Omega)\right] &amp; c(\hat\Omega) \ge x \\  
+\end{array}  
 \right.  
-\\end{equation}</div>
-<p>\end{document}</p>
+$$</div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

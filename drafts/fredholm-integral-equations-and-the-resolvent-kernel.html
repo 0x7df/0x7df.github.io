@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Consider the inhomogeneous Fredholm integral equation: $$ H \psi(\mu) = \lambda \int_a^b \sigma(\mu, \mu&#39;) \psi(\mu&#39;) d\mu&#39; + S(\mu) $$ The unknown to be solved for is \(\psi(\mu)\) where \(a \le...">
-        <meta name="keywords" content="">
+        <meta name="keywords" content="mathematics">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
         <title>Fredholm integral equations and the resolvent kernel - 0x7df</title>
@@ -16,7 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
-        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/maths.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -56,12 +56,12 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Fredholm integral equations and the resolvent kernel</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 25 September 2016, modified Sun 25 September 2016, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 25 September 2016, modified Sun 25 September 2016, in category <a href="http://0x7df.github.io/category/maths.html">Maths</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
                           <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-                      </p>
+<a href="http://0x7df.github.io/tag/mathematics.html">mathematics</a>                      </p>
                   </div>
               </div>
         </div>
@@ -117,7 +117,7 @@ find <span class="math">\(\psi(\mu)\)</span> once this known. The proof of the a
 <p>We first define the <em>iterated kernels</em>:</p>
 <div class="math">$$ \sigma_1(\mu, \mu') = \sigma(\mu, \mu') $$</div>
 <div class="math">$$ \sigma_2(\mu, \mu') = \int_a^b \sigma(\mu, \mu'')\sigma(\mu'', \mu') d\mu'' $$</div>
-<div class="math">$$ \sigma_3(\mu, \mu') = \int_a^b int_a^b \sigma(\mu, \mu''') \sigma(\mu''', \mu'')\sigma(\mu'', \mu') d\mu'' d\mu''' $$</div>
+<div class="math">$$ \sigma_3(\mu, \mu') = \int_a^b \int_a^b \sigma(\mu, \mu''') \sigma(\mu''', \mu'')\sigma(\mu'', \mu') d\mu'' d\mu''' $$</div>
 <div class="math">$$ \sigma_n(\mu, \mu') = \int_a^b d\mu^{(n)} \int_a^b d\mu^{(n-1)} ... \int_a^b
 d\mu'' \sigma(\mu, \mu^{(n)}) \sigma(\mu^{(n)}, \mu^{(n-1)}) ... \sigma(\mu'', \mu')
 $$</div>
@@ -235,7 +235,7 @@ d\mu' $$</div>
 <div class="math">$$ \psi(\mu) = \mu + \frac{\lambda}{1 - \lambda/3} \mu \frac{1}{3} $$</div>
 <div class="math">$$ \psi(\mu) = \frac{3\mu}{3 - \lambda} $$</div>
 <p>For <span class="math">\(\lambda = 1\)</span></p>
-<div class="math">$$ \psi(mu) = \frac{3\mu}{2} $$</div>
+<div class="math">$$ \psi(\mu) = \frac{3\mu}{2} $$</div>
 <h3>Case 3: <span class="math">\(S(\mu) = 3\mu^2/2\)</span></h3>
 <div class="math">$$ \psi(\mu) = \frac{3\mu^2}{2} + \frac{3\lambda}{2[1 - \lambda/3]} \mu \int_0^1 \mu'^3 d\mu' $$</div>
 <div class="math">$$ \psi(\mu) = \frac{3\mu^2}{2} + \frac{3\lambda\mu}{8[1 - \lambda/3]} $$</div>

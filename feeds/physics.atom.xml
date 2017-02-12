@@ -205,8 +205,7 @@ This ratio is also called the &lt;strong&gt;emissivity&lt;/strong&gt;, or &lt;st
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Restarting the LHC</title><link href="http://0x7df.github.io/restarting-the-lhc.html" rel="alternate"></link><published>2015-03-22T18:13:00+00:00</published><updated>2015-03-22T18:13:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-22:/restarting-the-lhc.html</id><summary type="html">&lt;p&gt;[caption id="" align="alignleft" width="320"]&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron
-Collider/ATLAS at CERN from Flickr via
+&lt;/script&gt;</content><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Restarting the LHC</title><link href="http://0x7df.github.io/restarting-the-lhc.html" rel="alternate"></link><published>2015-03-22T18:13:00+00:00</published><updated>2015-03-22T18:13:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-22:/restarting-the-lhc.html</id><summary type="html">&lt;p&gt;&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron Collider/ATLAS at CERN from Flickr via
 Wylio" src="https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg" title="'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio"&gt;&lt;/a&gt;
 © 2007 &lt;a href="https://www.flickr.com/people/11304375@N07/" title="'The Large Hadron Collider/ATLAS at CERN' published on Flickr by Image Editor"&gt;Image
 Editor&lt;/a&gt;,
@@ -220,8 +219,8 @@ Wylio&lt;/a&gt;[/caption]&lt;/p&gt;
 after a big upgrade, to start its second major run, this post is a
 reminder of the story so far.&lt;/p&gt;
 &lt;h2&gt;What is it?&lt;/h2&gt;
-&lt;p&gt;The Large Hadron Collider (LHC …&lt;/p&gt;</summary><content type="html">&lt;p&gt;[caption id="" align="alignleft" width="320"]&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron
-Collider/ATLAS at CERN from Flickr via
+&lt;p&gt;The Large Hadron Collider (LHC) is the largest &lt;a href="http://en.wikipedia.org/wiki/Particle_accelerator"&gt;particle
+accelerator&lt;/a&gt; in …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron Collider/ATLAS at CERN from Flickr via
 Wylio" src="https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg" title="'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio"&gt;&lt;/a&gt;
 © 2007 &lt;a href="https://www.flickr.com/people/11304375@N07/" title="'The Large Hadron Collider/ATLAS at CERN' published on Flickr by Image Editor"&gt;Image
 Editor&lt;/a&gt;,
@@ -242,10 +241,10 @@ world, costing over 6.3b Euros.&lt;/p&gt;
 &lt;a href="http://education.jlab.org/glossary/proton.html"&gt;protons&lt;/a&gt;. (Protons are
 one of a class of sub-atomic particles called hadrons; hence the name.)
 The basic idea is to accelerate the protons until they have very high
-energies, and then smack them into each other; the result of each
+energies, and then smash them into each other; the result of each
 collision is the creation of a number other particles, which can be
 studied. In particular, the purpose of it was to find and study one
-particular particle called the &lt;a href="www.newscientist.com/topic/higgs-boson"&gt;Higgs
+specific particle called the &lt;a href="www.newscientist.com/topic/higgs-boson"&gt;Higgs
 boson&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;How are the particles accelerated?&lt;/h2&gt;
 &lt;p&gt;To get to the necessary high energies, the protons need a long track; so
@@ -259,11 +258,11 @@ magnets&lt;/a&gt;.&lt;/p&gt;
 tera-electron-volts (probably easier just to say teravolts - people will
 know what you mean from the context). During the first run of LHC, up to
 the end of 2012, the proton beams had an energy of 3.5 TeV.&lt;/p&gt;
-&lt;p&gt;Now, 1 TeV is 10^12^ - or 1 trillion - electron-volts, where an
+&lt;p&gt;Now, 1 TeV is &lt;span class="math"&gt;\(10^{12}\)&lt;/span&gt; - or 1 trillion - electron-volts, where an
 &lt;a href="http://physics.stackexchange.com/questions/23294/how-much-is-1-electron-volt-ev"&gt;electron-volt is defined as the amount of energy an electron would have
 if it were accelerated from rest through a potential difference of 1
 V&lt;/a&gt;.
-That turns out to be 1.6 × 10^-19^ J, so 3.5 TeV is 5.6 × 10^-7^ J. For
+That turns out to be &lt;span class="math"&gt;\(1.6 × 10^{-19}\)&lt;/span&gt; J, so 3.5 TeV is &lt;span class="math"&gt;\(5.6 × 10^{-7}\)&lt;/span&gt; J. For
 context, a &lt;a href="www.thefreedictionary.com/joule"&gt;Joule&lt;/a&gt;is the energy it
 takes to lift 100 g (e.g. a small apple) through 1 m at the earth's
 surface; so, with an energy of 3.5 TeV each, it would take the combined
@@ -274,14 +273,14 @@ of equal energy are directed head-on at each other. So the first run had
 a collision energy of 7 TeV, and the post-upgrade second run will have a
 collision energy of 13 TeV. The design intent was always that the LHC
 would achieve 14 TeV, but because of technological problems (discussed
-later), &lt;a href="home.web.cern.ch"&gt;CERN&lt;/a&gt;have played it safe and kept the energy
+later), &lt;a href="home.web.cern.ch"&gt;CERN&lt;/a&gt; have played it safe and kept the energy
 lower.&lt;/p&gt;
 &lt;p&gt;However, even the lower collision energy of 7 TeV was a big step up from
 what had been achieved before: the previous record, set by the 6.3 km
-&lt;a href="http://www.fnal.gov/pub/tevatron/"&gt;Tevatron&lt;/a&gt;proton-&lt;a href="www.britannica.com/EBchecked/topic/28507/antiproton"&gt;antiproton&lt;/a&gt;
-collider at &lt;a href="www.fnal.gov"&gt;Fermilab&lt;/a&gt;in Illinois, was 1.96 TeV. And, it
-turned out OK, because as we'll see (and as you already know unless you
-were living in a cave at the bottom of the sea in July 2012), the LHC
+&lt;a href="http://www.fnal.gov/pub/tevatron/"&gt;Tevatron&lt;/a&gt; proton-
+&lt;a href="www.britannica.com/EBchecked/topic/28507/antiproton"&gt;antiproton&lt;/a&gt;
+collider at &lt;a href="www.fnal.gov"&gt;Fermilab&lt;/a&gt; in Illinois, was 1.96 TeV. And, it
+turned out OK, because as we'll see, the LHC
 fulfilled its main purpose of discovering the Higgs boson.&lt;/p&gt;
 &lt;h2&gt;What are the limiting factors on collision energy?&lt;/h2&gt;
 &lt;p&gt;The beam energy, and therefore the collision energy, is limited by the

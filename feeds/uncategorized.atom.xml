@@ -188,7 +188,7 @@ are
 &lt;a href="https://www.facebook.com"&gt;Facebook&lt;/a&gt;, &lt;a href="https://www.gmail.com"&gt;Gmail&lt;/a&gt;,
 &lt;a href="https://www.tumblr.com"&gt;Tumblr&lt;/a&gt;, &lt;a href="https://evernote.com/"&gt;Evernote&lt;/a&gt;,
 etc. - using &lt;a href="http://ifttt.com"&gt;&lt;em&gt;If This Then
-That&lt;/em&gt;&lt;/a&gt;&lt;em&gt;(&lt;/em&gt;&lt;a href="http://ifttt.com"&gt;&lt;em&gt;IFTTT&lt;/em&gt;&lt;/a&gt;for short).&lt;/p&gt;
+That&lt;/em&gt;&lt;/a&gt; (&lt;a href="http://ifttt.com"&gt;&lt;em&gt;IFTTT&lt;/em&gt;&lt;/a&gt; for short).&lt;/p&gt;
 &lt;p&gt;In IFTTT, you create &lt;em&gt;Recipes&lt;/em&gt;, each of which consists of a &lt;em&gt;Trigger&lt;/em&gt;,
 and an &lt;em&gt;Action.&lt;/em&gt; Whenever you do something that is a Trigger for one of
 your …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's possible to string together web services - like
@@ -196,7 +196,7 @@ your …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's possible to strin
 &lt;a href="https://www.facebook.com"&gt;Facebook&lt;/a&gt;, &lt;a href="https://www.gmail.com"&gt;Gmail&lt;/a&gt;,
 &lt;a href="https://www.tumblr.com"&gt;Tumblr&lt;/a&gt;, &lt;a href="https://evernote.com/"&gt;Evernote&lt;/a&gt;,
 etc. - using &lt;a href="http://ifttt.com"&gt;&lt;em&gt;If This Then
-That&lt;/em&gt;&lt;/a&gt;&lt;em&gt;(&lt;/em&gt;&lt;a href="http://ifttt.com"&gt;&lt;em&gt;IFTTT&lt;/em&gt;&lt;/a&gt;for short).&lt;/p&gt;
+That&lt;/em&gt;&lt;/a&gt; (&lt;a href="http://ifttt.com"&gt;&lt;em&gt;IFTTT&lt;/em&gt;&lt;/a&gt; for short).&lt;/p&gt;
 &lt;p&gt;In IFTTT, you create &lt;em&gt;Recipes&lt;/em&gt;, each of which consists of a &lt;em&gt;Trigger&lt;/em&gt;,
 and an &lt;em&gt;Action.&lt;/em&gt; Whenever you do something that is a Trigger for one of
 your Recipes (like publishing a new WordPress blog post for example),
