@@ -1,12 +1,12 @@
 Title: Fredholm integral equations and the resolvent kernel
-Date: 2016-09-25 22:34
+Date: 2017-02-12 12:37
 Category: Maths
-Modified: 2016-09-25 22:34
+Modified: 2017-02-12 12:37
 Tags: mathematics
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 Consider the _inhomogeneous Fredholm integral equation_:
 
