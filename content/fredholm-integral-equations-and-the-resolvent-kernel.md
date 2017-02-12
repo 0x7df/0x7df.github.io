@@ -1,7 +1,7 @@
 Title: Fredholm integral equations and the resolvent kernel
-Date: 2017-02-12 12:37
+Date: 2017-02-12 12:39
 Category: Maths
-Modified: 2017-02-12 12:37
+Modified: 2017-02-12 12:39
 Tags: mathematics
 Slug: 
 Author: 0x7df
