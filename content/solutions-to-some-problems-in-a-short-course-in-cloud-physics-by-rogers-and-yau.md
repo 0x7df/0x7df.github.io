@@ -2,7 +2,7 @@ Title: Solutions to some problems in "A Short Course in Cloud Physics", by Roger
 Date: 2015-02-21 22:09
 Author: 0x7df
 Category: Uncategorized
-Slug: 131
+Slug: 
 Status: draft
 Tags: atmospheric science, meteorology, physics
 

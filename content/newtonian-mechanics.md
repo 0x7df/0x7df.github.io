@@ -2,7 +2,7 @@ Title: “On Newtonian mechanics, no system of point charges admits of a stable 
 Date: 2015-02-21 20:25
 Author: 0x7df
 Category: Uncategorized
-Slug: 87
+Slug: 
 Status: draft
 Tags: physics
 

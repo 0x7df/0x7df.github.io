@@ -2,7 +2,7 @@ Title: Planck's law of heat radiation and Bose-Einstein statistics (4/4)
 Date: 2015-06-03 07:36
 Author: 0x7df
 Category: Uncategorized
-Slug: 587
+Slug: 
 Status: draft
 Tags: physics, thermal radiation, thermodynamics
 

@@ -2,7 +2,7 @@ Title: Wien's displacement law and Rayleigh-Jeans's law (3/4)
 Date: 2015-06-03 07:36
 Author: 0x7df
 Category: Uncategorized
-Slug: 584
+Slug: 
 Status: draft
 Tags: physics, thermal radiation, thermodynamics
 
