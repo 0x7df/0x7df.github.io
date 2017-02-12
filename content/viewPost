@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+POST_TITLE="$1"
+echo $POST_TITLE
+
+POST_BASE=$(basename -s .md "$POST_TITLE")
+echo $POST_BASE
+
+#pelican --debug 2>&1 | grep "^-> Writing" | grep "${POST_BASE}.html"
+
+pelican --write-selected "output/drafts/${POST_NAME}.html"

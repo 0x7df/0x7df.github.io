@@ -79,7 +79,7 @@ make -C .. github
 # post
 
 APIKEY=$(cat ./file_containing_secret_key)
-curl -X POST -H "Content-Type: application/json" \
-    -d "${PAYLOAD}" \
-    "https://maker.ifttt.com/trigger/0x7df_blog_post_published/with/key/${APIKEY}"
+#curl -X POST -H "Content-Type: application/json" \
+#    -d "${PAYLOAD}" \
+#    "https://maker.ifttt.com/trigger/0x7df_blog_post_published/with/key/${APIKEY}"
 
