@@ -32,7 +32,7 @@ assumes that $ g$ is constant with height. If the
 variation is to be taken into account, a suitable profile for
 $ g(z)$ is:
 
-$$ \phi(z) = \frac{g_0}{\left[ 1 + \left(
+$$ g(z) = \frac{g_0}{\left[ 1 + \left(
 z/E\right)\right]^2} $$
 
 where $ g_0$ is the value at sea level and

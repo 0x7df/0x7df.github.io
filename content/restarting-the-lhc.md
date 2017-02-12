@@ -6,8 +6,7 @@ Tags: particle physics
 Slug: restarting-the-lhc
 Status: published
 
-[caption id="" align="alignleft" width="320"][![The Large Hadron
-Collider/ATLAS at CERN from Flickr via
+[![The Large Hadron Collider/ATLAS at CERN from Flickr via
 Wylio](https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg "'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio")](https://www.flickr.com/photos/11304375@N07/2046228644/)
 © 2007 [Image
 Editor](https://www.flickr.com/people/11304375@N07/ "'The Large Hadron Collider/ATLAS at CERN' published on Flickr by Image Editor"),
@@ -33,10 +32,10 @@ For [hadrons](http://www.particleadventure.org/hadrons.html), read
 [protons](http://education.jlab.org/glossary/proton.html). (Protons are
 one of a class of sub-atomic particles called hadrons; hence the name.)
 The basic idea is to accelerate the protons until they have very high
-energies, and then smack them into each other; the result of each
+energies, and then smash them into each other; the result of each
 collision is the creation of a number other particles, which can be
 studied. In particular, the purpose of it was to find and study one
-particular particle called the [Higgs
+specific particle called the [Higgs
 boson](www.newscientist.com/topic/higgs-boson).
 
 How are the particles accelerated?
@@ -57,11 +56,11 @@ tera-electron-volts (probably easier just to say teravolts - people will
 know what you mean from the context). During the first run of LHC, up to
 the end of 2012, the proton beams had an energy of 3.5 TeV.
 
-Now, 1 TeV is 10^12^ - or 1 trillion - electron-volts, where an
+Now, 1 TeV is $10^{12}$ - or 1 trillion - electron-volts, where an
 [electron-volt is defined as the amount of energy an electron would have
 if it were accelerated from rest through a potential difference of 1
 V](http://physics.stackexchange.com/questions/23294/how-much-is-1-electron-volt-ev).
-That turns out to be 1.6 × 10^-19^ J, so 3.5 TeV is 5.6 × 10^-7^ J. For
+That turns out to be $1.6 × 10^{-19}$ J, so 3.5 TeV is $5.6 × 10^{-7}$ J. For
 context, a [Joule](www.thefreedictionary.com/joule)is the energy it
 takes to lift 100 g (e.g. a small apple) through 1 m at the earth's
 surface; so, with an energy of 3.5 TeV each, it would take the combined
@@ -74,15 +73,15 @@ of equal energy are directed head-on at each other. So the first run had
 a collision energy of 7 TeV, and the post-upgrade second run will have a
 collision energy of 13 TeV. The design intent was always that the LHC
 would achieve 14 TeV, but because of technological problems (discussed
-later), [CERN](home.web.cern.ch)have played it safe and kept the energy
+later), [CERN](home.web.cern.ch) have played it safe and kept the energy
 lower.
 
 However, even the lower collision energy of 7 TeV was a big step up from
 what had been achieved before: the previous record, set by the 6.3 km
-[Tevatron](http://www.fnal.gov/pub/tevatron/)proton-[antiproton](www.britannica.com/EBchecked/topic/28507/antiproton)
-collider at [Fermilab](www.fnal.gov)in Illinois, was 1.96 TeV. And, it
-turned out OK, because as we'll see (and as you already know unless you
-were living in a cave at the bottom of the sea in July 2012), the LHC
+[Tevatron](http://www.fnal.gov/pub/tevatron/) proton-
+[antiproton](www.britannica.com/EBchecked/topic/28507/antiproton)
+collider at [Fermilab](www.fnal.gov) in Illinois, was 1.96 TeV. And, it
+turned out OK, because as we'll see, the LHC
 fulfilled its main purpose of discovering the Higgs boson.
 
 What are the limiting factors on collision energy?

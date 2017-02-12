@@ -9,8 +9,8 @@ Summary: The mathematics of combinations and permutations
 
 [![abstract-balls-blue-200](https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png)](https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png)I
 recently had to explain the formulae for calculating the number of
-combinations and permutations, when selecting $ r $$
-items out of a pool of $ n$. In case you're ever
+combinations and permutations, when selecting $r$
+items out of a pool of $n$. In case you're ever
 in the same boat, here's a refresher. There are four scenarios:
 
 <table>
@@ -18,10 +18,9 @@ in the same boat, here's a refresher. There are four scenarios:
 <tr>
 <td>
 </td>
-<td>
+<td cellpadding=40>
 <span style="color:#333399;">Combinations</span><span
 style="color:#333399;">(order doesn't matter):</span>
-
 </td>
 <td>
 <span style="color:#333399;">Permutations</span> <span
@@ -129,7 +128,7 @@ You have $ n$ distinct items and you have to
 select $ r$. The order doesn't matter, and the
 items aren't replaced in the pool once selected. There are $ n$
 possibilities for the first item, but because there is
-no replacement, there are only $ n-1 $$
+no replacement, there are only $n-1$
 possibilities for the second item, then only $ n-2$
 possibilities for the third, etc. Since, to get the
 total number, we're going to multiply these together, we start to see
@@ -139,7 +138,7 @@ is going to look something like:
 $$ M = n \times \left(n-1\right) \times \left(n-2\right)
 \times \ldots $$
 
-If we continued this series of terms right to the end,  down to 1, then
+If we continued this series of terms right to the end, down to 1, then
 that would be the same as taking the factorial of $ n$.
 However, the number of terms we need to multiply
 together is the same as the number of selections in whatever game we're
@@ -156,21 +155,27 @@ i.e. if $ r = n$. In general we need to truncate
 the series after $ r$ terms. How do we do this?
 The answer is going to be $ n!/\left(n-r\right)!$,
 and this will be easiest to see using an example. Let
-$$ n = 6$ and $ r = 3$. We
-can write the answer out the long way: $ M = 6 \times 5 \times 4
+$ n = 6$ and $ r = 3$. We
+can write the answer out the long way:
+
+$$ M = 6 \times 5 \times 4 $$
+
 and compare this with the formula for $ n!$:
 
+$$ n! = 6 \times 5 \times 4 \times 3 \times 2 \times 1 $$
 
-$$ n! = 6 \times 5 \times 4 \times 3 \times 2 \times 1
-$$
+Clearly:
 
-Clearly, $ M = n! /\left(3 \times 2 \times 1 \right)
-$, which of course is the same as $ M = n! / 3!$.
+$$ M = \frac{n!}{\left(3 \times 2 \times 1 \right)}$$
+
+which of course is the same as
+
+$$ M = \frac{n!}{3!}$$
+
 After working out another couple of simple examples
 like this, you will see that the denominator always needs to be
 $ \left(n-r\right)!$, to cancel out the last
-$ \left(n-r\right)!$ terms of the factorial of $ n
-$, leaving just the first $ r $$
+$ \left(n-r\right)!$ terms of the factorial of $ n$, leaving just the first $ r$
 terms that we need. Hence:
 
 $$ M = \frac{n!}{\left(n-r\right)!} $$
@@ -220,17 +225,22 @@ get from the number of permutations to the number of combinations, we
 just reduced by a factor of $ r!$. You might
 therefore think that the answer here is going to be the number of
 permutations *with* replacement, similarly reduced by a factor of
-$$ r!$; but it isn't. Let's take a simple example:
+$ r!$; but it isn't. Let's take a simple example:
 a pool of three numbers, and selection of two items. The permutations
 without replacement are:
 
-(1,2) <span style="color:#ff0000;">(2,1)</span> (1,3) <span
-style="color:#ff0000;">(3,1)</span> (2,3) <span
-style="color:#ff0000;">(3,2)</span>
+(1,2)
+<span style="color:#ff0000;">(2,1)</span>
+(1,3)
+<span style="color:#ff0000;">(3,1)</span>
+(2,3)
+<span style="color:#ff0000;">(3,2)</span>
 
 and the additional ones if replacement is allowed are:
 
-(1,1) (2,2) (3,3)
+(1,1)
+(2,2)
+(3,3)
 
 The permutations highlighted in red are the ones you'd get rid of if you
 were interested only in combinations. Notice that there aren't any red
@@ -264,18 +274,18 @@ $$ m = n + r - 1 $$
 
 That is, selecting *with* replacement from a pool of $ n$
 is like selecting *without* replacement from a pool of
-$$ n + r - 1$. There are $ r -1
+$ n + r - 1$. There are $ r - 1$
 extra possibilities to select from, because once we
 have selected the first item, the remaining $ r - 1$
 items could be (in reality) the same item every time,
 but we are pretending that they are different. Hence, substituting for
-$$ m$:
+$ m$:
 
-$$ m! /\left(m - r\right)! = \left(n + r - 1\right)! /\left(n
-- 1\right)! $$
+$$ \frac{m!}{\left(m - r\right)!} = \frac{\left(n + r - 1\right)!}{\left(n
+- 1\right)!} $$
 
 This gives us the number of permutations, which we *can* now reduce by
-$$ r!$ to get the number of combinations. Our final
+$ r!$ to get the number of combinations. Our final
 formula is therefore:
 
 $$ M = \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!}

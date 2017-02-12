@@ -11,7 +11,7 @@ It's possible to string together web services - like
 [Facebook](https://www.facebook.com), [Gmail](https://www.gmail.com),
 [Tumblr](https://www.tumblr.com), [Evernote](https://evernote.com/),
 etc. - using [*If This Then
-That*](http://ifttt.com)*(*[*IFTTT*](http://ifttt.com)for short).
+That*](http://ifttt.com) ([*IFTTT*](http://ifttt.com) for short).
 
 In IFTTT, you create *Recipes*, each of which consists of a *Trigger*,
 and an *Action.* Whenever you do something that is a Trigger for one of

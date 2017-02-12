@@ -1,8 +1,8 @@
 Title: Fredholm integral equations and the resolvent kernel
 Date: 2016-09-25 22:34
-Category:  
+Category: Maths
 Modified: 2016-09-25 22:34
-Tags: 
+Tags: mathematics
 Slug: 
 Author: 0x7df
 Summary: 
@@ -69,7 +69,7 @@ We first define the _iterated kernels_:
 
 $$ \sigma_1(\mu, \mu') = \sigma(\mu, \mu') $$
 $$ \sigma_2(\mu, \mu') = \int_a^b \sigma(\mu, \mu'')\sigma(\mu'', \mu') d\mu'' $$
-$$ \sigma_3(\mu, \mu') = \int_a^b int_a^b \sigma(\mu, \mu''') \sigma(\mu''', \mu'')\sigma(\mu'', \mu') d\mu'' d\mu''' $$
+$$ \sigma_3(\mu, \mu') = \int_a^b \int_a^b \sigma(\mu, \mu''') \sigma(\mu''', \mu'')\sigma(\mu'', \mu') d\mu'' d\mu''' $$
 $$ \sigma_n(\mu, \mu') = \int_a^b d\mu^{(n)} \int_a^b d\mu^{(n-1)} ... \int_a^b
 d\mu'' \sigma(\mu, \mu^{(n)}) \sigma(\mu^{(n)}, \mu^{(n-1)}) ... \sigma(\mu'', \mu')
 $$
@@ -263,7 +263,7 @@ $$ \psi(\mu) = \frac{3\mu}{3 - \lambda} $$
 
 For $\lambda = 1$
 
-$$ \psi(mu) = \frac{3\mu}{2} $$
+$$ \psi(\mu) = \frac{3\mu}{2} $$
 
 ### Case 3: $S(\mu) = 3\mu^2/2$
 
