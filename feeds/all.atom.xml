@@ -1,5 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-12T12:40:00+00:00</updated><entry><title>Fredholm integral equations and the resolvent kernel</title><link href="http://0x7df.github.io/fredholm-integral-equations-and-the-resolvent-kernel.html" rel="alternate"></link><published>2017-02-12T12:40:00+00:00</published><updated>2017-02-12T12:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-12:/fredholm-integral-equations-and-the-resolvent-kernel.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Consider the &lt;em&gt;inhomogeneous Fredholm integral equation&lt;/em&gt;:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-16T00:32:00+00:00</updated><entry><title>Adjustment of meteorological fields in NWP</title><link href="http://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html" rel="alternate"></link><published>2017-02-16T00:32:00+00:00</published><updated>2017-02-16T00:32:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-16:/adjustment-of-meteorological-fields-in-nwp.html</id><summary type="html"></summary><content type="html">&lt;p&gt;According to &lt;a href="http://www.ecmwf.int/sites/default/files/elibrary/2002/16948-numerical-methods.pdf"&gt;Riddaway and Hortal&lt;/a&gt;, the set of coupled non-linear partial differential equations solved in &lt;a href="https://en.wikipedia.org/wiki/Numerical_weather_prediction"&gt;numerical weather prediction&lt;/a&gt; (NWP) describe three important dynamical processses:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Advection&lt;/li&gt;
+&lt;li&gt;Diffusion&lt;/li&gt;
+&lt;li&gt;Adjustment&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first two are familiar to the non-meteorologist more used to working with the general equations of fluid motion. The third, &lt;em&gt;adustment&lt;/em&gt;, is less so.&lt;/p&gt;
+&lt;p&gt;They describe adjustment as 'how the mass and wind fields adjust to one another'.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://books.google.com/books?isbn=0323157467"&gt;Marchuk (1974)&lt;/a&gt; also identifies three basic factors defining the evolution of meteorological fields (p.118):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The transport of meteorological substances along particle trajectories&lt;/li&gt;
+&lt;li&gt;Turbulent exchange&lt;/li&gt;
+&lt;li&gt;The adjustment of the fields&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;which are analogous.&lt;/p&gt;
+&lt;p&gt;Marchuk describes the distinction thus:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;One can imagine the following simplified pattern of evolution of the meteorological fields. Let us consider an elementary time interval &lt;span class="math"&gt;\(\Delta t\)&lt;/span&gt;. During this time interval, the meteorological [fields], fixed at the initial instant of the time interval, will move along the trajectories with a velocity &lt;span class="math"&gt;\(\mathbf{u}\)&lt;/span&gt;, so that the initial particle position vector &lt;span class="math"&gt;\(\mathbf{r}_0\)&lt;/span&gt; will become &lt;span class="math"&gt;\(\mathbf{r} = \mathbf{r}_0 + \mathbf{u}\Delta t\)&lt;/span&gt;. Naturally, this will disrupt the basic adjustment... The adjustment of the fields takes place after their displacement along the trajectories, during the second step. The wave processes, ... gravity and sound waves, are considered as the mechanism of field adjustment in the case of the simplest models of atmospheric motions. The wave processes are instrumental in distributing the discrepancies in adjustment over the [meteorological fields] and in correcting these disrepancies in accordance with the laws of dynamics... Of course, this is a simplification of the complex nature of the dynamics of atmospheric processes; however, such a model reflects, in general outline, the continuous operation of the basic factors, and does it better, the smaller the &lt;span class="math"&gt;\(\Delta t\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Similarly, in &lt;a href="https://www.amazon.co.uk/d/Books/Numerical-Techniques-Atmospheric-Lecture-Computational-Science-Engineering/3642116396"&gt;Lauritzen &lt;em&gt;et al.&lt;/em&gt; (2010&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;On large scales, the dynamics of the atmosphere is approximately &lt;em&gt;balanced&lt;/em&gt;,
+and it is important for numerical solutions to be approximately balanced in
+the same sense... Fast &lt;em&gt;acoustic&lt;/em&gt; and &lt;em&gt;inertio-gravity waves&lt;/em&gt; [are]
+responsible for the &lt;em&gt;adjustment&lt;/em&gt; towards balance.&lt;/p&gt;
+&lt;p&gt;... The fast acoustic and inertio-gravity waves are observed to be
+energetically weak... The weakness of these fast waves corresponds to 
+certain kinds of approximate balance between other terms in the governing
+equations... The atmosphere is continually being perturbed away from balance
+by a variety of mechanisms, including flow over orography, convective
+instability, and the nonlinear nature of the balanced dynamics. The
+mechanism by which the atmosphere adjusts back towards balance involves the
+radiation and ultimate dissipation of the fast acoustic and inertio-gravity
+waves.&lt;/p&gt;
+&lt;p&gt;The physical mechanism for acoustic waves involves the interaction of
+compressibility and flow divergence: convergence of fluid locally leads to
+an increase in density and hence pressure; the resulting pressure gradient
+then drives fluid acceleration leading to new convergence displaced from the
+original convergence.&lt;/p&gt;
+&lt;p&gt;There are two basic physical mechanisms underlying inertio-gravity waves.
+At the inertial end of the spectrum, i.e. shallow waves, an air parcel
+displaced from its equilibrium position experiences a restoring force
+provided by the Coriolis effect. At the gravity wave end of the spectrum,
+i.e. deep waves, an air parcel displaced from its equilibrium position
+has a density different from that of the reference profile at that height
+and so experiences a restoring force due to buoyancy, i.e. the imbalance
+between the gravitational force on the parcel and the vertical pressure
+gradient force. In intermediate parts of the spectrum both mechanisms
+operate to some degree.&lt;/p&gt;
+&lt;p&gt;Making the [vertical balance] approximation in the governing equations
+corresponds to filtering internal acoustic waves from the governing 
+equations. More precisely, it corresponds to taking the limit in which
+the propagation speed of internal acoustic waves becomes infinite, so
+that the adjustment to balance is instantaneous. In the unapproximated
+equations all information propagates at a finite speed; these are 
+&lt;em&gt;hyperbolic&lt;/em&gt; equations. The balance approximation introduces a certain
+non-locality.&lt;/p&gt;
+&lt;p&gt;Similar ideas apply in the case of [horizontal] balance. The atmosphere
+adjusts towards... balance through the radiation and dissipation of
+inertio-gravity waves. The balance approximation filters inertio-gravity
+waves from the governing equations, or, rather, corresponds to the limit
+in which inertio-gravity waves propagate infinitely fast so that the
+adjustment process is instantaneous.&lt;/p&gt;
+&lt;p&gt;Even if we are solving the unapproximated (i.e. hyperbolic) governing
+equations, balance and the implied nonlocality are important. However
+the solution of elliptic equations requires quite different numerical techniques
+from the solution of hyperbolic equations. Model developers therefore
+face an important choice between inherently local explicit time stepping
+techniques and inherently nonlocal implicit time stepping techniques.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>Fredholm integral equations and the resolvent kernel</title><link href="http://0x7df.github.io/fredholm-integral-equations-and-the-resolvent-kernel.html" rel="alternate"></link><published>2017-02-12T12:40:00+00:00</published><updated>2017-02-12T12:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-12:/fredholm-integral-equations-and-the-resolvent-kernel.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Consider the &lt;em&gt;inhomogeneous Fredholm integral equation&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="math"&gt;$$ H \psi(\mu) = \lambda \int_a^b \sigma(\mu, \mu') \psi(\mu') d\mu'
                + S(\mu) $$&lt;/div&gt;
 &lt;p&gt;The unknown to be solved for is &lt;span class="math"&gt;\(\psi(\mu)\)&lt;/span&gt; where &lt;span class="math"&gt;\(a \le \mu \le b\)&lt;/span&gt; is the
