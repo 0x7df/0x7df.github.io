@@ -1,5 +1,4 @@
 
-algorithm
 api
 atmospheric science
 bash
@@ -17,12 +16,9 @@ cyclomatic complexity
 diffusion
 doxygen
 economics
-evolutionary algorithsm
-evolutionary computing
 exponential atmosphere
 factorial
 fluid dynamics
-fusion
 game theory
 github
 google
@@ -62,11 +58,9 @@ prospector
 publishing
 pylint
 python
-radiation
 regular expressions
 review
 static analysis
-statistics
 statistics 
 text processing
 thermal radiation
