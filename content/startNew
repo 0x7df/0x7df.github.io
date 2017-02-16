@@ -1,9 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+if [[ $# != 1 ]] ; then
+    echo "Provide article title as argument" >&2
+    exit 1
+fi
 
 TITLE=$(echo ${1} | tr " " "-" | tr [[:upper:]] [[:lower:]])
+DATE=$(date "+%Y-%m-%d %H:%M")
 
 echo "Title: ${1}
-Date: 
+Date: ${DATE}
 Category: ${2} 
 Modified: 
 Tags: 
@@ -13,4 +19,6 @@ Summary:
 Status: draft
 
 " > ${TITLE}.md
- 
+
+mvim ${TITLE}.md
+
