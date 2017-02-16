@@ -18,7 +18,7 @@ The first two are familiar to the non-meteorologist more used to working with th
 
 They describe adjustment as 'how the mass and wind fields adjust to one another'.
 
-[Marchuk (1974)](https://books.google.co.uk/books/about/Numerical_Methods_in_Weather_Prediction.html) also identifies three basic factors defining the evolution of meteorological fields (p.118):
+[Marchuk (1974)](https://books.google.com/books?isbn=0323157467) also identifies three basic factors defining the evolution of meteorological fields (p.118):
 
 1. The transport of meteorological substances along particle trajectories
 2. Turbulent exchange
@@ -30,7 +30,7 @@ Marchuk describes the distinction thus:
 
 >> One can imagine the following simplified pattern of evolution of the meteorological fields. Let us consider an elementary time interval $\Delta t$. During this time interval, the meteorological [fields], fixed at the initial instant of the time interval, will move along the trajectories with a velocity $\mathbf{u}$, so that the initial particle position vector $\mathbf{r}_0$ will become $\mathbf{r} = \mathbf{r}_0 + \mathbf{u}\Delta t$. Naturally, this will disrupt the basic adjustment... The adjustment of the fields takes place after their displacement along the trajectories, during the second step. The wave processes, ... gravity and sound waves, are considered as the mechanism of field adjustment in the case of the simplest models of atmospheric motions. The wave processes are instrumental in distributing the discrepancies in adjustment over the [meteorological fields] and in correcting these disrepancies in accordance with the laws of dynamics... Of course, this is a simplification of the complex nature of the dynamics of atmospheric processes; however, such a model reflects, in general outline, the continuous operation of the basic factors, and does it better, the smaller the $\Delta t$.
 
-Similarly, in [Lauritzen *et al.* (2010]():
+Similarly, in [Lauritzen *et al.* (2010](https://www.amazon.co.uk/d/Books/Numerical-Techniques-Atmospheric-Lecture-Computational-Science-Engineering/3642116396):
 
 >> On large scales, the dynamics of the atmosphere is approximately *balanced*,
 >> and it is important for numerical solutions to be approximately balanced in
