@@ -1,6 +1,6 @@
 Title: Setting up Pelican
 Date: 2016-09-26 17:52
-Category:  
+Category: Programming
 Modified: 2016-09-26 17:52
 Tags: linux, markdown, pelican, programming, publishing, python
 Slug: 
