@@ -1,5 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - atmospheric science</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/atmospheric-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-11T20:25:00+00:00</updated><entry><title>500 hPa geopotential height anomaly correlation</title><link href="http://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html" rel="alternate"></link><published>2017-02-11T20:25:00+00:00</published><updated>2017-02-11T20:25:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-11:/500-hpa-geopotential-height-anomaly-correlation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The 500 hPa &lt;a href="http://0x7df.github.io/geopotential.html"&gt;geopotential&lt;/a&gt; height anomaly
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - Atmospheric Science</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/atmospheric-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-17T15:29:00+00:00</updated><entry><title>The shallow water equations</title><link href="http://0x7df.github.io/the-shallow-water-equations.html" rel="alternate"></link><published>2017-02-17T15:29:00+00:00</published><updated>2017-02-17T15:29:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-17:/the-shallow-water-equations.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The governing equations in geophysical fluid dynamics can be simplified somewhat if the
+horizontal length and velocity scales are much larger than the vertical length and
+velocity scales, respectively.&lt;/p&gt;
+&lt;p&gt;They are commonly used to describe both the ocean and atmosphere, as well as estuaries,
+rivers and channels.&lt;/p&gt;
+&lt;p&gt;A set of assumptions are made:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The fluid is incompressible.&lt;/li&gt;
+&lt;li&gt;Vertical acceleration is small compared with horizontal accelerations, and
+   &lt;a href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html"&gt;hydrostatic balance&lt;/a&gt;
+   can be assumed.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Making these assumptions results in the 3D shallow water equations (&lt;a href="https://www.utwente.nl/ewi/sacs/teaching/Thesis/aukje-de-boer-comparison-of-two-numerical-schemes-for-solving-the-1d-shallow-water-equations.pdf"&gt;de Boer (2003)&lt;/a&gt;.
+However it is much more common to make the additional assumption that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The horizontal velocity is constant with height/depth (there is no vertical shear).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Given these assumptions, the 2D shallow water equations are then derived by integrating
+over height to remove the vertical velocity, and therefore the vertical dimension
+altogether. (Note that this is not the same as assuming the vertical velocity is zero,
+which is not necessarily the case. If the bathymetry accounted for, the vertical velocity must be
+non-zero where the floor changes depth. The vertical velocity can be recovered from
+solutions of the shallow water equations via the continuity equation.)&lt;/p&gt;
+&lt;p&gt;In the following equations we will ignore viscosity (i.e we will work from the Euler
+fluid equations not the Navier-Stokes equations, although in some disciplines the
+fluid viscosity is important and can be included in the shallow water equtions). This
+renders the non-linear PDEs hyperbolic rather than parabolic. We shall also ignore
+diffusion.&lt;/p&gt;
+&lt;h2&gt;Three-dimensional shallow water equtions&lt;/h2&gt;
+&lt;p&gt;In general in 3D the conservation of momentum is expressed by:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u}\cdot\nabla\mathbf{u}
+    + f\mathbf{k}\times\mathbf{v} = -\frac{1}{\rho}\nabla p - g\mathbf{\hat k} $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(f\)&lt;/span&gt; is the Coriolis parameter, &lt;span class="math"&gt;\(\mathbf{\hat k}\)&lt;/span&gt; is a unit vector pointing away
+from the centre of the planet. Also, &lt;span class="math"&gt;\(\mathbf{u}\)&lt;/span&gt; is the three-dimensional velocity
+vector and &lt;span class="math"&gt;\(\mathbf{v}\)&lt;/span&gt; is the two-dimensional horizontal velocity vector, and we
+have assumed the Coriolis force acts solely in the horizontal, since its vertical
+component is small compared with the gravitational and pressure gradient forces.&lt;/p&gt;
+&lt;p&gt;Alternatively:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial u}{\partial t} + \frac{\partial uu}{\partial x}
+    + \frac{\partial uv}{\partial y} + \frac{\partial uw}{\partial z}
+    = -\frac{1}{\rho}\frac{\partial p}{\partial x}  + fv $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \frac{\partial v}{\partial t} + \frac{\partial vu}{\partial x}
+    + \frac{\partial vv}{\partial y} + \frac{\partial vw}{\partial z}
+    = -\frac{1}{\rho}\frac{\partial p}{\partial y} - fu $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \frac{\partial w}{\partial t} + \frac{\partial wu}{\partial x}
+    + \frac{\partial wv}{\partial y} + \frac{\partial ww}{\partial z}
+    = -\frac{1}{\rho}\frac{\partial p}{\partial z} - g $$&lt;/div&gt;
+&lt;p&gt;The conservation of mass under the assumption of incompressibility is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \nabla\cdot\mathbf{u} = 0 $$&lt;/div&gt;
+&lt;p&gt;or:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}
+   + \frac{\partial w}{\partial z} = 0 $$&lt;/div&gt;
+&lt;p&gt;The condition of hydrostatic balance, which is the first key assumption of the
+shallow water equations, is given by:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation} \label{HydrostaticBalance} \frac{1}{\rho}\frac{\partial p}{\partial z} = -g \end{equation}&lt;/div&gt;
+&lt;p&gt;This is derived from the momentum equation describing &lt;span class="math"&gt;\(w\)&lt;/span&gt; by assuming that the left-
+hand side is zero:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{Dw}{Dt} = \frac{\partial w}{\partial t} + \frac{\partial wu}{\partial x}
+    + \frac{\partial wv}{\partial y} + \frac{\partial ww}{\partial z}
+    = 0 $$&lt;/div&gt;
+&lt;p&gt;The hydrostatic balance equation can be immediately integrated from some arbitrary depth
+&lt;span class="math"&gt;\(z\)&lt;/span&gt; up to the free surface, to give:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = p_0 + \rho g\left(h - z\right) $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(p_0\)&lt;/span&gt; is the fixed pressure at the free surface (e.g. zero for the atmosphere, or
+atmospheric pressure for the ocean), and &lt;span class="math"&gt;\(h\)&lt;/span&gt; is the elevation of the free
+surface above &lt;span class="math"&gt;\(z = 0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Then:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial p}{\partial x} = \rho g\frac{\partial h}{\partial x} $$&lt;/div&gt;
+&lt;p&gt;and similarly for &lt;span class="math"&gt;\(\partial p/\partial y\)&lt;/span&gt;. I.e.:&lt;/p&gt;
+&lt;div class="math"&gt;$$ -\frac{1}{\rho}\nabla_h p = -g \nabla_h h $$&lt;/div&gt;
+&lt;p&gt;The implication is that the horizontal pressure gradient force is a result only of
+horizontal variatons in the free surface height.&lt;/p&gt;
+&lt;p&gt;The remaining two components of the momentum equation are consequently:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{equation} \label{3Du} \frac{\partial u}{\partial t} + \frac{\partial uu}{\partial x}
+    + \frac{\partial uv}{\partial y} + \frac{\partial uw}{\partial z}
+    = -g\frac{\partial h}{\partial x} + fv \end{equation}&lt;/div&gt;
+&lt;div class="math"&gt;\begin{equation} \label{3Dv} \frac{\partial v}{\partial t} + \frac{\partial vu}{\partial x}
+    + \frac{\partial vv}{\partial y} + \frac{\partial vw}{\partial z}
+    = -g\frac{\partial h}{\partial y} - fu \end{equation}&lt;/div&gt;
+&lt;p&gt;Equations &lt;span class="math"&gt;\(\ref{3Du}\)&lt;/span&gt;, &lt;span class="math"&gt;\(\ref{3Dv}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\ref{3Dh}\)&lt;/span&gt; are the 3D shallow water equations.&lt;/p&gt;
+&lt;h2&gt;Two-dimensional shallow water equations&lt;/h2&gt;
+&lt;p&gt;To obtain the 2D shallow water equations we integrate the 3D equations over &lt;span class="math"&gt;\(z\)&lt;/span&gt;, to
+obtain depth- (or height-) averaged forms of the equations. The Liebniz integral
+rule is required since &lt;span class="math"&gt;\(h\)&lt;/span&gt;, which is one of the limits of the integration over &lt;span class="math"&gt;\(z\)&lt;/span&gt;,
+depends on &lt;span class="math"&gt;\(x\)&lt;/span&gt;, &lt;span class="math"&gt;\(y\)&lt;/span&gt; and &lt;span class="math"&gt;\(t\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;In 2D, the shallow water equations (neglecting diffusion, viscosity and friction) are:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial h}{\partial t} + \frac{\partial hu}{\partial x} + \frac{\partial hv}
+    {\partial y} = 0 $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \frac{\partial hu}{\partial t} + \frac{\partial hu^2}{\partial x}
+    + \frac{\partial huv}{\partial y} = -g\frac{\partial h}{\partial x} + fhv $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \frac{\partial hv}{\partial t} + \frac{\partial huv}{\partial x}
+    + \frac{\partial hv^2}{\partial y} = -g\frac{\partial h}{\partial y} -fhu $$&lt;/div&gt;
+&lt;p&gt;The shallow water equations can be written more compactly thus:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial phi}{\partial t} + \mathbf{v}\cdot\nabla\phi + \phi\nabla\cdot\mathbf{v}
+    = 0$$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \frac{\partial\mathbf{v}}{\partial t} + \mathbf{v}\cdot\nabla\mathbf{v}
+    + \nabla\mathbf{\phi} + f\mathbf{\hat k}\times\mathbf{v} = 0 $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(\phi = gh\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The first equation is obtained by integrating the continuity equation:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}
+   + \frac{\partial w}{\partial z} = 0 $$&lt;/div&gt;
+&lt;p&gt;with respect to &lt;span class="math"&gt;\(z\)&lt;/span&gt; to give:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \left(\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}\right)h + w_h - w_0 = 0 $$&lt;/div&gt;
+&lt;p&gt;The vertical velocity disappears at the lower boundary (&lt;span class="math"&gt;\(w_0 = 0\)&lt;/span&gt;) and the vertical
+velocity at the free surface (at height &lt;span class="math"&gt;\(h\)&lt;/span&gt;) is given by:&lt;/p&gt;
+&lt;div class="math"&gt;$$ w_h = \frac{Dh}{Dt} $$&lt;/div&gt;
+&lt;p&gt;Thus:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{Dh}{Dt} = \frac{\partial h}{\partial t} 
+    + \frac{\partial hu}{\partial x} + \frac{\partial hv}{\partial y} = w_h
+    = \left(\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}\right)h $$&lt;/div&gt;
+&lt;h1&gt;One-dimensional shallow water equations&lt;/h1&gt;
+&lt;p&gt;In 1D, which is often used for river management and hydraulics, the equations are:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial u}{\partial t} = -u \frac{\partial u}{\partial x}
+                                   -g \frac{\partial h}{\partial x} $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ \frac{\partial h}{\partial t} = -u \frac{\partial h}{\partial x}
+                                   -h \frac{\partial u}{\partial x} $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(h\)&lt;/span&gt; is the height of the free surface. Accelerations in the &lt;span class="math"&gt;\(y\)&lt;/span&gt; direction have
+also been assumed negligible.&lt;/p&gt;
+&lt;p&gt;In both equations the first term on the right
+represents advection and the second term on the right represents &lt;a href="http://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html"&gt;adjustment&lt;/a&gt;. (More
+complex variants are used in river modelling and hydraulics that account for, for example,
+the cross-sectional area of the channel. These are often referred to as the
+&lt;a href="https://en.wikipedia.org/wiki/Shallow_water_equations#One-dimensional_Saint-Venant_equations"&gt;Saint Venant&lt;/a&gt;
+equations, having originally been derived by Adhemar Jean Claude Barre de Saint-Venant,
+in 1871.)&lt;/p&gt;
+&lt;p&gt;In hydraulics studies Coriolis force is ignored but in geophysics applications it is
+included, making the shallow water equations a useful simplistic framework in which to
+study rotational flow under gravity.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>500 hPa geopotential height anomaly correlation</title><link href="http://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html" rel="alternate"></link><published>2017-02-11T20:25:00+00:00</published><updated>2017-02-11T20:25:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-11:/500-hpa-geopotential-height-anomaly-correlation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The 500 hPa &lt;a href="http://0x7df.github.io/geopotential.html"&gt;geopotential&lt;/a&gt; height anomaly
 correlation is a key indicator of the skill of numerical weather prediction.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.e-education.psu.edu/worldofweather/node/2031"&gt;Patterns of 500 hPa heights reveal short- and long-wave troughs and ridges.&lt;/a&gt; Surface low
 pressure tends to develop (or strengthen) to the east of 500 hPa short-wave
