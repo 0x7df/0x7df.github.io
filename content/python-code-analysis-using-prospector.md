@@ -10,7 +10,7 @@ A [recent blog
 post](https://blog.landscape.io/prospector-python-static-analysis-for-humans.html)
 I came across introduced me to
 [Prospector](https://github.com/landscapeio/prospector), a
-[Python](https://www.python.org/)[static
+[Python](https://www.python.org/) [static
 analysis](http://en.wikipedia.org/wiki/Static_program_analysis) tool
 developed by [Landscape](https://landscape.io/). From the
 [documentation](https://prospector.readthedocs.org):
@@ -48,34 +48,30 @@ Cyclomatic complexity
 
 The first thing you might come across that might not be self-evident is
 the complexity rating given by the
-[`mccabe`](https://github.com/flintwork/mccabe) package. E.g.:
+[mccabe](https://github.com/flintwork/mccabe) package. E.g.:
 
-[code lang="bash"]
-
-> prospector --strictness low  
-Messages  
-========
-
-main.py  
-  Line: 13  
-    mccabe: MC0001 / run is too complex (17)
-
-Check Information  
-=================  
-        Started: 2015-04-11 15:59:47.759944  
-       Finished: 2015-04-11 15:59:51.598176  
-     Time Taken: 3.84 seconds  
-      Formatter: grouped  
-       Profiles: default, strictness_low, strictness_medium,
-strictness_high, strictness_veryhigh, no_doc_warnings,
-no_test_warnings, no_member_warnings  
-     Strictness: low  
- Libraries Used:  
-      Tools Run: dodgy, mccabe, pep8, profile-validator, pyflakes,
-pylint  
- Messages Found: 1
-
-[/code]
+    > prospector --strictness low  
+    Messages  
+    ========
+    
+    main.py  
+      Line: 13  
+        mccabe: MC0001 / run is too complex (17)
+    
+    Check Information  
+    =================  
+            Started: 2015-04-11 15:59:47.759944  
+           Finished: 2015-04-11 15:59:51.598176  
+         Time Taken: 3.84 seconds  
+          Formatter: grouped  
+           Profiles: default, strictness_low, strictness_medium,
+    strictness_high, strictness_veryhigh, no_doc_warnings,
+    no_test_warnings, no_member_warnings  
+         Strictness: low  
+     Libraries Used:  
+          Tools Run: dodgy, mccabe, pep8, profile-validator, pyflakes,
+    pylint  
+     Messages Found: 1
 
 The *cyclomatic complexity* metric was defined by [Thomas J. McCabe in a
 1976
@@ -83,7 +79,7 @@ paper](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1702388&filter
 (the PDF of which can be found
 [here](http://www.literateprogramming.com/mccabe.pdf), or reproduced in
 the [book "Structured Testing" which is available on Google
-Books](https://books.google.co.uk/books?id=vtNWAAAAMAAJ&dq=%22structured%20testing%22&pg=PR1#v=onepage&q=%22structured%20testing%22&f=false)).
+Books](https://books.google.com/books?id=vtNWAAAAMAAJ)).
 It is essentially a measure of the number of logical paths through a
 piece of source code: the higher the number, the higher the complexity,
 and therefore the more error-prone the code is likely to be. McCabe
@@ -103,9 +99,9 @@ hard to improve on:
 > node and each node can reach the exit node. For example the following
 > is a program control graph with entry node $ a$ and
 > exit node $ f$:
->
-> ![Reproduced from McCabe (1976)](https://books.google.co.uk/books?id=vtNWAAAAMAAJ&pg=PA3&img=1&zoom=3&hl=en&sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&ci=642%2C968%2C254%2C220&edge=0)
->
+
+<a href="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&pg=PA3&ci=504%2C979%2C469%2C191&source=bookclip"><img src="https://books.google.co.uk/books/content?id=vtNWAAAAMAAJ&pg=PA3&img=1&zoom=3&hl=en&sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&ci=504%2C979%2C469%2C191&edge=0" alt="Reproduced from McCabe (1976)"/></a>
+
 > The following mathematical preliminaries will be needed...
 >
 > *Definition 1*: The cyclomatic number $ V(G)$ of a
@@ -142,14 +138,14 @@ node - rather than *paths*.
 >
 > To see how this works it's necessary to number the edges on $ G$
 > as in:
->
-> ![Reproduced from McCabe, 1976.](https://books.google.co.uk/books?id=vtNWAAAAMAAJ&pg=PA4&img=1&zoom=3&hl=en&sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&ci=165%2C387%2C235%2C207&edge=0)
->
+
+<a href="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&pg=PA4&ci=1%2C391%2C503%2C195&source=bookclip"><img src="https://books.google.co.uk/books/content?id=vtNWAAAAMAAJ&pg=PA4&img=1&zoom=3&hl=en&sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&ci=1%2C391%2C503%2C195&edge=0"/></a>>
+
 > Now for each member of the basis $ B1$ associate a
 > vector as follows:
->
-> ![Reproduced from McCabe, 1976.](https://books.google.co.uk/books?id=vtNWAAAAMAAJ&pg=PA4&img=1&zoom=3&hl=en&sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&ci=66%2C638%2C279%2C134&edge=0)
->
+
+<a href="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&pg=PA4&ci=1%2C641%2C502%2C127&source=bookclip"><img src="https://books.google.co.uk/books/content?id=vtNWAAAAMAAJ&pg=PA4&img=1&zoom=3&hl=en&sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&ci=1%2C641%2C502%2C127&edge=0"/></a>
+
 > The path $ (abea(be)^3fa)$ corresponds to the
 > vector $ 2004200111$ and the vector addition of
 > $ (abefa)$, $ 2(beb)$ and
@@ -177,19 +173,12 @@ node - rather than *paths*.
 > and use the cyclomatic complexity as the basis for a testing
 > methodology.
 
-[caption id="attachment_450" align="alignleft" width="178"][![Example
-mccabe graph
-output](https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png?w=178)](https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png)
-Example mccabe graph output[/caption]
-
 If you want to run `mccabe` separately from `prospector` you can do,
 using:
 
-[code lang="bash"]  
-> python -m mccabe mysourcefile.py  
-('If 209', 2)  
-("13:1: 'run'", 8)  
-[/code]
+    > python -m mccabe mysourcefile.py  
+    ('If 209', 2)  
+    ("13:1: 'run'", 8)  
 
 You can add the `-d` option (documented
 [here](http://nedbatchelder.com/blog/200803/python_code_complexity_microtool.html))
@@ -198,12 +187,12 @@ to produce output that can be passed to the
 [dot](http://www.graphviz.org/pdf/dotguide.pdf), which will plot the
 graph. I.e.:
 
-[code lang="bash"]  
-> python -m mccabe -d example.py | \\  
-dot -Tpng -o example.png  
-[/code]
+    > python -m mccabe -d example.py | \\  
+    dot -Tpng -o example.png  
 
-produces something like the graph shown to the left.
+produces something like this:
+
+<img src="images/example_mccabe_graph.png" style="width: 200px; height: auto;">
 
 As well as using the cyclomatic complexity as a metric of whether a
 particular piece of source code needs simplifying, it can also give an
@@ -225,18 +214,16 @@ fine-tune the warnings that are issued. For instance, once the
 strictness level is up to medium or above, you might start to get a lot
 of warnings from Pylint about invalid constant names:
 
-[code]  
-example.py  
-Line: 1  
-pylint: invalid-name / Invalid constant name "nmats"  
-Line: 17  
-pylint: invalid-name / Invalid constant name "dcoeff"  
-Line: 21  
-pylint: invalid-name / Invalid constant name "tpower"  
-Line: 23  
-pylint: invalid-name / Invalid constant name "tmp0"  
-...  
-[/code]
+    example.py  
+    Line: 1  
+    pylint: invalid-name / Invalid constant name "nmats"  
+    Line: 17  
+    pylint: invalid-name / Invalid constant name "dcoeff"  
+    Line: 21  
+    pylint: invalid-name / Invalid constant name "tpower"  
+    Line: 23  
+    pylint: invalid-name / Invalid constant name "tmp0"  
+    ...  
 
 The [PEP8 style guide](https://www.python.org/dev/peps/pep-0008)
 suggests constants should be in upper case; I'm happy with this rule but
@@ -258,40 +245,37 @@ Thirdly, classes that have too few (fewer than two) public methods are
 warned against; [the advice is that classes shouldn't be used for data
 storage, but should include
 functions](http://stackoverflow.com/questions/14027417/what-does-pylints-too-few-public-methods-message-mean).
-If the only purpose is data storage, then a data structure  like a
+If the only purpose is data storage, then a data structure like a
 dictionary is more appropriate. However, again because of the
 work-in-progress status of the code being analysed, I've defined certain
-classes that currently only register data, but I expect at some point
-will include methods. So in the meantime I want to turn this check off,
-for the moment at least.
+classes that currently only register data, but at some point
+will include methods. So in the meantime I want to turn this check off.
 
 The fine-tuning is done using profiles. A profile is just a
-[YAML](http://yaml.org/)file with some configuration information, so you
+[YAML](http://yaml.org/) file with some configuration information, so you
 can give different projects different rule sets by giving them their own
 configuration file. An example is:
 
-[code]  
-strictness: veryhigh  
-ignore-paths: QA  
-pylint:  
-disable:  
-- invalid-name  
-- trailing-whitespace  
-- too-few-public-methods  
-[/code]
+    strictness: veryhigh  
+    ignore-paths: QA  
+    pylint:  
+    disable:  
+    - invalid-name  
+    - trailing-whitespace  
+    - too-few-public-methods  
 
 The really nice part is that configurations can inherit from other
 configurations. For example, Prospector's different `--strictness`
 options are really just different pre-defined profiles, and the example
-above has been set up to inherit from the `--strictness high` profile.
+above has been set up to inherit from the `--strictness veryhigh` profile.
 The project-specific tweaks are:
 
--   Ignore the directory called \`QA\` and its contents (which in this
-    project contains temporary/intermediate files). This can also be
-    achieved by using \`--ignore-paths QA\` on the command line.
--   Disable the \`invalid-name\` messages from Pylint.
--   Disable the \`trailing-whitespace\` messages from Pylint
--   Disable the \`too-few-public-methods\` messages from Pylint
+- Ignore the directory called `QA` and its contents (which in this
+  project contains temporary/intermediate files). This can also be
+  achieved by using `--ignore-paths QA` on the command line.
+- Disable the `invalid-name` messages from Pylint.
+- Disable the `trailing-whitespace` messages from Pylint
+- Disable the `too-few-public-methods` messages from Pylint
 
  Adding additional tools
 ------------------------
@@ -303,18 +287,18 @@ As well as the default tools (Pylint,
 additional tools can be turned on either via the command line or by
 adding them to a profile. The useful extra options are:
 
--   [pep257](https://pypi.python.org/pypi/pep257), which checks that
-    docstrings conform to the [PEP257 docstring conventions
-    guide](https://www.python.org/dev/peps/pep-0257/). Use \`--with-tool
-    pep257\` on the command line, or add \`run: true\` to a \`pep257:\`
-    section in a profile file.
--   [vulture](https://pypi.python.org/pypi/vulture), which checks for
-    'dead code' (unused variables, functions, classes, etc.). This
-    requires installation first, via \`pip install
-    prospector[with_vulture]\`. (NB this syntax doesn't work in a [Z
-    shell](http://zsh.sourceforge.net/).)
--   [pyroma](https://pypi.python.org/pypi/pyroma), used for checking
-    that Python packaging best practices are being followed. Requires
-    \`pip install prospector[with_pyroma]\`. Note that using pyroma
-    implies the use of pep257.
+- [pep257](https://pypi.python.org/pypi/pep257), which checks that
+  docstrings conform to the [PEP257 docstring conventions
+  guide](https://www.python.org/dev/peps/pep-0257/). Use `--with-tool
+  pep257` on the command line, or add `run: true` to a `pep257:`
+  section in a profile file.
+- [vulture](https://pypi.python.org/pypi/vulture), which checks for
+  'dead code' (unused variables, functions, classes, etc.). This
+  requires installation first, via `pip install
+  prospector[with_vulture]`. (NB this syntax doesn't work in a [Z
+  shell](http://zsh.sourceforge.net/).)
+- [pyroma](https://pypi.python.org/pypi/pyroma), used for checking
+  that Python packaging best practices are being followed. Requires
+  `pip install prospector[with_pyroma]`. Note that using pyroma
+  implies the use of pep257.
 
