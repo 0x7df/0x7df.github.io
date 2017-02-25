@@ -5,13 +5,21 @@ if [[ $# != 1 ]] ; then
     exit 1
 fi
 
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
+
 TITLE=$(echo ${1} | tr " " "-" | tr [[:upper:]] [[:lower:]])
 DATE=$(date "+%Y-%m-%d %H:%M")
 
 echo "Title: ${1}
 Date: ${DATE}
 Category: ${2} 
-Modified: 
+Modified: ${DATE}
 Tags: 
 Slug: 
 Author: 0x7df

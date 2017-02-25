@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
+
 POST_TITLE="$1"
 echo $POST_TITLE
 
 POST_BASE=$(basename -s .md "$POST_TITLE")
 echo $POST_BASE
 
-#pelican --debug 2>&1 | grep "^-> Writing" | grep "${POST_BASE}.html"
+make -C .. html
+make -C .. serve &
+open http://localhost:8000/drafts/${POST_BASE}.html
 
-pelican --write-selected "output/drafts/${POST_NAME}.html"
