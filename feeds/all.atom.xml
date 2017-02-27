@@ -1,5 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-17T15:29:00+00:00</updated><entry><title>The shallow water equations</title><link href="http://0x7df.github.io/the-shallow-water-equations.html" rel="alternate"></link><published>2017-02-17T15:29:00+00:00</published><updated>2017-02-17T15:29:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-17:/the-shallow-water-equations.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The governing equations in geophysical fluid dynamics can be simplified somewhat if the
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-27T14:39:00+00:00</updated><entry><title>Using the Atlassian Bitbucket API</title><link href="http://0x7df.github.io/using-the-atlassian-bitbucket-api.html" rel="alternate"></link><published>2017-02-27T14:39:00+00:00</published><updated>2017-02-27T14:39:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-27:/using-the-atlassian-bitbucket-api.html</id><summary type="html"></summary><content type="html">&lt;p&gt;A few pointers / examples for using the Bitbucket Server API (the API syntax
+for Bitbucket Cloud might differ in some cases).&lt;/p&gt;
+&lt;h2&gt;API authentication&lt;/h2&gt;
+&lt;p&gt;Accessing Bitbucket through its API using curl requires username/password
+authentication. Using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -u &amp;lt;username&amp;gt;:&amp;lt;password&amp;gt; ...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;is no good in a script if the script is intended to be used by several people.
+Just:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -u &amp;lt;username&amp;gt; ...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;is better, as the password is then requested by curl and can be entered
+by the user at the command line. However, the password is requested each time
+curl is used in the script, which makes it irritating if there are several
+calls in the script. The
+solution is to record the password in a 'netrc' file, and then point curl to
+this. If the file is called &lt;code&gt;.netrc&lt;/code&gt; and stored in the user's home directory,
+then the &lt;code&gt;-n&lt;/code&gt; / &lt;code&gt;--netrc&lt;/code&gt; option can be used. The syntax of the file is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;machine &amp;lt;host.domain.com&amp;gt; login &amp;lt;username&amp;gt; password &amp;lt;password&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The same &lt;code&gt;.netrc&lt;/code&gt; file can hold lines for multiple hosts, so it would be fine
+to add a line for Bitbucket to an existing &lt;code&gt;.netrc&lt;/code&gt; or to create it if it
+didn't already exist. However to keep it simpler I chose to create a dedicated
+netrc file and point to it with the &lt;code&gt;--netrc-file&lt;/code&gt; option (available in curl
+from 7.21.5 onwards), which allows an arbitrary path/name for the netrc file.&lt;/p&gt;
+&lt;h2&gt;SSH key&lt;/h2&gt;
+&lt;p&gt;If access to Bibucket via SSH is required, then the user needs to add an SSH
+key to their account. Using the API, we can do:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl --netrc-file &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$NETRC_FILE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -o json.tmp &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/ssh/1.0/keys&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to get any SSH keys already associated with the user's Bitbucket account,
+where we have stored the full path to the authentication file discussed above
+in the variable &lt;code&gt;$NETRC_FILE&lt;/code&gt;, and the URL to the Bitbucket server in &lt;code&gt;$URL&lt;/code&gt;.
+The data returned by the API call gets stored in a file called &lt;code&gt;json.tmp&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We can pretty-print the JSON data returned by the Bitbucket API using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cat json.tmp &lt;span class="p"&gt;|&lt;/span&gt; python -m json.tool
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;from which it's easy to extract the SSH key returned and match it against the
+user's SSH key(s) in &lt;code&gt;${HOME}/.ssh&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If there's no match, then we can take an existing key (or create one with
+&lt;code&gt;ssh-keygen&lt;/code&gt;) and post it using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl --netrc-file &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$NETRC_FILE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -i -H &lt;span class="s2"&gt;&amp;quot;Content-Type:application/json&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     -X POST --data &lt;span class="s1"&gt;&amp;#39;{&amp;quot;text&amp;quot;: &amp;quot;&amp;#39;&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;SSH_KEY&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;quot;}&amp;#39;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/ssh/1.0/keys&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here we have already stored the SSH key we want to post in the &lt;code&gt;$SSH_KEY&lt;/code&gt;
+variable. The &lt;code&gt;-i&lt;/code&gt; flag includes the HTTP header in the output, and the &lt;code&gt;-H&lt;/code&gt;
+option includes the argument that follows it as an extra header in the request
+that curl sends. The &lt;code&gt;-X&lt;/code&gt; option is used to specify that curl should use the
+'POST' method; this is actually redundant since the use of &lt;code&gt;--data&lt;/code&gt; implies
+use of a 'POST' request.&lt;/p&gt;
+&lt;p&gt;(As an aside, the annoying:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;X11 forwarding request failed on channel 0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;message when using SSH can be suppressed by adding:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host &amp;lt;URL&amp;gt; [&amp;lt;URL&amp;gt; ...]
+  ForwardX11 no
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to the &lt;code&gt;$HOME/.ssh/config&lt;/code&gt; file.)&lt;/p&gt;
+&lt;h2&gt;Forking a repository&lt;/h2&gt;
+&lt;p&gt;To check whether a repository &lt;code&gt;$REPO_NAME&lt;/code&gt; exists in &lt;code&gt;$USER&lt;/code&gt;'s personal space:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl --netrc-file &lt;span class="se"&gt;\&lt;/span&gt;
+     &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$NETRC_FILE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/api/1.0/projects/~&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;USER&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/repos/&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;REPO_NAME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     &lt;span class="p"&gt;|&lt;/span&gt; grep &lt;span class="s2"&gt;&amp;quot;\&amp;quot;name\&amp;quot;:\&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;REPO_NAME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;\&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and to create a user fork of a Bitbucket repository &lt;code&gt;$REPO_NAME&lt;/code&gt; under project
+&lt;code&gt;$PROJECT&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl --netrc-file &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$NETRC_FILE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -X POST -H &lt;span class="s2"&gt;&amp;quot;Content-Type:application/json&amp;quot;&lt;/span&gt;
+     --data &lt;span class="s1"&gt;&amp;#39;{}&amp;#39;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/api/1.0/projects/&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PROJECT&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/repos/&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;REPO_NAME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Changing repository permissions and settings&lt;/h2&gt;
+&lt;p&gt;Changing permissions can also be done via the API:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl --netrc-file &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$NETRC_FILE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -X PUT &lt;span class="se"&gt;\&lt;/span&gt;
+     &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/api/1.0/projects/~&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;USER&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/repos/&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;REPO_NAME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/permissions/groups?permission=REPO_READ&amp;amp;name=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;USER_NAME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In this example a repository &lt;code&gt;$REPO_NAME&lt;/code&gt; in &lt;code&gt;$USER&lt;/code&gt;'s personal space has had
+read permission added for &lt;code&gt;$USER_NAME&lt;/code&gt; (which could also be the name of a
+group defined on Bitbucket).&lt;/p&gt;
+&lt;p&gt;An example of changing a setting:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl --netrc-file &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$NETRC_FILE&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -X POST  -H &lt;span class="s2"&gt;&amp;quot;Content-Type:application/json&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     --data &lt;span class="s1"&gt;&amp;#39;{&amp;quot;type&amp;quot;:&amp;quot;fast-forward-only&amp;quot;,&amp;quot;matcher&amp;quot;:{&amp;quot;id&amp;quot;:&amp;quot;*&amp;quot;,&amp;quot;type&amp;quot;:{&amp;quot;id&amp;quot;:&amp;quot;PATTERN&amp;quot;}}}&amp;#39;&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+     &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;URL&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/branch-permissions/2.0/projects/~&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;USER&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/repos/&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;REPO_NAME&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/restrictions&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here we've added protection against re-writing history to all branches. In
+the web interface to Bitbucket we would do this in 'Settings' / 'Branch
+permissions' by clicking the 'Add permissions' button. We can add permissions
+to a specific branch, a 'branch pattern' (which allows the use of wildcards),
+or according to the branching model. The &lt;code&gt;"matcher"&lt;/code&gt; key in the data posted to
+the API specifies that we want to use the 'branch pattern' mode of specifying
+branches, and that we want the branch pattern itself to be '*' - i.e. we want
+to apply the permission to all branches in the repository. The permission
+itself is 'fast-forward-only', which corresponds to 'Prevent rewriting
+history'.&lt;/p&gt;</content><category term="bitbucket"></category><category term="api"></category><category term="bash"></category><category term="atlassian"></category><category term="curl"></category></entry><entry><title>The shallow water equations</title><link href="http://0x7df.github.io/the-shallow-water-equations.html" rel="alternate"></link><published>2017-02-17T15:29:00+00:00</published><updated>2017-02-17T15:29:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-17:/the-shallow-water-equations.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The governing equations in geophysical fluid dynamics can be simplified somewhat if the
 horizontal length and velocity scales are much larger than the vertical length and
 velocity scales, respectively.&lt;/p&gt;
 &lt;p&gt;They are commonly used to describe both the ocean and atmosphere, as well as estuaries,
