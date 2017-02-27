@@ -1,12 +1,12 @@
 Title: Using the Atlassian Bitbucket API
-Date: 2017-02-27 12:24
+Date: 2017-02-27 14:39
 Category: Programming
-Modified: 2017-02-27 12:24
+Modified: 2017-02-27 14:39
 Tags: bitbucket, api, bash, atlassian, curl
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 A few pointers / examples for using the Bitbucket Server API (the API syntax
 for Bitbucket Cloud might differ in some cases).
