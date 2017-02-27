@@ -2380,7 +2380,7 @@ deviceC, ...&lt;/code&gt;&lt;/p&gt;
 post&lt;/a&gt;
 I came across introduced me to
 &lt;a href="https://github.com/landscapeio/prospector"&gt;Prospector&lt;/a&gt;, a
-&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;&lt;a href="http://en.wikipedia.org/wiki/Static_program_analysis"&gt;static
+&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt; &lt;a href="http://en.wikipedia.org/wiki/Static_program_analysis"&gt;static
 analysis&lt;/a&gt; tool
 developed by &lt;a href="https://landscape.io/"&gt;Landscape&lt;/a&gt;. From the
 &lt;a href="https://prospector.readthedocs.org"&gt;documentation&lt;/a&gt;:&lt;/p&gt;
@@ -2392,7 +2392,7 @@ complexity.&lt;/p&gt;
 post&lt;/a&gt;
 I came across introduced me to
 &lt;a href="https://github.com/landscapeio/prospector"&gt;Prospector&lt;/a&gt;, a
-&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;&lt;a href="http://en.wikipedia.org/wiki/Static_program_analysis"&gt;static
+&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt; &lt;a href="http://en.wikipedia.org/wiki/Static_program_analysis"&gt;static
 analysis&lt;/a&gt; tool
 developed by &lt;a href="https://landscape.io/"&gt;Landscape&lt;/a&gt;. From the
 &lt;a href="https://prospector.readthedocs.org"&gt;documentation&lt;/a&gt;:&lt;/p&gt;
@@ -2424,36 +2424,38 @@ contains, but will go on from there to give a bit more information.&lt;/p&gt;
 &lt;h2&gt;Cyclomatic complexity&lt;/h2&gt;
 &lt;p&gt;The first thing you might come across that might not be self-evident is
 the complexity rating given by the
-&lt;a href="https://github.com/flintwork/mccabe"&gt;&lt;code&gt;mccabe&lt;/code&gt;&lt;/a&gt; package. E.g.:&lt;/p&gt;
-&lt;p&gt;[code lang="bash"]&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;prospector --strictness low&lt;br&gt;
-Messages&lt;br&gt;
-========&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;main.py&lt;br&gt;
-  Line: 13&lt;br&gt;
-    mccabe: MC0001 / run is too complex (17)&lt;/p&gt;
-&lt;h1&gt;Check Information&lt;/h1&gt;
-&lt;p&gt;Started: 2015-04-11 15:59:47.759944&lt;br&gt;
-       Finished: 2015-04-11 15:59:51.598176&lt;br&gt;
-     Time Taken: 3.84 seconds&lt;br&gt;
-      Formatter: grouped&lt;br&gt;
+&lt;a href="https://github.com/flintwork/mccabe"&gt;mccabe&lt;/a&gt; package. E.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; prospector --strictness low  
+Messages  
+========
+
+main.py  
+  Line: 13  
+    mccabe: MC0001 / run is too complex (17)
+
+Check Information  
+=================  
+        Started: 2015-04-11 15:59:47.759944  
+       Finished: 2015-04-11 15:59:51.598176  
+     Time Taken: 3.84 seconds  
+      Formatter: grouped  
        Profiles: default, strictness_low, strictness_medium,
 strictness_high, strictness_veryhigh, no_doc_warnings,
-no_test_warnings, no_member_warnings&lt;br&gt;
-     Strictness: low&lt;br&gt;
- Libraries Used:&lt;br&gt;
+no_test_warnings, no_member_warnings  
+     Strictness: low  
+ Libraries Used:  
       Tools Run: dodgy, mccabe, pep8, profile-validator, pyflakes,
-pylint&lt;br&gt;
- Messages Found: 1&lt;/p&gt;
-&lt;p&gt;[/code]&lt;/p&gt;
+pylint  
+ Messages Found: 1
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;The &lt;em&gt;cyclomatic complexity&lt;/em&gt; metric was defined by &lt;a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1702388&amp;amp;filter%3DAND%28p_IS_Number%3A35895%29"&gt;Thomas J. McCabe in a
 1976
 paper&lt;/a&gt;
 (the PDF of which can be found
 &lt;a href="http://www.literateprogramming.com/mccabe.pdf"&gt;here&lt;/a&gt;, or reproduced in
-the &lt;a href="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;dq=%22structured%20testing%22&amp;amp;pg=PR1#v=onepage&amp;amp;q=%22structured%20testing%22&amp;amp;f=false"&gt;book "Structured Testing" which is available on Google
+the &lt;a href="https://books.google.com/books?id=vtNWAAAAMAAJ"&gt;book "Structured Testing" which is available on Google
 Books&lt;/a&gt;).
 It is essentially a measure of the number of logical paths through a
 piece of source code: the higher the number, the higher the complexity,
@@ -2473,7 +2475,9 @@ graph... and it is assumed that each node can be reached by the entry
 node and each node can reach the exit node. For example the following
 is a program control graph with entry node &lt;span class="math"&gt;\( a\)&lt;/span&gt; and
 exit node &lt;span class="math"&gt;\( f\)&lt;/span&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Reproduced from McCabe (1976)" src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA3&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&amp;amp;ci=642%2C968%2C254%2C220&amp;amp;edge=0"&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA3&amp;ci=504%2C979%2C469%2C191&amp;source=bookclip"&gt;&lt;img src="https://books.google.co.uk/books/content?id=vtNWAAAAMAAJ&amp;pg=PA3&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&amp;ci=504%2C979%2C469%2C191&amp;edge=0" alt="Reproduced from McCabe (1976)"/&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
 &lt;p&gt;The following mathematical preliminaries will be needed...&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Definition 1&lt;/em&gt;: The cyclomatic number &lt;span class="math"&gt;\( V(G)\)&lt;/span&gt; of a
 graph &lt;span class="math"&gt;\( G\)&lt;/span&gt; with &lt;span class="math"&gt;\( n\)&lt;/span&gt; vertices,
@@ -2508,10 +2512,14 @@ can be expressed as a linear combination of circuits from
 is expressible as &lt;span class="math"&gt;\( (abea) + 2(beb) + (abefa)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;To see how this works it's necessary to number the edges on &lt;span class="math"&gt;\( G\)&lt;/span&gt;
 as in:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA4&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;amp;ci=165%2C387%2C235%2C207&amp;amp;edge=0"&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;ci=1%2C391%2C503%2C195&amp;source=bookclip"&gt;&lt;img src="https://books.google.co.uk/books/content?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;ci=1%2C391%2C503%2C195&amp;edge=0"/&gt;&lt;/a&gt;&amp;gt;&lt;/p&gt;
+&lt;blockquote&gt;
 &lt;p&gt;Now for each member of the basis &lt;span class="math"&gt;\( B1\)&lt;/span&gt; associate a
 vector as follows:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA4&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;amp;ci=66%2C638%2C279%2C134&amp;amp;edge=0"&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;ci=1%2C641%2C502%2C127&amp;source=bookclip"&gt;&lt;img src="https://books.google.co.uk/books/content?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;ci=1%2C641%2C502%2C127&amp;edge=0"/&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
 &lt;p&gt;The path &lt;span class="math"&gt;\( (abea(be)^3fa)\)&lt;/span&gt; corresponds to the
 vector &lt;span class="math"&gt;\( 2004200111\)&lt;/span&gt; and the vector addition of
 &lt;span class="math"&gt;\( (abefa)\)&lt;/span&gt;, &lt;span class="math"&gt;\( 2(beb)\)&lt;/span&gt; and
@@ -2538,32 +2546,27 @@ to &lt;span class="math"&gt;\( V(G)\)&lt;/span&gt; (instead of using just physic
 and use the cyclomatic complexity as the basis for a testing
 methodology.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;[caption id="attachment_450" align="alignleft" width="178"]&lt;a href="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png"&gt;&lt;img alt="Example
-mccabe graph
-output" src="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png?w=178"&gt;&lt;/a&gt;
-Example mccabe graph output[/caption]&lt;/p&gt;
 &lt;p&gt;If you want to run &lt;code&gt;mccabe&lt;/code&gt; separately from &lt;code&gt;prospector&lt;/code&gt; you can do,
 using:&lt;/p&gt;
-&lt;p&gt;[code lang="bash"]  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;python -m mccabe mysourcefile.py&lt;br&gt;
-('If 209', 2)&lt;br&gt;
-("13:1: 'run'", 8)&lt;br&gt;
-[/code]&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; python -m mccabe mysourcefile.py  
+(&amp;#39;If 209&amp;#39;, 2)  
+(&amp;quot;13:1: &amp;#39;run&amp;#39;&amp;quot;, 8)
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;You can add the &lt;code&gt;-d&lt;/code&gt; option (documented
 &lt;a href="http://nedbatchelder.com/blog/200803/python_code_complexity_microtool.html"&gt;here&lt;/a&gt;)
 to produce output that can be passed to the
 &lt;a href="http://www.graphviz.org/"&gt;Graphviz&lt;/a&gt; program
 &lt;a href="http://www.graphviz.org/pdf/dotguide.pdf"&gt;dot&lt;/a&gt;, which will plot the
 graph. I.e.:&lt;/p&gt;
-&lt;p&gt;[code lang="bash"]  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;python -m mccabe -d example.py | \&lt;br&gt;
-dot -Tpng -o example.png&lt;br&gt;
-[/code]&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;produces something like the graph shown to the left.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; python -m mccabe -d example.py | \\  
+dot -Tpng -o example.png
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;produces something like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="images/example_mccabe_graph.png" style="width: 200px; height: auto;"&gt;&lt;/p&gt;
 &lt;p&gt;As well as using the cyclomatic complexity as a metric of whether a
 particular piece of source code needs simplifying, it can also give an
 indication of the number of tests that are required. If the number of
@@ -2580,18 +2583,19 @@ paths; but it seems like a good start.&lt;/p&gt;
 fine-tune the warnings that are issued. For instance, once the
 strictness level is up to medium or above, you might start to get a lot
 of warnings from Pylint about invalid constant names:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br&gt;
-example.py&lt;br&gt;
-Line: 1&lt;br&gt;
-pylint: invalid-name / Invalid constant name "nmats"&lt;br&gt;
-Line: 17&lt;br&gt;
-pylint: invalid-name / Invalid constant name "dcoeff"&lt;br&gt;
-Line: 21&lt;br&gt;
-pylint: invalid-name / Invalid constant name "tpower"&lt;br&gt;
-Line: 23&lt;br&gt;
-pylint: invalid-name / Invalid constant name "tmp0"&lt;br&gt;
-...&lt;br&gt;
-[/code]&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;example.py  
+Line: 1  
+pylint: invalid-name / Invalid constant name &amp;quot;nmats&amp;quot;  
+Line: 17  
+pylint: invalid-name / Invalid constant name &amp;quot;dcoeff&amp;quot;  
+Line: 21  
+pylint: invalid-name / Invalid constant name &amp;quot;tpower&amp;quot;  
+Line: 23  
+pylint: invalid-name / Invalid constant name &amp;quot;tmp0&amp;quot;  
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;The &lt;a href="https://www.python.org/dev/peps/pep-0008"&gt;PEP8 style guide&lt;/a&gt;
 suggests constants should be in upper case; I'm happy with this rule but
 in most cases that were identified for a particular project I used a
@@ -2610,37 +2614,37 @@ whitespace, so I get far too many warning messages.&lt;/p&gt;
 warned against; &lt;a href="http://stackoverflow.com/questions/14027417/what-does-pylints-too-few-public-methods-message-mean"&gt;the advice is that classes shouldn't be used for data
 storage, but should include
 functions&lt;/a&gt;.
-If the only purpose is data storage, then a data structure  like a
+If the only purpose is data storage, then a data structure like a
 dictionary is more appropriate. However, again because of the
 work-in-progress status of the code being analysed, I've defined certain
-classes that currently only register data, but I expect at some point
-will include methods. So in the meantime I want to turn this check off,
-for the moment at least.&lt;/p&gt;
+classes that currently only register data, but at some point
+will include methods. So in the meantime I want to turn this check off.&lt;/p&gt;
 &lt;p&gt;The fine-tuning is done using profiles. A profile is just a
-&lt;a href="http://yaml.org/"&gt;YAML&lt;/a&gt;file with some configuration information, so you
+&lt;a href="http://yaml.org/"&gt;YAML&lt;/a&gt; file with some configuration information, so you
 can give different projects different rule sets by giving them their own
 configuration file. An example is:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br&gt;
-strictness: veryhigh&lt;br&gt;
-ignore-paths: QA&lt;br&gt;
-pylint:&lt;br&gt;
-disable:&lt;br&gt;
-- invalid-name&lt;br&gt;
-- trailing-whitespace&lt;br&gt;
-- too-few-public-methods&lt;br&gt;
-[/code]&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;strictness&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;veryhigh&lt;/span&gt;  
+&lt;span class="n"&gt;ignore&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;paths&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;QA&lt;/span&gt;  
+&lt;span class="n"&gt;pylint&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;  
+&lt;span class="n"&gt;disable&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;  
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;invalid&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;  
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;trailing&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;whitespace&lt;/span&gt;  
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;too&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;few&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;methods&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;The really nice part is that configurations can inherit from other
 configurations. For example, Prospector's different &lt;code&gt;--strictness&lt;/code&gt;
 options are really just different pre-defined profiles, and the example
-above has been set up to inherit from the &lt;code&gt;--strictness high&lt;/code&gt; profile.
+above has been set up to inherit from the &lt;code&gt;--strictness veryhigh&lt;/code&gt; profile.
 The project-specific tweaks are:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Ignore the directory called `QA` and its contents (which in this
-    project contains temporary/intermediate files). This can also be
-    achieved by using `--ignore-paths QA` on the command line.&lt;/li&gt;
-&lt;li&gt;Disable the `invalid-name` messages from Pylint.&lt;/li&gt;
-&lt;li&gt;Disable the `trailing-whitespace` messages from Pylint&lt;/li&gt;
-&lt;li&gt;Disable the `too-few-public-methods` messages from Pylint&lt;/li&gt;
+&lt;li&gt;Ignore the directory called &lt;code&gt;QA&lt;/code&gt; and its contents (which in this
+  project contains temporary/intermediate files). This can also be
+  achieved by using &lt;code&gt;--ignore-paths QA&lt;/code&gt; on the command line.&lt;/li&gt;
+&lt;li&gt;Disable the &lt;code&gt;invalid-name&lt;/code&gt; messages from Pylint.&lt;/li&gt;
+&lt;li&gt;Disable the &lt;code&gt;trailing-whitespace&lt;/code&gt; messages from Pylint&lt;/li&gt;
+&lt;li&gt;Disable the &lt;code&gt;too-few-public-methods&lt;/code&gt; messages from Pylint&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;Adding additional tools&lt;/h2&gt;
 &lt;p&gt;As well as the default tools (Pylint,
@@ -2651,19 +2655,19 @@ additional tools can be turned on either via the command line or by
 adding them to a profile. The useful extra options are:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://pypi.python.org/pypi/pep257"&gt;pep257&lt;/a&gt;, which checks that
-    docstrings conform to the &lt;a href="https://www.python.org/dev/peps/pep-0257/"&gt;PEP257 docstring conventions
-    guide&lt;/a&gt;. Use `--with-tool
-    pep257` on the command line, or add `run: true` to a `pep257:`
-    section in a profile file.&lt;/li&gt;
+  docstrings conform to the &lt;a href="https://www.python.org/dev/peps/pep-0257/"&gt;PEP257 docstring conventions
+  guide&lt;/a&gt;. Use &lt;code&gt;--with-tool
+  pep257&lt;/code&gt; on the command line, or add &lt;code&gt;run: true&lt;/code&gt; to a &lt;code&gt;pep257:&lt;/code&gt;
+  section in a profile file.&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://pypi.python.org/pypi/vulture"&gt;vulture&lt;/a&gt;, which checks for
-    'dead code' (unused variables, functions, classes, etc.). This
-    requires installation first, via `pip install
-    prospector[with_vulture]`. (NB this syntax doesn't work in a &lt;a href="http://zsh.sourceforge.net/"&gt;Z
-    shell&lt;/a&gt;.)&lt;/li&gt;
+  'dead code' (unused variables, functions, classes, etc.). This
+  requires installation first, via &lt;code&gt;pip install
+  prospector[with_vulture]&lt;/code&gt;. (NB this syntax doesn't work in a &lt;a href="http://zsh.sourceforge.net/"&gt;Z
+  shell&lt;/a&gt;.)&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://pypi.python.org/pypi/pyroma"&gt;pyroma&lt;/a&gt;, used for checking
-    that Python packaging best practices are being followed. Requires
-    `pip install prospector[with_pyroma]`. Note that using pyroma
-    implies the use of pep257.&lt;/li&gt;
+  that Python packaging best practices are being followed. Requires
+  &lt;code&gt;pip install prospector[with_pyroma]&lt;/code&gt;. Note that using pyroma
+  implies the use of pep257.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
