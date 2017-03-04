@@ -5,15 +5,31 @@ set -o pipefail
 
 # Get unique tags from all Blog posts
 
+# Change to the directory containing this script
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
+
 # Print all lines beginning with "Tags: " in all files with the ".md" extension
 # (i.e. Markdown), extract all the comma-separated tags from these lines,
-# remove leading zeroes, dort alphabetically and remove repeated items, then
+# remove leading zeroes, sort alphabetically and remove repeated items, then
 # write to file "./tags.txt".
 
-grep -h '^Tags\: ' *.md \
-  | cut -d":" -f2       \
-  | awk -F, '{ for (i = 0; ++i <= NF;) print $i }' \
-  | sed 's/^ //'        \
-  | sort | uniq         \
-> ./tags.txt
+[[ -f ./tags.txt ]] && mv ./tags.txt ./tags.txt.bup
+
+grep --no-filename '^Tags\: ' *.md               | \
+  # Remove the "Tag:" prefix
+  cut -d":" -f2                                  | \
+  # Print each comma-separated field
+  awk -F, '{ for (i = 0; ++i <= NF;) print $i }' | \
+  # Delete blank lines
+  sed '/^ *$/d'                                  | \
+  # Remove leading whitespace
+  sed "s/^ *//g"                                 | \
+  sort | uniq                                      \
+  > ./tags.txt
 

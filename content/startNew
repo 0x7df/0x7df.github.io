@@ -8,6 +8,7 @@ if [[ $# != 1 ]] ; then
     exit 1
 fi
 
+# Change to the directory containing this script
 SOURCE="${BASH_SOURCE[0]}"
 while [[ -h "$SOURCE" ]] ; do
     DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"

@@ -3,6 +3,16 @@
 set -eu
 set -o pipefail
 
+typeset -i ACTLEN
+typeset -i MAXLEN=0
+
 for FILE in $(grep -l '^Status: draft$' *.md) ; do
-    echo "$FILE ($(cat $FILE | wc -l))"
+    ACTLEN=${#FILE}
+    if [[ $ACTLEN -gt $MAXLEN ]] ; then
+        MAXLEN=$ACTLEN
+    fi
 done
+
+for FILE in $(grep -l '^Status: draft$' *.md) ; do
+        printf "%3i %-${MAXLEN}s\n" $(cat $FILE | wc -l) $FILE
+done | sort
