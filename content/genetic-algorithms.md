@@ -4,7 +4,7 @@ Author: 0x7df
 Category: Uncategorized
 Slug: 599
 Status: draft
-Tags: algorithm, evolutionary algorithsm, evolutionary computing, computing,
+Tags: algorithm, evolutionary algorithm, evolutionary computing, computing,
 programming
 
 In a genetic algorithm, a population of random solutions to the problem
