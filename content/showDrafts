@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -eu
+set -o pipefail
+
 for FILE in $(grep -l '^Status: draft$' *.md) ; do
     echo "$FILE ($(cat $FILE | wc -l))"
 done

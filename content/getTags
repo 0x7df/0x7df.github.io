@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -eu
+set -o pipefail
+
 # Get unique tags from all Blog posts
 
 # Print all lines beginning with "Tags: " in all files with the ".md" extension

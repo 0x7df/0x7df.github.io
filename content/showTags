@@ -1,4 +1,7 @@
 #!/bin/bash
 
+set -eu
+set -o pipefail
+
 cat ./tags.txt
 

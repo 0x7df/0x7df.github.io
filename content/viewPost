@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -eu
+set -o pipefail
+
 SOURCE="${BASH_SOURCE[0]}"
 while [[ -h "$SOURCE" ]] ; do
     DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"

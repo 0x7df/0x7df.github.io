@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -eu
+set -o pipefail
+
 if [[ $# != 1 ]] ; then
     echo "Provide article title as argument" >&2
     exit 1
