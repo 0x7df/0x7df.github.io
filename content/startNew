@@ -18,11 +18,13 @@ done
 cd -P "$(dirname "$SOURCE")"
 
 TITLE=$(echo ${1} | tr " " "-" | tr [[:upper:]] [[:lower:]])
+echo $TITLE
+
 DATE=$(date "+%Y-%m-%d %H:%M")
 
 echo "Title: ${1}
 Date: ${DATE}
-Category: ${2} 
+Category: ${2:-""} 
 Modified: ${DATE}
 Tags: 
 Slug: 

@@ -8,9 +8,10 @@ if [[ -z "${1}" ]] ; then
     echo "Blog post file name not specified"
     exit 1
 fi
-FILENAME="${1}"
+typeset -r FILENAME="${1}"
+echo "Publishing ${FILENAME}"
 
-# Check on branch "source"
+# Check we are on branch "source"
 BRANCH_NAME="$(git symbolic-ref HEAD 2>/dev/null)" || BRANCH_NAME=""
 BRANCH_NAME="${BRANCH_NAME##refs/heads/}"
 if [[ "${BRANCH_NAME}" != "source" ]] ; then
@@ -18,28 +19,36 @@ if [[ "${BRANCH_NAME}" != "source" ]] ; then
     exit 2
 fi
 
-# Get post title and URL for tweet
-# (xargs trims the leading whitespace)
+# Update dates and status in post metadata
+typeset -r PUBLISHDATE=$(date +"%Y-%m-%d %H:%M")
+sed -i '.backup'                                    \
+    -e "s/^Date:\ .*$/Date:\ ${PUBLISHDATE}"/       \
+    -e "s/^Modified: .*$/Modified: ${PUBLISHDATE}/" \
+    -e 's/^Status: draft$/Status: published/'       \
+${FILENAME}
+
+# Commit and push changes on source branch to GitHub
+git add ${FILENAME}
+git commit -m"Published ${FILENAME}"
+git push
+
+# Rebuild site locally and publish
+make -C .. html
+make -C .. github
+
+# Get post title for tweet (xargs trims the leading whitespace)
 POST_TITLE=$(grep "^Title: .*$" "${FILENAME}" | cut -d ":" -f2 | xargs)
 if [[ -z "${POST_TITLE}" ]] ; then
     echo "Error determining title of post"
     exit 3
 fi
-POST_URL=$(grep '^Slug: .\+$' ${FILENAME} | cut -d":" -f2 | xargs)
-if [[ -z "${POST_URL}" ]] ; then
-    POST_URL=$(basename -s .md ${FILENAME}) 
-fi
-if [[ -z "${POST_URL}" ]] ; then
-    echo "Error determining URL of post"
-    exit 4
-fi
 
 # Construct the tweet to accompany the publication
 TWEET_BASE="New blog post published: \\\"${POST_TITLE}\\\" "
-TWEET_MAXLEN=110 # Allow 30 characters for bit.ly shortened link
+typeset -ir TWEET_MAXLEN=110 # Allow 30 characters for bit.ly shortened link
 # Maximum length of title if it needs to be shortened
-TWEET_TITLE_MAXLEN=$(expr ${TWEET_MAXLEN} \- 21)
-TWEET_LEN=${#TWEET_BASE}
+typeset -i TWEET_TITLE_MAXLEN=$(expr ${TWEET_MAXLEN} \- 21)
+typeset -i TWEET_LEN=${#TWEET_BASE}
 if [[ "${TWEET_LEN}" -gt "${TWEET_MAXLEN}" ]] ; then
     TWEET_BASE="New blog post: \\\"${POST_TITLE}\\\" "
 fi
@@ -52,33 +61,21 @@ if [[ "${TWEET_LEN}" -gt "${TWEET_MAXLEN}" ]] ; then
     TWEET_BASE="New blog post: \\\"${POST_TITLE}...\\\" "
 fi
 
-BASE_URL="http://0x7df.github.io"
-TWEET_BODY="${TWEET_BASE}${BASE_URL}/${POST_URL}.html"
-
-PAYLOAD="{\"value1\":\"${TWEET_BODY}\", \"value2\":\"test2\", \"value3\":\"test3\"}"
-
-# Update dates and status in post metadata
-PUBLISHDATE=$(date +"%Y-%m-%d %H:%M")
-sed -i '.backup'                                    \
-    -e "s/^Date:\ .*$/Date:\ ${PUBLISHDATE}"/       \
-    -e "s/^Modified: .*$/Modified: ${PUBLISHDATE}/" \
-    -e 's/^Status: draft$/Status: published/'       \
-${FILENAME}
-
-# Commit and push changes to GitHub
-echo "Publishing ${FILENAME}"
-
-git add ${FILENAME}
-git commit -m"Published ${FILENAME}"
-git push
-
-# Rebuild site locally and publish
-make -C .. html
-make -C .. github
+# Get URL of the post
+typeset -r BASE_URL="http://0x7df.github.io"
+POST_URL=$(grep '^Slug: .\+$' ${FILENAME} | cut -d":" -f2 | xargs)
+if [[ -z "${POST_URL}" ]] ; then
+    POST_URL=$(basename -s .md ${FILENAME}) 
+fi
+if [[ -z "${POST_URL}" ]] ; then
+    echo "Error determining URL of post"
+    exit 4
+fi
 
 # Add trigger for IFTTT Maker channel here, using curl, to Tweet link to new
 # post
-
+TWEET_BODY="${TWEET_BASE}${BASE_URL}/${POST_URL}.html"
+PAYLOAD="{\"value1\":\"${TWEET_BODY}\", \"value2\":\"test2\", \"value3\":\"test3\"}"
 APIKEY=$(cat ./file_containing_secret_key)
 #curl -X POST -H "Content-Type: application/json" \
 #    -d "${PAYLOAD}" \

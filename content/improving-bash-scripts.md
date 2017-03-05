@@ -1,7 +1,7 @@
 Title: Improving Bash scripts
-Date: 2017-03-05 01:03
+Date: 2017-03-05 11:44
 Category:  
-Modified: 2017-03-05 01:03
+Modified: 2017-03-05 11:44
 Tags: 
 Slug: 
 Author: 0x7df
@@ -144,19 +144,20 @@ to Stephane Chazelas):
 ## Explicit typing
 
 In Bash, either `declare` or its synonym `typeset` can be used to specify the
-type of variables. I prefer `typeset` as it's also recognised by the Korn
+type of variables. I prefer `typeset`, as it's also recognised by the Korn
 shell:
 
     :::bash
     typeset -i integer_variable
     typeset -r constant
 
-These have synonyms `integer` and `readonly`, but using the `typeset` form also
+The `-r` form has the alternative `readonly`, but using the `typeset` form also
 gives some consistency since `typeset` has other uses, such as declaring
 arrays:
 
     :::bash
-    typeset -A an_array
+    typeset -a an_array # Prior to Bash v4
+    typeset -A an_array # Bash v4 and Korn shell
 
 as well as allowing multiple attributes to be declared at once:
 
@@ -167,6 +168,18 @@ and attributes to be removed:
 
     :::bash
     typeset +r variable # No longer read-only
+
+and finally in functions to define the variable scope to be local to
+the function:
+
+    :::bash
+    typeset local_variable
+
+The variable is local whether or not other arguments (e.g. `-i`, `-r`, etc.)
+are supplied. Note that a variable inside a function declared with `readonly`
+is *not* local, whereas if declared with `typeset -r` it is - this is another
+reason to use `typeset -r` over `readonly`, since it's good practice to make
+variables local by default.
 
 ## Conclusion
 
