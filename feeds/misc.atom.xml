@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-03-05T01:02:00+00:00</updated><entry><title>Improving Bash scripts</title><link href="http://0x7df.github.io/improving-bash-scripts.html" rel="alternate"></link><published>2017-03-05T01:02:00+00:00</published><updated>2017-03-05T01:02:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/improving-bash-scripts.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been working on improving my Bash scripting recently, working
+systematically through the &lt;a href="http://www.tldp.org/LDP/abs/abs-guide.pdf"&gt;Advanced Bash-Scripting Guide&lt;/a&gt; for things I didn't know and for
+good practices that I haven't systematically applied.&lt;/p&gt;
+&lt;p&gt;Here are a few of the things it motivated me to apply across all my Bash
+scripts.&lt;/p&gt;
+&lt;h2&gt;Finding shell scripts&lt;/h2&gt;
+&lt;p&gt;All my scripts already consistently used a sha-bang, which made them easy to
+find:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find ~/Code -type f -not -path &lt;span class="s2"&gt;&amp;quot;*/.git/*&amp;quot;&lt;/span&gt; -print0 &lt;span class="se"&gt;\&lt;/span&gt;
+    &lt;span class="p"&gt;|&lt;/span&gt; xargs -0 grep -Il &lt;span class="s2"&gt;&amp;quot;^[ ]*\#\!/[^\#\!]*sh&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;find&lt;/code&gt; command searches for all files in the &lt;code&gt;~/Code&lt;/code&gt; directory (filtering
+out any that are inside a &lt;code&gt;.git&lt;/code&gt; directory) and passes the resulting list to
+&lt;code&gt;xargs&lt;/code&gt;, which runs the &lt;code&gt;grep&lt;/code&gt; command on each result.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;-print0&lt;/code&gt; and &lt;code&gt;-0&lt;/code&gt;
+arguments to &lt;code&gt;find&lt;/code&gt; and &lt;code&gt;xargs&lt;/code&gt; are designed to work with each other to protect
+against whitespace or other dodgy characters in pathnames that &lt;code&gt;xargs&lt;/code&gt; would
+split on. The former causes &lt;code&gt;find&lt;/code&gt; to separate the list of pathnames that it
+produces with a special null character, and the latter causes &lt;code&gt;xargs&lt;/code&gt; to split
+the list on that same character rather than on the usual characters, like
+whitespace.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;-I&lt;/code&gt; and &lt;code&gt;-l&lt;/code&gt; flags to &lt;code&gt;grep&lt;/code&gt; tell it to ignore binary files, and to print
+out the name of the matched file, rather than the matching line, respectively.&lt;/p&gt;
+&lt;p&gt;The regular expression matches strings of the form &lt;code&gt;#!/&lt;/code&gt;...&lt;code&gt;sh&lt;/code&gt;, where the
+middle part represented here by ... can consist of any number of characters
+other than &lt;code&gt;#&lt;/code&gt; or &lt;code&gt;!&lt;/code&gt;. This allows it to match various forms of sha-bang, such
+as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
+&lt;span class="c1"&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class="c1"&gt;#!/usr/bin/env bash&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note also that only cases where the sha-bang is preceded by zero or more spaces
+are matched, to prevent, for example, &lt;code&gt;this is a sha-bang: #!/bin/bash&lt;/code&gt; from
+being matched.&lt;/p&gt;
+&lt;p&gt;Once I had the list of scripts, I looped over the resulting list and &lt;code&gt;grep&lt;/code&gt;ped
+for the following desirable features.&lt;/p&gt;
+&lt;h2&gt;Error-checking with &lt;code&gt;set&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;A few of my scripts used &lt;code&gt;set -e&lt;/code&gt; or &lt;code&gt;set -u&lt;/code&gt;, depending on whether some
+problem had cropped up while I was developing or debugging them that using
+those commands helped me solve. However I decided it was time to get into the
+habit of using them systematically across all my scripts, and to start using
+&lt;code&gt;pipefail&lt;/code&gt; as well. Hence I added:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt; -eu
+&lt;span class="nb"&gt;set&lt;/span&gt; -o pipefail
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to the top of all scripts that didn't already have them. If a script fails
+because of an error in a pipe, no information is printed; but:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PIPESTATUS&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;will show the return codes of each command in the pipe; irritatingly, this
+works only in Bash and not in Korn shell scripts. (There is an equivalent
+&lt;code&gt;$pipestatus&lt;/code&gt; variable in Z shell.)&lt;/p&gt;
+&lt;h2&gt;Extended test command&lt;/h2&gt;
+&lt;p&gt;I was inconsistently mixing the standard &lt;code&gt;test&lt;/code&gt; command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt; ... &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and the extended version, originally introduced in Korn shell and later ported
+to Bash:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt; ... &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The latter has a few advantages.&lt;/p&gt;
+&lt;p&gt;Quoting variables within &lt;code&gt;[[ ... ]]&lt;/code&gt; isn't necessary. &lt;code&gt;[&lt;/code&gt; is a command
+and what follows are arguments to that command; if a variable in a
+comparison is unset, e.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt; -lt &lt;span class="nv"&gt;$b&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;then &lt;code&gt;[&lt;/code&gt; sees only two arguments, and therefore complains that &lt;code&gt;-lt&lt;/code&gt; is not
+a permissible operator for what it thinks is a two-argument form of the
+command. Quoting ensures that the correct number of arguments is seen by
+test. However, this isn't the case with &lt;code&gt;[[ .. ]]&lt;/code&gt; constructs.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt; and &lt;code&gt;||&lt;/code&gt; logical operators can be used, e.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nv"&gt;$b&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nv"&gt;$c&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nv"&gt;$d&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nv"&gt;$b&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nv"&gt;$c&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nv"&gt;$d&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;&amp;lt;&lt;/code&gt; and &lt;code&gt;&amp;gt;&lt;/code&gt; relational operators work without being escaped:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt; &amp;lt; &lt;span class="nv"&gt;$b&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="se"&gt;\&amp;lt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$b&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;but remember of course that these are text comparisons, so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt; &amp;gt; &lt;span class="m"&gt;54&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt;   &lt;span class="c1"&gt;# Returns true&lt;/span&gt;
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="m"&gt;9&lt;/span&gt; -gt &lt;span class="m"&gt;54&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="c1"&gt;# Returns false&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The extended test command implements the &lt;code&gt;=~&lt;/code&gt; regular-expression match:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;foobar&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;~ bar &lt;span class="o"&gt;]]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It should be noted tht file globbing and word splitting do not take place in
+the extended test command. From the Advanced Bash-Scripting Guide (attributed
+to Stephane Chazelas):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; z* &lt;span class="o"&gt;]]&lt;/span&gt;   &lt;span class="c1"&gt;# True if $a starts with a &amp;quot;z&amp;quot; (pattern matching).&lt;/span&gt;
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;z*&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="c1"&gt;# True if $a is equal to z* (literal matching).&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="nv"&gt;$a&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; z* &lt;span class="o"&gt;]&lt;/span&gt;     &lt;span class="c1"&gt;# File globbing and word splitting take place.&lt;/span&gt;
+&lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$a&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;z*&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;# True if $a is equal to z* (literal matching).&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Explicit typing&lt;/h2&gt;
+&lt;p&gt;In Bash, either &lt;code&gt;declare&lt;/code&gt; or its synonym &lt;code&gt;typeset&lt;/code&gt; can be used to specify the
+type of variables. I prefer &lt;code&gt;typeset&lt;/code&gt; as it's also recognised by the Korn
+shell:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; -i integer_variable
+&lt;span class="nb"&gt;typeset&lt;/span&gt; -r constant
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;These have synonyms &lt;code&gt;integer&lt;/code&gt; and &lt;code&gt;readonly&lt;/code&gt;, but using the &lt;code&gt;typeset&lt;/code&gt; form also
+gives some consistency since &lt;code&gt;typeset&lt;/code&gt; has other uses, such as declaring
+arrays:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; -A an_array
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;as well as allowing multiple attributes to be declared at once:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; -ir integer_constant
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and attributes to be removed:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; +r variable &lt;span class="c1"&gt;# No longer read-only&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;This is just scratching the surface of 'advanced' Bash scripting tips for
+defensive programming. More later.&lt;/p&gt;</content></entry></feed>

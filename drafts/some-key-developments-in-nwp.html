@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="0x7df, 0x7df subtitle">
+        <meta name="description" content="Two early models for medium-range: The UCLA model (Mintz and Arakawa) The GFDL (Geophysical Fluid Dynamics Laboratory) model: Smagorinsky and Miyakoda In particular, Miyakoda, Hembree, Strickler...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
-        <title>Homepage - 0x7df</title>
+        <title>Some key developments in NWP - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
@@ -16,6 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,17 +50,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">0x7df</h1>
+                      <h1 class="header-title">Some key developments in NWP</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Mon 27 February 2017, modified Mon 27 February 2017, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Physics, computer science, Python, Julia, Fortran, MPI, OpenMP, programming, agile, software, mathematics, CUDA, GPU, PHP, SQL, Scrum, Kanban, lean, Git, ...</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -67,39 +74,83 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="http://0x7df.github.io/index.html">Recent Posts </a></h2>
-            <dl class="dl-horizontal">
-                <dt>Sun 05 March 2017</dt>
-                <dd><a href="http://0x7df.github.io/improving-bash-scripts.html">Improving Bash scripts</a></dd>
-                <dt>Mon 27 February 2017</dt>
-                <dd><a href="http://0x7df.github.io/using-the-atlassian-bitbucket-api.html">Using the Atlassian Bitbucket API</a></dd>
-                <dt>Fri 17 February 2017</dt>
-                <dd><a href="http://0x7df.github.io/the-shallow-water-equations.html">The shallow water equations</a></dd>
-                <dt>Thu 16 February 2017</dt>
-                <dd><a href="http://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html">Adjustment of meteorological fields in NWP</a></dd>
-                <dt>Sun 12 February 2017</dt>
-                <dd><a href="http://0x7df.github.io/fredholm-integral-equations-and-the-resolvent-kernel.html">Fredholm integral equations and the resolvent kernel</a></dd>
-                <dt>Sat 11 February 2017</dt>
-                <dd><a href="http://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html">500 hPa geopotential height anomaly correlation</a></dd>
-                <dt>Mon 26 September 2016</dt>
-                <dd><a href="http://0x7df.github.io/setting-up-pelican.html">Setting up Pelican</a></dd>
-                <dt>Fri 23 October 2015</dt>
-                <dd><a href="http://0x7df.github.io/connecting-twitter-and-pocket-using-python.html">Connecting Twitter and Pocket using Python</a></dd>
-                <dt>Sat 03 October 2015</dt>
-                <dd><a href="http://0x7df.github.io/static-site-generation.html">Static site generation, Pelican, and GitHub hosting</a></dd>
-                <dt>Sat 03 October 2015</dt>
-                <dd><a href="http://0x7df.github.io/remembering-bayess-formula.html">Remembering Bayes's formula</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <ul>
+<li>
+<p>Two early models for medium-range:</p>
+<ul>
+<li>The UCLA model (Mintz and Arakawa)</li>
+<li>The GFDL (Geophysical Fluid Dynamics Laboratory) model: Smagorinsky and
+  Miyakoda</li>
+</ul>
+</li>
+<li>
+<p>In particular, Miyakoda, Hembree, Strickler and Shulman (1972) reported a
+  set of two-week predictions made at GFDL, which showed skill beyond a week
+  (although low beyond 3-4 days)</p>
+</li>
+<li>
+<p>The UK Met Office developed a 10-level, 100km-resolution, semi-implicit
+  model under Fred Bushby</p>
+</li>
+<li>
+<p>ECMWF's original model was a finite-difference (grid-point) model:</p>
+<ul>
+<li>Conserved potential enstrophy for non-divergent flow</li>
+<li>Used the semi-implicit time-stepping scheme, which allowed an initial
+  20-minute time-step rather than a 5-minute time-step which an explicit
+  scheme would have required</li>
+<li>Enabled 2-degree resolution</li>
+<li>Arakawa C-grid (staggered grid), due to low 'computational noise' and
+  ease of implementation of semi-implicit scheme</li>
+<li>Sadourny (1975), following Arakawa (1966), describes a finite-difference
+  scheme designed to conserve <em>potential enstrophy</em> during vorticity
+  advection by the horizontal flow.</li>
+<li>See also Burridge and Haseler (1977), Burridge (1979)</li>
+<li>First version tested in 1977</li>
+<li>By 1979-1980, forecasts were useful up to 5-6 days ahead</li>
+</ul>
+</li>
+<li>
+<p>Sadourny went to UCLA to study Mintz's model; Hollingsworth went to GFDL to
+  study theirs. Both models were brought to ECMWF ad the first ECMWF Technical
+  Report in 1976 described an inter-comparison of the two.</p>
+</li>
+<li>
+<p>The original ECMWF operational model had a choice of two physics packages:</p>
+<ul>
+<li>The GFDL physics, which had been in use for 15 years so was robust and
+  well-validated, but relatively crude</li>
+<li>A new ECMWF physics package, which was more sophisticated but relatively
+  untested
+  Early experiments in 1978-1979 showed little difference, so the ECMWF
+  physics package was selected.</li>
+</ul>
+</li>
+<li>
+<p>There was rapid development of spectral models around 1975, following a
+  proposal put forward by Orszag (1970) and refined by Eliasen <em>et al.</em> (1970)</p>
+<ul>
+<li>Several national meteorological services implemented operational
+  spectral models</li>
+<li>Although the first ECMWF operational model was a finite difference model,
+  work began in 1976 on a spectral version and this was formulated even
+  before the start of operations with the grid-point model</li>
+<li>However the gri-point model was selected for initial operational use as
+  there was pressure to get started, and there was relatively little
+  experience with spectral methods</li>
+<li>At ECMWF, Girard and Jarraud (1982) performed a comprehensive study
+  demonstrating the superiority for comparable cost of a spectral model
+  with triangular truncation</li>
+<li>The ECMWF operational grid-point model was replaced with a spectral model
+  at the beginning of 1983</li>
+</ul>
+</li>
+</ul>
+
+
+        
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-right" href="http://0x7df.github.io/index2.html">Next <i class="fa fa-caret-right"></i></a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->
