@@ -1,7 +1,7 @@
 Title: Improving Bash scripts
-Date: 2017-03-05 01:02
+Date: 2017-03-05 01:03
 Category:  
-Modified: 2017-03-05 01:02
+Modified: 2017-03-05 01:03
 Tags: 
 Slug: 
 Author: 0x7df
