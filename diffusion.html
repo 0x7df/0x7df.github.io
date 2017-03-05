@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Basic Theory Diffusion Equation The diffusion equation is: $$ \frac{\partial u}{\partial t} = \nabla \cdot \left( D\left(\mathbf{r}, t\right) \nabla u\left(\mathbf{r}, t\right) \right) +...">
+        <meta name="description" content="Diffusion Equation The time-dependent diffusion equation is: $$ \frac{\partial u}{\partial t} = \nabla \cdot \left( D\left(\mathbf{r}, t\right) \nabla u\left(\mathbf{r}, t\right) \right) +...">
         <meta name="keywords" content="diffusion, physics">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
-        <title>No title [None] - 0x7df</title>
+        <title>Diffusion - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
@@ -16,7 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
-        <link href="http://0x7df.github.io/feeds/uncategorized.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/physics.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -55,8 +55,8 @@
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">No title [None]</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 22 March 2015, in category <a href="http://0x7df.github.io/category/uncategorized.html">Uncategorized</a></p>
+                      <h1 class="header-title">Diffusion</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 05 March 2017, in category <a href="http://0x7df.github.io/category/physics.html">Physics</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -75,9 +75,8 @@
 
         <!-- Content -->
     <div class="container content">
-        <h1 id="basictheorypage">Basic Theory</h1>
-<h2>Diffusion Equation</h2>
-<p>The diffusion equation is:</p>
+        <h2>Diffusion Equation</h2>
+<p>The time-dependent diffusion equation is:</p>
 <div class="math">$$  
 \frac{\partial u}{\partial t} = \nabla \cdot \left(
 D\left(\mathbf{r}, t\right) \nabla u\left(\mathbf{r}, t\right)
@@ -95,7 +94,7 @@ D\left(\mathbf{r}, t\right) \nabla u\left(\mathbf{r}, t\right)
     source density</li>
 </ul>
 <p>From hereon we will display the quantities <span class="math">\( D\)</span>,
-<span class="math">\($ t\)</span> and <span class="math">\( u\)</span> without
+<span class="math">\( Q\)</span> and <span class="math">\( u\)</span> without
 their arguments, for simplicity of notation.</p>
 <p>To derive the diffusion equation we begin with Fick's law <a href="#fn1">(Fick,
 1855)</a>:</p>
@@ -106,12 +105,12 @@ their arguments, for simplicity of notation.</p>
 which is the rate of transfer per unit area; the integral of the normal
 component of <span class="math">\( \mathbf{F}\)</span> over a given surface
 is equal to the rate of flow through the surface. The direction of the
-flux vector is normal to the surface of constant concentration Fick's
+flux vector is normal to the surface of constant concentration. Fick's
 law says that for a given concentration <span class="math">\( u\)</span> at a
-given point <span class="math">\( \mathbf{r}\)</span>, the flux is
+point <span class="math">\( \mathbf{r}\)</span>, the flux is
 proportional to the concentration gradient there, and has the opposite
 direction.</p>
-<p><span class="math">\($ Q\)</span> is the source density: the concentration
+<p><span class="math">\( Q\)</span> is the source density: the concentration
 produced per unit time per unit volume.</p>
 <p>The divergence of <span class="math">\( \mathbf{F}\)</span>, i.e. <span class="math">\(
 \nabla \cdot \mathbf{F}\)</span>, is the rate of loss of
@@ -130,40 +129,43 @@ concentration per unit time from the volume element.</p>
 Fick's second law).</p>
 <p>The equation as written is linear, although it would be non-linear if we
 allowed the diffusion coefficient <span class="math">\( D\)</span> to vary
-with the unknown <span class="math">\( u\)</span>, as well as with <span class="math">\( x
-and $ t\)</span>.</p>
+with the unknown <span class="math">\( u\)</span>, as well as with <span class="math">\( x\)</span>
+and <span class="math">\( t\)</span>.</p>
 <h2>Special Cases</h2>
-<p>In the special case that <span class="math">\( D\)</span> is constant, then
+<p>In the special case that <span class="math">\( D\)</span> is constant in space and time, then
 this equation simplifies to:</p>
 <div class="math">$$  
 \frac{\partial u}{\partial t} = D \nabla^2 u + Q  
  $$</div>
-<p>and in steady-state, <span class="math">\( \frac{\partial u}{\partial t} = 0\)</span>,
-and with constant source, it reduces to Poisson's
-equation:</p>
+<p>and in steady-state, if <span class="math">\(Q\)</span> is also constant, <span class="math">\( \partial u/\partial t = 0\)</span>,
+it reduces to Poisson's equation:</p>
 <div class="math">$$  
-\nabla^2 u = Q/D  
+\nabla^2 u = \frac{Q}{D}
  $$</div>
 <p>and further to Laplace's equation if the source term is zero:</p>
 <div class="math">$$  
 \nabla^2 u = 0  
  $$</div>
 <p>Returning now to the full equation, we recall that:</p>
-<p>\f{eqnarray}<br>
-\nabla &amp;=&amp; \hat i \frac{\partial}{\partial x} + \hat j
+<div class="math">$$
+\nabla = \hat i \frac{\partial}{\partial x} + \hat j
 \frac{\partial}{\partial y} + \hat k \frac{\partial}{\partial z}
-\<br>
-&amp;=&amp; \hat e_{\rho} \frac{\partial}{\partial \rho} + \hat
+$$</div>
+<div class="math">$$
+= \hat e_{\rho} \frac{\partial}{\partial \rho} + \hat
 e_{\phi} \frac{\partial}{\partial \phi} + \hat e_z
-\frac{\partial}{\partial z} \<br>
-&amp;=&amp; \hat e_{r} \frac{\partial}{\partial r} + \hat e_{\theta}
+\frac{\partial}{\partial z}
+$$</div>
+<div class="math">$$
+= \hat e_{r} \frac{\partial}{\partial r} + \hat e_{\theta}
 \frac{\partial}{\partial \theta} + \hat e_{\phi}
-\frac{\partial}{\partial \phi}<br>
- $$</p>
+\frac{\partial}{\partial \phi}  
+$$</div>
 <p>in Cartesian, cylindrical and spherical geometries, respectively.</p>
 <p>Consider first spherical geometry:</p>
 <div class="math">$$  
-\nabla \cdot D \nabla u = \\\\  
+\nabla \cdot D \nabla u = $$</div>
+<div class="math">$$
 \frac{1}{r^2} \frac{\partial}{\partial r} \left( r^2 D
 \frac{\partial u}{\partial r} \right) +  
 \frac{1}{r \sin \theta} \frac{\partial}{\partial \theta} \left(
@@ -194,16 +196,19 @@ y} \right) +
 z} \right)  
  $$</div>
 <p>In one dimension:</p>
-<p>\f{eqnarray}<br>
-\frac{\partial u}{\partial t} &amp;=&amp; \frac{1}{r^2}
+<div class="math">$$
+\frac{\partial u}{\partial t} = \frac{1}{r^2}
 \frac{\partial}{\partial r} \left( r^2 D \frac{\partial
-u}{\partial r} \right) + Q \<br>
-\frac{\partial u}{\partial t} &amp;=&amp; \frac{1}{\rho}
+u}{\partial r} \right) + Q   
+$$</div>
+<div class="math">$$\frac{\partial u}{\partial t} = \frac{1}{\rho}
 \frac{\partial}{\partial \rho} \left( \rho D \frac{\partial
-u}{\partial \rho} \right) + Q \<br>
-\frac{\partial u}{\partial t} &amp;=&amp; \frac{\partial}{\partial x}
-\left( D \frac{\partial u}{\partial x} \right) + Q<br>
- $$</p>
+u}{\partial \rho} \right) + Q
+$$</div>
+<div class="math">$$
+\frac{\partial u}{\partial t} = \frac{\partial}{\partial x}
+\left( D \frac{\partial u}{\partial x} \right) + Q  
+ $$</div>
 <p>These equations can be generalised:</p>
 <div class="math">$$  
 \frac{\partial u}{\partial t} = \frac{1}{x^p}
@@ -218,9 +223,9 @@ u}{\partial x} \right) + Q
 </ul>
 <h2>Heat Flow Equation</h2>
 <p>The phenomena of heat conduction and diffusion are basically the same,
-and Fick <a href="#fn2">(Fick, 1855)</a> first put diffusion on a quantitative
+and <a href="#fn1">Fick, 1855</a> first put diffusion on a quantitative
 basis by adopting the mathematical equation of heat conduction derived
-by Fourier <a href="#fn3">(Fourier, 1822)</a>.</p>
+by Fourier <a href="#fn2">(Fourier, 1822)</a>.</p>
 <p>The heat flow equation of Fourier is:</p>
 <div class="math">$$  
 a \frac{\partial \theta}{\partial t} = \frac{\partial}{\partial
@@ -239,8 +244,7 @@ conductivity. For constant conductivity this becomes:</p>
 x^2}  
  $$</div>
 <p>For the two equations to correspond, we equate temperature
-<span class="math">\( \theta\)</span> with concentration <span class="math">\( u 
-$, which clearly implies that $ D = K/a\)</span>.
+<span class="math">\( \theta\)</span> with concentration <span class="math">\( u\)</span>, which clearly implies that <span class="math">\( D = K/a\)</span>.
 However, it is also the case that:</p>
 <div class="math">$$  
 \mathbf{F} = -K \nabla \theta  
@@ -256,13 +260,13 @@ volume, whereas in diffusion, the concentration is already by definition
 the amount of substance per unit volume, so <span class="math">\( a = 1\)</span>.</p>
 <hr>
 <ol>
-<li><a name="fn1">Fick, A, 1855. On liquid diffusion. The London,
-    Edinburgh, and Dublin Philosophical Magazine and Journal of Science,
+<li><a name="fn1" href="http://www.tandfonline.com/doi/abs/10.1080/14786445508641925">
+    Fick, A, 1855. On liquid diffusion. The London,
+    dinburgh, and Dublin Philosophical Magazine and Journal of Science,
     X, 30-39.</a></li>
-<li><a name="fn2">Fick, A, 1855. On liquid diffusion. The London,
-    Edinburgh, and Dublin Philosophical Magazine and Journal of Science,
-    X, 30-39.</a></li>
-<li><a name="fn3">Fourier, M, 1822.</a></li>
+<li><a name="fn2" href="https://books.google.co.uk/books?id=No8IAAAAMAAJ">
+    Fourier, JBJ, 1822. Théorie Analytique de la chaleur. F.
+    Didot, Paris.</a></li>
 </ol>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",

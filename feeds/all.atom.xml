@@ -1,5 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-03-05T11:44:00+00:00</updated><entry><title>Improving Bash scripts</title><link href="http://0x7df.github.io/improving-bash-scripts.html" rel="alternate"></link><published>2017-03-05T11:44:00+00:00</published><updated>2017-03-05T11:44:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/improving-bash-scripts.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been working on improving my Bash scripting recently, working
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-03-05T14:07:00+00:00</updated><entry><title>Diffusion</title><link href="http://0x7df.github.io/diffusion.html" rel="alternate"></link><published>2017-03-05T14:07:00+00:00</published><updated>2017-03-05T14:07:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/diffusion.html</id><summary type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
+&lt;p&gt;The time-dependent diffusion equation is:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial u}{\partial t} = \nabla \cdot \left(
+D\left(\mathbf{r}, t\right) \nabla u\left(\mathbf{r}, t\right)
+\right) + Q\left(\mathbf{r}, t\right)  
+ $$&lt;/div&gt;
+&lt;p&gt;where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( \mathbf{r}\)&lt;/span&gt; is position&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( t\)&lt;/span&gt; is time&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( u \left( \mathbf{r}, t \right)\)&lt;/span&gt; is …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
+&lt;p&gt;The time-dependent diffusion equation is:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial u}{\partial t} = \nabla \cdot \left(
+D\left(\mathbf{r}, t\right) \nabla u\left(\mathbf{r}, t\right)
+\right) + Q\left(\mathbf{r}, t\right)  
+ $$&lt;/div&gt;
+&lt;p&gt;where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( \mathbf{r}\)&lt;/span&gt; is position&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( t\)&lt;/span&gt; is time&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( u \left( \mathbf{r}, t \right)\)&lt;/span&gt; is the
+    unknown, i.e. diffusing quantity&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( D \left( \mathbf{r}, t \right)\)&lt;/span&gt; is the
+    diffusion coefficient&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( Q \left( \mathbf{r}, t \right)\)&lt;/span&gt; is the
+    source density&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;From hereon we will display the quantities &lt;span class="math"&gt;\( D\)&lt;/span&gt;,
+&lt;span class="math"&gt;\( Q\)&lt;/span&gt; and &lt;span class="math"&gt;\( u\)&lt;/span&gt; without
+their arguments, for simplicity of notation.&lt;/p&gt;
+&lt;p&gt;To derive the diffusion equation we begin with Fick's law &lt;a href="#fn1"&gt;(Fick,
+1855)&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\mathbf{F} = -D \nabla u  
+ $$&lt;/div&gt;
+&lt;p&gt;The vector field &lt;span class="math"&gt;\( \mathbf{F}\)&lt;/span&gt; is the flux,
+which is the rate of transfer per unit area; the integral of the normal
+component of &lt;span class="math"&gt;\( \mathbf{F}\)&lt;/span&gt; over a given surface
+is equal to the rate of flow through the surface. The direction of the
+flux vector is normal to the surface of constant concentration. Fick's
+law says that for a given concentration &lt;span class="math"&gt;\( u\)&lt;/span&gt; at a
+point &lt;span class="math"&gt;\( \mathbf{r}\)&lt;/span&gt;, the flux is
+proportional to the concentration gradient there, and has the opposite
+direction.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\( Q\)&lt;/span&gt; is the source density: the concentration
+produced per unit time per unit volume.&lt;/p&gt;
+&lt;p&gt;The divergence of &lt;span class="math"&gt;\( \mathbf{F}\)&lt;/span&gt;, i.e. &lt;span class="math"&gt;\(
+\nabla \cdot \mathbf{F}\)&lt;/span&gt;, is the rate of loss of
+concentration per unit time from the volume element.&lt;/p&gt;
+&lt;p&gt;Hence, by conservation:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial u}{\partial t} =  
+- \nabla \cdot \mathbf{F} + Q  
+ $$&lt;/div&gt;
+&lt;p&gt;Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial u}{\partial t} =  
+\nabla \cdot D \nabla u + Q  
+ $$&lt;/div&gt;
+&lt;p&gt;As we saw above, this is the diffusion equation (sometimes known as
+Fick's second law).&lt;/p&gt;
+&lt;p&gt;The equation as written is linear, although it would be non-linear if we
+allowed the diffusion coefficient &lt;span class="math"&gt;\( D\)&lt;/span&gt; to vary
+with the unknown &lt;span class="math"&gt;\( u\)&lt;/span&gt;, as well as with &lt;span class="math"&gt;\( x\)&lt;/span&gt;
+and &lt;span class="math"&gt;\( t\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h2&gt;Special Cases&lt;/h2&gt;
+&lt;p&gt;In the special case that &lt;span class="math"&gt;\( D\)&lt;/span&gt; is constant in space and time, then
+this equation simplifies to:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial u}{\partial t} = D \nabla^2 u + Q  
+ $$&lt;/div&gt;
+&lt;p&gt;and in steady-state, if &lt;span class="math"&gt;\(Q\)&lt;/span&gt; is also constant, &lt;span class="math"&gt;\( \partial u/\partial t = 0\)&lt;/span&gt;,
+it reduces to Poisson's equation:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\nabla^2 u = \frac{Q}{D}
+ $$&lt;/div&gt;
+&lt;p&gt;and further to Laplace's equation if the source term is zero:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\nabla^2 u = 0  
+ $$&lt;/div&gt;
+&lt;p&gt;Returning now to the full equation, we recall that:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\nabla = \hat i \frac{\partial}{\partial x} + \hat j
+\frac{\partial}{\partial y} + \hat k \frac{\partial}{\partial z}
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
+= \hat e_{\rho} \frac{\partial}{\partial \rho} + \hat
+e_{\phi} \frac{\partial}{\partial \phi} + \hat e_z
+\frac{\partial}{\partial z}
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
+= \hat e_{r} \frac{\partial}{\partial r} + \hat e_{\theta}
+\frac{\partial}{\partial \theta} + \hat e_{\phi}
+\frac{\partial}{\partial \phi}  
+$$&lt;/div&gt;
+&lt;p&gt;in Cartesian, cylindrical and spherical geometries, respectively.&lt;/p&gt;
+&lt;p&gt;Consider first spherical geometry:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\nabla \cdot D \nabla u = $$&lt;/div&gt;
+&lt;div class="math"&gt;$$
+\frac{1}{r^2} \frac{\partial}{\partial r} \left( r^2 D
+\frac{\partial u}{\partial r} \right) +  
+\frac{1}{r \sin \theta} \frac{\partial}{\partial \theta} \left(
+\frac{D \sin \theta }{r} \frac{\partial u}{\partial \theta}
+\right) +  
+\frac{1}{r \sin \theta} \frac{\partial}{\partial \phi} \left(
+\frac{D}{r \sin \theta} \frac{\partial u}{\partial \phi}
+\right)  
+ $$&lt;/div&gt;
+&lt;p&gt;In cylindrical geometry:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\nabla \cdot D \nabla u =  
+\frac{1}{\rho} \frac{\partial}{\partial \rho} \left( \rho D
+\frac{\partial u}{\partial \rho} \right) +  
+\frac{1}{\rho} \frac{\partial}{\partial \phi} \left(
+\frac{D}{\rho} \frac{\partial u}{\partial \phi} \right) +  
+\frac{\partial}{\partial z} \left( D \frac{\partial u}{\partial
+z} \right)  
+ $$&lt;/div&gt;
+&lt;p&gt;and in Cartesian geometry:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\nabla \cdot D \nabla u =  
+\frac{\partial}{\partial x}\left( D \frac{\partial u}{\partial
+x} \right) +  
+\frac{\partial}{\partial y}\left( D \frac{\partial u}{\partial
+y} \right) +  
+\frac{\partial}{\partial z}\left( D \frac{\partial u}{\partial
+z} \right)  
+ $$&lt;/div&gt;
+&lt;p&gt;In one dimension:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\frac{\partial u}{\partial t} = \frac{1}{r^2}
+\frac{\partial}{\partial r} \left( r^2 D \frac{\partial
+u}{\partial r} \right) + Q   
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$\frac{\partial u}{\partial t} = \frac{1}{\rho}
+\frac{\partial}{\partial \rho} \left( \rho D \frac{\partial
+u}{\partial \rho} \right) + Q
+$$&lt;/div&gt;
+&lt;div class="math"&gt;$$
+\frac{\partial u}{\partial t} = \frac{\partial}{\partial x}
+\left( D \frac{\partial u}{\partial x} \right) + Q  
+ $$&lt;/div&gt;
+&lt;p&gt;These equations can be generalised:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial u}{\partial t} = \frac{1}{x^p}
+\frac{\partial}{\partial x} \left(x^p D \frac{\partial
+u}{\partial x} \right) + Q  
+ $$&lt;/div&gt;
+&lt;p&gt;where:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( p = 0\)&lt;/span&gt; for plane geometry&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( p = 1\)&lt;/span&gt; for 1D cylindrical geometry, and&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( p = 2\)&lt;/span&gt; for 1D spherical geometry.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Heat Flow Equation&lt;/h2&gt;
+&lt;p&gt;The phenomena of heat conduction and diffusion are basically the same,
+and &lt;a href="#fn1"&gt;Fick, 1855&lt;/a&gt; first put diffusion on a quantitative
+basis by adopting the mathematical equation of heat conduction derived
+by Fourier &lt;a href="#fn2"&gt;(Fourier, 1822)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The heat flow equation of Fourier is:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+a \frac{\partial \theta}{\partial t} = \frac{\partial}{\partial
+x} K \frac{\partial \theta}{\partial x}  
+ $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( a\)&lt;/span&gt; is the heat capacity of the material
+per unit volume and &lt;span class="math"&gt;\(K\)&lt;/span&gt; is the thermal
+conductivity. For constant conductivity this becomes:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial \theta}{\partial t} = \frac{K}{a}
+\frac{\partial^2 \theta}{\partial x^2}  
+ $$&lt;/div&gt;
+&lt;p&gt;where the corresponding equation for diffusion is:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\frac{\partial u}{\partial t} = D \frac{\partial^2 u}{\partial
+x^2}  
+ $$&lt;/div&gt;
+&lt;p&gt;For the two equations to correspond, we equate temperature
+&lt;span class="math"&gt;\( \theta\)&lt;/span&gt; with concentration &lt;span class="math"&gt;\( u\)&lt;/span&gt;, which clearly implies that &lt;span class="math"&gt;\( D = K/a\)&lt;/span&gt;.
+However, it is also the case that:&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\mathbf{F} = -K \nabla \theta  
+ $$&lt;/div&gt;
+&lt;p&gt;which, when compared with Fick's law for diffusion, implies that
+&lt;span class="math"&gt;\( D = K\)&lt;/span&gt;, and therefore that in diffusion, unlike in heat
+conduction, &lt;span class="math"&gt;\( a = 1\)&lt;/span&gt;. This is because we have
+identified &lt;span class="math"&gt;\( C\)&lt;/span&gt; with &lt;span class="math"&gt;\( \theta\)&lt;/span&gt;,
+whereas in heat conduction, the diffusing 'substance'
+is actually heat, not temperature. The factor &lt;span class="math"&gt;\( a\)&lt;/span&gt; 
+is needed to convert temperature to the amount of heat per unit
+volume, whereas in diffusion, the concentration is already by definition
+the amount of substance per unit volume, so &lt;span class="math"&gt;\( a = 1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a name="fn1" href="http://www.tandfonline.com/doi/abs/10.1080/14786445508641925"&gt;
+    Fick, A, 1855. On liquid diffusion. The London,
+    dinburgh, and Dublin Philosophical Magazine and Journal of Science,
+    X, 30-39.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a name="fn2" href="https://books.google.co.uk/books?id=No8IAAAAMAAJ"&gt;
+    Fourier, JBJ, 1822. Théorie Analytique de la chaleur. F.
+    Didot, Paris.&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="diffusion"></category><category term="physics"></category></entry><entry><title>Improving Bash scripts</title><link href="http://0x7df.github.io/improving-bash-scripts.html" rel="alternate"></link><published>2017-03-05T11:44:00+00:00</published><updated>2017-03-05T11:44:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/improving-bash-scripts.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been working on improving my Bash scripting recently, working
 systematically through the &lt;a href="http://www.tldp.org/LDP/abs/abs-guide.pdf"&gt;Advanced Bash-Scripting Guide&lt;/a&gt; for things I didn't know and for
 good practices that I haven't systematically applied.&lt;/p&gt;
 &lt;p&gt;Here are a few of the things it motivated me to apply across all my Bash
