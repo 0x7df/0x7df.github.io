@@ -1,18 +1,15 @@
-Title: No title [None]
-Date: 2015-03-22 22:12
+Title: Diffusion
+Date: 2017-03-05 14:07
 Author: 0x7df
-Category: Uncategorized
-Slug: 298
-Status: draft
+Category: physics
+Slug: 
+Status: published
 Tags: diffusion, physics
-
-Basic Theory {#basictheorypage}
-============
 
 Diffusion Equation
 ------------------
 
-The diffusion equation is:
+The time-dependent diffusion equation is:
 
 $$  
 \frac{\partial u}{\partial t} = \nabla \cdot \left(
@@ -32,7 +29,7 @@ where:
     source density
 
 From hereon we will display the quantities $ D$,
-$$ t$ and $ u$ without
+$ Q$ and $ u$ without
 their arguments, for simplicity of notation.
 
 To derive the diffusion equation we begin with Fick's law [(Fick,
@@ -46,13 +43,13 @@ The vector field $ \mathbf{F}$ is the flux,
 which is the rate of transfer per unit area; the integral of the normal
 component of $ \mathbf{F}$ over a given surface
 is equal to the rate of flow through the surface. The direction of the
-flux vector is normal to the surface of constant concentration Fick's
+flux vector is normal to the surface of constant concentration. Fick's
 law says that for a given concentration $ u$ at a
-given point $ \mathbf{r}$, the flux is
+point $ \mathbf{r}$, the flux is
 proportional to the concentration gradient there, and has the opposite
 direction.
 
-$$ Q$ is the source density: the concentration
+$ Q$ is the source density: the concentration
 produced per unit time per unit volume.
 
 The divergence of $ \mathbf{F}$, i.e. $
@@ -78,25 +75,24 @@ Fick's second law).
 
 The equation as written is linear, although it would be non-linear if we
 allowed the diffusion coefficient $ D$ to vary
-with the unknown $ u$, as well as with $ x
+with the unknown $ u$, as well as with $ x$
 and $ t$.
 
 Special Cases
 -------------
 
-In the special case that $ D$ is constant, then
+In the special case that $ D$ is constant in space and time, then
 this equation simplifies to:
 
 $$  
 \frac{\partial u}{\partial t} = D \nabla^2 u + Q  
  $$
 
-and in steady-state, $ \frac{\partial u}{\partial t} = 0$,
-and with constant source, it reduces to Poisson's
-equation:
+and in steady-state, if $Q$ is also constant, $ \partial u/\partial t = 0$,
+it reduces to Poisson's equation:
 
 $$  
-\nabla^2 u = Q/D  
+\nabla^2 u = \frac{Q}{D}
  $$
 
 and further to Laplace's equation if the source term is zero:
@@ -107,24 +103,30 @@ $$
 
 Returning now to the full equation, we recall that:
 
-\\f{eqnarray}  
-\nabla &=& \hat i \frac{\partial}{\partial x} + \hat j
+$$
+\nabla = \hat i \frac{\partial}{\partial x} + \hat j
 \frac{\partial}{\partial y} + \hat k \frac{\partial}{\partial z}
-\\  
-&=& \hat e_{\rho} \frac{\partial}{\partial \rho} + \hat
+$$
+
+$$
+= \hat e_{\rho} \frac{\partial}{\partial \rho} + \hat
 e_{\phi} \frac{\partial}{\partial \phi} + \hat e_z
-\frac{\partial}{\partial z} \\  
-&=& \hat e_{r} \frac{\partial}{\partial r} + \hat e_{\theta}
+\frac{\partial}{\partial z}
+$$
+
+$$
+= \hat e_{r} \frac{\partial}{\partial r} + \hat e_{\theta}
 \frac{\partial}{\partial \theta} + \hat e_{\phi}
 \frac{\partial}{\partial \phi}  
- $$
+$$
 
 in Cartesian, cylindrical and spherical geometries, respectively.
 
 Consider first spherical geometry:
 
 $$  
-\nabla \cdot D \nabla u = \\\\  
+\nabla \cdot D \nabla u = $$
+$$
 \frac{1}{r^2} \frac{\partial}{\partial r} \left( r^2 D
 \frac{\partial u}{\partial r} \right) +  
 \frac{1}{r \sin \theta} \frac{\partial}{\partial \theta} \left(
@@ -161,14 +163,19 @@ z} \right)
 
 In one dimension:
 
-\\f{eqnarray}  
-\frac{\partial u}{\partial t} &=& \frac{1}{r^2}
+$$
+\frac{\partial u}{\partial t} = \frac{1}{r^2}
 \frac{\partial}{\partial r} \left( r^2 D \frac{\partial
-u}{\partial r} \right) + Q \\  
-\frac{\partial u}{\partial t} &=& \frac{1}{\rho}
+u}{\partial r} \right) + Q   
+$$
+
+$$\frac{\partial u}{\partial t} = \frac{1}{\rho}
 \frac{\partial}{\partial \rho} \left( \rho D \frac{\partial
-u}{\partial \rho} \right) + Q \\  
-\frac{\partial u}{\partial t} &=& \frac{\partial}{\partial x}
+u}{\partial \rho} \right) + Q
+$$
+
+$$
+\frac{\partial u}{\partial t} = \frac{\partial}{\partial x}
 \left( D \frac{\partial u}{\partial x} \right) + Q  
  $$
 
@@ -190,9 +197,9 @@ Heat Flow Equation
 ------------------
 
 The phenomena of heat conduction and diffusion are basically the same,
-and Fick [(Fick, 1855)](#fn2) first put diffusion on a quantitative
+and [Fick, 1855](#fn1) first put diffusion on a quantitative
 basis by adopting the mathematical equation of heat conduction derived
-by Fourier [(Fourier, 1822)](#fn3).
+by Fourier [(Fourier, 1822)](#fn2).
 
 The heat flow equation of Fourier is:
 
@@ -218,8 +225,7 @@ x^2}
  $$
 
 For the two equations to correspond, we equate temperature
-$ \theta$ with concentration $ u 
-$, which clearly implies that $ D = K/a$.
+$ \theta$ with concentration $ u$, which clearly implies that $ D = K/a$.
 However, it is also the case that:
 
 $$  
@@ -238,11 +244,11 @@ the amount of substance per unit volume, so $ a = 1$.
 
 * * * * *
 
-1.  <a name="fn1">Fick, A, 1855. On liquid diffusion. The London,
-    Edinburgh, and Dublin Philosophical Magazine and Journal of Science,
+1.  <a name="fn1" href="http://www.tandfonline.com/doi/abs/10.1080/14786445508641925">
+    Fick, A, 1855. On liquid diffusion. The London,
+    dinburgh, and Dublin Philosophical Magazine and Journal of Science,
     X, 30-39.</a>
-2.  <a name="fn2">Fick, A, 1855. On liquid diffusion. The London,
-    Edinburgh, and Dublin Philosophical Magazine and Journal of Science,
-    X, 30-39.</a>
-3.  <a name="fn3">Fourier, M, 1822.</a>
+2.  <a name="fn2" href="https://books.google.co.uk/books?id=No8IAAAAMAAJ">
+    Fourier, JBJ, 1822. Théorie Analytique de la chaleur. F.
+    Didot, Paris.</a>
 
