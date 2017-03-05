@@ -196,17 +196,18 @@ to Stephane Chazelas):</p>
 
 <h2>Explicit typing</h2>
 <p>In Bash, either <code>declare</code> or its synonym <code>typeset</code> can be used to specify the
-type of variables. I prefer <code>typeset</code> as it's also recognised by the Korn
+type of variables. I prefer <code>typeset</code>, as it's also recognised by the Korn
 shell:</p>
 <div class="highlight"><pre><span></span><span class="nb">typeset</span> -i integer_variable
 <span class="nb">typeset</span> -r constant
 </pre></div>
 
 
-<p>These have synonyms <code>integer</code> and <code>readonly</code>, but using the <code>typeset</code> form also
+<p>The <code>-r</code> form has the alternative <code>readonly</code>, but using the <code>typeset</code> form also
 gives some consistency since <code>typeset</code> has other uses, such as declaring
 arrays:</p>
-<div class="highlight"><pre><span></span><span class="nb">typeset</span> -A an_array
+<div class="highlight"><pre><span></span><span class="nb">typeset</span> -a an_array <span class="c1"># Prior to Bash v4</span>
+<span class="nb">typeset</span> -A an_array <span class="c1"># Bash v4 and Korn shell</span>
 </pre></div>
 
 
@@ -220,6 +221,17 @@ arrays:</p>
 </pre></div>
 
 
+<p>and finally in functions to define the variable scope to be local to
+the function:</p>
+<div class="highlight"><pre><span></span><span class="nb">typeset</span> local_variable
+</pre></div>
+
+
+<p>The variable is local whether or not other arguments (e.g. <code>-i</code>, <code>-r</code>, etc.)
+are supplied. Note that a variable inside a function declared with <code>readonly</code>
+is <em>not</em> local, whereas if declared with <code>typeset -r</code> it is - this is another
+reason to use <code>typeset -r</code> over <code>readonly</code>, since it's good practice to make
+variables local by default.</p>
 <h2>Conclusion</h2>
 <p>This is just scratching the surface of 'advanced' Bash scripting tips for
 defensive programming. More later.</p>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-03-05T01:03:00+00:00</updated><entry><title>Improving Bash scripts</title><link href="http://0x7df.github.io/improving-bash-scripts.html" rel="alternate"></link><published>2017-03-05T01:03:00+00:00</published><updated>2017-03-05T01:03:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/improving-bash-scripts.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been working on improving my Bash scripting recently, working
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-03-05T11:44:00+00:00</updated><entry><title>Improving Bash scripts</title><link href="http://0x7df.github.io/improving-bash-scripts.html" rel="alternate"></link><published>2017-03-05T11:44:00+00:00</published><updated>2017-03-05T11:44:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/improving-bash-scripts.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been working on improving my Bash scripting recently, working
 systematically through the &lt;a href="http://www.tldp.org/LDP/abs/abs-guide.pdf"&gt;Advanced Bash-Scripting Guide&lt;/a&gt; for things I didn't know and for
 good practices that I haven't systematically applied.&lt;/p&gt;
 &lt;p&gt;Here are a few of the things it motivated me to apply across all my Bash
@@ -120,17 +120,18 @@ to Stephane Chazelas):&lt;/p&gt;
 
 &lt;h2&gt;Explicit typing&lt;/h2&gt;
 &lt;p&gt;In Bash, either &lt;code&gt;declare&lt;/code&gt; or its synonym &lt;code&gt;typeset&lt;/code&gt; can be used to specify the
-type of variables. I prefer &lt;code&gt;typeset&lt;/code&gt; as it's also recognised by the Korn
+type of variables. I prefer &lt;code&gt;typeset&lt;/code&gt;, as it's also recognised by the Korn
 shell:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; -i integer_variable
 &lt;span class="nb"&gt;typeset&lt;/span&gt; -r constant
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;These have synonyms &lt;code&gt;integer&lt;/code&gt; and &lt;code&gt;readonly&lt;/code&gt;, but using the &lt;code&gt;typeset&lt;/code&gt; form also
+&lt;p&gt;The &lt;code&gt;-r&lt;/code&gt; form has the alternative &lt;code&gt;readonly&lt;/code&gt;, but using the &lt;code&gt;typeset&lt;/code&gt; form also
 gives some consistency since &lt;code&gt;typeset&lt;/code&gt; has other uses, such as declaring
 arrays:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; -A an_array
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; -a an_array &lt;span class="c1"&gt;# Prior to Bash v4&lt;/span&gt;
+&lt;span class="nb"&gt;typeset&lt;/span&gt; -A an_array &lt;span class="c1"&gt;# Bash v4 and Korn shell&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -144,6 +145,17 @@ arrays:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;p&gt;and finally in functions to define the variable scope to be local to
+the function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;typeset&lt;/span&gt; local_variable
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The variable is local whether or not other arguments (e.g. &lt;code&gt;-i&lt;/code&gt;, &lt;code&gt;-r&lt;/code&gt;, etc.)
+are supplied. Note that a variable inside a function declared with &lt;code&gt;readonly&lt;/code&gt;
+is &lt;em&gt;not&lt;/em&gt; local, whereas if declared with &lt;code&gt;typeset -r&lt;/code&gt; it is - this is another
+reason to use &lt;code&gt;typeset -r&lt;/code&gt; over &lt;code&gt;readonly&lt;/code&gt;, since it's good practice to make
+variables local by default.&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;This is just scratching the surface of 'advanced' Bash scripting tips for
 defensive programming. More later.&lt;/p&gt;</content></entry></feed>
