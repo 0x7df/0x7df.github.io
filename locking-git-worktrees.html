@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="0x7df, 0x7df subtitle">
+        <meta name="description" content="Git worktrees provide a way of separating the worktree for a given branch - i.e. the project working files that are being version controlled - from the .git directory containing Git&#39;s system...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
-        <title>Homepage - page 3 - 0x7df</title>
+        <title>Locking Git worktrees - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
@@ -16,6 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,17 +50,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">0x7df</h1>
+                      <h1 class="header-title">Locking Git worktrees</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Mon 06 March 2017, modified Mon 06 March 2017, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Physics, computer science, Python, Julia, Fortran, MPI, OpenMP, programming, agile, software, mathematics, CUDA, GPU, PHP, SQL, Scrum, Kanban, lean, Git, ...</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -67,29 +74,36 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="http://0x7df.github.io/index3.html">Recent Posts <small>- page 3</small></a></h2>
-            <dl class="dl-horizontal">
-                <dt>Sun 05 April 2015</dt>
-                <dd><a href="http://0x7df.github.io/cuda-basics-part-1.html">CUDA basics part 1</a></dd>
-                <dt>Sun 29 March 2015</dt>
-                <dd><a href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html">Converting from Doxygen to WordPress</a></dd>
-                <dt>Sun 22 March 2015</dt>
-                <dd><a href="http://0x7df.github.io/restarting-the-lhc.html">Restarting the LHC</a></dd>
-                <dt>Fri 13 March 2015</dt>
-                <dd><a href="http://0x7df.github.io/combinations-and-permutations.html">Combinations and permutations</a></dd>
-                <dt>Sat 14 February 2015</dt>
-                <dd><a href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html">Connecting Wordpress to Twitter with IFTTT</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <p>Git worktrees provide a way of separating the worktree for a given branch -
+i.e. the project working files that are being version controlled - from the
+.git directory containing Git's system files. The worktree can be stored
+anywhere, and Git keeps a reference to it in the .git directory (in
+the <code>.git/worktrees/&lt;branchame&gt;</code> directory.)</p>
+<p>Worktrees can be safely deleted when finished with, as long as all important
+changes have been committed. However, when you delete a worktree directory, the
+references remain. If you try to create a new worktree for the same branch, Git
+issues an error message because it checks for this reference metadata, rather
+than for the actual worktree itself. Under normal circumstances this metadata
+remains only until Git does its regular garbage collection, or you run <code>git
+worktree prune</code>. At that point Git cleans up references to any worktrees that
+it can't find, and thence you can create a new worktree without the error.</p>
+<p>This is a problem if you store worktrees on removable media, or on local
+disks whilst using multiple machines (with a network-accessible .git). It's
+possible to unintentionally clean up references in the .git dir to worktrees
+that haven't been deleted, but are just on currently-unmounted disks. To avoid
+this you can protect the worktree by adding a file called <code>locked</code> in the .git
+directory for the branch (e.g. <code>.git/worktrees/&lt;branchname&gt;/locked</code>). The
+content of this file is unimportant, but it's not a bad idea to describe the
+reason for locking the branch.</p>
+<p>The side effect is of course that worktree metadata doesn't get cleaned up for
+worktrees that have been deleted; it's a good idea to get into the habit of
+deleting the <code>locked</code> file when deleting a worktree, until a there's a built-in
+<code>git worktree remove</code> command to look after this automatically.</p>
+
+
+        
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-left" href="http://0x7df.github.io/index2.html"><i class="fa fa-caret-left"></i> Previous</a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->

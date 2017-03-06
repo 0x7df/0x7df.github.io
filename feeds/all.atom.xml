@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-03-05T14:07:00+00:00</updated><entry><title>Diffusion</title><link href="http://0x7df.github.io/diffusion.html" rel="alternate"></link><published>2017-03-05T14:07:00+00:00</published><updated>2017-03-05T14:07:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/diffusion.html</id><summary type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-03-06T23:08:00+00:00</updated><entry><title>Locking Git worktrees</title><link href="http://0x7df.github.io/locking-git-worktrees.html" rel="alternate"></link><published>2017-03-06T23:08:00+00:00</published><updated>2017-03-06T23:08:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-06:/locking-git-worktrees.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Git worktrees provide a way of separating the worktree for a given branch -
+i.e. the project working files that are being version controlled - from the
+.git directory containing Git's system files. The worktree can be stored
+anywhere, and Git keeps a reference to it in the .git directory (in
+the &lt;code&gt;.git/worktrees/&amp;lt;branchame&amp;gt;&lt;/code&gt; directory.)&lt;/p&gt;
+&lt;p&gt;Worktrees can be safely deleted when finished with, as long as all important
+changes have been committed. However, when you delete a worktree directory, the
+references remain. If you try to create a new worktree for the same branch, Git
+issues an error message because it checks for this reference metadata, rather
+than for the actual worktree itself. Under normal circumstances this metadata
+remains only until Git does its regular garbage collection, or you run &lt;code&gt;git
+worktree prune&lt;/code&gt;. At that point Git cleans up references to any worktrees that
+it can't find, and thence you can create a new worktree without the error.&lt;/p&gt;
+&lt;p&gt;This is a problem if you store worktrees on removable media, or on local
+disks whilst using multiple machines (with a network-accessible .git). It's
+possible to unintentionally clean up references in the .git dir to worktrees
+that haven't been deleted, but are just on currently-unmounted disks. To avoid
+this you can protect the worktree by adding a file called &lt;code&gt;locked&lt;/code&gt; in the .git
+directory for the branch (e.g. &lt;code&gt;.git/worktrees/&amp;lt;branchname&amp;gt;/locked&lt;/code&gt;). The
+content of this file is unimportant, but it's not a bad idea to describe the
+reason for locking the branch.&lt;/p&gt;
+&lt;p&gt;The side effect is of course that worktree metadata doesn't get cleaned up for
+worktrees that have been deleted; it's a good idea to get into the habit of
+deleting the &lt;code&gt;locked&lt;/code&gt; file when deleting a worktree, until a there's a built-in
+&lt;code&gt;git worktree remove&lt;/code&gt; command to look after this automatically.&lt;/p&gt;</content></entry><entry><title>Diffusion</title><link href="http://0x7df.github.io/diffusion.html" rel="alternate"></link><published>2017-03-05T14:07:00+00:00</published><updated>2017-03-05T14:07:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/diffusion.html</id><summary type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
 &lt;p&gt;The time-dependent diffusion equation is:&lt;/p&gt;
 &lt;div class="math"&gt;$$  
 \frac{\partial u}{\partial t} = \nabla \cdot \left(
