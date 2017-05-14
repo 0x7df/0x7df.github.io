@@ -15,7 +15,7 @@ constituents:
 
 $$ M_{\mathrm{eff}} = \sum_{n=1}^N f_n M_n $$
 
-where $ f_n$ and $ M_n $$
+where $ f_n$ and $ M_n $
 are the fraction (by mass) and the molecular weight of the
 $ n^{\mathrm{th}}$ constituent. Given the data in the
 table, the effective molecular weight of dry air is:
@@ -79,15 +79,15 @@ Consequently:
 
 $$ H = \frac{p_0}{\rho_0 g} $$
 
-Hence, as long as $ p_0 $ has the same value in
+Hence, as long as $ p_0$ has the same value in
 both the homogeneous and exponential atmospheres, the height of the top
 of the homogeneous atmosphere is equal to the scale height of the
 exponential atmosphere.
 
 * * * * *
 
-*Prove that the geopotential* $ \mathrm{\psi} $$
-*and the specific enthalpy,* h*, of an air sample undergoing a dry
+*Prove that the geopotential* $ \mathrm{\psi}$
+*and the specific enthalpy, h, of an air sample undergoing a dry
 adiabatic process are related by:*
 
 $$ h + \psi = \mathrm{const} $$
@@ -128,103 +128,103 @@ $$ du = -pd\alpha $$
 This leads to cancellation of the first two terms in the equation
 relating *dh* and $ d\psi$, such that:
 
-\\begin{equation} \alpha dp = -g dz \\end{equation}
+$$ \alpha dp = -g dz $$
 
 or:
 
-\\begin{equation} \frac{dp}{dz} = -g\rho \\end{equation}
+$$ \frac{dp}{dz} = -g\rho $$
 
 Since we know this result to be true (it is just the equation for
 hydrostatic balance), the initial premise must also be true.
 
 * * * * *
 
-\\textit{Show that the geopotential at pressure level$p$ of an
-atmosphere in hydrostatic equilibrium is given by:}
+*Show that the geopotential at pressure level$p$ of an
+atmosphere in hydrostatic equilibrium is given by:*
 
-\\begin{equation} \psi(p) = R'\bar T_\nu \mathrm{ln} (p_0/p)
-\\end{equation}
+$$ \psi(p) = R'\bar T_\nu \mathrm{ln} (p_0/p)
+$$
 
-\\textit{where$\psi(p_0) = 0$.}
+*where$\psi(p_0) = 0$.*
 
 The geopotential, assuming gravity is constant with height, is:
 
-\\begin{equation} \psi(z) = \int_0^z g dz' = gz \\end{equation}
+$$ \psi(z) = \int_0^z g dz' = gz $$
 
 An atmosphere in hydrostatic equilibrium is described by:
 
-\\begin{equation} \frac{\partial p}{\partial z} = -g\rho
-\\end{equation}
+$$ \frac{\partial p}{\partial z} = -g\rho
+$$
 
 Substituting the ideal gas equation of state gives:
 
-\\begin{equation} \frac{\partial p}{\partial z} =
--\frac{gp}{R'T_\nu} \\end{equation}
+$$ \frac{\partial p}{\partial z} =
+-\frac{gp}{R'T_\nu} $$
 
 and integrating gives:
 
-\\begin{equation} \mathrm{ln} p = -\frac{g}{R' \bar T_\nu} z +
-\mathrm{ln} C \\end{equation}
+$$ \mathrm{ln} p = -\frac{g}{R' \bar T_\nu} z +
+\mathrm{ln} C $$
 
-where$\mathrm{ln} C$ is the constant of integration, and we have
-replaced$T_\nu$ everywhere with its average value$\bar
+where $\mathrm{ln} C$ is the constant of integration, and we have
+replaced $T_\nu$ everywhere with its average value$\bar
 T_\nu$, to bring it out of the integral. Rearranging for$z$ and
 substituting into the equation for the geopotential gives:
 
-\\begin{equation} \psi(p) = R' \bar T_\nu\mathrm{ln} (C/p)
-\\end{equation}
+$$ \psi(p) = R' \bar T_\nu\mathrm{ln} (C/p)
+$$
 
-If$\psi(p_0) = 0$, then$\mathrm{ln} (C/p_0) = 0$ since neither
-$R'$ nor$\bar T_\nu$ is zero. Hence$C = p_0$, and:
+If $\psi(p_0) = 0$, then $\mathrm{ln} (C/p_0) = 0$ since neither
+$R'$ nor $\bar T_\nu$ is zero. Hence $C = p_0$, and:
 
-\\begin{equation} \psi(p) = R' \bar T_\nu\mathrm{ln} (p_0/p)
-\\end{equation}
+$$ \psi(p) = R' \bar T_\nu\mathrm{ln} (p_0/p) $$
 
 * * * * *
 
 The geopotential as a function of altitude is given by:
 
-\\begin{equation} \mathrm{gpm}(z) = \frac{\psi(z)}{g_0} =
-\frac{1}{g_0}\int_0^z g(z') dz' \\end{equation}
+$$ \mathrm{gpm}(z) = \frac{\psi(z)}{g_0} =
+\frac{1}{g_0}\int_0^z g(z') dz' $$
 
 The acceleration due to gravity is the gravitational force exerted by
 the earth on a unit mass:
 
-\\begin{equation} g(z) = \frac{F_g(z)}{m} = \frac{GM_e}{(R + z)^2}
-\\end{equation}
+$$ g(z) = \frac{F_g(z)}{m} = \frac{GM_e}{(R + z)^2}
+$$
 
 Substituting this into the equation for gpm gives:
 
-\\begin{equation} \mathrm{gpm}(z) = \frac{GM_e}{g_0}\int_0^z
-\frac{1}{(R + z)^2} dz' \\end{equation}
+$$ \mathrm{gpm}(z) = \frac{GM_e}{g_0}\int_0^z
+\frac{1}{(R + z)^2} dz' $$
 
 The reference value of$g$,$g_0$, is typically chosen to be the
 value at the earth's surface:
 
-\\begin{equation} g_0 = \frac{GM_e}{R^2} \\end{equation}
+$$ g_0 = \frac{GM_e}{R^2} $$
 
 hence:
 
-\\begin{equation} \mathrm{gpm}(z) = R^2\int_0^z \frac{1}{(R +
-z)^2} dz' \\end{equation}
+$$ \mathrm{gpm}(z) = R^2\int_0^z \frac{1}{(R +
+z)^2} dz' $$
 
 The integral of one over a quadratic is given by:
 
-\\begin{equation} \int \frac{1}{az'^2 + bz' + c} dz' =
--\frac{2}{2az' + b} \\end{equation}
+$$ \int \frac{1}{az'^2 + bz' + c} dz' =
+-\frac{2}{2az' + b} $$
 
-where$4ac - b^2 = 0$, which is the case here. Hence the solution is:
+where $4ac - b^2 = 0$, which is the case here. Hence the solution is:
 
-\\begin{eqnarray} \mathrm{gpm}(z) &=& R^2 \left[ \frac{1}{R} -
-\frac{1}{z' + R} \right] dz' \\ &=& R + \frac{R^2}{z' + R} \\ &=&
-\frac{Rz}{R + z} \\ &=& z\left(\frac{1}{1 + z/R}\right) \  
-&\approx& z\left( 1 - \frac{z}{R} \right) \\end{eqnarray}
+$$ \mathrm{gpm}(z) = R^2 \left[ \frac{1}{R} - \frac{1}{z' + R} \right] dz' $$
+$$ = R + \frac{R^2}{z' + R} $$
+$$ = \frac{Rz}{R + z} $$
+$$ = z\left(\frac{1}{1 + z/R}\right) $$
+$$ \approx z\left( 1 - \frac{z}{R} \right)$$
 
-where the last step is valid as long as$z/R << 1$. Hence:
+where the last step is valid as long as $z/R << 1$. Hence:
 
-\\begin{equation} \mathrm{gpm}(z) \approx z - az^2 \\end{equation}
+$$ \mathrm{gpm}(z) \approx z - az^2 $$
 
-if$a = 1/R = 1/6.378137 \mathrm{km} = 0.156786 \mathrm{km}^{-1}$.
+if $a = 1/R = 1/6.378137 \mathrm{km} = 0.156786 \mathrm{km}^{-1}$.
 The values of gpm at 1, 10 and 50 km are therefore 0.999843, 9.984321
 and 49.608036 km respectively.
 
@@ -244,8 +244,8 @@ Vg(\rho'-\rho) \\end{eqnarray}
 The resulting acceleration, which is the buoyant force per unit mass, is
 therefore:
 
-\\begin{equation} \frac{d^2z}{dt^2} =
-g\left(\frac{\rho'-\rho}{\rho}\right) \\end{equation}
+$$ \frac{d^2z}{dt^2} =
+g\left(\frac{\rho'-\rho}{\rho}\right) $$
 
 Using the equation of state for an ideal gas, we can re-write this in
 terms of temperature:
@@ -271,8 +271,8 @@ Substituting these into the equation of motion, and assuming the parcel
 is initially in equilibrium with its surroundings ($T'(0) = T(0)$)
 gives:
 
-\\begin{equation} \frac{d^2z}{dt^2} = g(\gamma-\\Gamma)\frac{z}{T'}
-\\end{equation}
+$$ \frac{d^2z}{dt^2} = g(\gamma-\\Gamma)\frac{z}{T'}
+$$
 
 This is a second-order ODE, but it is non-linear in that the coefficient
 of$z$ depends on$z$, through$T'$. We can however substitute
@@ -283,8 +283,8 @@ second-order ODE with constant coefficients, with only a small penalty
 in error. To solve we postulate a solution$z(t) = e^{\lambda t}$,
 then determine$\lambda$. By differentiating this twice we can write:
 
-\\begin{equation} \lambda^2 e^{\lambda t} = q e^{\lambda t}
-\\end{equation}
+$$ \lambda^2 e^{\lambda t} = q e^{\lambda t}
+$$
 
 Therefore$\lambda = \\pm\sqrt{q}$ and$z(t) = e^{\sqrt{q}t}$$
 and$z(t) = e^{-\sqrt{q}t}$ are solutions of the differential
@@ -292,8 +292,8 @@ equation (we could verify this by substitution back into the original
 equation). Since the solutions are linearly independent we can construct
 the general solution:
 
-\\begin{equation} z(t) = C_1 e^{\sqrt{q}t} + C_2 e^{-\sqrt{q}t}
-\\end{equation}
+$$ z(t) = C_1 e^{\sqrt{q}t} + C_2 e^{-\sqrt{q}t}
+$$
 
 From the boundary conditions:
 
@@ -307,19 +307,19 @@ we have:
 
 and:
 
-\\begin{equation} C_1 = \frac{0.25\mathrm{m/s}}{\sqrt{q}}
-\\end{equation}
+$$ C_1 = \frac{0.25\mathrm{m/s}}{\sqrt{q}}
+$$
 
 Therefore:
 
-\\begin{equation} z(t) = \frac{0.25\mathrm{m/s}}{\sqrt{q}}
-\left(e^{\sqrt{q}t} - e^{-\sqrt{q}t}\right) \\end{equation}
+$$ z(t) = \frac{0.25\mathrm{m/s}}{\sqrt{q}}
+\left(e^{\sqrt{q}t} - e^{-\sqrt{q}t}\right) $$
 
 Evaluating this for$t = 60$ s gives$z = 45$ m. Differentiating for
 speed,$w$, gives:
 
-\\begin{equation} w(t) = \frac{dz}{dt} = 0.25\mathrm{m/s}
-\left(e^{\sqrt{q}t} + e^{-\sqrt{q}t}\right) \\end{equation}
+$$ w(t) = \frac{dz}{dt} = 0.25\mathrm{m/s}
+\left(e^{\sqrt{q}t} + e^{-\sqrt{q}t}\right) $$
 
 For$t = 60$ s,$w = 1.28$ m/s.
 
@@ -335,8 +335,8 @@ inside the balloon equals that of the ambient air.*
 For the balloon to float at some steady altitude$z'$, the net
 vertical force must be zero at that altitude:
 
-\\begin{equation} \left(\frac{\partial^2z}{\partial
-t^2}\right)_{z'} = 0 \\end{equation}
+$$ \left(\frac{\partial^2z}{\partial
+t^2}\right)_{z'} = 0 $$
 
 We can consider the air in balloon as a parcel of air, on which there is
 a downward force of$\rho gV$; the downward force on the displaced
@@ -347,22 +347,22 @@ we have a downward force due to the weight of the balloon and gondola
 etc,$-mg$. Consequently, for steady floating at altitude$z'$, we
 have:
 
-\\begin{equation} -g(z)V(\rho(z)-\rho'(z)) - mg(z) = 0 \\end{equation}
+$$ -g(z)V(\rho(z)-\rho'(z)) - mg(z) = 0 $$
 
 The$g$ cancels, and rearranging gives:
 
-\\begin{equation} \rho' - \rho = \frac{m}{V} \\end{equation}
+$$ \rho' - \rho = \frac{m}{V} $$
 
 Substituting the equation of state and recognising that the pressure in
 the balloon$p$ is the same as the pressure outside,$p'$, gives:
 
-\\begin{equation} \frac{p}{R'T'} - \frac{p}{R'T} = \frac{m}{V}
-\\end{equation}
+$$ \frac{p}{R'T'} - \frac{p}{R'T} = \frac{m}{V}
+$$
 
 Hence:
 
-\\begin{equation} T = \left( \frac{1}{T'} -
-\frac{mR'}{pV}\right)^{-1} \\end{equation}
+$$ T = \left( \frac{1}{T'} -
+\frac{mR'}{pV}\right)^{-1} $$
 
 We know that$V$ = 1000 m$^3$ and$m$ = 2600 N/9.81 ms$^{-2}$,
 and for a standard atmosphere,$T'$ = 275.154 K,$p'$ = 79.501 x

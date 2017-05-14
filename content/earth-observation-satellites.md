@@ -28,21 +28,28 @@ Status: draft
 ESA. Will deliver to TB of data per day, totalling 20,000 TB by 2020. Data used
 for Europe's Copernicus Programme.
 
-* Sentinel 1a and 1b - C-band SAR - high-res ocean (i.e. roughness), sea ice, land surface
-* Sentinel 2a and 2b - land monitoring: wide-swath high-resolution multispectral imager with 13 spectral bands
-* Sentinal 3a and 3b - land and ocean monitoring:
-    * Sea and Land Surface Temperature Radiometer (SLSTR) - inlcudes dedicated
+Fleet of six families of Sentinels, 1-6.
+
+* Sentinel 1 - radar imagery (C-band SAR) for land and ocean services (high-resolution ocean roughness, sea ice, land surface)
+    * Sentinel 1b - 25/04/16 (later than 2a and 3a)
+* Sentinel 2 - optical imagery for land monitoring: wide-swath, high-resolution multispectral imager with 13 spectral bands
+    * Sentinel 2a launched 23/06/15
+    * Sentinel 2b launched 07/03/17 (later than Sentinel-3a)
+* Sentinal 3 - optical, radar and altimetry data for land and ocean monitoring:
+    * Sentinel 3a launched 16/02/16
+    * Sea and Land Surface Temperature Radiometer (SLSTR) - includes dedicated
         fire channels
     * Ocean and Land Colour Instrument (OLCI)
     * SRAL - dual-frequency (Ku and C band) SAR altimeter
     * Dual-channel microwave radiometer (MWR)
     * S-3b launch expected end 2017
-* Sentinel 4 - atmospheric composition and air quality monitoring: UV-visible-near-IR (UVN) spectrometer, and thermal IR sounder
+* Sentinel 4 - geostationary atmospheric composition and air quality monitoring: UV-visible-near-IR (UVN) spectrometer, and thermal IR sounder
     (IRS) on the Meteosat Third Generation (MTG) Sounder (MTG-S), and Flexible
     Combined Imager (FCI) on the MTG Imager (MTG-I) satellite
-* Sentinel 5 - atmospheric composition and air quality monitoring: UV-visible-near-IR shortwave (UVNS) spectrometer
-* Sentinel 5P (precursor) - atmospheric composition and air quality monitoring: UVNS
-* Sentinel 6 - high-resolution ocean topography: radar altimeter
+* Sentinel 5 - polar-orbiting atmospheric composition and air quality monitoring: UV-visible-near-IR shortwave (UVNS) spectrometer
+* Sentinel 5P (precursor) - bridges the gap between Envisat and Sentinel-5, atmospheric composition and air quality monitoring: UVNS
+* Sentinel 6 - high-resolution ocean topography via radar altimeter, primarily
+  for operational oceanography and climate studies
 
 ### Other
 
@@ -52,9 +59,9 @@ for Europe's Copernicus Programme.
 * MetOp-A 
     * EUMETSAT
     * In use till 2022
-    * IR and microwave radiometers and sounders - high-resolution temperature and humidity structure (AVHRR/3 and ATOVS suite, consisting of AMSU-A, HIRS/4 and MHS)
-    * IR Atmospheric Sounding Interferometer (IASI) - CO2 measurements
-    * Scatterometer?
+    * IR and microwave radiometers and sounders - high-resolution temperature and humidity structure (AVHRR/3 and ATOVS suite, consisting of AMSU-A, HIRS/4 and MHS - microwave humidity sounder)
+    * IR Atmospheric Sounding Interferometer, Ku-band radar (IASI) - CO2 measurements
+    * ASCAT scatterometer for wind measurement (C-band radar)
 * MetOp-B
     * As above?
     * Availability of global AVHRR is a dual-mission measurement
@@ -63,7 +70,7 @@ for Europe's Copernicus Programme.
 * Aeolus - ESA - lidar direct wind measurements
 
 * ERS-1 - European Remote Sensing satellite - (ESA) - imaging SAR, radar altimeter, IR imaging; ocean surface temperature and surface winds
-* ERS-2 - imaging SAR, radar altimeter, IR imaging, plus Along-Track Scanning Radiometer-2 (ATSR-2) - atmospheric ozone, aerosols
+* ERS-2 - imaging SAR, radar altimeter, IR imaging, plus Along-Track Scanning Radiometer-2 (ATSR-2), AMI instrument - atmospheric ozone, aerosols
 * Envisat - (ESA)
     * Advanced Along Track Scanning Radiometer (AATSR) - IR, temperature (SST, fire observation)
     * Advanced SAR (ASAR), C-band - continuity from ERS-2
@@ -102,6 +109,8 @@ for Europe's Copernicus Programme.
     interaction with clouds - first time radar and lidar combined on same platform
 
 * FY-4A (part of 2016-2040 operational programme, similar to MTG), FY-3D, HY-2A - Chinese?
+
+* QuikSCAT - SeaWinds instrument, Ku-band radar
 
 ### Meteosat
 
