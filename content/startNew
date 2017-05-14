@@ -17,10 +17,8 @@ while [[ -h "$SOURCE" ]] ; do
 done
 cd -P "$(dirname "$SOURCE")"
 
-TITLE=$(echo ${1} | tr " " "-" | tr [[:upper:]] [[:lower:]])
-echo $TITLE
-
-DATE=$(date "+%Y-%m-%d %H:%M")
+typeset -r TITLE=$(echo ${1} | tr " " "-" | tr [[:upper:]] [[:lower:]])
+typeset -r DATE=$(date "+%Y-%m-%d %H:%M")
 
 echo "Title: ${1}
 Date: ${DATE}

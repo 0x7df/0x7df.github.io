@@ -11,13 +11,13 @@ while [[ -h "$SOURCE" ]] ; do
 done
 cd -P "$(dirname "$SOURCE")"
 
-POST_TITLE="$1"
+typeset -r POST_TITLE="$1"
+typeset -r POST_BASE=$(basename -s .md "$POST_TITLE")
 echo $POST_TITLE
-
-POST_BASE=$(basename -s .md "$POST_TITLE")
 echo $POST_BASE
 
 make -C .. html
 make -C .. serve &
+
 open http://localhost:8000/drafts/${POST_BASE}.html
 

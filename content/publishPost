@@ -5,11 +5,20 @@ set -o pipefail
 
 # File name of post to publish must be provided as argument
 if [[ -z "${1}" ]] ; then
-    echo "Blog post file name not specified"
+    echo "Blog post file name not specified" >&2
     exit 1
 fi
 typeset -r FILENAME="${1}"
 echo "Publishing ${FILENAME}"
+
+# Change to the directory containing this script
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
 
 # Check we are on branch "source"
 BRANCH_NAME="$(git symbolic-ref HEAD 2>/dev/null)" || BRANCH_NAME=""
