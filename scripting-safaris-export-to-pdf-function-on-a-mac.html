@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="0x7df, 0x7df subtitle">
+        <meta name="description" content="Safari has an &#39;Export to PDF...&#39; item in the &#39;File&#39; menu which, if you use it a lot, is something worth automating. Thanks to this thread on MacScripter this is easy to do using AppleScript....">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
-        <title>Homepage - page 3 - 0x7df</title>
+        <title>Scripting Safari's Export to PDF function on a Mac - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
@@ -16,6 +16,7 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,17 +50,23 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
+    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">0x7df</h1>
+                      <h1 class="header-title">Scripting Safari's Export to PDF function on a Mac</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 14 May 2017, modified Sun 14 May 2017, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
-                      <p class="header-subtitle header-subtitle-homepage">Physics, computer science, Python, Julia, Fortran, MPI, OpenMP, programming, agile, software, mathematics, CUDA, GPU, PHP, SQL, Scrum, Kanban, lean, Git, ...</p>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
                   </div>
               </div>
         </div>
     </div>
+    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -67,31 +74,88 @@
 
 
         <!-- Content -->
-    
-    <div class="archive-container">
-        <div class="container content archive">
-            <h2><a href="http://0x7df.github.io/index3.html">Recent Posts <small>- page 3</small></a></h2>
-            <dl class="dl-horizontal">
-                <dt>Sat 11 April 2015</dt>
-                <dd><a href="http://0x7df.github.io/python-code-analysis-using-prospector.html">Python code analysis using Prospector</a></dd>
-                <dt>Sun 05 April 2015</dt>
-                <dd><a href="http://0x7df.github.io/cuda-basics-part-1.html">CUDA basics part 1</a></dd>
-                <dt>Sun 29 March 2015</dt>
-                <dd><a href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html">Converting from Doxygen to WordPress</a></dd>
-                <dt>Sun 22 March 2015</dt>
-                <dd><a href="http://0x7df.github.io/restarting-the-lhc.html">Restarting the LHC</a></dd>
-                <dt>Fri 13 March 2015</dt>
-                <dd><a href="http://0x7df.github.io/combinations-and-permutations.html">Combinations and permutations</a></dd>
-                <dt>Sat 14 February 2015</dt>
-                <dd><a href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html">Connecting Wordpress to Twitter with IFTTT</a></dd>
-            </dl>
-        </div>
+    <div class="container content">
+        <p>Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
+lot, is something worth automating.</p>
+<p>Thanks to <a href="http://macscripter.net/viewtopic.php?id=41654">this thread</a> on
+<a href="http://macscripter.net">MacScripter</a> this is easy to do using AppleScript.</p>
+<h1>Create script</h1>
+<p>First create the AppleScript script using the native Script Editor app.</p>
+<ol>
+<li>Open 'Launchpad' and begin typing 'script editor' into the search bar at
+   the top to find this app.
+   <img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad.png"></li>
+<li>
+<p>Paste the following script:</p>
+<div class="highlight"><pre><span></span>set SaveFolderPath to &quot;~/Documents/Test_PDF_Save_Folder/&quot;
+tell application &quot;Safari&quot; to activate
+tell application &quot;System Events&quot;
+    tell process &quot;Safari&quot;
+        click menu item &quot;Show Reader&quot; of menu &quot;View&quot; of menu bar 1
+        click menu item &quot;Export as PDF…&quot; of menu &quot;File&quot; of menu bar 1
+        repeat until exists sheet 1 of window 1
+            delay 0.02
+        end repeat
+        keystroke &quot;g&quot; using {command down, shift down}
+        repeat until exists sheet 1 of sheet 1 of window 1
+            delay 0.02
+        end repeat
+        tell sheet 1 of sheet 1 of window 1
+            set value of text field 1 to SaveFolderPath
+            click button &quot;Go&quot;
+        end tell
+        click button &quot;save&quot; of sheet 1 of window 1
+        click menu item &quot;Close Tab&quot; of menu &quot;File&quot; of menu bar 1
+    end tell
+end tell
+</pre></div>
+
+
+<p>into the Script Editor:
+   <img alt="Photo" src="http://0x7df.github.io/images/screenshot_scripteditor.png">
+   This is slightly different from the script at
+   <a href="http://macscripter.net/viewtopic.php?id=41654">this thread</a>, in that it
+   hard-wires a save folder instead of bringing up a dialogue box each time,
+   and also that it puts the web page into reader view before exporting it.</p>
+</li>
+<li>
+<p>Save the script somewhere, e.g.
+    <code>~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt</code></p>
+</li>
+</ol>
+<p>This script can be run from the command line:</p>
+<div class="highlight"><pre><span></span>osascript ~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt
+</pre></div>
+
+
+<p>to export the currently active tab in Safari to a PDF in the specified
+location.</p>
+<h1>Create a keyboard shortcut</h1>
+<p>For extra convenience a keyboard shortcut can be created to run the script.
+This uses the 'Automator' app.</p>
+<ol>
+<li>Start typing 'automator' into the Launchpad search bar:
+   <img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad2.png"></li>
+<li>Select 'Service'
+   <img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator.png"></li>
+<li>In the automator app, drag the 'Run shell script' item over to the main
+   panel</li>
+<li>Add the <code>osascript ~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt</code>
+   command
+   <img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator2.png"></li>
+<li>Save the workflow. The default save location is <code>~/Library/Services</code>.</li>
+<li>In the 'System Preferences', go to 'Keyboard', 'Shortcuts', select
+   'Services', and select the recently-saved workflow
+   <img alt="Photo" src="http://0x7df.github.io/images/screenshot_keyboard_shortcut.png"></li>
+<li>Choose a shortcut: in this example Shift-Command-E has been chosen</li>
+</ol>
+<h1>Summary</h1>
+<p>Now, after reading an article in Safari, pressing Shift-Command-E saves a PDF
+version of the article in the folder specified, and closes the tab.</p>
+
+
+        
     </div>
-<!-- /Navigation -->
-<div class="container navigation">
-    	<a class="navigate pull-left" href="http://0x7df.github.io/index2.html"><i class="fa fa-caret-left"></i> Previous</a>
-</div>              
-<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->
