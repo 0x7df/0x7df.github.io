@@ -1,12 +1,12 @@
 Title: Calling bullshit
-Date: 2017-05-20 17:59
+Date: 2017-05-20 23:20
 Category:  
-Modified: 2017-05-20 17:59
+Modified: 2017-05-20 23:20
 Tags: 
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 I've been watching the really great online lecture series
 [Calling Bullshit in the Age of Big Data](http://callingbullshit.org)
