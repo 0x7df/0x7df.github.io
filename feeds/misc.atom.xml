@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-05-14T21:52:00+01:00</updated><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-05-14T21:52:00+01:00</published><updated>2017-05-14T21:52:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-14:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-05-20T23:20:00+01:00</updated><entry><title>Calling bullshit</title><link href="http://0x7df.github.io/calling-bullshit.html" rel="alternate"></link><published>2017-05-20T23:20:00+01:00</published><updated>2017-05-20T23:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-20:/calling-bullshit.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been watching the really great online lecture series
+&lt;a href="http://callingbullshit.org"&gt;Calling Bullshit in the Age of Big Data&lt;/a&gt;
+from the &lt;a href="http://www.washington.edu"&gt;University of Washington&lt;/a&gt;
+&lt;a href="https://ischool.uw.edu"&gt;Information School&lt;/a&gt;:
+&lt;div style="position:relative;height:0;padding-bottom:56.25%"&gt;&lt;iframe src="https://www.youtube.com/embed/A2OtU5vlR0k?list=PLPnZfvKID1Sje5jWxt-4CSZD7bUI4gSPS?ecver=2" width="640" height="360" frameborder="0" style="position:absolute;width:100%;height:100%;left:0" allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;So when I saw this tweet:
+&lt;blockquote class="twitter-tweet" data-lang="en-gb"&gt;&lt;p lang="en" dir="ltr"&gt;If you&amp;#39;re worried / surprised by the NHS still running Windows XP, the good news is our nuclear submarines are all on XP too &lt;a href="https://twitter.com/hashtag/nhscyberattack?src=hash"&gt;#nhscyberattack&lt;/a&gt; &lt;a href="https://t.co/DgR16t3nLe"&gt;https://t.co/DgR16t3nLe&lt;/a&gt;&lt;/p&gt;&amp;mdash; ben goldacre (@bengoldacre) &lt;a href="https://twitter.com/bengoldacre/status/863305364544081920"&gt;13 May 2017&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+in the aftermath of the
+&lt;a href="https://arstechnica.com/security/2017/05/an-nsa-derived-ransomware-worm-is-shutting-down-computers-worldwide"&gt;WCry&lt;/a&gt; attack which badly hit the NHS, it struck me as:
+'&lt;em&gt;too bad to be true&lt;/em&gt;'. We're often wary of things that are
+too &lt;em&gt;good&lt;/em&gt; to be true (although surely still not often enough), but the course
+authors point out that the opposite case should also invite our scepticism. We
+first need to eschew the possibility that the large numbers of people involved in developing,
+procuring, maintaining and protecting IT systems for nuclear
+deterrent submarines are all inherently evil, and don't care if the world
+accidentally ends in a conflagration, because that would be an example of the
+&lt;a href="https://www.researchgate.net/publication/235413325_The_Intuitive_Psychologist_And_His_Shortcomings_Distortions_in_the_Attribution_Process"&gt;&lt;em&gt;fundamental attribution error&lt;/em&gt;&lt;/a&gt;
+. Then what remains, the proposition that there's
+such a gaping whole in the security infrastructure of a nation state's nuclear
+arsenal, should strike us as unlikely enough to want to dig in a bit.&lt;/p&gt;
+&lt;p&gt;Before we do, we should note that within hours there was a follow-up tweet
+that provided some balance:
+&lt;blockquote class="twitter-tweet" data-lang="en-gb"&gt;&lt;p lang="en" dir="ltr"&gt;I can believe there are safe ways to still run Windows XP given resources effort and attentiveness &lt;a href="https://t.co/pYTJ94MWQS"&gt;https://t.co/pYTJ94MWQS&lt;/a&gt;&lt;/p&gt;&amp;mdash; ben goldacre (@bengoldacre) &lt;a href="https://twitter.com/bengoldacre/status/863324326879268864"&gt;13 May 2017&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+but comparing these two tweets gives us a nice illustration of one of the most
+important properties of bullshit pointed out by the course authors. It's become
+known as Brandolino's Law or Brandolino's Asymmetry Principle:&lt;/p&gt;
+&lt;blockquote class="twitter-tweet" data-lang="en-gb"&gt;&lt;p lang="en" dir="ltr"&gt;The bullshit asimmetry: the amount of energy needed to refute bullshit is an order of magnitude bigger than to produce it.&lt;/p&gt;&amp;mdash; Alberto Brandolini (@ziobrando) &lt;a href="https://twitter.com/ziobrando/status/289635060758507521"&gt;11 January 2013&lt;/a&gt;&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;To evidence that, the original tweet was retweeted and liked 1.1K and 668
+times respectively, versus 12 retweets and 27 likes on the follow-up tweet.&lt;/p&gt;
+&lt;h1&gt;I call bullshit&lt;/h1&gt;
+&lt;p&gt;So let's look closer.&lt;/p&gt;
+&lt;h2&gt;Source&lt;/h2&gt;
+&lt;p&gt;First, the tweet is a retweet of one that links to
+&lt;a href="http://www.popularmechanics.com/military/weapons/a19061/britains-doomsday-subs-run-windows-xp"&gt;an article in Popular Mechanics&lt;/a&gt;,
+which itself is pretty much just a rehash of
+&lt;a href="https://www.theguardian.com/technology/2016/jan/16/trident-old-technology-brave-new-world-cyber-warfare"&gt;a slightly earlier Guardian article&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Now, another well-respected debunker of bullshit,
+&lt;a href="http://www.badscience.net/about-dr-ben-goldacre"&gt;Ben Goldacre&lt;/a&gt;
+(the name should be
+familiar), wrote in his book &lt;a href="https://read.amazon.co.uk/kp/embed?asin=B00HATQA8K&amp;amp;preview=newtab&amp;amp;linkCode=kpe&amp;amp;ref_=cm_sw_r_kb_dp_uJlizbW9JX5QN"&gt;&lt;em&gt;I think you'll find it's a bit more complicated
+than that&lt;/em&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Why Don't Journalists Link to Primary Sources?&lt;/p&gt;
+&lt;p&gt;Whether it's a press release, an academic journal article, a formal report,
+or even the full transcript of an interview, the primary source contains more
+information for interested readers: it shows your working, and it allows
+people to check whether what you wrote is true.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Now I appreciate that the tweet, even though made by a journalist, isn't journalism
+- it's just a tweet - but a well-known journalist has an 'institutional
+credibility' that gives his output weight, so perhaps linking to primary
+sources still matters in this case too. More importantly:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;... There is a bigger fish here: if we had a &lt;em&gt;culture&lt;/em&gt; of linking to primary
+sources - if they were always just a click away - then shame alone would
+probably have stopped it going online. [My italics.]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;That culture, if we're to protect against bullshit when we get much of our news
+from Twitter and Facebook, needs to be ubiquitous and not just the purview of
+professional journalists when doing their day jobs.&lt;/p&gt;
+&lt;p&gt;So now we know the 'original' source of the story, we might slightly update our Bayesian
+priors for the story being true, because we know the Guardian has political
+leanings that could mean it's more inclined to be against nuclear weapons. In
+fact the Guardian article is largely about how Trident is obsolete (&lt;em&gt;'Trident is
+old technology': the brave new world of cyber warfare&lt;/em&gt;).
+We might reasonably expect a platform called Popular Mechanics to be more
+neutral, so by referring us to this, we're not only one unecessary step removed
+from the 'original', but also deprived of some important information about the
+possible interests and agenda of the originator. Calling Bullshit's guide to
+spotting bullshit urges us always to ask:
+&lt;em&gt;Who is telling me this?&lt;/em&gt; and &lt;em&gt;What's in it for them?&lt;/em&gt;. We need the primary
+source to do this.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Spotting bullshit" src="http://0x7df.github.io/images/calling_bullshit_0x7df.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Weasel words&lt;/h2&gt;
+&lt;p&gt;In any case, I refer to the Guardian article as the 'primary source' or
+'original' in only the loosest sense. In fact it simply says:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Critics point in particular to the Royal Navy’s decision to install a variant
+of Windows XP as the operating system on its missile-carrying Vanguard-class
+submarines. It was cheaper than the alternatives, but Windows for Submarines,
+as it is called, is also more vulnerable to malware as it comes off-the-
+shelf. This also means there are more bugs in circulation that could affect
+it, and every time a submarine comes to port and gets a software patch, it
+is newly vulnerable.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Over and above the apparent technical solecism of suggesting that
+patching an operating system is what makes it vulnerable, the article uses
+weasel words, citing anonynous 'critics' without giving any indication of how
+credible they might be, or how to verify them.&lt;/p&gt;
+&lt;h2&gt;Missing information&lt;/h2&gt;
+&lt;p&gt;On further Googling, the story seems to originate with a
+&lt;a href="https://www.theregister.co.uk"&gt;Register&lt;/a&gt;
+&lt;a href="https://www.theregister.co.uk/2008/12/16/windows_for_submarines_rollout"&gt;article&lt;/a&gt;
+, which says:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Initial reports as the programme developed suggested that the OS in question
+would be Windows 2000, but those who have worked on it have since informed
+the Reg that in fact it is mostly based on XP.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is slightly better than the Guardian's weasel words because at least the
+assertion that XP is being used is attributed to people who have
+worked on the installation of the system. However it's still pretty weak.&lt;/p&gt;
+&lt;p&gt;The Register article though, isn't actually critical of the system:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Many in the software community have viewed the Royal Navy's wholesale move to
+Windows-based command systems with concern [and note here that it's actally
+the use of Windows-based systems overall that is criticised, not the use of
+XP specifically]... we'd go relatively easy on submarine worries - even the
+Trident boats - as sub command LANs are by their nature very isolated and
+physically secure, and submarines almost never need to give their command
+systems autonomous firing authority.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Not only this, but this article is from &lt;em&gt;2008&lt;/em&gt;, six years before
+support for XP ended, and there is no information about what might have
+happened since then - it's perfectly plausible that the systems were upgraded,
+or a support contract was negotiated like the one the US Navy is reported to
+have (by Popular Mechanics again), which involves:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;paying for extra security and updates while it transitions to more modern
+operating systems. A $9 million dollar tech support deal it cut with
+Microsoft is good until July 2016, with an option to extend for another year
+for $31 million.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So the news article is really reporting, not that we know Trident submarines
+run an obsolete operating system, but that back in 2008, there was a hint that
+Trident ran an operating system, which didn't become obsolete for a further six
+years.&lt;/p&gt;</content></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-05-14T21:52:00+01:00</published><updated>2017-05-14T21:52:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-14:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
 lot, is something worth automating.&lt;/p&gt;
 &lt;p&gt;Thanks to &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt; on
 &lt;a href="http://macscripter.net"&gt;MacScripter&lt;/a&gt; this is easy to do using AppleScript.&lt;/p&gt;
