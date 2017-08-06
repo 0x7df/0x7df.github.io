@@ -56,7 +56,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Scripting Safari's Export to PDF function on a Mac</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 14 May 2017, modified Sun 14 May 2017, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 06 August 2017, modified Sun 06 August 2017, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -152,6 +152,17 @@ This uses the 'Automator' app.</p>
 <h1>Summary</h1>
 <p>Now, after reading an article in Safari, pressing Shift-Command-E saves a PDF
 version of the article in the folder specified, and closes the tab.</p>
+<h1>Update</h1>
+<p>I found this script was broken after upgrading from El Capitan to Safari.</p>
+<div class="highlight"><pre><span></span>System Events got an error: Can’t get text field 1 of sheet 1 of sheet 1 of
+window 1 of process &quot;Safari&quot;. Invalid index.
+</pre></div>
+
+
+<p>Solving this required downloading XCode to make available the Accessibility
+Inspector, which allows you to point and click on graphical interfaces to get
+information on the UI elements. It turns out the <code>text field</code> is now a <code>combo
+box</code>, and changing that in the script got it working again.</p>
 
 
         

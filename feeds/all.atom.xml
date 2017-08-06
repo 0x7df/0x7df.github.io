@@ -1,5 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-05-20T23:20:00+01:00</updated><entry><title>Calling bullshit</title><link href="http://0x7df.github.io/calling-bullshit.html" rel="alternate"></link><published>2017-05-20T23:20:00+01:00</published><updated>2017-05-20T23:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-20:/calling-bullshit.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been watching the really great online lecture series
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-08-06T18:55:00+01:00</updated><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-08-06T18:55:00+01:00</published><updated>2017-08-06T18:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-08-06:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
+lot, is something worth automating.&lt;/p&gt;
+&lt;p&gt;Thanks to &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt; on
+&lt;a href="http://macscripter.net"&gt;MacScripter&lt;/a&gt; this is easy to do using AppleScript.&lt;/p&gt;
+&lt;h1&gt;Create script&lt;/h1&gt;
+&lt;p&gt;First create the AppleScript script using the native Script Editor app.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open 'Launchpad' and begin typing 'script editor' into the search bar at
+   the top to find this app.
+   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad.png"&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Paste the following script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;set SaveFolderPath to &amp;quot;~/Documents/Test_PDF_Save_Folder/&amp;quot;
+tell application &amp;quot;Safari&amp;quot; to activate
+tell application &amp;quot;System Events&amp;quot;
+    tell process &amp;quot;Safari&amp;quot;
+        click menu item &amp;quot;Show Reader&amp;quot; of menu &amp;quot;View&amp;quot; of menu bar 1
+        click menu item &amp;quot;Export as PDF…&amp;quot; of menu &amp;quot;File&amp;quot; of menu bar 1
+        repeat until exists sheet 1 of window 1
+            delay 0.02
+        end repeat
+        keystroke &amp;quot;g&amp;quot; using {command down, shift down}
+        repeat until exists sheet 1 of sheet 1 of window 1
+            delay 0.02
+        end repeat
+        tell sheet 1 of sheet 1 of window 1
+            set value of text field 1 to SaveFolderPath
+            click button &amp;quot;Go&amp;quot;
+        end tell
+        click button &amp;quot;save&amp;quot; of sheet 1 of window 1
+        click menu item &amp;quot;Close Tab&amp;quot; of menu &amp;quot;File&amp;quot; of menu bar 1
+    end tell
+end tell
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;into the Script Editor:
+   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_scripteditor.png"&gt;
+   This is slightly different from the script at
+   &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt;, in that it
+   hard-wires a save folder instead of bringing up a dialogue box each time,
+   and also that it puts the web page into reader view before exporting it.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Save the script somewhere, e.g.
+    &lt;code&gt;~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This script can be run from the command line:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;osascript ~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;to export the currently active tab in Safari to a PDF in the specified
+location.&lt;/p&gt;
+&lt;h1&gt;Create a keyboard shortcut&lt;/h1&gt;
+&lt;p&gt;For extra convenience a keyboard shortcut can be created to run the script.
+This uses the 'Automator' app.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Start typing 'automator' into the Launchpad search bar:
+   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad2.png"&gt;&lt;/li&gt;
+&lt;li&gt;Select 'Service'
+   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator.png"&gt;&lt;/li&gt;
+&lt;li&gt;In the automator app, drag the 'Run shell script' item over to the main
+   panel&lt;/li&gt;
+&lt;li&gt;Add the &lt;code&gt;osascript ~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt&lt;/code&gt;
+   command
+   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator2.png"&gt;&lt;/li&gt;
+&lt;li&gt;Save the workflow. The default save location is &lt;code&gt;~/Library/Services&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;In the 'System Preferences', go to 'Keyboard', 'Shortcuts', select
+   'Services', and select the recently-saved workflow
+   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_keyboard_shortcut.png"&gt;&lt;/li&gt;
+&lt;li&gt;Choose a shortcut: in this example Shift-Command-E has been chosen&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;p&gt;Now, after reading an article in Safari, pressing Shift-Command-E saves a PDF
+version of the article in the folder specified, and closes the tab.&lt;/p&gt;
+&lt;h1&gt;Update&lt;/h1&gt;
+&lt;p&gt;I found this script was broken after upgrading from El Capitan to Safari.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;System Events got an error: Can’t get text field 1 of sheet 1 of sheet 1 of
+window 1 of process &amp;quot;Safari&amp;quot;. Invalid index.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Solving this required downloading XCode to make available the Accessibility
+Inspector, which allows you to point and click on graphical interfaces to get
+information on the UI elements. It turns out the &lt;code&gt;text field&lt;/code&gt; is now a &lt;code&gt;combo
+box&lt;/code&gt;, and changing that in the script got it working again.&lt;/p&gt;</content></entry><entry><title>Calling bullshit</title><link href="http://0x7df.github.io/calling-bullshit.html" rel="alternate"></link><published>2017-05-20T23:20:00+01:00</published><updated>2017-05-20T23:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-20:/calling-bullshit.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been watching the really great online lecture series
 &lt;a href="http://callingbullshit.org"&gt;Calling Bullshit in the Age of Big Data&lt;/a&gt;
 from the &lt;a href="http://www.washington.edu"&gt;University of Washington&lt;/a&gt;
 &lt;a href="https://ischool.uw.edu"&gt;Information School&lt;/a&gt;:
@@ -127,83 +214,7 @@ for $31 million.&lt;/p&gt;
 &lt;p&gt;So the news article is really reporting, not that we know Trident submarines
 run an obsolete operating system, but that back in 2008, there was a hint that
 Trident ran an operating system, which didn't become obsolete for a further six
-years.&lt;/p&gt;</content></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-05-14T21:52:00+01:00</published><updated>2017-05-14T21:52:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-14:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
-lot, is something worth automating.&lt;/p&gt;
-&lt;p&gt;Thanks to &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt; on
-&lt;a href="http://macscripter.net"&gt;MacScripter&lt;/a&gt; this is easy to do using AppleScript.&lt;/p&gt;
-&lt;h1&gt;Create script&lt;/h1&gt;
-&lt;p&gt;First create the AppleScript script using the native Script Editor app.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Open 'Launchpad' and begin typing 'script editor' into the search bar at
-   the top to find this app.
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad.png"&gt;&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Paste the following script:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;set SaveFolderPath to &amp;quot;~/Documents/Test_PDF_Save_Folder/&amp;quot;
-tell application &amp;quot;Safari&amp;quot; to activate
-tell application &amp;quot;System Events&amp;quot;
-    tell process &amp;quot;Safari&amp;quot;
-        click menu item &amp;quot;Show Reader&amp;quot; of menu &amp;quot;View&amp;quot; of menu bar 1
-        click menu item &amp;quot;Export as PDF…&amp;quot; of menu &amp;quot;File&amp;quot; of menu bar 1
-        repeat until exists sheet 1 of window 1
-            delay 0.02
-        end repeat
-        keystroke &amp;quot;g&amp;quot; using {command down, shift down}
-        repeat until exists sheet 1 of sheet 1 of window 1
-            delay 0.02
-        end repeat
-        tell sheet 1 of sheet 1 of window 1
-            set value of text field 1 to SaveFolderPath
-            click button &amp;quot;Go&amp;quot;
-        end tell
-        click button &amp;quot;save&amp;quot; of sheet 1 of window 1
-        click menu item &amp;quot;Close Tab&amp;quot; of menu &amp;quot;File&amp;quot; of menu bar 1
-    end tell
-end tell
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;into the Script Editor:
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_scripteditor.png"&gt;
-   This is slightly different from the script at
-   &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt;, in that it
-   hard-wires a save folder instead of bringing up a dialogue box each time,
-   and also that it puts the web page into reader view before exporting it.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Save the script somewhere, e.g.
-    &lt;code&gt;~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;This script can be run from the command line:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;osascript ~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;to export the currently active tab in Safari to a PDF in the specified
-location.&lt;/p&gt;
-&lt;h1&gt;Create a keyboard shortcut&lt;/h1&gt;
-&lt;p&gt;For extra convenience a keyboard shortcut can be created to run the script.
-This uses the 'Automator' app.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Start typing 'automator' into the Launchpad search bar:
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad2.png"&gt;&lt;/li&gt;
-&lt;li&gt;Select 'Service'
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator.png"&gt;&lt;/li&gt;
-&lt;li&gt;In the automator app, drag the 'Run shell script' item over to the main
-   panel&lt;/li&gt;
-&lt;li&gt;Add the &lt;code&gt;osascript ~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt&lt;/code&gt;
-   command
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator2.png"&gt;&lt;/li&gt;
-&lt;li&gt;Save the workflow. The default save location is &lt;code&gt;~/Library/Services&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;In the 'System Preferences', go to 'Keyboard', 'Shortcuts', select
-   'Services', and select the recently-saved workflow
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_keyboard_shortcut.png"&gt;&lt;/li&gt;
-&lt;li&gt;Choose a shortcut: in this example Shift-Command-E has been chosen&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h1&gt;Summary&lt;/h1&gt;
-&lt;p&gt;Now, after reading an article in Safari, pressing Shift-Command-E saves a PDF
-version of the article in the folder specified, and closes the tab.&lt;/p&gt;</content></entry><entry><title>Locking Git worktrees</title><link href="http://0x7df.github.io/locking-git-worktrees.html" rel="alternate"></link><published>2017-03-06T23:08:00+00:00</published><updated>2017-03-06T23:08:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-06:/locking-git-worktrees.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Git worktrees provide a way of separating the worktree for a given branch -
+years.&lt;/p&gt;</content></entry><entry><title>Locking Git worktrees</title><link href="http://0x7df.github.io/locking-git-worktrees.html" rel="alternate"></link><published>2017-03-06T23:08:00+00:00</published><updated>2017-03-06T23:08:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-06:/locking-git-worktrees.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Git worktrees provide a way of separating the worktree for a given branch -
 i.e. the project working files that are being version controlled - from the
 .git directory containing Git's system files. The worktree can be stored
 anywhere, and Git keeps a reference to it in the .git directory (in
