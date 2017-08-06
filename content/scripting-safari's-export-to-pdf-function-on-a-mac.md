@@ -1,7 +1,7 @@
 Title: Scripting Safari's Export to PDF function on a Mac
-Date: 2017-05-14 21:52
+Date: 2017-08-06 18:55
 Category:  
-Modified: 2017-05-14 21:52
+Modified: 2017-08-06 18:55
 Tags: 
 Slug: 
 Author: 0x7df
@@ -88,3 +88,15 @@ This uses the 'Automator' app.
 Now, after reading an article in Safari, pressing Shift-Command-E saves a PDF
 version of the article in the folder specified, and closes the tab.
 
+# Update
+
+I found this script was broken after upgrading from El Capitan to Safari.
+
+    System Events got an error: Can’t get text field 1 of sheet 1 of sheet 1 of
+    window 1 of process "Safari". Invalid index.
+
+
+Solving this required downloading XCode to make available the Accessibility
+Inspector, which allows you to point and click on graphical interfaces to get
+information on the UI elements. It turns out the `text field` is now a `combo
+box`, and changing that in the script got it working again.
