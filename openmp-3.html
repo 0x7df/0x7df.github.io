@@ -56,7 +56,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">OpenMP 3</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Fri 18 May 2018, modified Fri 18 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Mon 21 May 2018, modified Mon 21 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -98,25 +98,28 @@ clauses can define whether variables in the parallel region are <em>shared</em> 
 private (or no default), and the following two over-ride the default in certain
 cases by explicitly listing variables that should be either private or shared.
 Note that <code>DEFAULT</code> is <code>SHARED</code> unless specified otherwise, which is potentially dangerous. If <code>DEFAULT</code> is <code>NONE</code>,
-then all variables used in the parallel region have to be explicitly listed
+then all variables used in the parallel region must be explicitly listed
 within either the <code>PRIVATE</code> or <code>SHARED</code> clause. Best practice is to be explicit
 and specify <code>DEFAULT(NONE)</code>, so that you're forced to think about each variable
-in the parallel region and how it shoud be handled.</p>
+in the parallel region and how it should be handled.</p>
 <h2>Private data</h2>
 <p>Each thread has its own unique copy of a private variable, which is independent
 of the values other threads hold. E.g.:</p>
-<div class="highlight"><pre><span></span>$ cat private1.f95 
-program private1
-    use OMP_LIB
-    implicit none
-    integer :: a
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>PRIVATE<span class="o">)</span>
-    !$ <span class="nv">a</span> <span class="o">=</span> OMP_GET_THREAD_NUM<span class="o">()</span>
-    !$ write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;a =&quot;</span>, a
-    !<span class="nv">$OMP</span> END PARALLEL
-end program private_shared
-$ gfortran -fopenmp -o private_shared_1 private_shared_1.f95 
-$ ./private_shared_1 
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">private1</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">a</span>
+    <span class="c">!$OMP PARALLEL DEFAULT(PRIVATE)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;a =&quot;</span><span class="p">,</span> <span class="n">a</span>
+    <span class="c">!$OMP END PARALLEL</span>
+<span class="k">end program </span><span class="n">private_shared</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o private1 private1.f95 
+$ ./private1 
  <span class="nv">a</span> <span class="o">=</span>           <span class="m">3</span>
  <span class="nv">a</span> <span class="o">=</span>           <span class="m">0</span>
  <span class="nv">a</span> <span class="o">=</span>           <span class="m">2</span>
@@ -124,19 +127,22 @@ $ ./private_shared_1
 </pre></div>
 
 
-<p>Note that private variables are <em>uninitialised</em> at the beginning of the parallel
+<p>Private variables are <em>uninitialised</em> at the beginning of the parallel
 block, even if they were defined previously. They do not inherit the value from
 any preceding part of the code:</p>
-<div class="highlight"><pre><span></span>$ cat private2.f95 
-program private2
-    implicit none
-    integer :: a, b
-    <span class="nv">b</span> <span class="o">=</span> <span class="m">9</span>
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>PRIVATE<span class="o">)</span>
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;a, b =&quot;</span>, a, b
-    !<span class="nv">$OMP</span> END PARALLEL
-end program private2
-$ gfortran -fopenmp -o private2 private2.f95 
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">private2</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="c">!$OMP PARALLEL DEFAULT(PRIVATE)</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;a, b =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+    <span class="c">!$OMP END PARALLEL</span>
+<span class="k">end program </span><span class="n">private2</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o private2 private2.f95 
 $ ./private2
  a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">0</span>
  a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">0</span>
@@ -151,21 +157,24 @@ $ ./private2
 
 
 <p>Also, private data is destroyed at the end of the parallel region; any original
-value is unaffected:</p>
-<div class="highlight"><pre><span></span>$ cat private3.f95 
-program private3
-    use OMP_LIB
-    implicit none
-    integer :: a
-    <span class="nv">a</span> <span class="o">=</span> <span class="m">9</span>
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;Before: a =&quot;</span>, a
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> PRIVATE<span class="o">(</span>a<span class="o">)</span>
-    <span class="nv">a</span> <span class="o">=</span> OMP_GET_THREAD_NUM<span class="o">()</span>
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;During: a =&quot;</span>, a
-    !<span class="nv">$OMP</span> END PARALLEL
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;After:  a =&quot;</span>, a
-end program private3
-$ gfortran -fopenmp -o private3 private3.f95 
+value that was set prior to the parallel region is unaffected:</p>
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">private3</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">a</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Before: a =&quot;</span><span class="p">,</span> <span class="n">a</span>
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(a)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;During: a =&quot;</span><span class="p">,</span> <span class="n">a</span>
+    <span class="c">!$OMP END PARALLEL</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;After:  a =&quot;</span><span class="p">,</span> <span class="n">a</span>
+<span class="k">end program </span><span class="n">private3</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o private3 private3.f95 
 $ ./private3
  Before: <span class="nv">a</span> <span class="o">=</span>           <span class="m">9</span>
  During: <span class="nv">a</span> <span class="o">=</span>           <span class="m">3</span>
@@ -181,35 +190,40 @@ $ ./private3
 <p>All threads can access shared data. If we want a variable from outside the
 parallel region to be used in the parallel region, or to persist afterwards, it
 needs to be shared.</p>
-<div class="highlight"><pre><span></span>$ cat shared1.f95 
-program shared1
-    use OMP_LIB
-    implicit none
-    integer :: nthreads
-    <span class="nv">nthreads</span> <span class="o">=</span> <span class="m">0</span>
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> SHARED<span class="o">(</span>nthreads<span class="o">)</span>
-    !$ <span class="nv">nthreads</span> <span class="o">=</span> OMP_GET_NUM_THREADS<span class="o">()</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-    write<span class="o">(</span>*,*<span class="o">)</span> nthreads
-end program shared1
-$ gfortran -fopenmp --pedantic --std<span class="o">=</span>f95 -Wall -o shared1 shared1.f95 
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">shared1</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">nthreads</span>
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) SHARED(nthreads)</span>
+    <span class="n">nthreads</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span>
+    <span class="c">!$OMP END PARALLEL</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">nthreads</span>
+<span class="k">end program </span><span class="n">shared1</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o shared1 shared1.f95 
 $ ./shared1 
            <span class="m">4</span>
 </pre></div>
 
 
 <p>Or:</p>
-<div class="highlight"><pre><span></span>$ cat shared2.f95 
-program shared2
-    use OMP_LIB
-    implicit none
-    integer :: a
-    <span class="nv">a</span> <span class="o">=</span> <span class="m">10</span>
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> SHARED<span class="o">(</span>a<span class="o">)</span>
-    !$ write<span class="o">(</span>*,*<span class="o">)</span> a + OMP_GET_THREAD_NUM<span class="o">()</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-end program shared2
-$ gfortran -fopenmp --pedantic --std<span class="o">=</span>f95 -Wall -o shared2 shared2.f95 
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">shared2</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">a</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) SHARED(a)</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">a</span> <span class="o">+</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+    <span class="c">!$OMP END PARALLEL</span>
+<span class="k">end program </span><span class="n">shared2</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o shared2 shared2.f95 
 $ ./shared2 
           <span class="m">13</span>
           <span class="m">10</span>
@@ -220,28 +234,36 @@ $ ./shared2
 
 <p>A common idiom is for different threads to work on different portion of the
 same shared array:</p>
-<div class="highlight"><pre><span></span>$ cat shared3.f95 
-program shared3
-    use OMP_LIB
-    implicit none
-    integer :: irow, icol, nrows, ncols
-    real, allocatable :: my_array<span class="o">(</span>:,:<span class="o">)</span>
-    <span class="nv">nrows</span> <span class="o">=</span> <span class="m">10</span>
-    !<span class="nv">$OMP</span> PARALLEL
-    <span class="nv">ncols</span> <span class="o">=</span> OMP_GET_NUM_THREADS<span class="o">()</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-    allocate<span class="o">(</span>my_array<span class="o">(</span>nrows,ncols<span class="o">))</span>
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> PRIVATE<span class="o">(</span>irow, icol<span class="o">)</span> SHARED<span class="o">(</span>my_array, nrows<span class="o">)</span>
-    <span class="nv">icol</span> <span class="o">=</span> OMP_GET_THREAD_NUM<span class="o">()</span> + <span class="m">1</span>
-    <span class="k">do</span> <span class="nv">irow</span> <span class="o">=</span> <span class="m">1</span>, nrows
-        my_array<span class="o">(</span>irow, icol<span class="o">)</span> <span class="o">=</span> icol
-    enddo
-    !<span class="nv">$OMP</span> END PARALLEL
-    <span class="k">do</span> <span class="nv">irow</span> <span class="o">=</span> <span class="m">1</span>, nrows
-        write<span class="o">(</span>*,*<span class="o">)</span> my_array<span class="o">(</span>irow, :<span class="o">)</span>
-    enddo
-end program
-$ gfortran -fopenmp -o shared3 shared3.f95 
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">shared3</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">irow</span><span class="p">,</span> <span class="n">icol</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span>
+    <span class="kt">real</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">my_array</span><span class="p">(:,:)</span>
+
+    <span class="n">nrows</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="c">!$OMP PARALLEL</span>
+    <span class="n">ncols</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span>
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">allocate</span><span class="p">(</span><span class="n">my_array</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span><span class="n">ncols</span><span class="p">))</span>
+
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(irow, icol) SHARED(my_array, nrows)</span>
+    <span class="n">icol</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">do </span><span class="n">irow</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrows</span>
+        <span class="n">my_array</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span> <span class="n">icol</span><span class="p">)</span> <span class="o">=</span> <span class="n">icol</span>
+    <span class="n">enddo</span>
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">do </span><span class="n">irow</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrows</span>
+        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">my_array</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span> <span class="p">:)</span>
+    <span class="n">enddo</span>
+
+<span class="k">end program </span><span class="n">shared3</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o shared3 shared3.f95 
 $ ./shared3
    <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
    <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
@@ -267,17 +289,20 @@ Fortran line continuation character, e.g.:</p>
 <p>Although by default private variables are uninitialised at the beginning of a
 parallel region, they can be made to inherit an existing value by using the
 <code>FIRSTPRIVATE</code> clause.</p>
-<div class="highlight"><pre><span></span>$ cat first_private.f95 
-program first_private
-    use OMP_LIB
-    implicit none
-    integer :: a, b
-    <span class="nv">b</span> <span class="o">=</span> <span class="m">9</span>
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> PRIVATE<span class="o">(</span>a<span class="o">)</span> FIRSTPRIVATE<span class="o">(</span>b<span class="o">)</span>
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;a, b =&quot;</span>, a, b
-    !<span class="nv">$OMP</span> END PARALLEL
-end program first_private
-$ gfortran -fopenmp -o first_private first_private.f95 
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">first_private</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(a) FIRSTPRIVATE(b)</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;a, b =&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+    <span class="c">!$OMP END PARALLEL</span>
+<span class="k">end program </span><span class="n">first_private</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o first_private first_private.f95 
 $ ./first_private 
  a, <span class="nv">b</span> <span class="o">=</span>  -510675160           <span class="m">9</span>
  a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">9</span>
@@ -295,13 +320,13 @@ the <code>!$OMP PARALLEL</code> directive can also have the following:</p>
 <li><code>NUM_THREADS(&lt;integer-expression&gt;)</code></li>
 <li><code>REDUCTION(&lt;operator&gt;:&lt;list...&gt;)</code></li>
 </ul>
-<p>which we will treat elsewhere.</p>
+<p>which are described in subsequent posts.</p>
 <hr/>
 
 <ul>
 <li><a href="http://0x7df.github.io/openmp-1.html">OpenMP 1 (Overview, Implementaion)</a></li>
 <li><a href="http://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
-<li><a href="http://0x7df.github.io/drafts/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
+<li><a href="http://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
 <li><a href="http://0x7df.github.io/drafts/openmp-4.html">OpenMP 4 (Reductions)</a></li>
 <li><a href="http://0x7df.github.io/drafts/openmp-5.html">OpenMP 5 (Work-sharing constructs)</a></li>
 <li><a href="http://0x7df.github.io/drafts/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>

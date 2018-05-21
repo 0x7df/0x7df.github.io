@@ -1,5 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-21T22:50:00+01:00</updated><entry><title>OpenMP 2</title><link href="http://0x7df.github.io/openmp-2.html" rel="alternate"></link><published>2018-05-21T22:50:00+01:00</published><updated>2018-05-21T22:50:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-21:/openmp-2.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Parallel regions&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-21T23:10:00+01:00</updated><entry><title>OpenMP 3</title><link href="http://0x7df.github.io/openmp-3.html" rel="alternate"></link><published>2018-05-21T23:10:00+01:00</published><updated>2018-05-21T23:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-21:/openmp-3.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;OpenMP clauses&lt;/h1&gt;
+&lt;p&gt;The &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can have further information added in the form of
+&lt;em&gt;clauses&lt;/em&gt;, which can be comma- or space-separated:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP PARALLEL &amp;lt;clauses...&amp;gt;
+...
+!$OMP END PARALLEL
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;These define certain
+aspects of the way in which the parallel region will be handled, such as the
+scope of certain variables, the number of threads, etc.&lt;/p&gt;
+&lt;p&gt;For example,
+clauses can define whether variables in the parallel region are &lt;em&gt;shared&lt;/em&gt; or
+&lt;em&gt;private&lt;/em&gt;. In general:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP PARALLEL DEFAULT(SHARED|PRIVATE|NONE) PRIVATE(list...) SHARED(list...)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The first clause specifies whether variables by default should be shared or
+private (or no default), and the following two over-ride the default in certain
+cases by explicitly listing variables that should be either private or shared.
+Note that &lt;code&gt;DEFAULT&lt;/code&gt; is &lt;code&gt;SHARED&lt;/code&gt; unless specified otherwise, which is potentially dangerous. If &lt;code&gt;DEFAULT&lt;/code&gt; is &lt;code&gt;NONE&lt;/code&gt;,
+then all variables used in the parallel region must be explicitly listed
+within either the &lt;code&gt;PRIVATE&lt;/code&gt; or &lt;code&gt;SHARED&lt;/code&gt; clause. Best practice is to be explicit
+and specify &lt;code&gt;DEFAULT(NONE)&lt;/code&gt;, so that you're forced to think about each variable
+in the parallel region and how it should be handled.&lt;/p&gt;
+&lt;h2&gt;Private data&lt;/h2&gt;
+&lt;p&gt;Each thread has its own unique copy of a private variable, which is independent
+of the values other threads hold. E.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;private1&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(PRIVATE)&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;a =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;private_shared&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o private1 private1.f95 
+$ ./private1 
+ &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+ &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
+ &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;
+ &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Private variables are &lt;em&gt;uninitialised&lt;/em&gt; at the beginning of the parallel
+block, even if they were defined previously. They do not inherit the value from
+any preceding part of the code:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;private2&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(PRIVATE)&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;a, b =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;private2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o private2 private2.f95 
+$ ./private2
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;       &lt;span class="m"&gt;32766&lt;/span&gt;  -466164000
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;       &lt;span class="m"&gt;32766&lt;/span&gt;  -466163792
+$ ./private2
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;       &lt;span class="m"&gt;32766&lt;/span&gt;  -310876344
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;       &lt;span class="m"&gt;32766&lt;/span&gt;  -310876240
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Also, private data is destroyed at the end of the parallel region; any original
+value that was set prior to the parallel region is unaffected:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;private3&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Before: a =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) PRIVATE(a)&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;During: a =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;After:  a =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;private3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o private3 private3.f95 
+$ ./private3
+ Before: &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;9&lt;/span&gt;
+ During: &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+ During: &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;
+ During: &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;
+ During: &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
+ After:  &lt;span class="nv"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;9&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In Fortran, loop iterators are private by default.&lt;/p&gt;
+&lt;h2&gt;Shared data&lt;/h2&gt;
+&lt;p&gt;All threads can access shared data. If we want a variable from outside the
+parallel region to be used in the parallel region, or to persist afterwards, it
+needs to be shared.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;shared1&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;nthreads&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) SHARED(nthreads)&lt;/span&gt;
+    &lt;span class="n"&gt;nthreads&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;nthreads&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;shared1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o shared1 shared1.f95 
+$ ./shared1 
+           &lt;span class="m"&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;shared2&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) SHARED(a)&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;shared2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o shared2 shared2.f95 
+$ ./shared2 
+          &lt;span class="m"&gt;13&lt;/span&gt;
+          &lt;span class="m"&gt;10&lt;/span&gt;
+          &lt;span class="m"&gt;12&lt;/span&gt;
+          &lt;span class="m"&gt;11&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A common idiom is for different threads to work on different portion of the
+same shared array:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;shared3&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;irow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;icol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nrows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ncols&lt;/span&gt;
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;my_array&lt;/span&gt;&lt;span class="p"&gt;(:,:)&lt;/span&gt;
+
+    &lt;span class="n"&gt;nrows&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="n"&gt;ncols&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+
+    &lt;span class="k"&gt;allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;my_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nrows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ncols&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) PRIVATE(irow, icol) SHARED(my_array, nrows)&lt;/span&gt;
+    &lt;span class="n"&gt;icol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nrows&lt;/span&gt;
+        &lt;span class="n"&gt;my_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;icol&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;icol&lt;/span&gt;
+    &lt;span class="n"&gt;enddo&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+
+    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nrows&lt;/span&gt;
+        &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;my_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;:)&lt;/span&gt;
+    &lt;span class="n"&gt;enddo&lt;/span&gt;
+
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;shared3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o shared3 shared3.f95 
+$ ./shared3
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000    
+   &lt;span class="m"&gt;1&lt;/span&gt;.00000000       &lt;span class="m"&gt;2&lt;/span&gt;.00000000       &lt;span class="m"&gt;3&lt;/span&gt;.00000000       &lt;span class="m"&gt;4&lt;/span&gt;.00000000
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Long OpenMP directives can be broken across multiple lines using the standard
+Fortran line continuation character, e.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP PARALLEL DEFAULT(NONE) PRIVATE(irow, icol) &amp;amp;
+!$OMP     SHARED(my_array, nrows)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;&lt;code&gt;FIRSTPRIVATE&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Although by default private variables are uninitialised at the beginning of a
+parallel region, they can be made to inherit an existing value by using the
+&lt;code&gt;FIRSTPRIVATE&lt;/code&gt; clause.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;first_private&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) PRIVATE(a) FIRSTPRIVATE(b)&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;a, b =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;first_private&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o first_private first_private.f95 
+$ ./first_private 
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  -510675160           &lt;span class="m"&gt;9&lt;/span&gt;
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;9&lt;/span&gt;
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  -510674576           &lt;span class="m"&gt;9&lt;/span&gt;
+ a, &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  -510675056           &lt;span class="m"&gt;9&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Other clauses&lt;/h2&gt;
+&lt;p&gt;In addition to the &lt;code&gt;DEFAULT&lt;/code&gt;, &lt;code&gt;FIRSTPRIVATE&lt;/code&gt;, &lt;code&gt;PRIVATE&lt;/code&gt; and &lt;code&gt;SHARED&lt;/code&gt; clauses,
+the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can also have the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;COPYIN(&amp;lt;list...&amp;gt;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;IF(&amp;lt;logical-expression&amp;gt;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;NUM_THREADS(&amp;lt;integer-expression&amp;gt;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;REDUCTION(&amp;lt;operator&amp;gt;:&amp;lt;list...&amp;gt;)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;which are described in subsequent posts.&lt;/p&gt;
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="{filename}openmp-7.md"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+
+&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
+&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content></entry><entry><title>OpenMP 2</title><link href="http://0x7df.github.io/openmp-2.html" rel="alternate"></link><published>2018-05-21T22:50:00+01:00</published><updated>2018-05-21T22:50:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-21:/openmp-2.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Parallel regions&lt;/h1&gt;
 &lt;p&gt;In the example in the &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;first post&lt;/a&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
     &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
@@ -185,7 +448,7 @@ $ ./serial_thread_number
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
@@ -359,7 +622,7 @@ or it might be equal to the number of cores in the system.)&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
