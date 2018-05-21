@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="OpenMP clauses The !$OMP PARALLEL directive can have further information added in the form of clauses, which can be comma- or space-separated: !$OMP PARALLEL &lt;clauses...&gt; ... !$OMP END PARALLEL...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>OpenMP 3 - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">OpenMP 3</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Fri 18 May 2018, modified Fri 18 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>OpenMP clauses</h1>
+<p>The <code>!$OMP PARALLEL</code> directive can have further information added in the form of
+<em>clauses</em>, which can be comma- or space-separated:</p>
+<div class="highlight"><pre><span></span>!$OMP PARALLEL &lt;clauses...&gt;
+...
+!$OMP END PARALLEL
+</pre></div>
+
+
+<p>These define certain
+aspects of the way in which the parallel region will be handled, such as the
+scope of certain variables, the number of threads, etc.</p>
+<p>For example,
+clauses can define whether variables in the parallel region are <em>shared</em> or
+<em>private</em>. In general:</p>
+<div class="highlight"><pre><span></span>!$OMP PARALLEL DEFAULT(SHARED|PRIVATE|NONE) PRIVATE(list...) SHARED(list...)
+</pre></div>
+
+
+<p>The first clause specifies whether variables by default should be shared or
+private (or no default), and the following two over-ride the default in certain
+cases by explicitly listing variables that should be either private or shared.
+Note that <code>DEFAULT</code> is <code>SHARED</code> unless specified otherwise, which is potentially dangerous. If <code>DEFAULT</code> is <code>NONE</code>,
+then all variables used in the parallel region have to be explicitly listed
+within either the <code>PRIVATE</code> or <code>SHARED</code> clause. Best practice is to be explicit
+and specify <code>DEFAULT(NONE)</code>, so that you're forced to think about each variable
+in the parallel region and how it shoud be handled.</p>
+<h2>Private data</h2>
+<p>Each thread has its own unique copy of a private variable, which is independent
+of the values other threads hold. E.g.:</p>
+<div class="highlight"><pre><span></span>$ cat private1.f95 
+program private1
+    use OMP_LIB
+    implicit none
+    integer :: a
+    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>PRIVATE<span class="o">)</span>
+    !$ <span class="nv">a</span> <span class="o">=</span> OMP_GET_THREAD_NUM<span class="o">()</span>
+    !$ write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;a =&quot;</span>, a
+    !<span class="nv">$OMP</span> END PARALLEL
+end program private_shared
+$ gfortran -fopenmp -o private_shared_1 private_shared_1.f95 
+$ ./private_shared_1 
+ <span class="nv">a</span> <span class="o">=</span>           <span class="m">3</span>
+ <span class="nv">a</span> <span class="o">=</span>           <span class="m">0</span>
+ <span class="nv">a</span> <span class="o">=</span>           <span class="m">2</span>
+ <span class="nv">a</span> <span class="o">=</span>           <span class="m">1</span>
+</pre></div>
+
+
+<p>Note that private variables are <em>uninitialised</em> at the beginning of the parallel
+block, even if they were defined previously. They do not inherit the value from
+any preceding part of the code:</p>
+<div class="highlight"><pre><span></span>$ cat private2.f95 
+program private2
+    implicit none
+    integer :: a, b
+    <span class="nv">b</span> <span class="o">=</span> <span class="m">9</span>
+    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>PRIVATE<span class="o">)</span>
+    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;a, b =&quot;</span>, a, b
+    !<span class="nv">$OMP</span> END PARALLEL
+end program private2
+$ gfortran -fopenmp -o private2 private2.f95 
+$ ./private2
+ a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">0</span>
+ a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">0</span>
+ a, <span class="nv">b</span> <span class="o">=</span>       <span class="m">32766</span>  -466164000
+ a, <span class="nv">b</span> <span class="o">=</span>       <span class="m">32766</span>  -466163792
+$ ./private2
+ a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">0</span>
+ a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">0</span>
+ a, <span class="nv">b</span> <span class="o">=</span>       <span class="m">32766</span>  -310876344
+ a, <span class="nv">b</span> <span class="o">=</span>       <span class="m">32766</span>  -310876240
+</pre></div>
+
+
+<p>Also, private data is destroyed at the end of the parallel region; any original
+value is unaffected:</p>
+<div class="highlight"><pre><span></span>$ cat private3.f95 
+program private3
+    use OMP_LIB
+    implicit none
+    integer :: a
+    <span class="nv">a</span> <span class="o">=</span> <span class="m">9</span>
+    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;Before: a =&quot;</span>, a
+    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> PRIVATE<span class="o">(</span>a<span class="o">)</span>
+    <span class="nv">a</span> <span class="o">=</span> OMP_GET_THREAD_NUM<span class="o">()</span>
+    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;During: a =&quot;</span>, a
+    !<span class="nv">$OMP</span> END PARALLEL
+    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;After:  a =&quot;</span>, a
+end program private3
+$ gfortran -fopenmp -o private3 private3.f95 
+$ ./private3
+ Before: <span class="nv">a</span> <span class="o">=</span>           <span class="m">9</span>
+ During: <span class="nv">a</span> <span class="o">=</span>           <span class="m">3</span>
+ During: <span class="nv">a</span> <span class="o">=</span>           <span class="m">1</span>
+ During: <span class="nv">a</span> <span class="o">=</span>           <span class="m">2</span>
+ During: <span class="nv">a</span> <span class="o">=</span>           <span class="m">0</span>
+ After:  <span class="nv">a</span> <span class="o">=</span>           <span class="m">9</span>
+</pre></div>
+
+
+<p>In Fortran, loop iterators are private by default.</p>
+<h2>Shared data</h2>
+<p>All threads can access shared data. If we want a variable from outside the
+parallel region to be used in the parallel region, or to persist afterwards, it
+needs to be shared.</p>
+<div class="highlight"><pre><span></span>$ cat shared1.f95 
+program shared1
+    use OMP_LIB
+    implicit none
+    integer :: nthreads
+    <span class="nv">nthreads</span> <span class="o">=</span> <span class="m">0</span>
+    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> SHARED<span class="o">(</span>nthreads<span class="o">)</span>
+    !$ <span class="nv">nthreads</span> <span class="o">=</span> OMP_GET_NUM_THREADS<span class="o">()</span>
+    !<span class="nv">$OMP</span> END PARALLEL
+    write<span class="o">(</span>*,*<span class="o">)</span> nthreads
+end program shared1
+$ gfortran -fopenmp --pedantic --std<span class="o">=</span>f95 -Wall -o shared1 shared1.f95 
+$ ./shared1 
+           <span class="m">4</span>
+</pre></div>
+
+
+<p>Or:</p>
+<div class="highlight"><pre><span></span>$ cat shared2.f95 
+program shared2
+    use OMP_LIB
+    implicit none
+    integer :: a
+    <span class="nv">a</span> <span class="o">=</span> <span class="m">10</span>
+    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> SHARED<span class="o">(</span>a<span class="o">)</span>
+    !$ write<span class="o">(</span>*,*<span class="o">)</span> a + OMP_GET_THREAD_NUM<span class="o">()</span>
+    !<span class="nv">$OMP</span> END PARALLEL
+end program shared2
+$ gfortran -fopenmp --pedantic --std<span class="o">=</span>f95 -Wall -o shared2 shared2.f95 
+$ ./shared2 
+          <span class="m">13</span>
+          <span class="m">10</span>
+          <span class="m">12</span>
+          <span class="m">11</span>
+</pre></div>
+
+
+<p>A common idiom is for different threads to work on different portion of the
+same shared array:</p>
+<div class="highlight"><pre><span></span>$ cat shared3.f95 
+program shared3
+    use OMP_LIB
+    implicit none
+    integer :: irow, icol, nrows, ncols
+    real, allocatable :: my_array<span class="o">(</span>:,:<span class="o">)</span>
+    <span class="nv">nrows</span> <span class="o">=</span> <span class="m">10</span>
+    !<span class="nv">$OMP</span> PARALLEL
+    <span class="nv">ncols</span> <span class="o">=</span> OMP_GET_NUM_THREADS<span class="o">()</span>
+    !<span class="nv">$OMP</span> END PARALLEL
+    allocate<span class="o">(</span>my_array<span class="o">(</span>nrows,ncols<span class="o">))</span>
+    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> PRIVATE<span class="o">(</span>irow, icol<span class="o">)</span> SHARED<span class="o">(</span>my_array, nrows<span class="o">)</span>
+    <span class="nv">icol</span> <span class="o">=</span> OMP_GET_THREAD_NUM<span class="o">()</span> + <span class="m">1</span>
+    <span class="k">do</span> <span class="nv">irow</span> <span class="o">=</span> <span class="m">1</span>, nrows
+        my_array<span class="o">(</span>irow, icol<span class="o">)</span> <span class="o">=</span> icol
+    enddo
+    !<span class="nv">$OMP</span> END PARALLEL
+    <span class="k">do</span> <span class="nv">irow</span> <span class="o">=</span> <span class="m">1</span>, nrows
+        write<span class="o">(</span>*,*<span class="o">)</span> my_array<span class="o">(</span>irow, :<span class="o">)</span>
+    enddo
+end program
+$ gfortran -fopenmp -o shared3 shared3.f95 
+$ ./shared3
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000    
+   <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000
+</pre></div>
+
+
+<p>Long OpenMP directives can be broken across multiple lines using the standard
+Fortran line continuation character, e.g.:</p>
+<div class="highlight"><pre><span></span>!$OMP PARALLEL DEFAULT(NONE) PRIVATE(irow, icol) &amp;
+!$OMP     SHARED(my_array, nrows)
+</pre></div>
+
+
+<h1><code>FIRSTPRIVATE</code></h1>
+<p>Although by default private variables are uninitialised at the beginning of a
+parallel region, they can be made to inherit an existing value by using the
+<code>FIRSTPRIVATE</code> clause.</p>
+<div class="highlight"><pre><span></span>$ cat first_private.f95 
+program first_private
+    use OMP_LIB
+    implicit none
+    integer :: a, b
+    <span class="nv">b</span> <span class="o">=</span> <span class="m">9</span>
+    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> PRIVATE<span class="o">(</span>a<span class="o">)</span> FIRSTPRIVATE<span class="o">(</span>b<span class="o">)</span>
+    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;a, b =&quot;</span>, a, b
+    !<span class="nv">$OMP</span> END PARALLEL
+end program first_private
+$ gfortran -fopenmp -o first_private first_private.f95 
+$ ./first_private 
+ a, <span class="nv">b</span> <span class="o">=</span>  -510675160           <span class="m">9</span>
+ a, <span class="nv">b</span> <span class="o">=</span>           <span class="m">0</span>           <span class="m">9</span>
+ a, <span class="nv">b</span> <span class="o">=</span>  -510674576           <span class="m">9</span>
+ a, <span class="nv">b</span> <span class="o">=</span>  -510675056           <span class="m">9</span>
+</pre></div>
+
+
+<h1>Other clauses</h1>
+<p>In addition to the <code>DEFAULT</code>, <code>FIRSTPRIVATE</code>, <code>PRIVATE</code> and <code>SHARED</code> clauses,
+the <code>!$OMP PARALLEL</code> directive can also have the following:</p>
+<ul>
+<li><code>COPYIN(&lt;list...&gt;)</code></li>
+<li><code>IF(&lt;logical-expression&gt;)</code></li>
+<li><code>NUM_THREADS(&lt;integer-expression&gt;)</code></li>
+<li><code>REDUCTION(&lt;operator&gt;:&lt;list...&gt;)</code></li>
+</ul>
+<p>which we will treat elsewhere.</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

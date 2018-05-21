@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="In general, the assimilation of observational data for numerical weather prediction suffers from systematic error, or bias. There are two sources of bias: Systematic error in the observing system...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>Bias correction of observations in data assimilation for numerical weather prediction - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Bias correction of observations in data assimilation for numerical weather prediction</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 11 November 2017, modified Sat 11 November 2017, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>In general, the assimilation of observational data for numerical weather
+prediction suffers from systematic error, or bias. There are two sources of bias:</p>
+<ol>
+<li>Systematic error in the observing system itself, e.g. due to imperfect
+   calibration or sensor problems, and</li>
+<li>Bias introduced by the modelling of the observation that is conducted as
+   part of the assimilation process.</li>
+</ol>
+<p>The former is fairly obvious, and common to all measurement systems.</p>
+<p>The latter deserves some explanation. In data assimilation, the initial
+conditions of a forecast are adjusted iteratively, until the match between the
+forecast and the set of observations being assimilated is optimal. To determine
+the closeness of the match, a prediction must be made of the
+vaues that the observing systems would give if the current model state were the
+true one. This allows a like-for-like comparison with the actual observation.
+The model state is projected
+onto the observation space, and the models used to do this are called
+<em>observation operators</em>. An example is the radiation transport modelling used
+to infer satellite radiance measurements given an atmospheric state from the
+model. Systematic biases can be introduced by these observation
+operators.</p>
+<p>Mathematically, we denote the vector of observations as <span class="math">\(\mathbf{y}\)</span>, the model
+state vector as <span class="math">\(\mathbf{x}\)</span>, and the observation operator as <span class="math">\(H\)</span>, such the
+<em>departures</em> to be minimised by the assimilation algorithm are:</p>
+<div class="math">\begin{equation}
+    \mathbf{y} - H\left(\matbf{x}\right)
+\end{equation}</div>
+<p>Biases in satellite observations are particularly important, as they can affect
+the quality of the forecast globally, in a short space of time.</p>
+<p>Typically the biases are removed, either before or during the data assimilation
+process. This is referred to as bias correction. Generally, bias correction is
+done by comparison with some unbiased reference; for example, other
+observations from known unbiased observing systems.</p>
+<p>Biases introduced by observation operators are particularly complicated to
+solve, because in general the biases themselves are dependent on the
+atmospheric state. So while, for example, a satellite measurement might be
+biased by some fixed offset, errors in the modelling of that measurement by the
+observation operator will be dependent on the cloud cover, for example, and
+atmospheric pressure and moisture content, etc.</p>
+<p>Bias correction can also be done by comparing against the model itself. Comparison
+against the forecast model introduces the complexity of needing to distinguish
+between model bias and observation bias. The forecast model is, in general,
+also biased, and if the model bias is not separated out, the result is that the
+bias correction of observations ends up correcting <em>both</em> the observation and
+the model bias. This is called <em>drift</em>.</p>
+<p>This tends to reinforce the model bias. For example, if the model tended to
+produce temperatures that were systematically too high, then unbiased (or less
+biased) observation would appear to be too low in comparison; and if this
+discrepancy were attributed to observation bias, the observation would be
+corrected upwards, and reinforce the existing model bias.</p>
+<p>A further complication is introduced by the fact that both the observation bias
+and the model bias are time-dependent. Instruments can degrade, and we have
+already seen that bias introduced by the observation operators is dependent on
+atmospheric conditions. But the model bias can also change, for example as a
+result of updates to the model itself. Therefore a successful bias correction
+procedure is likely to be adaptive, rather than static. A static scheme would
+be robust against changes in the model bias, but would equally ignore changes
+in the observation bias, which we wish to account for. An adaptive scheme must
+be designed carefully to respond only to changes in observation bias, and not
+to changes in model bias. It can do this if there are unbiased observations
+available, because these can be used to diagnose model bias changes. Radoisonde
+observations often fulfil this role, as they are not adaptively corrected;
+however their coverage is incomplete. Alternatively, a single channel from a
+satellite instrument can be assimilated without bias correction, to anchor the
+other channels.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
