@@ -1,5 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-21T22:16:00+01:00</updated><entry><title>OpenMP 1</title><link href="http://0x7df.github.io/openmp-1.html" rel="alternate"></link><published>2018-05-21T22:16:00+01:00</published><updated>2018-05-21T22:16:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-21:/openmp-1.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Overview&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-21T22:50:00+01:00</updated><entry><title>OpenMP 2</title><link href="http://0x7df.github.io/openmp-2.html" rel="alternate"></link><published>2018-05-21T22:50:00+01:00</published><updated>2018-05-21T22:50:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-21:/openmp-2.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Parallel regions&lt;/h1&gt;
+&lt;p&gt;In the example in the &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;first post&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello world!&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;the pair of directives, &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; and &lt;code&gt;!$OMP END PARALLEL&lt;/code&gt;,
+define a &lt;em&gt;parallel region&lt;/em&gt;, which is a block of code that will be executed by
+all the threads. The rest of the code is executed by a single thread. E.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;parallel_region&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Serial region&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Parallel region&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Serial again&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;parallel_region&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which gives:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o parallel_region parallel_region.f95 
+$ ./parallel_region 
+ Serial region
+ Parallel region
+ Parallel region
+ Parallel region
+ Parallel region
+ Serial again
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When the thread executing a serial region encounters a parallel directive, it
+creates a team of threads and it becomes the &lt;em&gt;master thread&lt;/em&gt; of the team. Each
+thread, including the master, gets a thread number between &lt;span class="math"&gt;\(0\)&lt;/span&gt; and &lt;span class="math"&gt;\(N-1\)&lt;/span&gt;, where &lt;span class="math"&gt;\(N\)&lt;/span&gt;
+is the number of threads requested.&lt;/p&gt;
+&lt;p&gt;On encountering the &lt;code&gt;!$OMP END PARALLEL&lt;/code&gt; directive, all the threads 
+are killed except the master, which continues execution.&lt;/p&gt;
+&lt;p&gt;This is known as the fork/join model.&lt;/p&gt;
+&lt;p&gt;Note that the master thread waits
+until all other threads have finished before the parallel region is closed, to
+ensure all work is completed no data are lost. The &lt;code&gt;!$OMP END PARALLEL&lt;/code&gt;
+directive is therefore an implicit &lt;em&gt;synchronisation&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Two requirements are imposed on the definition of a parallel region:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The start and end directives for a parallel region must appear in the same
+   routine.&lt;/li&gt;
+&lt;li&gt;It must not be possible to leave the parallel region except via the closing
+   directive; e.g. via a &lt;code&gt;GO TO&lt;/code&gt; statement.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Nested parallel regions&lt;/h2&gt;
+&lt;p&gt;It's possible to nest parallel regions:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;nested&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Parallel outer&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Parallel inner&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;nested&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Nesting is controlled by the &lt;code&gt;OMP_NESTED&lt;/code&gt; environment variable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o nested.x nested.f95
+$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;OMP_NUM_THREADS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;OMP_NESTED&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;TRUE
+$ ./nested.x 
+ Parallel outer
+ Parallel outer
+ Parallel inner
+ Parallel inner
+ Parallel inner
+ Parallel inner
+$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;OMP_NESTED&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;FALSE
+$ ./nested.x 
+ Parallel outer
+ Parallel outer
+ Parallel inner
+ Parallel inner
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There are good use cases for using nested routines; the danger is ensuring you
+don't create too many threads - having many more threads than cores will
+negatively affect performance.&lt;/p&gt;
+&lt;h1&gt;OpenMP functions&lt;/h1&gt;
+&lt;p&gt;The OpenMP library provides routines to determine the number of threads,
+and the number of the executing thread: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;thread_number&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Thread&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;of&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;threads&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;thread_number&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note the use of the Fortran &lt;code&gt;use&lt;/code&gt; statement to make available the OpenMP library
+routines.&lt;/p&gt;
+&lt;p&gt;Compiling and running gives:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o thread_number thread_number.f95 
+$ ./thread_number 
+ Thread           &lt;span class="m"&gt;1&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+ Thread           &lt;span class="m"&gt;2&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+ Thread           &lt;span class="m"&gt;0&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+ Thread           &lt;span class="m"&gt;3&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Unlike the sentinel-protected directives, the use of &lt;code&gt;OMP_GET_THREAD_NUM()&lt;/code&gt; and
+&lt;code&gt;OMP_GET_NUM_THREADS()&lt;/code&gt; will cause an error if compiled without OpenMP support:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -o thread_number thread_number.f95
+Undefined symbols &lt;span class="k"&gt;for&lt;/span&gt; architecture x86_64:
+  &lt;span class="s2"&gt;&amp;quot;_omp_get_num_threads_&amp;quot;&lt;/span&gt;, referenced from:
+      _MAIN__ in ccWD4iLd.o
+  &lt;span class="s2"&gt;&amp;quot;_omp_get_thread_num_&amp;quot;&lt;/span&gt;, referenced from:
+      _MAIN__ in ccWD4iLd.o
+ld: symbol&lt;span class="o"&gt;(&lt;/span&gt;s&lt;span class="o"&gt;)&lt;/span&gt; not found &lt;span class="k"&gt;for&lt;/span&gt; architecture x86_64
+collect2: error: ld returned &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="nb"&gt;exit&lt;/span&gt; status
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To prevent this problem, a second type of sentinel is available, in addition to
+&lt;code&gt;!$OMP&lt;/code&gt;. This is simply &lt;code&gt;!$&lt;/code&gt;, and is prepended to ordinary Fortran lines (as opposed to OpenMP directives) that should be
+conditionally compiled only when the compiler is OpenMP-compliant. Hence:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;thread_number&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="c"&gt;!$ write(*,*) &amp;quot;Thread&amp;quot;, OMP_GET_THREAD_NUM(), &amp;quot;of&amp;quot;, OMP_GET_NUM_THREADS(), &amp;amp;&lt;/span&gt;
+    &lt;span class="c"&gt;!$     &amp;quot;threads&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;thread_number&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;br/&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -o thread_number thread_number.f95 
+$ ./thread_number 
+$ gfortran -fopenmp -o thread_number thread_number.f95 
+$ ./thread_number 
+ Thread           &lt;span class="m"&gt;0&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+ Thread           &lt;span class="m"&gt;3&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+ Thread           &lt;span class="m"&gt;1&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+ Thread           &lt;span class="m"&gt;2&lt;/span&gt; of           &lt;span class="m"&gt;4&lt;/span&gt; threads
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note that it's possible to extend a source code line that is protected in
+this way over several lines, by using the standard Fortran line continuation
+character, &lt;code&gt;&amp;amp;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;(Note also, in this example the order that the threads execute the write
+statement is different from the previous run; this is important. There is no guaranteed order of
+threads.)&lt;/p&gt;
+&lt;p&gt;Outside a parallel region, the thread number and total number of threads returned by
+&lt;code&gt;OMP_GET_THREAD_NUM()&lt;/code&gt; and &lt;code&gt;OMP_GET_NUM_THREADS()&lt;/code&gt;, respectively, are defined; but the total number of threads is 1:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;serial_thread_number&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+    &lt;span class="c"&gt;!$ write(*,*) &amp;quot;I am thread&amp;quot;, OMP_GET_THREAD_NUM(), &amp;quot;of&amp;quot;, OMP_GET_NUM_THREADS(), &amp;amp;&lt;/span&gt;
+    &lt;span class="c"&gt;!$     &amp;quot;threads&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;serial_thread_number&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o serial_thread_number serial_thread_number.f95
+$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;OMP_NUM_THREADS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;
+$ ./serial_thread_number 
+ I am thread           &lt;span class="m"&gt;0&lt;/span&gt; of           &lt;span class="m"&gt;1&lt;/span&gt; threads
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="{filename}openmp-7.md"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+
+&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
+&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>OpenMP 1</title><link href="http://0x7df.github.io/openmp-1.html" rel="alternate"></link><published>2018-05-21T22:16:00+01:00</published><updated>2018-05-21T22:16:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-21:/openmp-1.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Overview&lt;/h1&gt;
 &lt;p&gt;OpenMP is a set of extensions to Fortran, C and C++, consisting of compiler
 directives, library routines, and environment variables, that allows the
 programming of shared-memory applications. Typically it allows parallelism to
@@ -101,6 +354,17 @@ or it might be equal to the number of cores in the system.)&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="{filename}openmp-7.md"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;hr/&gt;
 
 &lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;

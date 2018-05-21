@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Parallel regions In the example in the first post: $ cat hello_world.f95 program hello_world !$OMP PARALLEL write(*,*) &#34;Hello world!&#34; !$OMP END PARALLEL end program hello_world the pair of...">
+        <meta name="description" content="Parallel regions In the example in the first post: program hello_world !$OMP PARALLEL write(*,*) &#34;Hello world!&#34; !$OMP END PARALLEL end program hello_world the pair of directives, !$OMP PARALLEL...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -56,7 +56,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">OpenMP 2</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Thu 17 May 2018, modified Thu 17 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Mon 21 May 2018, modified Mon 21 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -77,28 +77,30 @@
     <div class="container content">
         <h1>Parallel regions</h1>
 <p>In the example in the <a href="http://0x7df.github.io/openmp-1.html">first post</a>:</p>
-<div class="highlight"><pre><span></span>$ cat hello_world.f95
-program hello_world
-    !<span class="nv">$OMP</span> PARALLEL
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;Hello world!&quot;</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-end program hello_world
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">hello_world</span>
+    <span class="c">!$OMP PARALLEL</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Hello world!&quot;</span>
+    <span class="c">!$OMP END PARALLEL</span>
+<span class="k">end program </span><span class="n">hello_world</span>
 </pre></div>
 
 
 <p>the pair of directives, <code>!$OMP PARALLEL</code> and <code>!$OMP END PARALLEL</code>,
 define a <em>parallel region</em>, which is a block of code that will be executed by
 all the threads. The rest of the code is executed by a single thread. E.g.:</p>
-<div class="highlight"><pre><span></span>$ cat parallel_region.f95
-program parallel_region
-    implicit none
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;Serial region&quot;</span>
-    !<span class="nv">$OMP</span> PARALLEL
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;Parallel region&quot;</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;Serial again&quot;</span>
-end program parallel_region
-$ gfortran -fopenmp -o parallel_region parallel_region.f95 
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">parallel_region</span>
+    <span class="k">implicit none</span>
+<span class="k">    write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Serial region&quot;</span>
+    <span class="c">!$OMP PARALLEL</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Parallel region&quot;</span>
+    <span class="c">!$OMP END PARALLEL</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Serial again&quot;</span>
+<span class="k">end program </span><span class="n">parallel_region</span>
+</pre></div>
+
+
+<p>which gives:</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o parallel_region parallel_region.f95 
 $ ./parallel_region 
  Serial region
  Parallel region
@@ -113,12 +115,13 @@ $ ./parallel_region
 creates a team of threads and it becomes the <em>master thread</em> of the team. Each
 thread, including the master, gets a thread number between <span class="math">\(0\)</span> and <span class="math">\(N-1\)</span>, where <span class="math">\(N\)</span>
 is the number of threads requested.</p>
-<p>On encountering the <code>!$OMP END PARALLEL</code> directive, all the threads but the
-master are killed, which continues execution. However the master thread waits
+<p>On encountering the <code>!$OMP END PARALLEL</code> directive, all the threads 
+are killed except the master, which continues execution.</p>
+<p>This is known as the fork/join model.</p>
+<p>Note that the master thread waits
 until all other threads have finished before the parallel region is closed, to
 ensure all work is completed no data are lost. The <code>!$OMP END PARALLEL</code>
 directive is therefore an implicit <em>synchronisation</em>.</p>
-<p>This is known as the fork/join model.</p>
 <p>Two requirements are imposed on the definition of a parallel region:</p>
 <ol>
 <li>The start and end directives for a parallel region must appear in the same
@@ -127,7 +130,7 @@ directive is therefore an implicit <em>synchronisation</em>.</p>
    directive; e.g. via a <code>GO TO</code> statement.</li>
 </ol>
 <h2>Nested parallel regions</h2>
-<p>It is possible to nest parallel regions:</p>
+<p>It's possible to nest parallel regions:</p>
 <div class="highlight"><pre><span></span><span class="k">program </span><span class="n">nested</span>
     <span class="k">implicit none</span>
     <span class="c">!$OMP PARALLEL</span>
@@ -141,10 +144,9 @@ directive is therefore an implicit <em>synchronisation</em>.</p>
 
 
 <p>Nesting is controlled by the <code>OMP_NESTED</code> environment variable:</p>
-<p>:::bash
-$ gfortran -fopenmp -o nested.x nested.f95
-$ export OMP_NUM_THREADS=2
-$ export OMP_NESTED=TRUE
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o nested.x nested.f95
+$ <span class="nb">export</span> <span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">2</span>
+$ <span class="nb">export</span> <span class="nv">OMP_NESTED</span><span class="o">=</span>TRUE
 $ ./nested.x 
  Parallel outer
  Parallel outer
@@ -152,38 +154,44 @@ $ ./nested.x
  Parallel inner
  Parallel inner
  Parallel inner
-$ export OMP_NESTED=FALSE
+$ <span class="nb">export</span> <span class="nv">OMP_NESTED</span><span class="o">=</span>FALSE
 $ ./nested.x 
  Parallel outer
  Parallel outer
  Parallel inner
- Parallel inner</p>
+ Parallel inner
+</pre></div>
+
+
 <p>There are good use cases for using nested routines; the danger is ensuring you
 don't create too many threads - having many more threads than cores will
 negatively affect performance.</p>
 <h1>OpenMP functions</h1>
 <p>The OpenMP library provides routines to determine the number of threads,
 and the number of the executing thread: </p>
-<div class="highlight"><pre><span></span>$ cat thread_number.f95 
-program thread_number
-    use OMP_LIB
-    implicit none
-    !<span class="nv">$OMP</span> PARALLEL
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;I am thread&quot;</span>, OMP_GET_THREAD_NUM<span class="o">()</span>, <span class="s2">&quot;of&quot;</span>, OMP_GET_NUM_THREADS<span class="o">()</span>, <span class="p">&amp;</span>
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">thread_number</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+    <span class="c">!$OMP PARALLEL</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Thread&quot;</span><span class="p">,</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">(),</span> <span class="s2">&quot;of&quot;</span><span class="p">,</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">(),</span> <span class="p">&amp;</span>
         <span class="s2">&quot;threads&quot;</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-end program thread_number
-$ gfortran -fopenmp -o thread_number thread_number.f95 
-$ ./thread_number 
- I am thread           <span class="m">1</span> of           <span class="m">4</span> threads
- I am thread           <span class="m">2</span> of           <span class="m">4</span> threads
- I am thread           <span class="m">0</span> of           <span class="m">4</span> threads
- I am thread           <span class="m">3</span> of           <span class="m">4</span> threads
+    <span class="c">!$OMP END PARALLEL</span>
+<span class="k">end program </span><span class="n">thread_number</span>
 </pre></div>
 
 
 <p>Note the use of the Fortran <code>use</code> statement to make available the OpenMP library
 routines.</p>
+<p>Compiling and running gives:</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o thread_number thread_number.f95 
+$ ./thread_number 
+ Thread           <span class="m">1</span> of           <span class="m">4</span> threads
+ Thread           <span class="m">2</span> of           <span class="m">4</span> threads
+ Thread           <span class="m">0</span> of           <span class="m">4</span> threads
+ Thread           <span class="m">3</span> of           <span class="m">4</span> threads
+</pre></div>
+
+
 <p>Unlike the sentinel-protected directives, the use of <code>OMP_GET_THREAD_NUM()</code> and
 <code>OMP_GET_NUM_THREADS()</code> will cause an error if compiled without OpenMP support:</p>
 <div class="highlight"><pre><span></span>$ gfortran -o thread_number thread_number.f95
@@ -200,49 +208,72 @@ collect2: error: ld returned <span class="m">1</span> <span class="nb">exit</spa
 <p>To prevent this problem, a second type of sentinel is available, in addition to
 <code>!$OMP</code>. This is simply <code>!$</code>, and is prepended to ordinary Fortran lines (as opposed to OpenMP directives) that should be
 conditionally compiled only when the compiler is OpenMP-compliant. Hence:</p>
-<div class="highlight"><pre><span></span>$ cat thread_number.f95 
-program thread_number
-    use OMP_LIB
-    implicit none
-    !<span class="nv">$OMP</span> PARALLEL
-    !$ write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;I am thread&quot;</span>, OMP_GET_THREAD_NUM<span class="o">()</span>, <span class="s2">&quot;of&quot;</span>, OMP_GET_NUM_THREADS<span class="o">()</span>, <span class="p">&amp;</span>
-    !$     <span class="s2">&quot;threads&quot;</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-end program thread_number
-$ gfortran -o thread_number thread_number.f95 
-$ ./thread_number 
-$ gfortran -fopenmp -o thread_number thread_number.f95 
-$ ./thread_number 
- I am thread           <span class="m">0</span> of           <span class="m">4</span> threads
- I am thread           <span class="m">3</span> of           <span class="m">4</span> threads
- I am thread           <span class="m">1</span> of           <span class="m">4</span> threads
- I am thread           <span class="m">2</span> of           <span class="m">4</span> threads
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">thread_number</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+    <span class="c">!$OMP PARALLEL</span>
+    <span class="c">!$ write(*,*) &quot;Thread&quot;, OMP_GET_THREAD_NUM(), &quot;of&quot;, OMP_GET_NUM_THREADS(), &amp;</span>
+    <span class="c">!$     &quot;threads&quot;</span>
+    <span class="c">!$OMP END PARALLEL</span>
+<span class="k">end program </span><span class="n">thread_number</span>
 </pre></div>
 
 
-<p>Note that it is possible to extend a source code line that is protected in
+<p><br/></p>
+<div class="highlight"><pre><span></span>$ gfortran -o thread_number thread_number.f95 
+$ ./thread_number 
+$ gfortran -fopenmp -o thread_number thread_number.f95 
+$ ./thread_number 
+ Thread           <span class="m">0</span> of           <span class="m">4</span> threads
+ Thread           <span class="m">3</span> of           <span class="m">4</span> threads
+ Thread           <span class="m">1</span> of           <span class="m">4</span> threads
+ Thread           <span class="m">2</span> of           <span class="m">4</span> threads
+</pre></div>
+
+
+<p>Note that it's possible to extend a source code line that is protected in
 this way over several lines, by using the standard Fortran line continuation
 character, <code>&amp;</code>.</p>
 <p>(Note also, in this example the order that the threads execute the write
 statement is different from the previous run; this is important. There is no guaranteed order of
 threads.)</p>
-<p>The thread number and total number of threads returned by
-<code>OMP_GET_THREAD_NUM()</code> and <code>OMP_GET_NUM_THREADS()</code>, respectively, are defined
-outside the parallel region, but the total number of threads is 1:</p>
-<div class="highlight"><pre><span></span>$ cat serial_thread_number.f95 
-program thread_number
-    use OMP_LIB
-    implicit none
-    !$ write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;I am thread&quot;</span>, OMP_GET_THREAD_NUM<span class="o">()</span>, <span class="s2">&quot;of&quot;</span>, OMP_GET_NUM_THREADS<span class="o">()</span>, <span class="p">&amp;</span>
-    !$     <span class="s2">&quot;threads&quot;</span>
-end program thread_number
-$ gfortran -fopenmp -o serial_thread_number serial_thread_number.f95
+<p>Outside a parallel region, the thread number and total number of threads returned by
+<code>OMP_GET_THREAD_NUM()</code> and <code>OMP_GET_NUM_THREADS()</code>, respectively, are defined; but the total number of threads is 1:</p>
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">serial_thread_number</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+    <span class="c">!$ write(*,*) &quot;I am thread&quot;, OMP_GET_THREAD_NUM(), &quot;of&quot;, OMP_GET_NUM_THREADS(), &amp;</span>
+    <span class="c">!$     &quot;threads&quot;</span>
+<span class="k">end program </span><span class="n">serial_thread_number</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o serial_thread_number serial_thread_number.f95
 $ <span class="nb">export</span> <span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
 $ ./serial_thread_number 
  I am thread           <span class="m">0</span> of           <span class="m">1</span> threads
 </pre></div>
 
 
+<hr/>
+
+<ul>
+<li><a href="http://0x7df.github.io/openmp-1.html">OpenMP 1 (Overview, Implementaion)</a></li>
+<li><a href="http://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
+<li><a href="http://0x7df.github.io/drafts/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
+<li><a href="http://0x7df.github.io/drafts/openmp-4.html">OpenMP 4 (Reductions)</a></li>
+<li><a href="http://0x7df.github.io/drafts/openmp-5.html">OpenMP 5 (Work-sharing constructs)</a></li>
+<li><a href="http://0x7df.github.io/drafts/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>
+<li><a href="{filename}openmp-7.md">OpenMP 7 ()</a></li>
+</ul>
+<hr/>
+
+<p>These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.</p>
+<p>This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US</a></p>
+<p>This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
