@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Synchronisation Barrier All threads must arrive at a barrier before any thread can proceed past it END PARALLEL directive is an implicit barrier End of a parallel DO loop is an implicit barrier...">
+        <meta name="description" content="Reductions As mentioned in the overview post, a reduction operation produces a single value from a set of values, e.g. the sum, product, maximum, minimum, etc. To preserve as much parallelism as...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
-        <title>OpenMP 6 - 0x7df</title>
+        <title>OpenMP 4 - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
@@ -55,8 +55,8 @@
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">OpenMP 6</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Mon 21 May 2018, modified Mon 21 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <h1 class="header-title">OpenMP 4</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Tue 22 May 2018, modified Tue 22 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -75,22 +75,60 @@
 
         <!-- Content -->
     <div class="container content">
-        <h1>Synchronisation</h1>
-<h2>Barrier</h2>
-<p>All threads must arrive at a barrier before any thread can proceed past it</p>
-<ul>
-<li>END PARALLEL directive is an implicit barrier</li>
-<li>End of a parallel DO loop is an implicit barrier</li>
-</ul>
-<h2>Critical region</h2>
-<ul>
-<li>Only one thread <em>at a time</em> can enter a critical region. </li>
-</ul>
-<h2>Atomic update</h2>
-<ul>
-<li>Modification of shred variable. Update a shared variable can be modified by
-  only one thread at a time.</li>
-</ul>
+        <h1>Reductions</h1>
+<p>As mentioned in the <a href="">overview post</a>, a <em>reduction</em> operation produces a
+single value from a set of values, e.g. the sum, product, maximum, minimum,
+etc.</p>
+<p>To preserve as much parallelism as possible, each thread reduces its data into a
+private result, and then these are subsequently reduced into the final result.
+The first step is done in parallel.</p>
+<p>These operations are implemented via the <code>REDUCTION</code> clause:</p>
+<div class="highlight"><pre><span></span>REDUCTION(&lt;op&gt;:&lt;list...&gt;)
+</pre></div>
+
+
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">reduction</span>
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span> <span class="kd">::</span> <span class="n">irow</span><span class="p">,</span> <span class="n">icol</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span>
+    <span class="kt">integer</span><span class="p">,</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">c</span><span class="p">(:,:)</span>
+
+    <span class="n">nrows</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) SHARED(ncols)</span>
+    <span class="n">ncols</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span>
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">allocate</span><span class="p">(</span><span class="n">c</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span><span class="n">ncols</span><span class="p">))</span>
+
+    <span class="n">b</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="n">c</span><span class="p">(:,:)</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="c">!$OMP PARALLEL REDUCTION(+:b) PRIVATE(irow,icol)</span>
+    <span class="n">icol</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">do </span><span class="n">irow</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrows</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span><span class="p">(</span><span class="n">irow</span><span class="p">,</span><span class="n">icol</span><span class="p">)</span>
+    <span class="n">enddo</span>
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s2">&quot;b =&quot;</span><span class="p">,</span> <span class="n">b</span>
+<span class="k">end program </span><span class="n">reduction</span>
+</pre></div>
+
+
+<p>&nbsp;</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o reduction1 reduction1.f95
+$ ./reduction1
+ <span class="nv">b</span> <span class="o">=</span>          <span class="m">25</span>
+</pre></div>
+
+
+<p>The initial value of the <em>reduction variable</em>, <code>b</code>, is saved, and then each
+thread gets its own private copy of <code>b</code>, initialised to zero. Inside the
+parallel region, each thread updates its own copy of <code>b</code> within the loop. At
+the final <code>!$OMP END PARALLEL</code> directive, the private copies are reduced to the
+final <code>b</code>.</p>
+<p>Reductions can be performed on arrays as well as scalar variables. The
+reduction is performed on each element of the array.</p>
 <hr/>
 
 <ul>

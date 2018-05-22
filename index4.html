@@ -4,11 +4,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Reductions As mentioned in the overview post, a reduction operation produces a single value from a set of values, e.g. the sum, product, maximum, minimum, etc. To preserve as much parallelism as...">
+        <meta name="description" content="0x7df, 0x7df subtitle">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
-        <title>OpenMP 4 - 0x7df</title>
+        <title>Homepage - page 4 - 0x7df</title>
 
         <!-- Stylesheets -->
         <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
@@ -16,7 +16,6 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
-        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -50,23 +49,17 @@
             <!-- /Static navbar -->
 
             <!-- Header -->
-    <!-- Header -->
     <div class="container header-wrapper">
         <div class="row">
               <div class="col-lg-12">
                   <div class="header-content">
-                      <h1 class="header-title">OpenMP 4</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 19 May 2018, modified Sat 19 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <h1 class="header-title">0x7df</h1>
                       <div class="header-underline"></div>
-                      <div class="clearfix"></div>
-                      <p class="pull-right header-tags">
-                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
-                      </p>
+                      <p class="header-subtitle header-subtitle-homepage">Physics, computer science, Python, Julia, Fortran, MPI, OpenMP, programming, agile, software, mathematics, CUDA, GPU, PHP, SQL, Scrum, Kanban, lean, Git, ...</p>
                   </div>
               </div>
         </div>
     </div>
-    <!-- /Header -->
             <!-- /Header -->
 
         </div>
@@ -74,75 +67,21 @@
 
 
         <!-- Content -->
-    <div class="container content">
-        <h1>Reductions</h1>
-<p>As mentioned in the <a href="">overview post</a>, a <em>reduction</em> operation produces a
-single value from a set of values, e.g. the sum, product, maximum, minimum,
-etc.</p>
-<p>To preserve as much parallelism as possible, each thread reduces its data into a
-private result, and then these are subsequently reduced into the final result.</p>
-<p>These operations are implemented via the <code>REDUCTION</code> clause:</p>
-<div class="highlight"><pre><span></span>REDUCTION(&lt;op&gt;:&lt;list...&gt;)
-</pre></div>
-
-
-<p>For example:</p>
-<div class="highlight"><pre><span></span>$ cat reduction1.f95 
-program reduction
-    use OMP_LIB
-    implicit none
-    integer :: irow, icol, b, nrows, ncols
-    integer, allocatable :: c<span class="o">(</span>:,:<span class="o">)</span>
-    <span class="nv">nrows</span> <span class="o">=</span> <span class="m">4</span>
-    !<span class="nv">$OMP</span> PARALLEL DEFAULT<span class="o">(</span>NONE<span class="o">)</span> SHARED<span class="o">(</span>ncols<span class="o">)</span>
-    <span class="nv">ncols</span> <span class="o">=</span> OMP_GET_NUM_THREADS<span class="o">()</span>
-    !<span class="nv">$OMP</span> END PARALLEL
-    allocate<span class="o">(</span>c<span class="o">(</span>nrows,ncols<span class="o">))</span>
-    <span class="nv">b</span> <span class="o">=</span> <span class="m">9</span>
-    c<span class="o">(</span>:,:<span class="o">)</span> <span class="o">=</span> <span class="m">1</span>
-    !<span class="nv">$OMP</span> PARALLEL REDUCTION<span class="o">(</span>+:b<span class="o">)</span> PRIVATE<span class="o">(</span>irow,icol<span class="o">)</span>
-    <span class="nv">icol</span> <span class="o">=</span> OMP_GET_THREAD_NUM<span class="o">()</span> + <span class="m">1</span>
-    <span class="k">do</span> <span class="nv">irow</span> <span class="o">=</span> <span class="m">1</span>, nrows
-        <span class="nv">b</span> <span class="o">=</span> b + c<span class="o">(</span>irow,icol<span class="o">)</span>
-    enddo
-    !<span class="nv">$OMP</span> END PARALLEL
-    write<span class="o">(</span>*,*<span class="o">)</span> <span class="s2">&quot;b =&quot;</span>, b
-end program reduction
-$ gfortran -fopenmp -o reduction1 reduction1.f95
-$ ./reduction1
- <span class="nv">b</span> <span class="o">=</span>          <span class="m">25</span>
-</pre></div>
-
-
-<p>The initial value of the <em>reduction variable</em>, <code>b</code>, is saved, and each
-thread gets its own private copy of <code>b</code>, initialised to zero. Inside the
-parallel region, each thread updates its own copy of <code>b</code> within the loop. At
-the final <code>!$OMP END PARALLEL</code> directive, the private copies are reduced to the
-final <code>b</code>.</p>
-<p>Reductions can be performed on arrays as well as scalar variables. The
-reduction is performed on each element of the array.</p>
-<hr/>
-
-<ul>
-<li><a href="http://0x7df.github.io/openmp-1.html">OpenMP 1 (Overview, Implementaion)</a></li>
-<li><a href="http://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
-<li><a href="http://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
-<li><a href="http://0x7df.github.io/drafts/openmp-4.html">OpenMP 4 (Reductions)</a></li>
-<li><a href="http://0x7df.github.io/drafts/openmp-5.html">OpenMP 5 (Work-sharing constructs)</a></li>
-<li><a href="http://0x7df.github.io/drafts/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>
-<li><a href="{filename}openmp-7.md">OpenMP 7 ()</a></li>
-</ul>
-<hr/>
-
-<p>These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.</p>
-<p>This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
-<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US</a></p>
-<p>This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.</p>
-
-
-        
+    
+    <div class="archive-container">
+        <div class="container content archive">
+            <h2><a href="http://0x7df.github.io/index4.html">Recent Posts <small>- page 4</small></a></h2>
+            <dl class="dl-horizontal">
+                <dt>Sat 14 February 2015</dt>
+                <dd><a href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html">Connecting Wordpress to Twitter with IFTTT</a></dd>
+            </dl>
+        </div>
     </div>
+<!-- /Navigation -->
+<div class="container navigation">
+    	<a class="navigate pull-left" href="http://0x7df.github.io/index3.html"><i class="fa fa-caret-left"></i> Previous</a>
+</div>              
+<!-- /Navigation --> 
         <!-- /Content --> 
 
         <!-- Footer -->
