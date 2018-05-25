@@ -6,7 +6,7 @@ Slug:
 Status: draft
 Tags: physics, thermodynamics
 
-In a previous post on Kirchhoff's law (1859) and black bodies, we saw
+In a [previous post on Kirchhoff's law (1859) and black bodies]({filename}thermal-radiation-kirchhoffs-law-and-black-bodies-14.md), we saw
 that the energy density of thermal radiation is a function of
 temperature only. The first measurements of thermal radiation (from hot
 platinum wire) were made by Tyndall, and from his results Stefan
@@ -24,11 +24,14 @@ radiant power emitted per unit area.
 Radiation pressure
 ------------------
 
-Before we begin, it is necessary to understand that radiation exerts a
+Before we begin, it's necessary to understand that radiation exerts a
 pressure. The easiest way to calculate the radiation pressure is to
 assume that photons are particles of mass $ m$, where
-$$ m$ is given by $ e = mc^2$,
-$$ e$ being the photon energy. If we do this, then we
+$m$ is given by:
+
+$e = mc^2$
+
+$ e$ being the photon energy. If we do this, then we
 can treat the radiation field as a photon gas and find its pressure in
 the same way as we would for a normal gas, from kinetic arguments; we
 assume the pressure is the sum of all the impulses delivered to unit
