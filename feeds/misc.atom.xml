@@ -62,7 +62,7 @@ reduction is performed on each element of the array.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="{filename}openmp-7.md"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -325,7 +325,7 @@ the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can also have the followin
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="{filename}openmp-7.md"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -523,7 +523,7 @@ $ ./serial_thread_number
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="{filename}openmp-7.md"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -697,7 +697,7 @@ or it might be equal to the number of cores in the system.)&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="{filename}openmp-7.md"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 

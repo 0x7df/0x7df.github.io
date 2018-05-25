@@ -403,7 +403,7 @@ delimiters:&lt;/p&gt;
 
 
 &lt;p&gt;for in-line equations), was both annoying and unnecessary in theory (since
-both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.github.io/drafts/slug.html"&gt;a different
+both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html"&gt;a different
 post&lt;/a&gt;. Once
 done, I could move on to themes.&lt;/p&gt;
 &lt;h2&gt;Pelican themes&lt;/h2&gt;

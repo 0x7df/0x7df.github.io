@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Work-sharing constructs In a parallel region, all threads execute the same code. Work-sahring directives indicate that work should be divided up between threads, rather than replciated. OpenMP has...">
+        <meta name="description" content="Exercise - determine the area of a Mandelbrot set Overview As an exercise, let&#39;s determine the area of a Mandelbrot set using a simple algorithm parallelised with OpenMP. Plotting a Mandelbrot set...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -56,7 +56,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">OpenMP 5</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 20 May 2018, modified Sun 20 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 19 May 2018, modified Sat 19 May 2018, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -75,13 +75,137 @@
 
         <!-- Content -->
     <div class="container content">
-        <h1>Work-sharing constructs</h1>
-<p>In a parallel region, all threads execute the same code.</p>
-<p>Work-sahring directives indicate that work should be divided up between
-threads, rather than replciated.</p>
-<p>OpenMP has extensive support for parallelsing loops, since loops are the main
-source of parallelism in many, particularl scientific, applications. There are
-a number of options to control which iterations are executed by which thread.</p>
+        <h1>Exercise - determine the area of a Mandelbrot set</h1>
+<h2>Overview</h2>
+<p>As an exercise, let's determine the area of a Mandelbrot set using a simple 
+algorithm parallelised with OpenMP.</p>
+<h2>Plotting a Mandelbrot set</h2>
+<p>The Mandelbrot set is the set of complex numbers, <span class="math">\(c\)</span>, for which the function
+<span class="math">\(f(z) = z^2 +c\)</span> does not diverge when iterated from <span class="math">\(z = 0\)</span>. That is, the
+sequence <span class="math">\(f(0), f(f(0)), ...\)</span>:</p>
+<p><span class="math">\(z_0 = 0\)</span></p>
+<p><span class="math">\(z_1 = z_0^2 + c = c\)</span></p>
+<p><span class="math">\(z_2 = z_1^2 + c = c^2 + c = c(c + 1)\)</span></p>
+<p><span class="math">\(z_3 = z_2^2 + c = c^2(c+1)^2 + c = c[c(c+1)^2 + 1]\)</span></p>
+<p>does not diverge.</p>
+<p>Plotting a Mandelbrot set involves creating a two-dimensional grid of pixels (a
+discretised representation of the complex plane), representing the potential
+<span class="math">\(c\)</span> values, and then running the iterative algorithm
+for each pixel to determine whether it's inside the set (the sequence does not diverge for that value of <span class="math">\(c\)</span>) or outside the set.</p>
+<p>Since the process for a given pixel is entirely independent of all other
+pixels, this process parallelises very well. Processes like this are often called
+<em>embarrassingly parallel</em>, as they really are completely independent of each
+other and involve no communication or synchronisation, except perhaps for a single step
+at the end. The speedup achieved by increasing the number of threads should be
+very close to ideal.</p>
+<p>We will use a simple condition of <span class="math">\(|z_i| &gt; 2\)</span> to identify points that diverge. Of
+course, we need to iterate longer to determine if a point diverges if
+it is diverging slowly, so in practice a maximum number of iterations is
+defined. Since points closer to the edges diverge more and more slowly, the
+lower the maximum number of iterations is, the less detail we see arond the
+edges.</p>
+<p>We will begin with a serial implementation, and just write something to prove
+we are calculting the Mandelbrot set correctly.</p>
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">mandelbrot_serial</span>
+
+    <span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">ik</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">rk</span> <span class="o">=</span> <span class="mi">8</span>
+
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">maximum_iterations</span> <span class="o">=</span> <span class="mi">10000_ik</span>
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">rk</span><span class="p">),</span> <span class="k">parameter</span>    <span class="kd">::</span> <span class="n">escape_threshold</span> <span class="o">=</span> <span class="mf">2.0_rk</span>
+
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">80_ik</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">nx</span> <span class="o">=</span> <span class="mi">7_ik</span><span class="o">*</span><span class="n">scale_factor</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">ny</span> <span class="o">=</span> <span class="mi">4_ik</span><span class="o">*</span><span class="n">scale_factor</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">npix</span> <span class="o">=</span> <span class="n">nx</span><span class="o">*</span><span class="n">ny</span>
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">rk</span><span class="p">),</span> <span class="k">parameter</span>    <span class="kd">::</span> <span class="n">xmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.5_rk</span>
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">rk</span><span class="p">),</span> <span class="k">parameter</span>    <span class="kd">::</span> <span class="n">xmax</span> <span class="o">=</span> <span class="mf">1.0_rk</span>
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">rk</span><span class="p">),</span> <span class="k">parameter</span>    <span class="kd">::</span> <span class="n">ymin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0_rk</span>
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">rk</span><span class="p">),</span> <span class="k">parameter</span>    <span class="kd">::</span> <span class="n">ymax</span> <span class="o">=</span> <span class="mf">1.0_rk</span>
+
+    <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">rk</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">xsize</span><span class="p">,</span> <span class="n">ysize</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ipix</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iteration</span>
+
+    <span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">c</span>
+    <span class="kt">complex</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">z</span>
+
+    <span class="kt">logical</span> <span class="kd">::</span> <span class="n">diverged</span>
+
+    <span class="n">xsize</span> <span class="o">=</span> <span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span>
+    <span class="n">ysize</span> <span class="o">=</span> <span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span>
+
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">xsize</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">ysize</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span>
+
+    <span class="k">do </span><span class="n">ipix</span> <span class="o">=</span> <span class="mi">1_ik</span><span class="p">,</span> <span class="n">npix</span>
+        <span class="n">iy</span> <span class="o">=</span> <span class="p">(</span><span class="n">ipix</span> <span class="o">-</span> <span class="mi">1_ik</span><span class="p">)</span><span class="o">/</span><span class="n">nx</span> <span class="o">+</span> <span class="mi">1_ik</span>
+        <span class="n">ix</span> <span class="o">=</span> <span class="n">ipix</span> <span class="o">-</span> <span class="p">(</span><span class="n">iy</span> <span class="o">-</span> <span class="mi">1_ik</span><span class="p">)</span><span class="o">*</span><span class="n">nx</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">xmin</span> <span class="o">+</span> <span class="n">ix</span><span class="o">*</span><span class="n">dx</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">ymin</span> <span class="o">+</span> <span class="n">iy</span><span class="o">*</span><span class="n">dy</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">cmplx</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+        <span class="n">diverged</span> <span class="o">=</span> <span class="p">.</span><span class="n">false</span><span class="p">.</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="k">do </span><span class="n">iteration</span> <span class="o">=</span> <span class="mi">1_ik</span><span class="p">,</span> <span class="n">maximum_iterations</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">escape_threshold</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">                </span><span class="n">diverged</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span>
+                <span class="c">!n_diverged = n_diverged + 1_ik</span>
+                <span class="k">exit</span>
+<span class="k">            </span><span class="n">endif</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">**</span><span class="mi">2_ik</span> <span class="o">+</span> <span class="n">c</span> <span class="c">!(ipix)</span>
+        <span class="n">enddo</span>
+        <span class="k">if</span> <span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="n">diverged</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">x</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">y</span>
+        <span class="n">endif</span>
+    <span class="n">enddo</span>
+
+<span class="k">end program </span><span class="n">mandelbrot_serial</span>
+</pre></div>
+
+
+<p>We implement a one-dimensional loop over pixels, and first find the indices in
+the <span class="math">\(x\)</span>- and <span class="math">\(y\)</span>-dimensions of the pixel, and from the <span class="math">\(x\)</span> and <span class="math">\(y\)</span>
+co-ordinates; these are of course the real and imaginary parts of the complex
+number, <span class="math">\(c\)</span>. We then iterativaly calculate <span class="math">\(z_i = z_{i-1}*2 + c\)</span>, starting from
+<span class="math">\(z_0 = 0\)</span>, until <span class="math">\(z_i &gt; 4\)</span>, which is our escape threshold. If this condition is
+fulfilled, the sequence has diverged, which means the point is not part of the
+set. Otherwise, the point is considered part of the set, and the <span class="math">\(x\)</span>, <span class="math">\(y\)</span>
+coordinates are printed to facilitate plotting.</p>
+<p>Compiling:</p>
+<div class="highlight"><pre><span></span>$ gfortran -o mandelbrot_serial mandelbrot_serial.f95
+</pre></div>
+
+
+<p>and running:</p>
+<div class="highlight"><pre><span></span>$ ./mandelbrot_serial &gt; mandelbrot_serial.csv
+</pre></div>
+
+
+<p>gives a comma-separated value file to plot using some Python:</p>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;mandelbrot_serial.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;.k&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<p>so that:</p>
+<div class="highlight"><pre><span></span>$ ./mandelbrot_serial.py
+</pre></div>
+
+
+<p>gives:</p>
+<p><img alt="Alt Text" src="http://0x7df.github.io/images/mandelbrot_serial.png"></p>
+<p>which seems in the right ball park.</p>
 <hr/>
 
 <ul>
@@ -91,7 +215,7 @@ a number of options to control which iterations are executed by which thread.</p
 <li><a href="http://0x7df.github.io/openmp-4.html">OpenMP 4 (Reductions)</a></li>
 <li><a href="http://0x7df.github.io/drafts/openmp-5.html">OpenMP 5 (Work-sharing constructs)</a></li>
 <li><a href="http://0x7df.github.io/drafts/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>
-<li><a href="{filename}openmp-7.md">OpenMP 7 ()</a></li>
+<li><a href="http://0x7df.github.io/drafts/openmp-7.html">OpenMP 7 ()</a></li>
 </ul>
 <hr/>
 
@@ -100,6 +224,61 @@ a number of options to control which iterations are executed by which thread.</p
 <p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US</a></p>
 <p>This means you are free to copy and redistribute the material and adapt and build on the
 material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
 
 
         

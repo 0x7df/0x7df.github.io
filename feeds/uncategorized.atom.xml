@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - Uncategorized</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/uncategorized.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-02-14T20:40:00+00:00</updated><entry><title>Connecting Wordpress to Twitter with IFTTT</title><link href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html" rel="alternate"></link><published>2015-02-14T20:40:00+00:00</published><updated>2015-02-14T20:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-02-14:/connecting-wordpress-to-twitter-via-ifttt.html</id><summary type="html">&lt;p&gt;It's possible to string together web services - like
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - Uncategorized</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/uncategorized.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-25T09:53:00+01:00</updated><entry><title>Grep, regex and sed inline replace on multiple files</title><link href="http://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html" rel="alternate"></link><published>2018-05-25T09:53:00+01:00</published><updated>2018-05-25T09:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/grep-regex-and-sed-inline-replace-on-multiple-files.html</id><summary type="html">&lt;p&gt;I'm importing WordPress blog posts into &lt;a href="https://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;, in which I'm using the
+&lt;a href="https://github.com/getpelican/pelican-plugins/tree/master/render_math"&gt;render-math plugin&lt;/a&gt;. This expects in-line equations to be delimited by single
+dollar signs, and displayed equations to be delimited by double dollar signs,
+e.g.:&lt;/p&gt;
+&lt;pre&gt; ...an example in-line equation is $E = mc^2$, which ... &lt;/pre&gt;
+
+&lt;p&gt;and:&lt;/p&gt;
+&lt;pre&gt;... the following equation …&lt;/pre&gt;</summary><content type="html">&lt;p&gt;I'm importing WordPress blog posts into &lt;a href="https://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;, in which I'm using the
+&lt;a href="https://github.com/getpelican/pelican-plugins/tree/master/render_math"&gt;render-math plugin&lt;/a&gt;. This expects in-line equations to be delimited by single
+dollar signs, and displayed equations to be delimited by double dollar signs,
+e.g.:&lt;/p&gt;
+&lt;pre&gt; ...an example in-line equation is $E = mc^2$, which ... &lt;/pre&gt;
+
+&lt;p&gt;and:&lt;/p&gt;
+&lt;pre&gt;... the following equation:
+
+$$ F = ma $$
+
+is displayed as a paragraph...&lt;/pre&gt;
+
+&lt;p&gt;However, the original WordPress articles use &lt;code&gt;\$latex&lt;/code&gt; as the opening
+delimiter, and &lt;code&gt;\$&lt;/code&gt; as the closing delimiter, for both in-line and displayed
+maths. Additionally, the WordPress equations also contain the strings &lt;code&gt;&amp;amp;s=1&lt;/code&gt;
+and &lt;code&gt;$bg=ffffff&lt;/code&gt; after the maths but before the closing delimiter; these were
+to set the font size and the background colour, respectively.&lt;/p&gt;
+&lt;p&gt;Therefore, a bit of mucking about with &lt;code&gt;grep&lt;/code&gt;, &lt;code&gt;sed&lt;/code&gt;, and regular
+expressions was required to get the equations to display in Pelican.&lt;/p&gt;
+&lt;h2&gt;Regular expressions and &lt;code&gt;grep&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;To begin with, look at the basic regular expression syntax
+needed to pick out the &lt;code&gt;\$latex&lt;/code&gt;, &lt;code&gt;\$&lt;/code&gt;, &lt;code&gt;&amp;amp;s=1&lt;/code&gt; and &lt;code&gt;&amp;amp;bg=ffffff&lt;/code&gt; strings.&lt;/p&gt;
+&lt;p&gt;First:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;grep &lt;span class="s1"&gt;&amp;#39;\\$[latex]\{5\}&amp;#39;&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;find ./content -name &lt;span class="s2"&gt;&amp;quot;*.md&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, the last part - &lt;code&gt;$(find ./content -name "*.md")&lt;/code&gt; - is just using the find
+command to get all the files in the content directory (which is where all the
+MarkDown-format article files are stored), which have file-names ending in
+&lt;code&gt;.md&lt;/code&gt;, (which is the default suffix for MarkDown); 
+grep command is operating on this list, which allows grep to operate on all the files individually.&lt;/p&gt;
+&lt;p&gt;The important bit is the regular expression - &lt;code&gt;\\$[latex]\{5\}&lt;/code&gt;. Matching
+backslashes is slightly tricky, because backslash is a special character for grep and
+many other tools. Special characters like backslash therefore need to be
+preceded by a particular special character that tells grep to treat the
+following character as itself, rather than as the special character it would
+usually be treated as. This is called "escaping" the special character. The
+special character that does this is - the backslash! That is, &lt;code&gt;\\&lt;/code&gt; is needed to match
+a literal backslash in a regular expression.&lt;/p&gt;
+&lt;p&gt;The next character is the dollar sign, which can be left alone. This is odd,
+because the dollar sign is also a special character in regular expressions, so it ought to be escaped
+by preceding it with a backslash. (Indeed, if we do, the command works equally
+well.) However, the dollar sign is used to match the end of a line; the fact
+that in this regular expression there are further characters to match (namely
+the &lt;code&gt;[latex]\{5\}&lt;/code&gt; bit), means it can't be interpreted as the end-of-line
+special character. &lt;code&gt;grep&lt;/code&gt; is clever enough to infer from the
+context that the dollar sign here is intended to match itself, and not to be
+interpreted as a special character.&lt;/p&gt;
+&lt;p&gt;Moving on, we see &lt;code&gt;[latex]\{5\}&lt;/code&gt;. The square brackets define a range of
+characters to match; in this case it should be thought of as the list of
+characters l, a, t, e and x, rather than the string "latex". This part alone
+would match any &lt;em&gt;single&lt;/em&gt; letter from this set. The following part - &lt;code&gt;\{5\}&lt;/code&gt; -
+indicates that the preceding character (i.e. the &lt;code&gt;[latex]&lt;/code&gt; part) should be
+matched five times. Therefore the combination of these matches any
+five-character string composed from the letters l, a, t, e and x. Clearly this
+would match strings other than "latex" - e.g. "altex", "lllll", "xetal",
+etc. - but these are sufficiently unlikely that this form of syntax is
+good enough. In fact, the more general &lt;code&gt;[a-z]\{5\}&lt;/code&gt;, which would match any
+five-character string composed of the lower case letters, would probably 
+work just fine.&lt;/p&gt;
+&lt;p&gt;So, now we have our regular expression for the opening delimiter, but it does not distinguish between
+in-line and displayed mathematics, which need different delimiters in the
+output format we're converting to. Probably the simplest way to do this is to identify any equation that's
+on a line of its own as a displayed equation, and any other equation as
+inline. This means that opening delimiters that appear at the start of a line
+are probably associated with a displayed equation, so can replaced with &lt;code&gt;$$&lt;/code&gt;.
+To match only instances at the start of a line, we add a caret symbol to the
+start of the regular expression.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;grep &lt;span class="s1"&gt;&amp;#39;^\\$[latex]\{5\}&amp;#39;&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;find content -name &lt;span class="s2"&gt;&amp;quot;*.md&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Search and replace with &lt;code&gt;sed&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;So far we've used grep which lists the matches; this was useful just to
+work out and test the regex. Now we have that right, we need to switch to &lt;code&gt;sed&lt;/code&gt;
+- stream editor - to do the search and replace. The sed syntax is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sed s/string1/string2/g inputfile &amp;gt; outputfile
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The runs sed with the script &lt;code&gt;s/string1/string2/g&lt;/code&gt;, which tells sed to
+substitute (because of the starting &lt;code&gt;s&lt;/code&gt;) the string &lt;code&gt;string1&lt;/code&gt; with the
+replacement &lt;code&gt;string2&lt;/code&gt;, and to do it globally (due to the ending &lt;code&gt;g&lt;/code&gt;), i.e. to
+replace all instances in &lt;code&gt;inputfile&lt;/code&gt;, rather than just the first one that's
+encountered. By default &lt;code&gt;sed&lt;/code&gt; prints its output to standard out, which we
+redirect to &lt;code&gt;outputfile&lt;/code&gt;. However, we want to edit the files inline, rather
+than create a new set of files, and redirecting &lt;code&gt;sed&lt;/code&gt; output to the same file
+that is being processed is not recommended. To edit inline, the &lt;code&gt;-i&lt;/code&gt; switch is
+added, giving in general:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sed -i s/string1/string2/g inputfile
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or in our case:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sed -i s/&lt;span class="s1"&gt;&amp;#39;^\\$[latex]\{5\}&amp;#39;&lt;/span&gt;/&lt;span class="s1"&gt;&amp;#39;$$&amp;#39;&lt;/span&gt;/g inputfile
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The final step in building this up is to take care of the fact that I want to
+do this with dozens of files, and I don't want to do it manually. I could
+write a script that loops over the files, but it's easier to use the &lt;code&gt;xargs&lt;/code&gt;
+command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find content -name *.md &lt;span class="p"&gt;|&lt;/span&gt; xargs sed -i s/&lt;span class="s1"&gt;&amp;#39;^\\$[latex]\{5\}&amp;#39;&lt;/span&gt;/&lt;span class="s1"&gt;&amp;#39;$$&amp;#39;&lt;/span&gt;/g
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here the output of the find command, which is a list of the files that
+were found, is piped to the xargs command, which takes the list passed to it
+and applies the commands that come after it to each member of the list.&lt;/p&gt;
+&lt;h2&gt;More of the same&lt;/h2&gt;
+&lt;p&gt;The next command replaces the WordPress-style closing delimiters - &lt;code&gt;\$&lt;/code&gt; - &lt;em&gt;that appear at the end of
+a line&lt;/em&gt; (and which are therefore most likely to be associated with displayed rather than
+in-line equations), with &lt;code&gt;$$&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find content -name *.md &lt;span class="p"&gt;|&lt;/span&gt; xargs sed -i s/&lt;span class="s1"&gt;&amp;#39;\\\$$&amp;#39;&lt;/span&gt;/&lt;span class="s1"&gt;&amp;#39;$$&amp;#39;&lt;/span&gt;/g
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The difference here is that we have now had to escape the dollar sign - &lt;code&gt;\$&lt;/code&gt;
+rather than just &lt;code&gt;$&lt;/code&gt; - because we have added a final &lt;code&gt;$&lt;/code&gt; which is the special
+character to match the end of a line.&lt;/p&gt;</content><category term="bash"></category><category term="computing"></category><category term="linux"></category><category term="programming"></category></entry><entry><title>Connecting Wordpress to Twitter with IFTTT</title><link href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html" rel="alternate"></link><published>2015-02-14T20:40:00+00:00</published><updated>2015-02-14T20:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-02-14:/connecting-wordpress-to-twitter-via-ifttt.html</id><summary type="html">&lt;p&gt;It's possible to string together web services - like
 &lt;a href="https://wordpress.com"&gt;WordPress&lt;/a&gt;, &lt;a href="http://twitter.com"&gt;Twitter&lt;/a&gt;,
 &lt;a href="https://www.facebook.com"&gt;Facebook&lt;/a&gt;, &lt;a href="https://www.gmail.com"&gt;Gmail&lt;/a&gt;,
 &lt;a href="https://www.tumblr.com"&gt;Tumblr&lt;/a&gt;, &lt;a href="https://evernote.com/"&gt;Evernote&lt;/a&gt;,
