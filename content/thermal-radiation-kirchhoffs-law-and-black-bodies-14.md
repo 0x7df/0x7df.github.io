@@ -36,14 +36,14 @@ the walls*.
 First, imagine two such containers, $ A$ and $ B$,
 with the same wall temperatures, but in which, for some
 reason (e.g. the material of the walls perhaps) the energy density is
-different. It is higher in $ B$
-[![two_cavities](https://0x7df.files.wordpress.com/2015/05/two_cavities.png?w=300)](https://0x7df.files.wordpress.com/2015/05/two_cavities.png).
+different. It is higher in $ B$.
+[![two_cavities](https://0x7df.files.wordpress.com/2015/05/two_cavities.png?w=300)](https://0x7df.files.wordpress.com/2015/05/two_cavities.png)
 
 Then imagine we can bring the two enclosures together to form a single
 enclosure - perhaps they each have at least one flat face of a given
 shape and size, which we can match up, and then instantaneously remove
 these walls so the two cavities are joined into one. If $ B$
-had the higher initial energy density, then the energ
+had the higher initial energy density, then the energy
 density in $ A$ will begin to increase, and the energy
 density in $ B$ will decrease. Correspondingly, the
 walls of $ A$ will increase in temperature by
@@ -135,7 +135,7 @@ $$ a_\lambda dQ = e_\lambda d\lambda $$
 is that a stronger absorber (larger $ a_\lambda$) is
 also a stronger emitter (larger $ e_\lambda$), at a
 given temperature and for a given wavelength of radiation. In fact a
-perfect absorber, for which $ a\lambda = 1$, and
+perfect absorber, for which $ a_\lambda = 1$, and
 which we therefore refer to as a **black body**, also radiates as
 intensely as it's possible to do so under the given conditions; so it is
 also sometimes called a **full** or **perfect radiator**.

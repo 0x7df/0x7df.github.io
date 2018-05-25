@@ -6,7 +6,9 @@ Slug:
 Status: draft
 Tags: physics, thermodynamics
 
-In a [previous post on Kirchhoff's law (1859) and black bodies]({filename}thermal-radiation-kirchhoffs-law-and-black-bodies-14.md), we saw
+In a
+[previous post on Kirchhoff's law (1859) and black bodies]({filename}thermal-radiation-kirchhoffs-law-and-black-bodies-14.md)
+, we saw
 that the energy density of thermal radiation is a function of
 temperature only. The first measurements of thermal radiation (from hot
 platinum wire) were made by Tyndall, and from his results Stefan
@@ -29,32 +31,53 @@ pressure. The easiest way to calculate the radiation pressure is to
 assume that photons are particles of mass $ m$, where
 $m$ is given by:
 
-$e = mc^2$
+$$ e = mc^2 $$
 
-$ e$ being the photon energy. If we do this, then we
+$e$ being the photon energy. If we do this, then we
 can treat the radiation field as a photon gas and find its pressure in
 the same way as we would for a normal gas, from kinetic arguments; we
-assume the pressure is the sum of all the impulses delivered to unit
-area of the wall in unit time by particles colliding with it. The
-collision rate of a single particle is $ |u_x|/ \left(2
-L_x\right)$, where $ u_x$ is the
-component of the particle's velocity normal to the wall (assumed
+assume the pressure is the sum of all the impulses delivered to a unit
+area of the wall in unit time by particles colliding with it.
+
+The collision rate of a single particle is:
+
+$$ \frac{|u_x|}{2 L_x}$$
+
+where $ u_x$ is the component of the particle's velocity normal to the wall
+(assumed
 conserved), and $ L_x$ is the dimension of the
 container along the normal to the wall. The impulse delivered in each
-collision is equal to the momentum change of the particle, so
-$ 2m|u_x|$, so the impulse per unit time is $ m u_x^2
-/ L_x$, or $ N \bar m c^2 / 3 L_x$ for
-$$ N$ particles, where $ c^2/3$ is
-the mean value of $ \bar{u_x^2}$ and $ \bar m$
-is the mean mass. This force corresponds to a pressure of
-$$ N m c^2 / 3 V$, where we have assumed the volume
-$$ V = L_x A$; or $ n m c^2 / 3 $$
-where $ n = N/V$ is the number density of particles.
-Hence, replacing $ \bar m c^2$ with $ e
-gives $ p = (1/3) n\bar e$, which is the
-same as:
+collision is equal to the momentum change of the particle, i.e.:
 
-$$ p = (1/3) E/V $$
+$$ 2m|u_x|$$
+
+So the impulse per unit time is:
+
+$$ \frac{m u_x^2}{L_x} $$
+
+for a single particle. This leads to:
+
+$$ \frac{N \bar m c^2}{3 L_x}$$
+
+for $N$ particles, where $ c^2/3$ is
+the mean value of $ \bar{u_x^2}$ and $ \bar m$
+is the mean mass. This force corresponds to a pressure of:
+
+$$ p = \frac{N \bar m c^2}{3 V} $$
+
+where we have assumed the volume $ V = L_x A$; or:
+
+$$ p = \frac{n \bar m c^2}{ 3}$$
+
+where $ n = N/V$ is the number density of particles.
+Replacing $ \bar m c^2$ with $/bar e$
+gives:
+
+$$ p = \frac{1}{3} n\bar e$$
+
+which is the same as:
+
+$$ p = \frac{1}{3} \frac{E}{V} $$
 
 Derivation of the Stefan-Boltzmann law - energy density
 -------------------------------------------------------
@@ -76,7 +99,9 @@ $$ \left(\partial E/\partial V\right)_T = E/V $$
 
 (i.e. the energy density in the cavity), since increasing the size of
 the cavity just adds more radiation at the same density (we proved in
-the previous post that the energy density is constant throughout and
+the
+[previous post]({filename}thermal-radiation-kirchhoffs-law-and-black-bodies-14.md)
+that the energy density is constant throughout and
 depends only on the temperature of the walls, not on the size or shape
 or material). Hence:
 
@@ -101,13 +126,13 @@ $$ S = -\left(\partial F/\partial T\right)_V $$
 
 $$ p = - \left(\partial F/\partial V\right)_T $$
 
-and bearing in mind that $ \left(\partial/\partial V\right)_T
+and, bearing in mind that $ \left(\partial/\partial V\right)_T
 \left(\partial F/\partial T\right)_V = \left(\partial/\partial
 T\right)_V \left(\partial F/\partial V\right)_T$,
 arrive at:
 
 $$ \left(\partial S/\partial V\right)_T = \left(\partial
-p/\partial T\right)_V$.
+p/\partial T\right)_V$$.
 
 Inserting this result into:
 
@@ -128,17 +153,16 @@ Hence:
 
 $$ dp/p = 4 dT/T $$
 
-at fixed $ T$. It follows that $ p \\propto T^4
-$, and since $ p \\propto E/V$, then:
+at fixed $ T$. It follows that $ p \propto T^4$, and since $ p \propto E/V$, then:
 
-$$ E/V \\propto T^4 $$
+$$ E/V \propto T^4 $$
 
 That is, the radiation energy density is proportional to the fourth
-power of the temperature. We will call the constant of proportionality
-here latex a$ to distinguish it from $ \sigma$,
+power of the temperature. (We will call the constant of proportionality
+here $a$ to distinguish it from $ \sigma$,
 since here we are considering energy density, and the
 version of the Stefan-Boltzmann law we gave at the beginning was for the
-radiated power per unit area.
+radiated power per unit area.) Hence, and finally:
 
 $$ E/V = a T^4 $$
 
@@ -150,24 +174,22 @@ enclosure is $ E/V = a T^4$, then the flux onto unit
 area of the cavity wall would be $ ac T^4$ if the
 radiation were all incident normally on the wall. If it were incident at
 an angle $ \theta$ to the normal, the flux would be
-$$ ac T^4 \\cos \theta$. In reality the radiation is
+$ ac T^4 \cos \theta$. In reality the radiation is
 isotropic, so the flux is given by:
 
-$$ R_B = \int{ac T^4 \\cos \theta}df $$
+$$ R_B = \int{ac T^4 \cos \theta}df $$
 
-where we have equated the radiated power per unit area$R_B$ with the
-flux of radiation falling on the wall, which ust be true of the
-temperature stays constant; and where $ df$ is the
+where we have equated the radiated power per unit area, $R_B$, with the
+flux of radiation falling on the wall, which must be true if the
+wall temperature stays constant; and where $ df$ is the
 area element of the unit sphere centred at the point of interest on the
 wall. This is given by:
 
-$$ df = 2\pi r^2 \sin \theta d\theta / 4\pi r^2
-$$
+$$ df = \frac{2\pi r^2 \sin \theta d\theta}{ 4\pi r^2} $$
 
 so the flux is:
 
-$R_B = latex (1/2) \int_0^{\pi /2} {ac T^4 \\cos
-\theta\sin\theta} d\theta  = (1/4) acT^4 $$
+$$R_B = \frac{1}{2} \int_0^{\pi /2} {ac T^4 \cos\theta\sin\theta} d\theta  = \frac{1}{4} acT^4 $$
 
 If we define $ \sigma = (1/4) ac$ then:
 
@@ -177,7 +199,7 @@ which is where we began.
 
 Note that, since we know from Kirchhoff's law that a non-black body
 radiator has emissive power $ R = a R_B$, where
-$$ a$ is the absorptivity of the non-black body at the
+$ a$ is the absorptivity of the non-black body at the
 temperature in question, then in general:
 
 $$ R = a\sigma T^4 $$
@@ -186,17 +208,17 @@ Care is needed using this formula because $ a$ often
 has a strong dependence on temperature.
 
 In practice, it is usually the difference between emitted and absorbed
-radiation that is measured. A black body at temperature $ T_1
+radiation that is measured. A black body at temperature $ T_1$
 emits radiation at a rate of $ \sigma T_1^4$ per
 unit area, but if it is placed in a sealed enclosure with wall
 temperature $ T_2$, so that its surroundings are at
 temperature $ T_2$, it is subject to incident
-radiation at a rate of$\sigma T_2^4$. (This latter must
+radiation at a rate of $\sigma T_2^4$. (This latter must
 be true since, if the body were in equilibrium with the radiation field
 of the enclosure, it would be radiating at a rate of$\sigma T_2^4$,
 and since it's in equilibrium, must absorb radiation at
 the same rate. The rate of absorption is no different when the body is
 at a different temperature  (Assume the body is small enough compared to
 the enclosure that its presence doesn't disturb the radiation field in
-the enclosure - $ T_2$ is constant.)
+the enclosure - $ T_2$ is constant.))
 
