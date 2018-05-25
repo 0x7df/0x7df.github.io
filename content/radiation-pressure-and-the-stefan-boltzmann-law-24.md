@@ -1,9 +1,9 @@
 Title: Radiation pressure and the Stefan-Boltzmann law (2/4)
-Date: 2015-05-17 15:12
+Date: 2018-05-25 13:22
 Author: 0x7df
 Category: Uncategorized
 Slug: 
-Status: draft
+Status: published
 Tags: physics, thermodynamics
 
 In a
