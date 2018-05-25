@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="In a previous post on Kirchhoff&#39;s law (1859) and black bodies, we saw that the energy density of thermal radiation is a function of temperature only. The first measurements of thermal radiation...">
+        <meta name="description" content="In a previous post on Kirchhoff&#39;s law (1859) and black bodies , we saw that the energy density of thermal radiation is a function of temperature only. The first measurements of thermal radiation...">
         <meta name="keywords" content="physics, thermodynamics">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -56,7 +56,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Radiation pressure and the Stefan-Boltzmann law (2/4)</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 17 May 2015, in category <a href="http://0x7df.github.io/category/uncategorized.html">Uncategorized</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Fri 25 May 2018, in category <a href="http://0x7df.github.io/category/uncategorized.html">Uncategorized</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -75,7 +75,9 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>In a previous post on Kirchhoff's law (1859) and black bodies, we saw
+        <p>In a
+<a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html">previous post on Kirchhoff's law (1859) and black bodies</a>
+, we saw
 that the energy density of thermal radiation is a function of
 temperature only. The first measurements of thermal radiation (from hot
 platinum wire) were made by Tyndall, and from his results Stefan
@@ -88,37 +90,40 @@ law that bears both their names is:</p>
 constant, and <span class="math">\( R_B\)</span> is the emissive power, the
 radiant power emitted per unit area.</p>
 <h2>Radiation pressure</h2>
-<p>Before we begin, it is necessary to understand that radiation exerts a
+<p>Before we begin, it's necessary to understand that radiation exerts a
 pressure. The easiest way to calculate the radiation pressure is to
 assume that photons are particles of mass <span class="math">\( m\)</span>, where
-</p>
-<div class="math">$$ m$ is given by $ e = mc^2$,
-$$</div>
-<p> e<span class="math">\( being the photon energy. If we do this, then we
+<span class="math">\(m\)</span> is given by:</p>
+<div class="math">$$ e = mc^2 $$</div>
+<p><span class="math">\(e\)</span> being the photon energy. If we do this, then we
 can treat the radiation field as a photon gas and find its pressure in
 the same way as we would for a normal gas, from kinetic arguments; we
-assume the pressure is the sum of all the impulses delivered to unit
-area of the wall in unit time by particles colliding with it. The
-collision rate of a single particle is $ |u_x|/ \left(2
-L_x\right)\)</span>, where <span class="math">\( u_x\)</span> is the
-component of the particle's velocity normal to the wall (assumed
+assume the pressure is the sum of all the impulses delivered to a unit
+area of the wall in unit time by particles colliding with it.</p>
+<p>The collision rate of a single particle is:</p>
+<div class="math">$$ \frac{|u_x|}{2 L_x}$$</div>
+<p>where <span class="math">\( u_x\)</span> is the component of the particle's velocity normal to the wall
+(assumed
 conserved), and <span class="math">\( L_x\)</span> is the dimension of the
 container along the normal to the wall. The impulse delivered in each
-collision is equal to the momentum change of the particle, so
-<span class="math">\( 2m|u_x|\)</span>, so the impulse per unit time is <span class="math">\( m u_x^2
-/ L_x\)</span>, or <span class="math">\( N \bar m c^2 / 3 L_x\)</span> for
-</p>
-<div class="math">$$ N$ particles, where $ c^2/3$ is
-the mean value of $ \bar{u_x^2}$ and $ \bar m$
-is the mean mass. This force corresponds to a pressure of
-$$</div>
-<p> N m c^2 / 3 V<span class="math">\(, where we have assumed the volume
-<div class="math">$$ V = L_x A$; or $ n m c^2 / 3 $$</div>
-where $ n = N/V\)</span> is the number density of particles.
-Hence, replacing <span class="math">\( \bar m c^2\)</span> with <span class="math">\( e
-gives $ p = (1/3) n\bar e\)</span>, which is the
-same as:</p>
-<div class="math">$$ p = (1/3) E/V $$</div>
+collision is equal to the momentum change of the particle, i.e.:</p>
+<div class="math">$$ 2m|u_x|$$</div>
+<p>So the impulse per unit time is:</p>
+<div class="math">$$ \frac{m u_x^2}{L_x} $$</div>
+<p>for a single particle. This leads to:</p>
+<div class="math">$$ \frac{N \bar m c^2}{3 L_x}$$</div>
+<p>for <span class="math">\(N\)</span> particles, where <span class="math">\( c^2/3\)</span> is
+the mean value of <span class="math">\( \bar{u_x^2}\)</span> and <span class="math">\( \bar m\)</span>
+is the mean mass. This force corresponds to a pressure of:</p>
+<div class="math">$$ p = \frac{N \bar m c^2}{3 V} $$</div>
+<p>where we have assumed the volume <span class="math">\( V = L_x A\)</span>; or:</p>
+<div class="math">$$ p = \frac{n \bar m c^2}{ 3}$$</div>
+<p>where <span class="math">\( n = N/V\)</span> is the number density of particles.
+Replacing <span class="math">\( \bar m c^2\)</span> with <span class="math">\(/bar e\)</span>
+gives:</p>
+<div class="math">$$ p = \frac{1}{3} n\bar e$$</div>
+<p>which is the same as:</p>
+<div class="math">$$ p = \frac{1}{3} \frac{E}{V} $$</div>
 <h2>Derivation of the Stefan-Boltzmann law - energy density</h2>
 <p>Let's begin with the general thermodynamic expression:</p>
 <div class="math">$$ dE = T dS - p dV $$</div>
@@ -131,7 +136,9 @@ S/\partial V\right)_T - p $$</div>
 <div class="math">$$ \left(\partial E/\partial V\right)_T = E/V $$</div>
 <p>(i.e. the energy density in the cavity), since increasing the size of
 the cavity just adds more radiation at the same density (we proved in
-the previous post that the energy density is constant throughout and
+the
+<a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html">previous post</a>
+that the energy density is constant throughout and
 depends only on the temperature of the walls, not on the size or shape
 or material). Hence:</p>
 <div class="math">$$ E/V = T \left(\partial S/\partial V\right)_T - p
@@ -146,12 +153,13 @@ p/\partial T\right)_V $$</div>
 <p>are true, so that we can identify:</p>
 <div class="math">$$ S = -\left(\partial F/\partial T\right)_V $$</div>
 <div class="math">$$ p = - \left(\partial F/\partial V\right)_T $$</div>
-<p>and bearing in mind that <span class="math">\( \left(\partial/\partial V\right)_T
+<p>and, bearing in mind that <span class="math">\( \left(\partial/\partial V\right)_T
 \left(\partial F/\partial T\right)_V = \left(\partial/\partial
 T\right)_V \left(\partial F/\partial V\right)_T\)</span>,
 arrive at:</p>
-<p><span class="math">\($ \left(\partial S/\partial V\right)_T = \left(\partial
-p/\partial T\right)_V\)</span>.</p>
+<div class="math">$$ \left(\partial S/\partial V\right)_T = \left(\partial
+p/\partial T\right)_V$$</div>
+<p>.</p>
 <p>Inserting this result into:</p>
 <div class="math">$$ E/V = T \left(\partial S/\partial V\right)_T - p
 $$</div>
@@ -163,15 +171,14 @@ $$</div>
 $$</div>
 <p>Hence:</p>
 <div class="math">$$ dp/p = 4 dT/T $$</div>
-<p>at fixed <span class="math">\( T\)</span>. It follows that <span class="math">\( p \\propto T^4
-$, and since $ p \\propto E/V\)</span>, then:</p>
-<div class="math">$$ E/V \\propto T^4 $$</div>
+<p>at fixed <span class="math">\( T\)</span>. It follows that <span class="math">\( p \propto T^4\)</span>, and since <span class="math">\( p \propto E/V\)</span>, then:</p>
+<div class="math">$$ E/V \propto T^4 $$</div>
 <p>That is, the radiation energy density is proportional to the fourth
-power of the temperature. We will call the constant of proportionality
-here latex a<span class="math">\( to distinguish it from $ \sigma\)</span>,
+power of the temperature. (We will call the constant of proportionality
+here <span class="math">\(a\)</span> to distinguish it from <span class="math">\( \sigma\)</span>,
 since here we are considering energy density, and the
 version of the Stefan-Boltzmann law we gave at the beginning was for the
-radiated power per unit area.</p>
+radiated power per unit area.) Hence, and finally:</p>
 <div class="math">$$ E/V = a T^4 $$</div>
 <h2>Stefan-Boltzmann law - radiated power</h2>
 <p>If the energy density in the interior of our constant-temperature
@@ -179,43 +186,41 @@ enclosure is <span class="math">\( E/V = a T^4\)</span>, then the flux onto unit
 area of the cavity wall would be <span class="math">\( ac T^4\)</span> if the
 radiation were all incident normally on the wall. If it were incident at
 an angle <span class="math">\( \theta\)</span> to the normal, the flux would be
-<span class="math">\($ ac T^4 \\cos \theta\)</span>. In reality the radiation is
+<span class="math">\( ac T^4 \cos \theta\)</span>. In reality the radiation is
 isotropic, so the flux is given by:</p>
-<div class="math">$$ R_B = \int{ac T^4 \\cos \theta}df $$</div>
-<p>where we have equated the radiated power per unit area<span class="math">\(R_B\)</span> with the
-flux of radiation falling on the wall, which ust be true of the
-temperature stays constant; and where <span class="math">\( df\)</span> is the
+<div class="math">$$ R_B = \int{ac T^4 \cos \theta}df $$</div>
+<p>where we have equated the radiated power per unit area, <span class="math">\(R_B\)</span>, with the
+flux of radiation falling on the wall, which must be true if the
+wall temperature stays constant; and where <span class="math">\( df\)</span> is the
 area element of the unit sphere centred at the point of interest on the
 wall. This is given by:</p>
-<div class="math">$$ df = 2\pi r^2 \sin \theta d\theta / 4\pi r^2
-$$</div>
+<div class="math">$$ df = \frac{2\pi r^2 \sin \theta d\theta}{ 4\pi r^2} $$</div>
 <p>so the flux is:</p>
-<p><span class="math">\(R_B = latex (1/2) \int_0^{\pi /2} {ac T^4 \\cos
-\theta\sin\theta} d\theta  = (1/4) acT^4 $\)</span></p>
+<div class="math">$$R_B = \frac{1}{2} \int_0^{\pi /2} {ac T^4 \cos\theta\sin\theta} d\theta  = \frac{1}{4} acT^4 $$</div>
 <p>If we define <span class="math">\( \sigma = (1/4) ac\)</span> then:</p>
 <div class="math">$$ R_B = \sigma T^4 $$</div>
 <p>which is where we began.</p>
 <p>Note that, since we know from Kirchhoff's law that a non-black body
 radiator has emissive power <span class="math">\( R = a R_B\)</span>, where
-<span class="math">\($ a\)</span> is the absorptivity of the non-black body at the
+<span class="math">\( a\)</span> is the absorptivity of the non-black body at the
 temperature in question, then in general:</p>
 <div class="math">$$ R = a\sigma T^4 $$</div>
 <p>Care is needed using this formula because <span class="math">\( a\)</span> often
 has a strong dependence on temperature.</p>
 <p>In practice, it is usually the difference between emitted and absorbed
-radiation that is measured. A black body at temperature <span class="math">\( T_1
-emits radiation at a rate of $ \sigma T_1^4\)</span> per
+radiation that is measured. A black body at temperature <span class="math">\( T_1\)</span>
+emits radiation at a rate of <span class="math">\( \sigma T_1^4\)</span> per
 unit area, but if it is placed in a sealed enclosure with wall
 temperature <span class="math">\( T_2\)</span>, so that its surroundings are at
 temperature <span class="math">\( T_2\)</span>, it is subject to incident
-radiation at a rate of<span class="math">\(\sigma T_2^4\)</span>. (This latter must
+radiation at a rate of <span class="math">\(\sigma T_2^4\)</span>. (This latter must
 be true since, if the body were in equilibrium with the radiation field
 of the enclosure, it would be radiating at a rate of<span class="math">\(\sigma T_2^4\)</span>,
 and since it's in equilibrium, must absorb radiation at
 the same rate. The rate of absorption is no different when the body is
 at a different temperature  (Assume the body is small enough compared to
 the enclosure that its presence doesn't disturb the radiation field in
-the enclosure - <span class="math">\( T_2\)</span> is constant.)</p>
+the enclosure - <span class="math">\( T_2\)</span> is constant.))</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

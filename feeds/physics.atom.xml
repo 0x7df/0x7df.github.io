@@ -342,13 +342,13 @@ the walls&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;First, imagine two such containers, &lt;span class="math"&gt;\( A\)&lt;/span&gt; and &lt;span class="math"&gt;\( B\)&lt;/span&gt;,
 with the same wall temperatures, but in which, for some
 reason (e.g. the material of the walls perhaps) the energy density is
-different. It is higher in &lt;span class="math"&gt;\( B\)&lt;/span&gt;
-&lt;a href="https://0x7df.files.wordpress.com/2015/05/two_cavities.png"&gt;&lt;img alt="two_cavities" src="https://0x7df.files.wordpress.com/2015/05/two_cavities.png?w=300"&gt;&lt;/a&gt;.&lt;/p&gt;
+different. It is higher in &lt;span class="math"&gt;\( B\)&lt;/span&gt;.
+&lt;a href="https://0x7df.files.wordpress.com/2015/05/two_cavities.png"&gt;&lt;img alt="two_cavities" src="https://0x7df.files.wordpress.com/2015/05/two_cavities.png?w=300"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Then imagine we can bring the two enclosures together to form a single
 enclosure - perhaps they each have at least one flat face of a given
 shape and size, which we can match up, and then instantaneously remove
 these walls so the two cavities are joined into one. If &lt;span class="math"&gt;\( B\)&lt;/span&gt;
-had the higher initial energy density, then the energ
+had the higher initial energy density, then the energy
 density in &lt;span class="math"&gt;\( A\)&lt;/span&gt; will begin to increase, and the energy
 density in &lt;span class="math"&gt;\( B\)&lt;/span&gt; will decrease. Correspondingly, the
 walls of &lt;span class="math"&gt;\( A\)&lt;/span&gt; will increase in temperature by
@@ -422,7 +422,7 @@ conclusion again.&lt;/p&gt;
 &lt;p&gt;is that a stronger absorber (larger &lt;span class="math"&gt;\( a_\lambda\)&lt;/span&gt;) is
 also a stronger emitter (larger &lt;span class="math"&gt;\( e_\lambda\)&lt;/span&gt;), at a
 given temperature and for a given wavelength of radiation. In fact a
-perfect absorber, for which &lt;span class="math"&gt;\( a\lambda = 1\)&lt;/span&gt;, and
+perfect absorber, for which &lt;span class="math"&gt;\( a_\lambda = 1\)&lt;/span&gt;, and
 which we therefore refer to as a &lt;strong&gt;black body&lt;/strong&gt;, also radiates as
 intensely as it's possible to do so under the given conditions; so it is
 also sometimes called a &lt;strong&gt;full&lt;/strong&gt; or &lt;strong&gt;perfect radiator&lt;/strong&gt;.&lt;/p&gt;

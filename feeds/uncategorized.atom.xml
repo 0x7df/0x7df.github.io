@@ -1,5 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - Uncategorized</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/uncategorized.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-25T09:53:00+01:00</updated><entry><title>Grep, regex and sed inline replace on multiple files</title><link href="http://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html" rel="alternate"></link><published>2018-05-25T09:53:00+01:00</published><updated>2018-05-25T09:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/grep-regex-and-sed-inline-replace-on-multiple-files.html</id><summary type="html">&lt;p&gt;I'm importing WordPress blog posts into &lt;a href="https://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;, in which I'm using the
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - Uncategorized</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/uncategorized.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-25T13:22:00+01:00</updated><entry><title>Radiation pressure and the Stefan-Boltzmann law (2/4)</title><link href="http://0x7df.github.io/radiation-pressure-and-the-stefan-boltzmann-law-24.html" rel="alternate"></link><published>2018-05-25T13:22:00+01:00</published><updated>2018-05-25T13:22:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/radiation-pressure-and-the-stefan-boltzmann-law-24.html</id><summary type="html">&lt;p&gt;In a
+&lt;a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post on Kirchhoff's law (1859) and black bodies&lt;/a&gt;
+, we saw
+that the energy density of thermal radiation is a function of
+temperature only. The first measurements of thermal radiation (from hot
+platinum wire) were made by Tyndall, and from his results Stefan
+concluded, in 1879, that the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In a
+&lt;a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post on Kirchhoff's law (1859) and black bodies&lt;/a&gt;
+, we saw
+that the energy density of thermal radiation is a function of
+temperature only. The first measurements of thermal radiation (from hot
+platinum wire) were made by Tyndall, and from his results Stefan
+concluded, in 1879, that the energy radiated went as the fourth power of
+the absolute temperature. This empirical relationship was later
+theoretically determined, for black bodies, by Boltzmann in 1884. The
+law that bears both their names is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R_B = \sigma T^4 $$&lt;/div&gt;
+&lt;p&gt;and &lt;span class="math"&gt;\( \sigma\)&lt;/span&gt; is known as the Stefan-Boltzmann
+constant, and &lt;span class="math"&gt;\( R_B\)&lt;/span&gt; is the emissive power, the
+radiant power emitted per unit area.&lt;/p&gt;
+&lt;h2&gt;Radiation pressure&lt;/h2&gt;
+&lt;p&gt;Before we begin, it's necessary to understand that radiation exerts a
+pressure. The easiest way to calculate the radiation pressure is to
+assume that photons are particles of mass &lt;span class="math"&gt;\( m\)&lt;/span&gt;, where
+&lt;span class="math"&gt;\(m\)&lt;/span&gt; is given by:&lt;/p&gt;
+&lt;div class="math"&gt;$$ e = mc^2 $$&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(e\)&lt;/span&gt; being the photon energy. If we do this, then we
+can treat the radiation field as a photon gas and find its pressure in
+the same way as we would for a normal gas, from kinetic arguments; we
+assume the pressure is the sum of all the impulses delivered to a unit
+area of the wall in unit time by particles colliding with it.&lt;/p&gt;
+&lt;p&gt;The collision rate of a single particle is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{|u_x|}{2 L_x}$$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( u_x\)&lt;/span&gt; is the component of the particle's velocity normal to the wall
+(assumed
+conserved), and &lt;span class="math"&gt;\( L_x\)&lt;/span&gt; is the dimension of the
+container along the normal to the wall. The impulse delivered in each
+collision is equal to the momentum change of the particle, i.e.:&lt;/p&gt;
+&lt;div class="math"&gt;$$ 2m|u_x|$$&lt;/div&gt;
+&lt;p&gt;So the impulse per unit time is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{m u_x^2}{L_x} $$&lt;/div&gt;
+&lt;p&gt;for a single particle. This leads to:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{N \bar m c^2}{3 L_x}$$&lt;/div&gt;
+&lt;p&gt;for &lt;span class="math"&gt;\(N\)&lt;/span&gt; particles, where &lt;span class="math"&gt;\( c^2/3\)&lt;/span&gt; is
+the mean value of &lt;span class="math"&gt;\( \bar{u_x^2}\)&lt;/span&gt; and &lt;span class="math"&gt;\( \bar m\)&lt;/span&gt;
+is the mean mass. This force corresponds to a pressure of:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = \frac{N \bar m c^2}{3 V} $$&lt;/div&gt;
+&lt;p&gt;where we have assumed the volume &lt;span class="math"&gt;\( V = L_x A\)&lt;/span&gt;; or:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = \frac{n \bar m c^2}{ 3}$$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( n = N/V\)&lt;/span&gt; is the number density of particles.
+Replacing &lt;span class="math"&gt;\( \bar m c^2\)&lt;/span&gt; with &lt;span class="math"&gt;\(/bar e\)&lt;/span&gt;
+gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = \frac{1}{3} n\bar e$$&lt;/div&gt;
+&lt;p&gt;which is the same as:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = \frac{1}{3} \frac{E}{V} $$&lt;/div&gt;
+&lt;h2&gt;Derivation of the Stefan-Boltzmann law - energy density&lt;/h2&gt;
+&lt;p&gt;Let's begin with the general thermodynamic expression:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dE = T dS - p dV $$&lt;/div&gt;
+&lt;p&gt;which applies when volume is the only constraint to be be varied. If we
+divide by &lt;span class="math"&gt;\( dV\)&lt;/span&gt; at fixed &lt;span class="math"&gt;\( T\)&lt;/span&gt; we
+obtain:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \left( \partial E/\partial V\right)_T = T \left(\partial
+S/\partial V\right)_T - p $$&lt;/div&gt;
+&lt;p&gt;We can see that for an enclosure at constant temperature:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \left(\partial E/\partial V\right)_T = E/V $$&lt;/div&gt;
+&lt;p&gt;(i.e. the energy density in the cavity), since increasing the size of
+the cavity just adds more radiation at the same density (we proved in
+the
+&lt;a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post&lt;/a&gt;
+that the energy density is constant throughout and
+depends only on the temperature of the walls, not on the size or shape
+or material). Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ E/V = T \left(\partial S/\partial V\right)_T - p
+$$&lt;/div&gt;
+&lt;p&gt;Next we can also use the Maxwell relation:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \left(\partial S/\partial V\right)_T = \left(\partial
+p/\partial T\right)_V $$&lt;/div&gt;
+&lt;p&gt;which comes from the fact that both:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dF = -S dT - p dV $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ dF = \left(\partial F/\partial T\right)_V dT +
+\left(\partial F/\partial V\right)_T dV $$&lt;/div&gt;
+&lt;p&gt;are true, so that we can identify:&lt;/p&gt;
+&lt;div class="math"&gt;$$ S = -\left(\partial F/\partial T\right)_V $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ p = - \left(\partial F/\partial V\right)_T $$&lt;/div&gt;
+&lt;p&gt;and, bearing in mind that &lt;span class="math"&gt;\( \left(\partial/\partial V\right)_T
+\left(\partial F/\partial T\right)_V = \left(\partial/\partial
+T\right)_V \left(\partial F/\partial V\right)_T\)&lt;/span&gt;,
+arrive at:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \left(\partial S/\partial V\right)_T = \left(\partial
+p/\partial T\right)_V$$&lt;/div&gt;
+&lt;p&gt;.&lt;/p&gt;
+&lt;p&gt;Inserting this result into:&lt;/p&gt;
+&lt;div class="math"&gt;$$ E/V = T \left(\partial S/\partial V\right)_T - p
+$$&lt;/div&gt;
+&lt;p&gt;gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$ E/V = T \left(\partial p/\partial T\right)_V - p
+$$&lt;/div&gt;
+&lt;p&gt;Now, the radiation pressure is &lt;span class="math"&gt;\( p = (1/3) E/V\)&lt;/span&gt;, so:&lt;/p&gt;
+&lt;div class="math"&gt;$$ 4p = T \left(\partial p/\partial T\right)_V
+$$&lt;/div&gt;
+&lt;p&gt;Hence:&lt;/p&gt;
+&lt;div class="math"&gt;$$ dp/p = 4 dT/T $$&lt;/div&gt;
+&lt;p&gt;at fixed &lt;span class="math"&gt;\( T\)&lt;/span&gt;. It follows that &lt;span class="math"&gt;\( p \propto T^4\)&lt;/span&gt;, and since &lt;span class="math"&gt;\( p \propto E/V\)&lt;/span&gt;, then:&lt;/p&gt;
+&lt;div class="math"&gt;$$ E/V \propto T^4 $$&lt;/div&gt;
+&lt;p&gt;That is, the radiation energy density is proportional to the fourth
+power of the temperature. (We will call the constant of proportionality
+here &lt;span class="math"&gt;\(a\)&lt;/span&gt; to distinguish it from &lt;span class="math"&gt;\( \sigma\)&lt;/span&gt;,
+since here we are considering energy density, and the
+version of the Stefan-Boltzmann law we gave at the beginning was for the
+radiated power per unit area.) Hence, and finally:&lt;/p&gt;
+&lt;div class="math"&gt;$$ E/V = a T^4 $$&lt;/div&gt;
+&lt;h2&gt;Stefan-Boltzmann law - radiated power&lt;/h2&gt;
+&lt;p&gt;If the energy density in the interior of our constant-temperature
+enclosure is &lt;span class="math"&gt;\( E/V = a T^4\)&lt;/span&gt;, then the flux onto unit
+area of the cavity wall would be &lt;span class="math"&gt;\( ac T^4\)&lt;/span&gt; if the
+radiation were all incident normally on the wall. If it were incident at
+an angle &lt;span class="math"&gt;\( \theta\)&lt;/span&gt; to the normal, the flux would be
+&lt;span class="math"&gt;\( ac T^4 \cos \theta\)&lt;/span&gt;. In reality the radiation is
+isotropic, so the flux is given by:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R_B = \int{ac T^4 \cos \theta}df $$&lt;/div&gt;
+&lt;p&gt;where we have equated the radiated power per unit area, &lt;span class="math"&gt;\(R_B\)&lt;/span&gt;, with the
+flux of radiation falling on the wall, which must be true if the
+wall temperature stays constant; and where &lt;span class="math"&gt;\( df\)&lt;/span&gt; is the
+area element of the unit sphere centred at the point of interest on the
+wall. This is given by:&lt;/p&gt;
+&lt;div class="math"&gt;$$ df = \frac{2\pi r^2 \sin \theta d\theta}{ 4\pi r^2} $$&lt;/div&gt;
+&lt;p&gt;so the flux is:&lt;/p&gt;
+&lt;div class="math"&gt;$$R_B = \frac{1}{2} \int_0^{\pi /2} {ac T^4 \cos\theta\sin\theta} d\theta  = \frac{1}{4} acT^4 $$&lt;/div&gt;
+&lt;p&gt;If we define &lt;span class="math"&gt;\( \sigma = (1/4) ac\)&lt;/span&gt; then:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R_B = \sigma T^4 $$&lt;/div&gt;
+&lt;p&gt;which is where we began.&lt;/p&gt;
+&lt;p&gt;Note that, since we know from Kirchhoff's law that a non-black body
+radiator has emissive power &lt;span class="math"&gt;\( R = a R_B\)&lt;/span&gt;, where
+&lt;span class="math"&gt;\( a\)&lt;/span&gt; is the absorptivity of the non-black body at the
+temperature in question, then in general:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R = a\sigma T^4 $$&lt;/div&gt;
+&lt;p&gt;Care is needed using this formula because &lt;span class="math"&gt;\( a\)&lt;/span&gt; often
+has a strong dependence on temperature.&lt;/p&gt;
+&lt;p&gt;In practice, it is usually the difference between emitted and absorbed
+radiation that is measured. A black body at temperature &lt;span class="math"&gt;\( T_1\)&lt;/span&gt;
+emits radiation at a rate of &lt;span class="math"&gt;\( \sigma T_1^4\)&lt;/span&gt; per
+unit area, but if it is placed in a sealed enclosure with wall
+temperature &lt;span class="math"&gt;\( T_2\)&lt;/span&gt;, so that its surroundings are at
+temperature &lt;span class="math"&gt;\( T_2\)&lt;/span&gt;, it is subject to incident
+radiation at a rate of &lt;span class="math"&gt;\(\sigma T_2^4\)&lt;/span&gt;. (This latter must
+be true since, if the body were in equilibrium with the radiation field
+of the enclosure, it would be radiating at a rate of&lt;span class="math"&gt;\(\sigma T_2^4\)&lt;/span&gt;,
+and since it's in equilibrium, must absorb radiation at
+the same rate. The rate of absorption is no different when the body is
+at a different temperature  (Assume the body is small enough compared to
+the enclosure that its presence doesn't disturb the radiation field in
+the enclosure - &lt;span class="math"&gt;\( T_2\)&lt;/span&gt; is constant.))&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="physics"></category><category term="thermodynamics"></category></entry><entry><title>Grep, regex and sed inline replace on multiple files</title><link href="http://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html" rel="alternate"></link><published>2018-05-25T09:53:00+01:00</published><updated>2018-05-25T09:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/grep-regex-and-sed-inline-replace-on-multiple-files.html</id><summary type="html">&lt;p&gt;I'm importing WordPress blog posts into &lt;a href="https://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;, in which I'm using the
 &lt;a href="https://github.com/getpelican/pelican-plugins/tree/master/render_math"&gt;render-math plugin&lt;/a&gt;. This expects in-line equations to be delimited by single
 dollar signs, and displayed equations to be delimited by double dollar signs,
 e.g.:&lt;/p&gt;
