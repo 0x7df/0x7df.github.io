@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+if [[ $# != 1 ]] ; then
+    echo "Provide article filename as argument" >&2
+    exit 1
+fi
+
+# Change to the directory containing this script
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
+
+typeset -r TITLE="$1"
+mvim ${TITLE}
+
