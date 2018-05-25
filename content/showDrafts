@@ -3,6 +3,15 @@
 set -eu
 set -o pipefail
 
+# Change to the directory containing this script
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
+
 typeset -i ACTLEN
 typeset -i MAXLEN=0
 
