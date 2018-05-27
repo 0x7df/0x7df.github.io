@@ -1,12 +1,12 @@
 Title: OpenMP 5
-Date: 2018-05-19 14:05
+Date: 2018-05-28 00:43
 Category:  
-Modified: 2018-05-19 14:05
+Modified: 2018-05-28 00:43
 Tags: 
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 # Exercise - determine the area of a Mandelbrot set
 
