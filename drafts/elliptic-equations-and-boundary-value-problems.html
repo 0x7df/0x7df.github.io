@@ -75,7 +75,7 @@
 
         <!-- Content -->
     <div class="container content">
-        <h1>Classification of partial differential equations</h1>
+        <h2>Classification of partial differential equations</h2>
 <p>Partial differential equations (PDEs) can be classified in the following way.
 Consider the general linear second-order PDE:</p>
 <div class="math">\begin{equation}
@@ -97,7 +97,7 @@ Consider the general linear second-order PDE:</p>
 <li><em>Parabolic</em> at <span class="math">\((x,y)\)</span> if <span class="math">\(\Delta = 0\)</span></li>
 <li><em>Elliptic</em> at <span class="math">\((x,y)\)</span> if <span class="math">\(\Delta \lt 0\)</span></li>
 </ol>
-<p>The equation is said to be hyperbolic, elliptic or parabolic if it so over its
+<p>The equation is said to be hyperbolic, elliptic or parabolic if it is so over its
 whole domain. Equations can be of mixed type.</p>
 <p>For example, the <em>wave equation</em> is hyperbolic:</p>
 <div class="math">\begin{equation}
@@ -123,7 +123,7 @@ conductivity or diffusion coefficient) is parabolic:</p>
     = \sum_{i=1}^n \frac{\partial^2 u}{\partial x_i^2}
 \end{equation}</div>
 <p>where <span class="math">\(x_i\)</span> is the <span class="math">\(i^{\mathrm{th}}\)</span> dimension of a <span class="math">\(n\)</span>-dimensional domain.</p>
-<h1>Boundary conditions</h1>
+<h2>Boundary conditions</h2>
 <p>In general, boundary conditions are given by specifying values for <span class="math">\(\alpha\)</span>,
 <span class="math">\(\beta\)</span> and <span class="math">\(\gamma\)</span> in the equation:</p>
 <div class="math">\begin{equation}
@@ -134,7 +134,7 @@ conductivity or diffusion coefficient) is parabolic:</p>
 <p>Then, boundary conditions can be categorised as:</p>
 <ol>
 <li><em>Dirichlet</em> conditions if <span class="math">\(\beta = 0\)</span> (the value is specified)</li>
-<li><em>Neumann</em> conditions if <span class="math">\(\alpha = 0\)</span> (the value is specified)</li>
+<li><em>Neumann</em> conditions if <span class="math">\(\alpha = 0\)</span> (the derivative is specified)</li>
 <li><em>Robin</em> or <em>third</em>-type conditions if neither <span class="math">\(\alpha\)</span> nor <span class="math">\(\beta\)</span> is zero</li>
 <li><em>Cauchy</em> conditions if two equations are given with <span class="math">\(\alpha = 0\)</span> in one and
    <span class="math">\(\beta = 0\)</span> in the other</li>
@@ -142,7 +142,7 @@ conductivity or diffusion coefficient) is parabolic:</p>
 <p>In any case, if <span class="math">\(\gamma = 0\)</span>, the boundary condition is said to be
 <em>homogeneous</em>, and <em>inhomogeneous</em> if <span class="math">\(\gamma \ne 0\)</span>.</p>
 <p>Different types of boundary conditions are appropriate to different types of
-PDE. Hyperbolic equations require Cauchy boudary conditions and parabolic PDEs
+PDE. Hyperbolic equations require Cauchy boundary conditions and parabolic PDEs
 require Neumann or Dirichlet conditions; in both cases on an open boundary
 (otherwise the solution would be over-specfied). Elliptic equations require
 Dirichlet or Neumann boundary conditions, but on a closed boundary (otherwise
@@ -154,11 +154,11 @@ generally constitute <em>boundary-value problems</em>. In the latter, the PDE de
 a steady state over a specified domain <span class="math">\(\mathcal{D}\)</span>, given boundary conditions
 specified on the boundary <span class="math">\(\mathcal{\Lambda}\)</span>; systems of this type are usually
 solved by iterative methods.</p>
-<h1>Finite difference discretisation of elliptic problems</h1>
+<h2>Finite difference discretisation of elliptic problems</h2>
 <p>Common solution techniques for elliptic equations include finite difference,
 finite element, and spectral methods. Here we consider only finite difference
 schemes.</p>
-<h2>Two-dimensional Poisson's equation</h2>
+<h3>Two-dimensional Poisson's equation</h3>
 <p>We have seen Poisson's equation as an example of an elliptic PDE:</p>
 <div class="math">\begin{equation}
     \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}

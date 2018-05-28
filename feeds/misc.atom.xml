@@ -1,10 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-28T00:43:00+01:00</updated><entry><title>OpenMP 5</title><link href="http://0x7df.github.io/openmp-5.html" rel="alternate"></link><published>2018-05-28T00:43:00+01:00</published><updated>2018-05-28T00:43:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-28:/openmp-5.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Exercise - determine the area of a Mandelbrot set&lt;/h1&gt;
-&lt;h2&gt;Overview&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-28T13:17:00+01:00</updated><entry><title>OpenMP 6</title><link href="http://0x7df.github.io/openmp-6.html" rel="alternate"></link><published>2018-05-28T13:17:00+01:00</published><updated>2018-05-28T13:17:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-28:/openmp-6.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Work-sharing constructs&lt;/h2&gt;
+&lt;p&gt;As
+&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;we've&lt;/a&gt;
+&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;seen&lt;/a&gt;
+&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;in&lt;/a&gt;
+&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;previous&lt;/a&gt;
+&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;posts&lt;/a&gt;
+, in a parallel region, all threads execute the same code.
+&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;When we parallelised the calculation of the Mandelbrot set&lt;/a&gt;
+, we had to devise manual ways of dividing the work amongst the threads
+ourselves.&lt;/p&gt;
+&lt;p&gt;However, OpenMP provides additional directives, called &lt;em&gt;work-sharing
+directives&lt;/em&gt;, to help with this. Work-sharing directives indicate that work
+should be divided up between threads, rather than replicated.&lt;/p&gt;
+&lt;h3&gt;Parallel Do&lt;/h3&gt;
+&lt;p&gt;OpenMP has extensive support for parallelising loops, since loops are the main
+source of parallelism in many, particularly scientific, applications.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP DO [&amp;lt;clauses&amp;gt;...]
+...
+[!$OMP END DO]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The closing directive is optional.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;!$OMP DO&lt;/code&gt; directive can take:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;PRIVATE&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FIRSTPRIVATE&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;REDUCTION&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;clauses. Recall from &lt;a href="http://0x7df.github.io/openmp-3.html"&gt;earlier&lt;/a&gt; that loop counters are
+private by default (in Fortran).&lt;/p&gt;
+&lt;p&gt;Since the &lt;code&gt;!OMP PARALLEL&lt;/code&gt; / &lt;code&gt;$OMP DO&lt;/code&gt; combination is so common, there's a
+shorthand version:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP PARALLEL DO [&amp;lt;clauses&amp;gt;...]
+...
+[!$OMP END PARALLEL DO]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This can take all the clauses that the &lt;code&gt;PARALLEL&lt;/code&gt; directive can take.&lt;/p&gt;
+&lt;p&gt;Returning to our Mandelbrot set example, we can replace the logic for manually
+distributing threads with the &lt;code&gt;!$OMP DO&lt;/code&gt; directive:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  !$OMP DO
+  do ipix = 1_ik, npix
+
+      ... loop body ...
+
+  enddo
+  !$OMP END DO
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The speedup we see is comparable with the first example, where we divided the
+pixels into a set of &lt;span class="math"&gt;\(N\)&lt;/span&gt; contiguous blocks, where &lt;span class="math"&gt;\(N\)&lt;/span&gt; was the number of threads
+used.&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;SCHEDULE&lt;/code&gt; clause&lt;/h4&gt;
+&lt;p&gt;Without any clauses, &lt;code&gt;!$OMP DO&lt;/code&gt; or &lt;code&gt;!$OMP PARALLEL DO&lt;/code&gt; will attempt to
+distribute work as evenly as possible across threads. The scheduling can also
+be controlled explicitly using the &lt;code&gt;SCHEDULE&lt;/code&gt; clause:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP DO SCHEDULE(STATIC[,n]|DYNAMIC[,n]|AUTO|GUIDED|RUNTIME)
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;where &lt;code&gt;n&lt;/code&gt; is an integer chunk size to be passed to the scheduling algorithm.&lt;/p&gt;
+&lt;h5&gt;&lt;code&gt;STATIC&lt;/code&gt;&lt;/h5&gt;
+&lt;p&gt;If &lt;code&gt;n&lt;/code&gt; is specified, the iterations are divided into chunks of
+size &lt;code&gt;n&lt;/code&gt;, and distributed cyclically to the the threads; this is called a
+&lt;em&gt;block cyclic&lt;/em&gt; schedule. If a chunk size is not specified, the one chunk per
+thread is created, of approximately equal size; this is a &lt;em&gt;block&lt;/em&gt; schedule.&lt;/p&gt;
+&lt;p&gt;In the manual work distribution in the
+&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;Mandelbrot set exercise&lt;/a&gt;
+, the first, poorer way we chose of distributing the threads was equivalent to
+&lt;code&gt;SCHEDULE(STATIC)&lt;/code&gt;, and the second more successful attempt was equivalent to
+&lt;code&gt;SCHEDULE(STATIC, 1)&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Looking at the run times, we can see this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.001.png"&gt;&lt;/p&gt;
+&lt;p&gt;The figure shows speed-ups (lower is better) compared with the serial version
+as a function of chunk size, for different schedules. The manual block schedule
+is the green curve and the manual cyclic schedule is the green curve. Use of
+the &lt;code&gt;!$OMP DO SCHEDULE(STATIC, n)&lt;/code&gt; directive instead, gives the red curve. For
+&lt;span class="math"&gt;\(n = 1\)&lt;/span&gt; the performance is similar to the manual cyclic, and for &lt;span class="math"&gt;\(n = 525\)&lt;/span&gt; the
+performance is similar to the manual block schedule (where the total number of
+pixels in the problem was 2100, and four threads were used).&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;DYNAMIC&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;With the dynamic schedule, the problem is broken up into chunks of size &lt;span class="math"&gt;\(n\)&lt;/span&gt; as
+before, but instead of being cyclically allocated to threads, the chunks are
+allocated dynamically; i.e. on a first-come, first-served basis. Once a thread
+finishes its chunk, it is assigned the next chunk in the list. If no chunk size
+is specified, it defaults to one.&lt;/p&gt;
+&lt;p&gt;As might be expected, this schedule improves the overall performance slightly.
+Not only this, but the performance is less sensitive to chunk size.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.002.png"&gt;&lt;/p&gt;
+&lt;p&gt;Here we've also added single points for both the static and dynamic schedules,
+to indicate the performance when no chunk size is specified.&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;GUIDED&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;This schedule is like &lt;code&gt;DYNAMIC&lt;/code&gt;, except that the chunk size starts off large
+and gets exponentially smaller as it proceeds. The size of the next chunk is
+proportional to the number of remaining iterations divided by the number of
+threads. In this scheme the chunk size &lt;span class="math"&gt;\(n\)&lt;/span&gt; defines the &lt;em&gt;minimum&lt;/em&gt; chunk size;
+when this is not defined, the default is one.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;GUIDED&lt;/code&gt; schedule performs poorly for this problem at this scale; better
+than serial, but consistently worse than all the other ways of dividing the
+problem considered so far.&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;AUTO&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;The &lt;code&gt;AUTO&lt;/code&gt; schedule allows the run-time complete freedom to choose the
+assignment of loop iterations to threads. This is useful if a loop is executed
+many time, as then the runtime can evolve a good schedule with high performance
+and low overheads.&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;RUNTIME&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;RUNTIME&lt;/code&gt; causes the schedule to be determined at run time, from the
+&lt;code&gt;OMP_SCHEDULE&lt;/code&gt; environment variable. E.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;OMP_SCHEDULE&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;dynamic, 8&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Choosing a schedule&lt;/h4&gt;
+&lt;p&gt;The following rules of thumb will help choosing a schedule:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;STATIC&lt;/code&gt; has the lowest overhead, but is appropriate for only load-balanced
+   loops.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;STATIC, n&lt;/code&gt; can be an improvement for mildly load-imbalanced loops; the
+   smaller chunks can potentially help mix up the more and less costly
+   iterations so they are spread more evenly across threads.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DYNAMIC&lt;/code&gt; is often better if the load imbalance is very severe. However,
+   care must be taken with data locality.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;GUIDED&lt;/code&gt; can be an improvement over &lt;code&gt;DYNAMIC&lt;/code&gt;, but care should be taken
+    with loops where the earlier iterations are more costly. In such cases,
+    since the loop by definition can be performed in any order, it might be
+    possible to re-order it to begin with the less costly iterations.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;AUTO&lt;/code&gt; might be useful if the loop is executed many times over.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RUNTIME&lt;/code&gt; should only be used for interactive experimentation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+
+&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
+&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>OpenMP 5</title><link href="http://0x7df.github.io/openmp-5.html" rel="alternate"></link><published>2018-05-28T00:43:00+01:00</published><updated>2018-05-28T00:43:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-28:/openmp-5.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Exercise - determine the area of a Mandelbrot set&lt;/h2&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
 &lt;p&gt;In &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;several&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;previous&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-3.html"&gt;posts&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-4.html"&gt;...&lt;/a&gt;, the basics of OpenMP were described.&lt;/p&gt;
 &lt;p&gt;As an exercise, let's determine the area of a Mandelbrot set using a simple 
 algorithm parallelised with OpenMP.&lt;/p&gt;
-&lt;h2&gt;Plotting a Mandelbrot set&lt;/h2&gt;
+&lt;h3&gt;Plotting a Mandelbrot set&lt;/h3&gt;
 &lt;p&gt;The Mandelbrot set is the set of complex numbers, &lt;span class="math"&gt;\(c\)&lt;/span&gt;, for which the function
 &lt;span class="math"&gt;\(f(z) = z^2 +c\)&lt;/span&gt; does not diverge when iterated from &lt;span class="math"&gt;\(z = 0\)&lt;/span&gt;. That is, the
 sequence &lt;span class="math"&gt;\(f(0), f(f(0)), ...\)&lt;/span&gt;:&lt;/p&gt;
@@ -139,7 +345,7 @@ coordinates are printed to allow plotting.&lt;/p&gt;
 &lt;p&gt;gives:
 &lt;img alt="Alt Text" src="http://0x7df.github.io/images/mandelbrot_serial.png"&gt;
 which seems in the right ball park.&lt;/p&gt;
-&lt;h2&gt;Initial parallelism&lt;/h2&gt;
+&lt;h3&gt;Initial parallelism&lt;/h3&gt;
 &lt;p&gt;We now make a first attempt to add OpenMP. So far, we've covered the &lt;code&gt;!$OMP
 PARALLEL&lt;/code&gt; directive, so we will stick to using just that, even though as we'll
 cover later there are much better ways of doing it.&lt;/p&gt;
@@ -262,7 +468,7 @@ thread.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
@@ -388,7 +594,7 @@ reduction is performed on each element of the array.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
@@ -651,7 +857,7 @@ the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can also have the followin
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
@@ -849,7 +1055,7 @@ $ ./serial_thread_number
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
@@ -1023,7 +1229,7 @@ or it might be equal to the number of cores in the system.)&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;

@@ -75,12 +75,12 @@
 
         <!-- Content -->
     <div class="container content">
-        <h1>Exercise - determine the area of a Mandelbrot set</h1>
-<h2>Overview</h2>
+        <h2>Exercise - determine the area of a Mandelbrot set</h2>
+<h3>Overview</h3>
 <p>In <a href="http://0x7df.github.io/openmp-1.html">several</a> <a href="http://0x7df.github.io/openmp-2.html">previous</a> <a href="http://0x7df.github.io/openmp-3.html">posts</a> <a href="http://0x7df.github.io/openmp-4.html">...</a>, the basics of OpenMP were described.</p>
 <p>As an exercise, let's determine the area of a Mandelbrot set using a simple 
 algorithm parallelised with OpenMP.</p>
-<h2>Plotting a Mandelbrot set</h2>
+<h3>Plotting a Mandelbrot set</h3>
 <p>The Mandelbrot set is the set of complex numbers, <span class="math">\(c\)</span>, for which the function
 <span class="math">\(f(z) = z^2 +c\)</span> does not diverge when iterated from <span class="math">\(z = 0\)</span>. That is, the
 sequence <span class="math">\(f(0), f(f(0)), ...\)</span>:</p>
@@ -215,7 +215,7 @@ coordinates are printed to allow plotting.</p>
 <p>gives:
 <img alt="Alt Text" src="http://0x7df.github.io/images/mandelbrot_serial.png">
 which seems in the right ball park.</p>
-<h2>Initial parallelism</h2>
+<h3>Initial parallelism</h3>
 <p>We now make a first attempt to add OpenMP. So far, we've covered the <code>!$OMP
 PARALLEL</code> directive, so we will stick to using just that, even though as we'll
 cover later there are much better ways of doing it.</p>
@@ -338,7 +338,7 @@ thread.</p>
 <li><a href="http://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
 <li><a href="http://0x7df.github.io/openmp-4.html">OpenMP 4 (Reductions)</a></li>
 <li><a href="http://0x7df.github.io/openmp-5.html">OpenMP 5 (Work-sharing constructs)</a></li>
-<li><a href="http://0x7df.github.io/drafts/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>
+<li><a href="http://0x7df.github.io/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>
 <li><a href="http://0x7df.github.io/drafts/openmp-7.html">OpenMP 7 ()</a></li>
 </ul>
 <hr/>
