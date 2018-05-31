@@ -49,7 +49,7 @@ general, to linearly interpolate values of $y$ at two grid-points $x_{j-1}$ and
 $x_j$ onto some interior point $x_*$, we write:
 
 $$
-y(x_*) = y_j - \frac{y_j - y_{j-1}}{\Delta x}\left(x_j - x_*}\right)
+y(x_*) = y_j - \frac{y_j - y_{j-1}}{\Delta x}\left(x_j - x_*\right)
 $$
 
 which we can see is equivalent to the upstream difference equations if we
@@ -101,7 +101,7 @@ $$
 Now:
 
 $$
-u_0 \Delta t$ = p\Delta x + \left(x_{j-p} - x_*\right)
+u_0 \Delta t = p\Delta x + \left(x_{j-p} - x_*\right)
 $$
 
 or:
