@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Given a set of points, \(x_{i-1}, x_i, x_{i+1}, x_{i+2}, separated by $\Delta x\), at which some quantity \(\phi\) has known values \(\phi_{i-1}, \phi_i, ...\), respectively, we can find the value...">
+        <meta name="description" content="Given a set of points, \(x_{i-1}, x_i, x_{i+1}, x_{i+2}\), separated by \(\Delta x\), at which some quantity \(y\) has known values \(y_{i-1}, y_i, ...\), respectively, we can find the value...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -75,9 +75,9 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>Given a set of points, <span class="math">\(x_{i-1}, x_i, x_{i+1}, x_{i+2}, separated by $\Delta
-x\)</span>, at which some quantity <span class="math">\(\phi\)</span> has known values <span class="math">\(\phi_{i-1}, \phi_i, ...\)</span>,
-respectively, we can find the value <span class="math">\(\phi_x\)</span> at some arbitrary point <span class="math">\(x\)</span> using
+        <p>Given a set of points, <span class="math">\(x_{i-1}, x_i, x_{i+1}, x_{i+2}\)</span>, separated by <span class="math">\(\Delta
+x\)</span>, at which some quantity <span class="math">\(y\)</span> has known values <span class="math">\(y_{i-1}, y_i, ...\)</span>,
+respectively, we can find the value <span class="math">\(y_x\)</span> at some arbitrary point <span class="math">\(x\)</span> using
 <em>cubic spline interpolation</em>.</p>
 <p>A cubic polynomial is:</p>
 <div class="math">$$
@@ -85,20 +85,20 @@ Y_i(z) = a_i z^3 + b_i z^2 + c_i z + d_i
 $$</div>
 <p>where:</p>
 <div class="math">$$
-x = \frac{x - x_i}{\Delta x}
+z = \frac{x - x_i}{\Delta x}
 $$</div>
 <p>for <span class="math">\(x_i \le x \le x_{i+1}\)</span>.</p>
 <p>At the left point:</p>
 <div class="math">$$
-Y_i(0) = d_i = \phi_i
+Y_i(0) = d_i = y_i
 $$</div>
 <p>and on the right:</p>
 <div class="math">$$
-Y_i(1) = a_i + b_i + c_i + d_i = \phi_{i+1}
+Y_i(1) = a_i + b_i + c_i + d_i = y_{i+1}
 $$</div>
 <p>To provide further conditions we also consider the derivatives:</p>
 <div class="math">$$
-Y'(x) = 3a_i z^2 + 2b_i z + c_i
+Y'(z) = 3a_i z^2 + 2b_i z + c_i
 $$</div>
 <div class="math">$$
 Y'(0) = c_i
@@ -121,6 +121,29 @@ d_i = y_i
 $$</div>
 <p>We match up to the second derivatives of the two adjacent piecewise cubic
 functions at a given point:</p>
+<div class="math">$$
+Y_{i-1}(1) = Y_i(0) = y_i
+$$</div>
+<div class="math">$$
+Y'_{i-1}(1) = Y'_i(0)
+$$</div>
+<div class="math">$$
+Y''_{i-1}(1) = Y''_i(0)
+$$</div>
+<p>...</p>
+<div class="math">$$
+Y_0(0) = y_0
+$$</div>
+<div class="math">$$
+Y_{n-1}(1) = y_n
+$$</div>
+<p>...</p>
+<div class="math">$$
+Y''_0(0) = 0
+$$</div>
+<div class="math">$$
+Y''_{n-1}(1) = 0
+$$</div>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

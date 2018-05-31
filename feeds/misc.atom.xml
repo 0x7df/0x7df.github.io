@@ -1,5 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-28T13:17:00+01:00</updated><entry><title>OpenMP 6</title><link href="http://0x7df.github.io/openmp-6.html" rel="alternate"></link><published>2018-05-28T13:17:00+01:00</published><updated>2018-05-28T13:17:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-28:/openmp-6.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Work-sharing constructs&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - misc</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/misc.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-31T22:46:00+01:00</updated><entry><title>Upstream differencing and the semi-Lagrangian scheme</title><link href="http://0x7df.github.io/upstream-differencing-and-the-semi-lagrangian-scheme.html" rel="alternate"></link><published>2018-05-31T22:46:00+01:00</published><updated>2018-05-31T22:46:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-31:/upstream-differencing-and-the-semi-lagrangian-scheme.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The upstream differencing technique is probably the simplest numerical
+discretisation technique; take as an example the linear advection equation:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\frac{\partial y}{\partial t} + u_0 \frac{\partial y}{\partial x} = 0
+$$&lt;/div&gt;
+&lt;p&gt;which becomes:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\frac{y_j^{n+1} - y_j^n}{\Delta t} + -u_0 \frac{y_j^n - y_{j-1}^n}{\Delta x} = 0
+$$&lt;/div&gt;
+&lt;p&gt;in the upstream scheme. The time and space derivatives have been treated using
+forward and backward differencing, respectively. (Note that as it is, this is
+upstream under the assumption that &lt;span class="math"&gt;\(u_0\)&lt;/span&gt; is positive in the positive
+&lt;span class="math"&gt;\(x\)&lt;/span&gt;-direction, so the grid-point at &lt;span class="math"&gt;\(x_{j-1}\)&lt;/span&gt; is further upstream than the grid
+point at &lt;span class="math"&gt;\(x_j\)&lt;/span&gt;. For &lt;span class="math"&gt;\(u_0 \lt 0\)&lt;/span&gt; the forward difference would be taken.)&lt;/p&gt;
+&lt;p&gt;Rearranging for &lt;span class="math"&gt;\(y_j^{n+1}\)&lt;/span&gt; gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+y_j^{n+1} = y_j^n - \alpha \left(y_j^n - y_{j-1}^n\right)
+$$&lt;/div&gt;
+&lt;p&gt;where:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\alpha = \frac{u_0\Delta t}{\Delta x}
+$$&lt;/div&gt;
+&lt;p&gt;This explicit scheme is stable so long as &lt;span class="math"&gt;\(\alpha \lt 1\)&lt;/span&gt;, which is the
+well-known CFL condition. This is usually interpreted as saying that the scheme
+remains stable only when the time-step &lt;span class="math"&gt;\(\Delta t\)&lt;/span&gt; is less than the minimum time
+for information to cross the cell, which is &lt;span class="math"&gt;\(u_0/\Delta x\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The upstream differencing technique is essentially linear interpolation. In
+general, to linearly interpolate values of &lt;span class="math"&gt;\(y\)&lt;/span&gt; at two grid-points &lt;span class="math"&gt;\(x_{j-1}\)&lt;/span&gt; and
+&lt;span class="math"&gt;\(x_j\)&lt;/span&gt; onto some interior point &lt;span class="math"&gt;\(x_*\)&lt;/span&gt;, we write:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+y(x_*) = y_j - \frac{y_j - y_{j-1}}{\Delta x}\left(x_j - x_*\right)
+$$&lt;/div&gt;
+&lt;p&gt;which we can see is equivalent to the upstream difference equations if we
+equate:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+y(x_*) = y_j^{n+1}
+$$&lt;/div&gt;
+&lt;p&gt;and:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+x_j - x_* = u_0\Delta t
+$$&lt;/div&gt;
+&lt;p&gt;such that:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+x_* = x_j - u_0 \Delta t
+$$&lt;/div&gt;
+&lt;p&gt;Therefore, the point that we interpolate onto, &lt;span class="math"&gt;\(x_*\)&lt;/span&gt;, is that point which, after the
+time-step has elapsed, will have translated to location &lt;span class="math"&gt;\(x_j\)&lt;/span&gt;. The upstream
+differencing equation is equivalent to equating the (interpolated) value of the
+field at this location at the start of the time-step with the value of the
+field at the grid point &lt;span class="math"&gt;\(x_j\)&lt;/span&gt; at the end of the time-step, which is the
+solution we are seeking.&lt;/p&gt;
+&lt;p&gt;This is the essence of the semi-Lagrangian differencing scheme. For each
+grid-point, we track back along the fluid velocity field until the beginning of
+the time-step (at which time the advected field is known) to find what is
+referred to as the &lt;em&gt;departure point&lt;/em&gt;; then we interpolate the advecting field onto
+the departure point, and take that value to be the field value at the grid
+point at the end of the time-step. This can clearly work in multiple
+dimensions, and can be adapted for space- and time-varying velocity fields.&lt;/p&gt;
+&lt;p&gt;With this interpretation of upstream differencing as interpolation, we can see
+that the upstream scheme becomes unstable when the point we need to interpolate onto,
+that will arrive at &lt;span class="math"&gt;\(x_j\)&lt;/span&gt; at the end of the time-step, is more than one grid
+cell away, and is thus no longer bounded by &lt;span class="math"&gt;\(x_{j-1}\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_j\)&lt;/span&gt;. However, it is
+clearly possible to generalise the interpolation such that it uses the
+appropriate bounding grid points, wherever the departure point might be:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+y_j^{n+1} = y_*
+          = y_{j-p} - \frac{y_{j-p} - y_{j-p-1}}{\Delta x}\left(x_{j-p} - x_*\right)
+$$&lt;/div&gt;
+&lt;p&gt;Now:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+u_0 \Delta t = p\Delta x + \left(x_{j-p} - x_*\right)
+$$&lt;/div&gt;
+&lt;p&gt;or:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\alpha  = \frac{u_0\Delta t}{\Delta x} = p + f
+$$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(f\)&lt;/span&gt; is the fractional distance across the cell between &lt;span class="math"&gt;\(x_*\)&lt;/span&gt; and
+&lt;span class="math"&gt;\(x_{j-p}\)&lt;/span&gt;. For simple upstream differencing, the stability condition
+that &lt;span class="math"&gt;\(\alpha \lt 0\)&lt;/span&gt; required that &lt;span class="math"&gt;\(p = 0\)&lt;/span&gt;, since &lt;span class="math"&gt;\(p\)&lt;/span&gt; can take the values &lt;span class="math"&gt;\(0, 1,
+2, ...\)&lt;/span&gt;. However, the stability condition for the general semi-Lagrangian
+technique is found to be that &lt;span class="math"&gt;\(f \lt 0\)&lt;/span&gt;. This is true as long as the closest
+bounding grid points are used in the interpolation, no matter what the value
+of &lt;span class="math"&gt;\(p\)&lt;/span&gt;. Hence, time-steps of any length can be chosen (on stability grounds -
+accuracy is as usual a different matter).&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>OpenMP 6</title><link href="http://0x7df.github.io/openmp-6.html" rel="alternate"></link><published>2018-05-28T13:17:00+01:00</published><updated>2018-05-28T13:17:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-28:/openmp-6.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Work-sharing constructs&lt;/h2&gt;
 &lt;p&gt;As
 &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;we've&lt;/a&gt;
 &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;seen&lt;/a&gt;
