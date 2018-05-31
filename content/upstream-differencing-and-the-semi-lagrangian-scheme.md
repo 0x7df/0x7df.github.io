@@ -1,12 +1,12 @@
 Title: Upstream differencing and the semi-Lagrangian scheme
-Date: 2017-03-15 20:58
+Date: 2018-05-31 22:46
 Category:  
-Modified: 2017-03-15 20:58
+Modified: 2018-05-31 22:46
 Tags: 
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 The upstream differencing technique is probably the simplest numerical
 discretisation technique; take as an example the linear advection equation:
