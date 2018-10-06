@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -eu
+set -o pipefail
+
+# Change to the directory containing this script
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
+
+typeset -i ACTLEN
+typeset -i MAXLEN=0
+
+for FILE in $(grep -l '^Status: published$' *.md) ; do
+    ACTLEN=${#FILE}
+    if [[ $ACTLEN -gt $MAXLEN ]] ; then
+        MAXLEN=$ACTLEN
+    fi
+done
+
+for FILE in $(grep -l '^Status: published$' *.md) ; do
+        printf "%10s %3i %-${MAXLEN}s\n" $(grep '^Date: ' $FILE | cut -d" " \
+        -f2) $(cat $FILE | wc -l) $FILE
+done | sort
