@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-03-24T10:45:00+00:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Bash and Ksh function distinctions</title><link href="http://0x7df.github.io/bash-and-ksh-function-distinctions.html" rel="alternate"></link><published>2019-03-24T10:45:00+00:00</published><updated>2019-03-24T10:45:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-03-24:/bash-and-ksh-function-distinctions.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Bash and Ksh function distinctions&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-03-24T11:03:00+00:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Bash and Ksh function distinctions</title><link href="http://0x7df.github.io/bash-and-ksh-function-distinctions.html" rel="alternate"></link><published>2019-03-24T11:03:00+00:00</published><updated>2019-03-24T11:03:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-03-24:/bash-and-ksh-function-distinctions.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Bash and Ksh function distinctions&lt;/h1&gt;
 &lt;p&gt;There are subtle differences in function declaration and behaviour between Bash
 and Ksh.&lt;/p&gt;
 &lt;h2&gt;Function declaration&lt;/h2&gt;
@@ -93,7 +93,7 @@ grep: bar: No such file or directory
 
 
 &lt;p&gt;So far the behaviour will be the same if we switch to the alternative
-&lt;code&gt;function ...&lt;/code&gt; declaration style. As before, with &lt;code&gt;set -e&lt;/code&gt;:&lt;/p&gt;
+&lt;code&gt;function ...&lt;/code&gt; declaration style. As before, without &lt;code&gt;set -e&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat ksh_function
 &lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
 
