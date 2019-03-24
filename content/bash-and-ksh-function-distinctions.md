@@ -1,7 +1,7 @@
 Title: Bash and Ksh function distinctions
-Date: 2019-03-24 10:45
+Date: 2019-03-24 11:03
 Category:  
-Modified: 2019-03-24 10:45
+Modified: 2019-03-24 11:03
 Tags: 
 Slug: 
 Author: 0x7df
@@ -121,7 +121,7 @@ grep: bar: No such file or directory
 ```
 
 So far the behaviour will be the same if we switch to the alternative
-`function ...` declaration style. As before, with `set -e`:
+`function ...` declaration style. As before, without `set -e`:
 
 ```bash
 $ cat ksh_function
@@ -181,6 +181,7 @@ func1
 
 echo "Return code from function = $?"
 ```
+
 ```
 $ ./ksh_brackets
 grep: bar: No such file or directory
@@ -207,6 +208,7 @@ func1
 
 echo "Return code from function = $?"
 ```
+
 ```
 $ ./ksh_function
 grep: bar: No such file or directory
