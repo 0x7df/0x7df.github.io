@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="The 1D fixed-source mono-energetic neutron transport equation is: $$ \mu \frac{d\psi}{dx} + \Sigma(x) \psi(\mu, x) = \int_{-1}^1 \sigma(\mu, \mu&#39;, x) \psi(\mu&#39;, x) d\mu&#39; + q(\mu, x) $$ where the...">
+        <meta name="description" content="The 1D, fixed-source, mono-energetic neutron transport equation is: $$ \mu \frac{d\psi}{dx} + \Sigma(x) \psi(\mu, x) = \int_{-1}^1 \sigma(\mu, \mu&#39;, x) \psi(\mu&#39;, x) d\mu&#39; + q(\mu, x) $$ where the...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -16,7 +16,6 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
-        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -75,32 +74,36 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>The 1D fixed-source mono-energetic neutron transport equation is:</p>
-<div class="math">$$ \mu \frac{d\psi}{dx} + \Sigma(x) \psi(\mu, x) = \int_{-1}^1 \sigma(\mu,
-\mu', x) \psi(\mu', x) d\mu' + q(\mu, x) $$</div>
+        <p>The 1D, fixed-source, mono-energetic neutron transport equation is:</p>
+<div class="math">$$ \mu \frac{d\psi}{dx}
+   + \Sigma(x) \psi(\mu, x)
+   = \int_{-1}^1 \sigma(\mu, \mu', x) \psi(\mu', x) d\mu'
+   + q(\mu, x)
+$$</div>
 <p>where the independent variables <span class="math">\(x\)</span> and <span class="math">\(\mu\)</span> represent the spatial position
 and the direction cosine of travel of the neutrons, <span class="math">\(\psi(\mu, x)\)</span> is the
 angular flux of neutrons, <span class="math">\(\Sigma(x)\)</span> is the total neutron cross-section,
-<span class="math">\(\sigma(\mu, \mu', x)\)</span> is the scattering cross-section for the scattering of
+<span class="math">\(\sigma(\mu, \mu', x)\)</span> is the cross-section for the scattering of
 neutrons from direction <span class="math">\(\mu'\)</span> into direction <span class="math">\(\mu\)</span>, and <span class="math">\(q(\mu, x)\)</span> is the
 emission density of neutrons into direction <span class="math">\(\mu\)</span> at point <span class="math">\(x\)</span> (independent of
 the neutron flux <span class="math">\(\psi\)</span>).</p>
 <p>Although this equation assumes time-independence, a fixed source, only
-scattering and absorption (not fission), and no energy dependence, a fully
-general transport code with fission, energy-dependence, and either time-
-dependence or an eigenvalue search, boils down to solving this equation. The
-presence of fission as well as time-dependence or eigenvalue search are taken
-care of by external iterations of the solution of this equation, which modify
-the source density <span class="math">\(q(\mu, x)\)</span> of this equation. Energy-dependence, assuming a
-multi-group framework, is also taken care of by stepping through energy groups
-and having group-to-group scattering influence the emission density.</p>
+scattering and absorption (not fission), and no energy-dependence, a fully
+general transport code with fission, energy-dependence, and either
+time-dependence or an eigenvalue search, boils down to solving this equation. The
+presence of fission as well as time-dependence or an eigenvalue search are taken
+care of by an outer iteration procedure which iteratively solves this equation
+whilst modifying the source density <span class="math">\(q(\mu, x)\)</span> of this equation.
+Energy-dependence, assuming a multi-group framework, is also taken care of by
+stepping through energy groups and having group-to-group scattering accounted
+for via the emission density.</p>
 <p>A spatial discretisation scheme often employed is called diamond differencing.
 Combining:</p>
 <div class="math">$$ \mu \frac{\psi_{j+1/2}(\mu) - \psi_{j-1/2}(\mu)}{h} + \Sigma_j \psi_j(\mu)
 = \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu) $$</div>
 <p>and:</p>
 <div class="math">$$ \psi_j = \frac{1}{2} \left(\psi_{j-1/2} + \psi_{j+1/2}\right) $$</div>
-<p>to give:</p>
+<p>gives:</p>
 <div class="math">$$ 2\mu \frac{\psi_j(\mu) - \psi_{j-1/2}(\mu)}{h} + \Sigma_j \psi_j(\mu)
 = \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu) $$</div>
 <p>and hence:</p>

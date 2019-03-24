@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Synchronisation Barrier All threads must arrive at a barrier before any thread can proceed past it END PARALLEL directive is an implicit barrier End of a parallel DO loop is an implicit barrier...">
+        <meta name="description" content="Synchronisation We touched in this post on the need to sychronise OpenMP threads, to ensure correctness. For example we saw that updates to shared variables are not truly atomic, leading to the...">
         <meta name="keywords" content="">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -16,7 +16,6 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
-        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -76,19 +75,123 @@
         <!-- Content -->
     <div class="container content">
         <h2>Synchronisation</h2>
+<p>We touched in <a href="http://0x7df.github.io/openmp-1.html">this post</a> on the need to sychronise
+OpenMP threads, to ensure correctness. For example we saw that updates to
+shared variables are not truly atomic, leading to the potential for race
+conditions. A sequence of actions on shared data, such as
+updating an array with new values then then using it in a subsequent
+computation, might need to be synchronised to ensure all threads complete their
+writes before any threads go on to the next stage. In <a href="http://0x7df.github.io/openmp-2.html">this
+post</a> we noted that the <code>!$OMP END PARALLEL</code> directive
+is an implicit synchronisation point, which OpenMP ensures that all threads
+reach before any thread is allowed to continue. Other directives are implicit
+synchronisation points.</p>
+<p>In addition to these, OpenMP offers several explicit synchronisation
+directives.</p>
 <h3>Barrier</h3>
-<p>All threads must arrive at a barrier before any thread can proceed past it</p>
-<ul>
-<li>END PARALLEL directive is an implicit barrier</li>
-<li>End of a parallel DO loop is an implicit barrier</li>
-</ul>
+<div class="highlight"><pre><span></span>!$OMP BARRIER
+</pre></div>
+
+
+<p>All threads must arrive at a barrier before any thread can proceed past it.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">barrier</span>
+
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">ik</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">rk</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">thread_id</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">num_threads</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">neighbour</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">a</span><span class="p">(:),</span> <span class="n">b</span><span class="p">(:)</span>
+
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) SHARED(num_threads)</span>
+    <span class="n">num_threads</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span>
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">allocate</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">num_threads</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">num_threads</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &amp;</span>
+    <span class="c">!$OMP SHARED(a,b, num_threads)</span>
+
+    <span class="n">thread_id</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+    <span class="n">a</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">thread_id</span>
+
+    <span class="n">neighbour</span> <span class="o">=</span> <span class="n">thread_id</span> <span class="o">-</span> <span class="mi">1_ik</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">thread_id</span> <span class="o">==</span> <span class="mi">0_ik</span><span class="p">)</span> <span class="n">neighbour</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1_ik</span>
+    <span class="n">b</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">neighbour</span><span class="p">)</span>
+
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">a</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">b</span>
+
+<span class="k">end program </span><span class="n">barrier</span>
+</pre></div>
+
+
+<p>Without any synchronisation:</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o barrier.x barrier.f95
+$ ./barrier.x 
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+       <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">0</span>
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+</pre></div>
+
+
+<p>536870912           0   536870912           2
+    $ ./barrier.x 
+           0           1           2           3
+           3           0           0           0</p>
+<p>the results are wrong and non-deterministic. Correct placement of the barrier:</p>
+<div class="highlight"><pre><span></span><span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &amp;</span>
+<span class="c">!$OMP SHARED(a,b, num_threads)</span>
+
+<span class="n">thread_id</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+<span class="n">a</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">thread_id</span>
+
+<span class="c">!$OMP BARRIER</span>
+
+<span class="n">neighbour</span> <span class="o">=</span> <span class="n">thread_id</span> <span class="o">-</span> <span class="mi">1_ik</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">thread_id</span> <span class="o">==</span> <span class="mi">0_ik</span><span class="p">)</span> <span class="n">neighbour</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1_ik</span>
+<span class="n">b</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">neighbour</span><span class="p">)</span>
+
+<span class="c">!$OMP END PARALLEL</span>
+</pre></div>
+
+
+<p>leads to the correct result:</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o barrier.x barrier.f95
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+       <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+       <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>
+</pre></div>
+
+
+<p>Care must be taken about control flow: a likely bug is where some
+threads reach a barrier and some don't due to an <code>IF</code> condition:
+deadlock.</p>
+<p>The <code>END PARALLEL</code> directive is an implicit barrier. The end of a parallel
+<code>DO</code> loop is an implicit barrier.</p>
 <h3>Critical region</h3>
-<ul>
-<li>Only one thread <em>at a time</em> can enter a critical region. </li>
-</ul>
+<p>Only one thread <em>at a time</em> can enter a critical region. They can be used to
+protect updates to shared variables.</p>
+<div class="highlight"><pre><span></span>!$OMP CRITICAL
+...
+!$OMP END CRITICAL
+</pre></div>
+
+
+<p>For example, consider implementing a stack:</p>
 <h3>Atomic update</h3>
 <ul>
-<li>Modification of shred variable. Update a shared variable can be modified by
+<li>Modification of shared variable. Update a shared variable can be modified by
   only one thread at a time.</li>
 </ul>
 <hr/>

@@ -16,7 +16,6 @@
 
         <!-- RSS Feeds -->
         <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
-        <link href="http://0x7df.github.io/feeds/misc.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Categories Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -75,15 +74,17 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>In a previous post, the spatially-discretised, 1D, fixed-source, mono-energetic
-neutron transport equation was shown to be:</p>
+        <p>In a <a href="discretisation-of-the-1d-neutron-transport-equation.md">previous post</a>,
+the spatially-discretised, 1D, fixed-source, mono-energetic neutron transport
+equation was shown to be: </p>
 <div class="math">$$ \psi(\mu) = \lambda(\mu) \int_{-1}^1 \sigma(\mu, \mu') \psi(\mu') d\mu'
 + S(\mu) $$</div>
 <p>where:</p>
 <div class="math">$$ \lambda(\mu) = \frac{h}{2|\mu| + \Sigma h} $$</div>
 <div class="math">$$ S(\mu) = \frac{hq(\mu) + 2|\mu|\psi^{\mathrm{IN}}_j}{2|\mu| + \Sigma h} $$</div>
-<p>In a different post, iterative methods for solving inhomogeneous Fredholm
-equations of the second kind were introduced; these equations have the form:</p>
+<p>In a <a href="fredholm-integral-equations-and-the-resolvent-kernel.md">different post</a>
+, iterative methods for solving inhomogeneous Fredholm equations of the second
+kind were introduced. These equations have the form:</p>
 <div class="math">$$ \psi(\mu) = \lambda \int_a^b K(\mu, \mu') \psi(\mu') d\mu' + S(\mu) $$</div>
 <p>where <span class="math">\(\lambda\)</span> is a constant.</p>
 <p>The standard source iteration method in solving the neutron transport equation

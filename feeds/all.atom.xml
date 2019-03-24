@@ -1,5 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2018-05-31T22:46:00+01:00</updated><entry><title>Upstream differencing and the semi-Lagrangian scheme</title><link href="http://0x7df.github.io/upstream-differencing-and-the-semi-lagrangian-scheme.html" rel="alternate"></link><published>2018-05-31T22:46:00+01:00</published><updated>2018-05-31T22:46:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-31:/upstream-differencing-and-the-semi-lagrangian-scheme.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The upstream differencing technique is probably the simplest numerical
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-03-24T10:45:00+00:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Bash and Ksh function distinctions</title><link href="http://0x7df.github.io/bash-and-ksh-function-distinctions.html" rel="alternate"></link><published>2019-03-24T10:45:00+00:00</published><updated>2019-03-24T10:45:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-03-24:/bash-and-ksh-function-distinctions.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Bash and Ksh function distinctions&lt;/h1&gt;
+&lt;p&gt;There are subtle differences in function declaration and behaviour between Bash
+and Ksh.&lt;/p&gt;
+&lt;h2&gt;Function declaration&lt;/h2&gt;
+&lt;p&gt;In Bash, functions can be declared:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    name () compound-command [redirection]
+    function name [()] compound-command [redirection]
+            This defines a function named name.  The reserved word function is
+            optional.  If the function reserved word is supplied, the parentheses are
+            optional.  The body of the function is the compound command
+            compound-command ...
+            ...  The exit status of a function definition is zero  unless  a
+            syntax  error  occurs  or  a  readonly function with the same name already
+            exists.  When executed, the exit status of a function is the exit status
+            of the last command executed in the body.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and in ksh:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    function varname { list ;}
+    varname () { list ;}
+            Define  a  function  which  is referenced by varname.
+            ... The body of the function is the list of commands between { and }.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In Bash, the &lt;code&gt;function&lt;/code&gt; reserved word is optional, and if used, the &lt;code&gt;()&lt;/code&gt;
+brackets are optional; so it is possible to use either, or both.&lt;/p&gt;
+&lt;p&gt;In Ksh, you can use &lt;em&gt;either&lt;/em&gt; the &lt;code&gt;function&lt;/code&gt; reserved word, &lt;em&gt;or&lt;/em&gt; the &lt;code&gt;()&lt;/code&gt;
+brackets, but not both.&lt;/p&gt;
+&lt;p&gt;Hence using either, &lt;em&gt;but not both&lt;/em&gt;, will give a function declaration that works
+in both Bash and Ksh.&lt;/p&gt;
+&lt;p&gt;All other things being equal, we might prefer the &lt;code&gt;function&lt;/code&gt; style as being a
+bit clearer and more explicit. However, all other things are not equal...&lt;/p&gt;
+&lt;h2&gt;Environment inheritance&lt;/h2&gt;
+&lt;p&gt;While in Bash the two declaration styles (or three if you include the
+Bash-only &lt;code&gt;function name () ...&lt;/code&gt; style) are equivalent, in Ksh they have
+different behaviours. I'm interested in particular in handling errors.&lt;/p&gt;
+&lt;p&gt;With the bracket style in Ksh, the function inherits its environment
+from the caller, and causes the calling script to abort on an error
+in the function.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    Functions defined with the name() syntax ... are executed in the caller&amp;#39;s
+    environment and share all variables and traps with the caller.  Errors within
+    these function executions cause the script that contains them to abort.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I don't see the advertised behaviour in the case where there is an error in the
+function execution; the calling script doesn't seem to abort by default.
+Consider:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat ksh_brackets
+&lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
+
+func1 &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which gives:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./ksh_brackets
+grep: bar: No such file or directory
+Return code from &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;However, if you introduce &lt;code&gt;set -e&lt;/code&gt; into the calling script, of course then the
+calling script aborts on the failure of the function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat ksh_brackets
+&lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt; -e &lt;span class="c1"&gt;# Added&lt;/span&gt;
+
+func1 &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which gives:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./ksh_brackets
+grep: bar: No such file or directory
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So far the behaviour will be the same if we switch to the alternative
+&lt;code&gt;function ...&lt;/code&gt; declaration style. As before, with &lt;code&gt;set -e&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat ksh_function
+&lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; func1 &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./ksh_function
+grep: bar: No such file or directory
+Return code from &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and similarly with &lt;code&gt;set -e&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat ksh_function
+&lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt; -e &lt;span class="c1"&gt;# Added&lt;/span&gt;
+
+&lt;span class="k"&gt;function&lt;/span&gt; func1 &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./ksh_function
+grep: bar: No such file or directory
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The distinction arises in the way the functions behave. Let's add a line to
+the function's body, so we can see at what point control returns from the
+function to the caller. Now, in the first bracket-style form:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat ksh_brackets
+&lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt; -e
+
+func1 &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from grep = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="c1"&gt;# Added&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./ksh_brackets
+grep: bar: No such file or directory
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The function aborts immediately on the error, returns control to the calling
+script, which in turn also aborts immediately. The function has inherited the
+&lt;code&gt;set -e&lt;/code&gt; behaviour from the caller.&lt;/p&gt;
+&lt;p&gt;In the alternative form:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cat ksh_function
+&lt;span class="c1"&gt;#!/bin/ksh&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt; -e
+
+&lt;span class="k"&gt;function&lt;/span&gt; func1 &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from grep = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &lt;span class="c1"&gt;# Added&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./ksh_function
+grep: bar: No such file or directory
+Return code from &lt;span class="nv"&gt;grep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;2&lt;/span&gt;
+Return code from &lt;span class="k"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The function has not inherited the &lt;code&gt;set -e&lt;/code&gt; behaviour of the calling script,
+and therefore doesn't abort on the error from &lt;code&gt;grep&lt;/code&gt;; instead it completes
+normally. The return code from a function is the exit status of the last
+command in the function body, which in this case is the &lt;code&gt;echo&lt;/code&gt; statement; since
+this completes successfully, the return code of the function is 0, and the
+calling script therefore also completes normally.&lt;/p&gt;
+&lt;p&gt;In Bash, both function-declaration types are the same, and both behave the way
+the bracket-style declaration works in Ksh; that is, they inherit the &lt;code&gt;set -e&lt;/code&gt;
+behaviour from the caller.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat bash_function
+&lt;span class="c1"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt; -e
+
+&lt;span class="k"&gt;function&lt;/span&gt; func1 &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from grep = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./bash_function
+grep: bar: No such file or directory
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ cat bash_brackets 
+&lt;span class="c1"&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class="nb"&gt;set&lt;/span&gt; -e
+
+func1 &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    grep foo bar
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from grep = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+func1
+
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Return code from function = &lt;/span&gt;&lt;span class="nv"&gt;$?&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./bash_brackets
+grep: bar: No such file or directory
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So the way to get equivalence between Bash and Ksh (in this respect, there
+may still be other differences) is to use the bracket-style declaration:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;name &lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    function_body
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;for functions.&lt;/p&gt;</content></entry><entry><title>Upstream differencing and the semi-Lagrangian scheme</title><link href="http://0x7df.github.io/upstream-differencing-and-the-semi-lagrangian-scheme.html" rel="alternate"></link><published>2018-05-31T22:46:00+01:00</published><updated>2018-05-31T22:46:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-31:/upstream-differencing-and-the-semi-lagrangian-scheme.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The upstream differencing technique is probably the simplest numerical
 discretisation technique; take as an example the linear advection equation:&lt;/p&gt;
 &lt;div class="math"&gt;$$
 \frac{\partial y}{\partial t} + u_0 \frac{\partial y}{\partial x} = 0
@@ -1960,61 +2205,7 @@ D\left(\mathbf{r}, t\right) \nabla u\left(\mathbf{r}, t\right)
 &lt;ul&gt;
 &lt;li&gt;&lt;span class="math"&gt;\( \mathbf{r}\)&lt;/span&gt; is position&lt;/li&gt;
 &lt;li&gt;&lt;span class="math"&gt;\( t\)&lt;/span&gt; is time&lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\( u \left( \mathbf{r}, t \right)\)&lt;/span&gt; is …&lt;/li&gt;&lt;/ul&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</summary><content type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
+&lt;li&gt;&lt;span class="math"&gt;\( u \left( \mathbf{r}, t \right)\)&lt;/span&gt; is …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
 &lt;p&gt;The time-dependent diffusion equation is:&lt;/p&gt;
 &lt;div class="math"&gt;$$  
 \frac{\partial u}{\partial t} = \nabla \cdot \left(
@@ -3580,61 +3771,7 @@ in the test.&lt;/p&gt;
 gas in question, and:&lt;/p&gt;
 &lt;div class="math"&gt;$$ R = \frac{nR^*}{m} = \frac{R^*}{M} $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( R^*\)&lt;/span&gt; is the universal gas constant (&lt;span class="math"&gt;\( 8.31~
-\mathrm{J/mol.K}\)&lt;/span&gt;) and …&lt;/p&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</summary><content type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+\mathrm{J/mol.K}\)&lt;/span&gt;) and …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
 &lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
 &lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the
@@ -3753,61 +3890,7 @@ per unit mass - at a location in the earth's atmosphere. It is often
 used as a vertical coordinate instead of height above sea level,
 &lt;span class="math"&gt;\( z\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;The geopotential at height &lt;span class="math"&gt;\( z\)&lt;/span&gt; is the difference
-between the gravitational …&lt;/p&gt;&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</summary><content type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
+between the gravitational …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
 &lt;p&gt;is the gravitational potential - i.e. the gravitational potential energy
 per unit mass - at a location in the earth's atmosphere. It is often
