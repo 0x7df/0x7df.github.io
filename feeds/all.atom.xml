@@ -1,5 +1,247 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T12:08:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 6</title><link href="http://0x7df.github.io/openmp-6.html" rel="alternate"></link><published>2019-07-27T12:08:00+01:00</published><updated>2019-07-27T12:08:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-6.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Work-sharing constructs&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T19:35:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 7</title><link href="http://0x7df.github.io/openmp-7.html" rel="alternate"></link><published>2019-07-27T19:35:00+01:00</published><updated>2019-07-27T19:35:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-7.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Synchronisation&lt;/h2&gt;
+&lt;p&gt;We touched in &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;this post&lt;/a&gt; on the need to sychronise
+OpenMP threads, to ensure correctness. For example, we saw that updates to
+shared variables are not truly atomic, leading to the potential for race
+conditions. A sequence of actions on shared data, such as
+updating an array with new values then then using it in a subsequent
+computation, might need to be synchronised to ensure that all threads complete their
+writes before any threads go on to the next stage. In &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;this
+post&lt;/a&gt; we noted that the &lt;code&gt;!$OMP END PARALLEL&lt;/code&gt; directive
+is an implicit synchronisation point, which OpenMP ensures that all threads
+reach before any thread is allowed to continue. Other directives are implicit
+synchronisation points.&lt;/p&gt;
+&lt;p&gt;As well as these, OpenMP offers several explicit synchronisation
+directives, which we'll look at here.&lt;/p&gt;
+&lt;h3&gt;Barrier&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP BARRIER
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;All threads must arrive at a barrier before any thread can proceed past it.&lt;/p&gt;
+&lt;p&gt;For example, consider the following code, which populates shared arrays &lt;code&gt;a&lt;/code&gt; and
+&lt;code&gt;b&lt;/code&gt; with the thread numbers and the numbers of the threads' neighbours:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;barrier&lt;/span&gt;
+
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;rk&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;num_threads&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;neighbour&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(:),&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt;
+
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) SHARED(num_threads)&lt;/span&gt;
+    &lt;span class="n"&gt;num_threads&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+
+    &lt;span class="k"&gt;allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;num_threads&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;num_threads&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &amp;amp;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP     SHARED(a,b, num_threads)&lt;/span&gt;
+
+    &lt;span class="n"&gt;thread_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;thread_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;
+
+    &lt;span class="n"&gt;neighbour&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;thread_id&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;neighbour&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;
+    &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;thread_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;neighbour&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;barrier&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Without any synchronisation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o barrier.x barrier.f95
+$ ./barrier.x 
+$ ./barrier.x 
+       &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+       &lt;span class="m"&gt;3&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
+$ ./barrier.x 
+       &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;536870912           0   536870912           2
+    $ ./barrier.x 
+           0           1           2           3
+           3           0           0           0&lt;/p&gt;
+&lt;p&gt;The results are both wrong and non-deterministic, because some threads proceed to the
+lines where &lt;code&gt;a&lt;/code&gt; is read before &lt;code&gt;a&lt;/code&gt; has been fully populated. Correct placement
+of the barrier:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP     SHARED(a,b, num_threads)&lt;/span&gt;
+
+&lt;span class="n"&gt;thread_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;thread_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;
+
+&lt;span class="c"&gt;!$OMP BARRIER&lt;/span&gt;
+
+&lt;span class="n"&gt;neighbour&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;thread_id&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;neighbour&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;
+&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;thread_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;neighbour&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;leads to the correct result:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o barrier.x barrier.f95
+$ ./barrier.x 
+       &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+       &lt;span class="m"&gt;3&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;
+$ ./barrier.x 
+       &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+       &lt;span class="m"&gt;3&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Care must be taken about control flow: a likely bug is where some
+threads reach a barrier and some don't due to an &lt;code&gt;IF&lt;/code&gt; condition.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;END PARALLEL&lt;/code&gt; directive is an implicit barrier. The end of a parallel
+&lt;code&gt;DO&lt;/code&gt; loop is an implicit barrier.&lt;/p&gt;
+&lt;h3&gt;Critical region&lt;/h3&gt;
+&lt;p&gt;Only one thread &lt;em&gt;at a time&lt;/em&gt; can enter a critical region. They can be used to
+protect updates to shared variables.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP CRITICAL
+...
+!$OMP END CRITICAL
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;For example, consider implementing a stack:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;module &lt;/span&gt;&lt;span class="n"&gt;critical_mod&lt;/span&gt;
+
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;rk&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+
+    &lt;span class="k"&gt;contains&lt;/span&gt;
+
+&lt;span class="k"&gt;    subroutine &lt;/span&gt;&lt;span class="n"&gt;getnext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inout&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ub&lt;/span&gt;
+        &lt;span class="n"&gt;ub&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;ubound&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;next&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ub&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ub&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;ub&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;call &lt;/span&gt;&lt;span class="nb"&gt;move_alloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;from&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;end subroutine &lt;/span&gt;&lt;span class="n"&gt;getnext&lt;/span&gt;
+
+    &lt;span class="k"&gt;subroutine &lt;/span&gt;&lt;span class="n"&gt;putnew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;inout&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ub&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inew&lt;/span&gt;
+        &lt;span class="n"&gt;ub&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;ubound&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ub&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;ub&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt;
+        &lt;span class="k"&gt;call &lt;/span&gt;&lt;span class="nb"&gt;move_alloc&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;from&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ub&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;
+    &lt;span class="k"&gt;end subroutine &lt;/span&gt;&lt;span class="n"&gt;putnew&lt;/span&gt;
+
+    &lt;span class="k"&gt;subroutine &lt;/span&gt;&lt;span class="n"&gt;work&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;in&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;
+        &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;intent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;
+        &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;u&lt;/span&gt;
+        &lt;span class="k"&gt;call &lt;/span&gt;&lt;span class="nb"&gt;random_number&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;FLOOR&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;u&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Processed item&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;on thread&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;
+    &lt;span class="k"&gt;end subroutine &lt;/span&gt;&lt;span class="n"&gt;work&lt;/span&gt;
+
+&lt;span class="k"&gt;end module &lt;/span&gt;&lt;span class="n"&gt;critical_mod&lt;/span&gt;
+
+&lt;span class="k"&gt;program critical&lt;/span&gt;
+
+&lt;span class="k"&gt;    use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;critical_mod&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maxx&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(:)&lt;/span&gt;
+
+    &lt;span class="n"&gt;maxx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10_ik&lt;/span&gt;
+    &lt;span class="k"&gt;allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;maxx&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;stack&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;maxx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) SHARED(stack, maxx) PRIVATE(next, new, thread_id)&lt;/span&gt;
+    &lt;span class="n"&gt;thread_id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;do while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c"&gt;!$OMP CRITICAL&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;call &lt;/span&gt;&lt;span class="n"&gt;getnext&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="c"&gt;!$OMP END CRITICAL&lt;/span&gt;
+
+        &lt;span class="k"&gt;call &lt;/span&gt;&lt;span class="n"&gt;work&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;next&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c"&gt;!$OMP CRITICAL&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="n"&gt;maxx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;maxx&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;
+            &lt;span class="k"&gt;call &lt;/span&gt;&lt;span class="n"&gt;putnew&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;maxx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stack&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;endif&lt;/span&gt;
+        &lt;span class="c"&gt;!$OMP END CRITICAL&lt;/span&gt;
+
+    &lt;span class="n"&gt;enddo&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+
+&lt;span class="k"&gt;end program critical&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, we create an initial stack of ten values, then enter a loop in which the
+latest value if popped off the stack and processed, during which there is a 50:50
+probability of a new value being created and added to the stack. Because the
+stack is a single data structure shared across all threads, the
+interactions with it must be protected inside critical sections. If they were
+not, for example, two threads could get same value, because the second of these
+reads the value before the first has had chance to remove it. Essentially, the
+critical section makes the popping and adding operations atomic. The step where
+a thread processes the value it holds does not need to be protected, because
+this is unique to the thread and there is no shared data involved.&lt;/p&gt;
+&lt;h3&gt;Atomic update&lt;/h3&gt;
+&lt;p&gt;The atomic direactive is used to protect modification of a shared variable. It
+applies to only a single statement.&lt;/p&gt;
+&lt;p&gt;The syntax is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP ATOMIC
+...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;where the statement must have one of the forms:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;op&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;
+&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;intr&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;expr&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and &lt;code&gt;&amp;lt;op&amp;gt;&lt;/code&gt; is one of &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;, &lt;code&gt;.and.&lt;/code&gt;, &lt;code&gt;.or.&lt;/code&gt;, &lt;code&gt;.eqv.&lt;/code&gt; or &lt;code&gt;.neqv.&lt;/code&gt;;
+and &lt;code&gt;&amp;lt;intr&amp;gt;&lt;/code&gt; is one of &lt;code&gt;max&lt;/code&gt;, &lt;code&gt;min&lt;/code&gt;, &lt;code&gt;iand&lt;/code&gt;, &lt;code&gt;ior&lt;/code&gt; or &lt;code&gt;ieor&lt;/code&gt;. Note that the
+evaluation if &lt;code&gt;&amp;lt;expr&amp;gt;&lt;/code&gt; is not atomic.&lt;/p&gt;
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+
+&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
+&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content></entry><entry><title>OpenMP 6</title><link href="http://0x7df.github.io/openmp-6.html" rel="alternate"></link><published>2019-07-27T12:08:00+01:00</published><updated>2019-07-27T12:08:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-6.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Work-sharing constructs&lt;/h2&gt;
 &lt;p&gt;As
 &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;we've&lt;/a&gt;
 &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;seen&lt;/a&gt;
@@ -142,7 +384,7 @@ and low overheads.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -469,7 +711,7 @@ thread.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1312,7 +1554,7 @@ reduction is performed on each element of the array.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1575,7 +1817,7 @@ the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can also have the followin
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1773,7 +2015,7 @@ $ ./serial_thread_number
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1947,7 +2189,7 @@ or it might be equal to the number of cores in the system.)&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 

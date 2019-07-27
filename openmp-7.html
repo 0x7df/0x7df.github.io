@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Synchronisation We touched in this post on the need to sychronise OpenMP threads, to ensure correctness. For example, we saw that updates to shared variables are not truly atomic, leading to the...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>OpenMP 7 - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">OpenMP 7</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 27 July 2019, modified Sat 27 July 2019, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h2>Synchronisation</h2>
+<p>We touched in <a href="http://0x7df.github.io/openmp-1.html">this post</a> on the need to sychronise
+OpenMP threads, to ensure correctness. For example, we saw that updates to
+shared variables are not truly atomic, leading to the potential for race
+conditions. A sequence of actions on shared data, such as
+updating an array with new values then then using it in a subsequent
+computation, might need to be synchronised to ensure that all threads complete their
+writes before any threads go on to the next stage. In <a href="http://0x7df.github.io/openmp-2.html">this
+post</a> we noted that the <code>!$OMP END PARALLEL</code> directive
+is an implicit synchronisation point, which OpenMP ensures that all threads
+reach before any thread is allowed to continue. Other directives are implicit
+synchronisation points.</p>
+<p>As well as these, OpenMP offers several explicit synchronisation
+directives, which we'll look at here.</p>
+<h3>Barrier</h3>
+<div class="highlight"><pre><span></span>!$OMP BARRIER
+</pre></div>
+
+
+<p>All threads must arrive at a barrier before any thread can proceed past it.</p>
+<p>For example, consider the following code, which populates shared arrays <code>a</code> and
+<code>b</code> with the thread numbers and the numbers of the threads' neighbours:</p>
+<div class="highlight"><pre><span></span><span class="k">program </span><span class="n">barrier</span>
+
+    <span class="k">use </span><span class="n">OMP_LIB</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">ik</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">rk</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">thread_id</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">num_threads</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">neighbour</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">a</span><span class="p">(:),</span> <span class="n">b</span><span class="p">(:)</span>
+
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) SHARED(num_threads)</span>
+    <span class="n">num_threads</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span>
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">allocate</span><span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">num_threads</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">b</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">num_threads</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &amp;</span>
+    <span class="c">!$OMP     SHARED(a,b, num_threads)</span>
+
+    <span class="n">thread_id</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+    <span class="n">a</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">thread_id</span>
+
+    <span class="n">neighbour</span> <span class="o">=</span> <span class="n">thread_id</span> <span class="o">-</span> <span class="mi">1_ik</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">thread_id</span> <span class="o">==</span> <span class="mi">0_ik</span><span class="p">)</span> <span class="n">neighbour</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1_ik</span>
+    <span class="n">b</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">neighbour</span><span class="p">)</span>
+
+    <span class="c">!$OMP END PARALLEL</span>
+
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">a</span>
+    <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="n">b</span>
+
+<span class="k">end program </span><span class="n">barrier</span>
+</pre></div>
+
+
+<p>Without any synchronisation:</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o barrier.x barrier.f95
+$ ./barrier.x 
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+       <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">0</span>
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+</pre></div>
+
+
+<p>536870912           0   536870912           2
+    $ ./barrier.x 
+           0           1           2           3
+           3           0           0           0</p>
+<p>The results are both wrong and non-deterministic, because some threads proceed to the
+lines where <code>a</code> is read before <code>a</code> has been fully populated. Correct placement
+of the barrier:</p>
+<div class="highlight"><pre><span></span><span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &amp;</span>
+<span class="c">!$OMP     SHARED(a,b, num_threads)</span>
+
+<span class="n">thread_id</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+<span class="n">a</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">thread_id</span>
+
+<span class="c">!$OMP BARRIER</span>
+
+<span class="n">neighbour</span> <span class="o">=</span> <span class="n">thread_id</span> <span class="o">-</span> <span class="mi">1_ik</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">thread_id</span> <span class="o">==</span> <span class="mi">0_ik</span><span class="p">)</span> <span class="n">neighbour</span> <span class="o">=</span> <span class="n">OMP_GET_NUM_THREADS</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1_ik</span>
+<span class="n">b</span><span class="p">(</span><span class="n">thread_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">neighbour</span><span class="p">)</span>
+
+<span class="c">!$OMP END PARALLEL</span>
+</pre></div>
+
+
+<p>leads to the correct result:</p>
+<div class="highlight"><pre><span></span>$ gfortran -fopenmp -o barrier.x barrier.f95
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+       <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+       <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>
+</pre></div>
+
+
+<p>Care must be taken about control flow: a likely bug is where some
+threads reach a barrier and some don't due to an <code>IF</code> condition.</p>
+<p>The <code>END PARALLEL</code> directive is an implicit barrier. The end of a parallel
+<code>DO</code> loop is an implicit barrier.</p>
+<h3>Critical region</h3>
+<p>Only one thread <em>at a time</em> can enter a critical region. They can be used to
+protect updates to shared variables.</p>
+<div class="highlight"><pre><span></span>!$OMP CRITICAL
+...
+!$OMP END CRITICAL
+</pre></div>
+
+
+<p>For example, consider implementing a stack:</p>
+<div class="highlight"><pre><span></span><span class="k">module </span><span class="n">critical_mod</span>
+
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">ik</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">rk</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="k">contains</span>
+
+<span class="k">    subroutine </span><span class="n">getnext</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">stack</span><span class="p">)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">stack</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">next</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">temp</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ub</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="nb">ubound</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="mi">1_ik</span><span class="p">)</span>
+        <span class="n">next</span> <span class="o">=</span> <span class="n">stack</span><span class="p">(</span><span class="n">ub</span><span class="p">)</span>
+        <span class="k">allocate</span><span class="p">(</span><span class="n">temp</span><span class="p">(</span><span class="n">ub</span><span class="o">-</span><span class="mi">1_ik</span><span class="p">))</span>
+        <span class="n">temp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">stack</span><span class="p">(</span><span class="mi">1_ik</span><span class="p">:</span><span class="n">ub</span><span class="o">-</span><span class="mi">1_ik</span><span class="p">)</span>
+        <span class="k">call </span><span class="nb">move_alloc</span><span class="p">(</span><span class="n">from</span><span class="o">=</span><span class="n">temp</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="n">stack</span><span class="p">)</span>
+    <span class="k">end subroutine </span><span class="n">getnext</span>
+
+    <span class="k">subroutine </span><span class="n">putnew</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">stack</span><span class="p">)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">allocatable</span><span class="p">,</span> <span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">stack</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">new</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">temp</span><span class="p">(:)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ub</span><span class="p">,</span> <span class="n">inew</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="nb">ubound</span><span class="p">(</span><span class="n">stack</span><span class="p">,</span> <span class="mi">1_ik</span><span class="p">)</span>
+        <span class="k">allocate</span><span class="p">(</span><span class="n">temp</span><span class="p">(</span><span class="n">ub</span><span class="o">+</span><span class="mi">1_ik</span><span class="p">))</span>
+        <span class="n">temp</span><span class="p">(</span><span class="mi">1_ik</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span> <span class="o">=</span> <span class="n">stack</span><span class="p">(:)</span>
+        <span class="k">call </span><span class="nb">move_alloc</span><span class="p">(</span><span class="n">from</span><span class="o">=</span><span class="n">temp</span><span class="p">,</span> <span class="n">to</span><span class="o">=</span><span class="n">stack</span><span class="p">)</span>
+        <span class="n">stack</span><span class="p">(</span><span class="n">ub</span><span class="o">+</span><span class="mi">1_ik</span><span class="p">)</span> <span class="o">=</span> <span class="n">new</span>
+    <span class="k">end subroutine </span><span class="n">putnew</span>
+
+    <span class="k">subroutine </span><span class="n">work</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">thread_id</span><span class="p">)</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">next</span><span class="p">,</span> <span class="n">thread_id</span>
+        <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">intent</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">new</span>
+        <span class="kt">real</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">rk</span><span class="p">)</span> <span class="kd">::</span> <span class="n">u</span>
+        <span class="k">call </span><span class="nb">random_number</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="n">new</span> <span class="o">=</span> <span class="nb">FLOOR</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">)</span>
+        <span class="k">write</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="o">*</span><span class="p">)</span> <span class="s1">&#39;Processed item&#39;</span><span class="p">,</span> <span class="n">next</span><span class="p">,</span> <span class="s1">&#39;on thread&#39;</span><span class="p">,</span> <span class="n">thread_id</span>
+    <span class="k">end subroutine </span><span class="n">work</span>
+
+<span class="k">end module </span><span class="n">critical_mod</span>
+
+<span class="k">program critical</span>
+
+<span class="k">    use </span><span class="n">OMP_LIB</span>
+    <span class="k">use </span><span class="n">critical_mod</span>
+    <span class="k">implicit none</span>
+<span class="k">    </span><span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">next</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">thread_id</span><span class="p">,</span> <span class="n">maxx</span>
+    <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">),</span> <span class="k">allocatable</span> <span class="kd">::</span> <span class="n">stack</span><span class="p">(:)</span>
+
+    <span class="n">maxx</span> <span class="o">=</span> <span class="mi">10_ik</span>
+    <span class="k">allocate</span><span class="p">(</span><span class="n">stack</span><span class="p">(</span><span class="n">maxx</span><span class="p">))</span>
+    <span class="n">stack</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mi">1_ik</span><span class="p">,</span><span class="n">maxx</span><span class="p">)</span><span class="o">/</span><span class="p">)</span>
+
+    <span class="c">!$OMP PARALLEL DEFAULT(NONE) SHARED(stack, maxx) PRIVATE(next, new, thread_id)</span>
+    <span class="n">thread_id</span> <span class="o">=</span> <span class="n">OMP_GET_THREAD_NUM</span><span class="p">()</span>
+    <span class="k">do while</span> <span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0_ik</span><span class="p">)</span>
+
+        <span class="c">!$OMP CRITICAL</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0_ik</span><span class="p">)</span> <span class="k">call </span><span class="n">getnext</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">stack</span><span class="p">)</span>
+        <span class="c">!$OMP END CRITICAL</span>
+
+        <span class="k">call </span><span class="n">work</span><span class="p">(</span><span class="n">next</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">thread_id</span><span class="p">)</span>
+
+        <span class="c">!$OMP CRITICAL</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">new</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">then</span>
+<span class="k">            </span><span class="n">maxx</span> <span class="o">=</span> <span class="n">maxx</span> <span class="o">+</span> <span class="mi">1_ik</span>
+            <span class="k">call </span><span class="n">putnew</span><span class="p">(</span><span class="n">maxx</span><span class="p">,</span> <span class="n">stack</span><span class="p">)</span>
+        <span class="n">endif</span>
+        <span class="c">!$OMP END CRITICAL</span>
+
+    <span class="n">enddo</span>
+    <span class="c">!$OMP END PARALLEL</span>
+
+<span class="k">end program critical</span>
+</pre></div>
+
+
+<p>Here, we create an initial stack of ten values, then enter a loop in which the
+latest value if popped off the stack and processed, during which there is a 50:50
+probability of a new value being created and added to the stack. Because the
+stack is a single data structure shared across all threads, the
+interactions with it must be protected inside critical sections. If they were
+not, for example, two threads could get same value, because the second of these
+reads the value before the first has had chance to remove it. Essentially, the
+critical section makes the popping and adding operations atomic. The step where
+a thread processes the value it holds does not need to be protected, because
+this is unique to the thread and there is no shared data involved.</p>
+<h3>Atomic update</h3>
+<p>The atomic direactive is used to protect modification of a shared variable. It
+applies to only a single statement.</p>
+<p>The syntax is:</p>
+<div class="highlight"><pre><span></span>!$OMP ATOMIC
+...
+</pre></div>
+
+
+<p>where the statement must have one of the forms:</p>
+<div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span><span class="n">op</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span>
+<span class="n">x</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">op</span><span class="o">&gt;</span> <span class="n">x</span>
+<span class="n">x</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">intr</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>and <code>&lt;op&gt;</code> is one of <code>+</code>, <code>*</code>, <code>-</code>, <code>/</code>, <code>.and.</code>, <code>.or.</code>, <code>.eqv.</code> or <code>.neqv.</code>;
+and <code>&lt;intr&gt;</code> is one of <code>max</code>, <code>min</code>, <code>iand</code>, <code>ior</code> or <code>ieor</code>. Note that the
+evaluation if <code>&lt;expr&gt;</code> is not atomic.</p>
+<hr/>
+
+<ul>
+<li><a href="http://0x7df.github.io/openmp-1.html">OpenMP 1 (Overview, Implementaion)</a></li>
+<li><a href="http://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
+<li><a href="http://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
+<li><a href="http://0x7df.github.io/openmp-4.html">OpenMP 4 (Reductions)</a></li>
+<li><a href="http://0x7df.github.io/openmp-5.html">OpenMP 5 (Work-sharing constructs)</a></li>
+<li><a href="http://0x7df.github.io/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>
+<li><a href="http://0x7df.github.io/openmp-7.html">OpenMP 7 ()</a></li>
+</ul>
+<hr/>
+
+<p>These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.</p>
+<p>This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US</a></p>
+<p>This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
