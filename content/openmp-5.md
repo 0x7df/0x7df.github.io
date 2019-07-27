@@ -1,23 +1,23 @@
 Title: OpenMP 5
-Date: 2018-05-28 00:43
+Date: 2019-07-27 12:07
 Category:  
-Modified: 2018-05-28 00:43
+Modified: 2019-07-27 12:07
 Tags: 
 Slug: 
 Author: 0x7df
 Summary: 
 Status: published
 
-# Exercise - determine the area of a Mandelbrot set
+## Exercise - determine the area of a Mandelbrot set
 
-## Overview
+### Overview
 
 In [several]({filename}openmp-1.md) [previous]({filename}openmp-2.md) [posts]({filename}openmp-3.md) [...]({filename}openmp-4.md), the basics of OpenMP were described.
 
 As an exercise, let's determine the area of a Mandelbrot set using a simple 
 algorithm parallelised with OpenMP.
 
-## Plotting a Mandelbrot set
+### Plotting a Mandelbrot set
 
 The Mandelbrot set is the set of complex numbers, $c$, for which the function
 $f(z) = z^2 +c$ does not diverge when iterated from $z = 0$. That is, the
@@ -165,7 +165,7 @@ gives:
 ![Alt Text]({filename}/images/mandelbrot_serial.png)
 which seems in the right ball park.
 
-## Initial parallelism
+### Initial parallelism
 
 We now make a first attempt to add OpenMP. So far, we've covered the `!$OMP
 PARALLEL` directive, so we will stick to using just that, even though as we'll
