@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T19:35:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 7</title><link href="http://0x7df.github.io/openmp-7.html" rel="alternate"></link><published>2019-07-27T19:35:00+01:00</published><updated>2019-07-27T19:35:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-7.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Synchronisation&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T20:27:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 1</title><link href="http://0x7df.github.io/openmp-1.html" rel="alternate"></link><published>2019-07-27T20:27:00+01:00</published><updated>2019-07-27T20:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-1.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Overview&lt;/h1&gt;
+&lt;p&gt;OpenMP is a set of extensions to Fortran, C and C++, consisting of compiler
+directives, library routines, and environment variables, that allows the
+programming of shared-memory applications. Typically it allows parallelism to
+be added to an existing application without a major re-write.&lt;/p&gt;
+&lt;p&gt;The OpenMP programming model is based on the notion of &lt;em&gt;threads&lt;/em&gt;. Threads are
+similar to processes, but as well as having their own private memory, they can
+share memory with each other. Different threads can follow different logical
+paths through the same code; each thread has its own program counter.&lt;/p&gt;
+&lt;p&gt;Usually there is one thread per core; there can be more but then the core has
+to time-share between the threads, which introduces some overhead. In some
+systems there is hardware support for multiple threads per core
+(symmetric multithreading (SMT), also known as hyperthreading).&lt;/p&gt;
+&lt;p&gt;Unlike MPI, threads do not exchange information via messages, but simply via
+reading and writing to shared memory.&lt;/p&gt;
+&lt;p&gt;By default, threads execute independently of each other; there is no
+synchronisation. Therefore to ensure correctness, the programmer must ensure
+that actions on shared data occur in the correct order. Note that an update to
+a shared variable, e.g. &lt;code&gt;x = x + 1&lt;/code&gt;, is not atomic. If there are two threads, the
+correct result is &lt;code&gt;x + 2&lt;/code&gt;, but it is possible for thread 1 to read &lt;code&gt;x&lt;/code&gt;, and then
+for thread 2 to read &lt;code&gt;x&lt;/code&gt; before thread 1 has incremented the value and written it
+back to &lt;code&gt;x&lt;/code&gt;. The final result would be &lt;code&gt;x + 1&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The most common OpenMP idiom is the parallelisation of loops, where the
+iterations of the loop are independent of each other.&lt;/p&gt;
+&lt;p&gt;For example, in:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;imax&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;end do&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;the loop iterations are independent of each other and the loop can be parallelised, whereas:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;imax&lt;/span&gt;
+    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+&lt;span class="k"&gt;end do&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;has a &lt;em&gt;loop-carried dependency&lt;/em&gt;. The loop iterations must be done in the
+correct order to obtain the correct result.&lt;/p&gt;
+&lt;p&gt;In the former case the loop iterations can be carried out in any order, and can
+therefore be shared amongst a number of threads. If &lt;code&gt;imax = 100&lt;/code&gt; and there are
+two threads, we could do iterations 1-50 on thread 1 and 51-100 on thread 2,
+giving essentially a factor of two increase. (In practive the overhead of
+creating and managing the threads reduces, often drastically, the speedup.)&lt;/p&gt;
+&lt;p&gt;A &lt;em&gt;reduction&lt;/em&gt; operation produces a single value from a set of values, e.g. the
+sum, product, maximum, minimum, etc. For example, consider the loop: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;enddo&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;For correctness we would need to ensure only one thread at a time incremented
+&lt;code&gt;x&lt;/code&gt;, which would destroy all the parallelism. It's better if each thread performs
+its own private reduction, and then these per-thread results are reduced to the
+final answer. If the number of threads is small relative to the number of
+values being aggregated, then there is still substantial parallelism.&lt;/p&gt;
+&lt;h1&gt;Implementation&lt;/h1&gt;
+&lt;p&gt;OpenMP is implemented in source code by means of &lt;em&gt;compiler directives&lt;/em&gt;; these are special
+source code lines that are only meaningful to certain OpenMP-compliant compilers. Directives are
+protected by a &lt;em&gt;sentinel&lt;/em&gt;, which for OpenMP is:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;!$OMP&lt;/code&gt; for Fortran&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#pragma omp&lt;/code&gt; for C/C++&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Clearly the directive appears as an ordinary comment and is therefore ignored by the
+compiler if the compiler is not OpenMP-compliant, or if OpenMP is not requested.&lt;/p&gt;
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello world!&amp;quot;&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To compile an OpenMP program, the addition of a (compiler-dependent) flag at
+the compile and link steps makes OpenMP available. E.g. using GCC:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o hello_world hello_world.f95
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;OpenMP is built into most compilers. The flag for Intel compilers is &lt;code&gt;-openmp&lt;/code&gt;.
+OpenMP is on by default in the Cray compiler.&lt;/p&gt;
+&lt;p&gt;The number of threads at run-time is determined from an environment variable:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;OMP_NUM_THREADS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(The default number of threads is implementation-dependent. It might be 1,
+or it might be equal to the number of cores in the system.)&lt;/p&gt;
+&lt;p&gt;Then the application is run as normal:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./hello_world 
+ Hello world!
+ Hello world!
+ Hello world!
+ Hello world!
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+
+&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
+&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content></entry><entry><title>OpenMP 7</title><link href="http://0x7df.github.io/openmp-7.html" rel="alternate"></link><published>2019-07-27T19:35:00+01:00</published><updated>2019-07-27T19:35:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-7.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Synchronisation&lt;/h2&gt;
 &lt;p&gt;We touched in &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;this post&lt;/a&gt; on the need to sychronise
 OpenMP threads, to ensure correctness. For example, we saw that updates to
 shared variables are not truly atomic, leading to the potential for race
@@ -26,7 +145,6 @@ directives, which we'll look at here.&lt;/p&gt;
     &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
     &lt;span class="k"&gt;implicit none&lt;/span&gt;
 &lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;rk&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;
     &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;thread_id&lt;/span&gt;
     &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;num_threads&lt;/span&gt;
     &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;neighbour&lt;/span&gt;
@@ -65,13 +183,13 @@ $ ./barrier.x
        &lt;span class="m"&gt;3&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
 $ ./barrier.x 
        &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+&lt;span class="m"&gt;536870912&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;   &lt;span class="m"&gt;536870912&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;
+$ ./barrier.x 
+       &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;1&lt;/span&gt;           &lt;span class="m"&gt;2&lt;/span&gt;           &lt;span class="m"&gt;3&lt;/span&gt;
+       &lt;span class="m"&gt;3&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;           &lt;span class="m"&gt;0&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;536870912           0   536870912           2
-    $ ./barrier.x 
-           0           1           2           3
-           3           0           0           0&lt;/p&gt;
 &lt;p&gt;The results are both wrong and non-deterministic, because some threads proceed to the
 lines where &lt;code&gt;a&lt;/code&gt; is read before &lt;code&gt;a&lt;/code&gt; has been fully populated. Correct placement
 of the barrier:&lt;/p&gt;
@@ -103,7 +221,7 @@ $ ./barrier.x
 
 
 &lt;p&gt;Care must be taken about control flow: a likely bug is where some
-threads reach a barrier and some don't due to an &lt;code&gt;IF&lt;/code&gt; condition.&lt;/p&gt;
+threads reach a barrier and some don't, due to an &lt;code&gt;IF&lt;/code&gt; condition.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;END PARALLEL&lt;/code&gt; directive is an implicit barrier. The end of a parallel
 &lt;code&gt;DO&lt;/code&gt; loop is an implicit barrier.&lt;/p&gt;
 &lt;h3&gt;Critical region&lt;/h3&gt;
@@ -196,7 +314,7 @@ protect updates to shared variables.&lt;/p&gt;
 
 
 &lt;p&gt;Here, we create an initial stack of ten values, then enter a loop in which the
-latest value if popped off the stack and processed, during which there is a 50:50
+latest value is popped off the stack and processed, during which there is a 50:50
 probability of a new value being created and added to the stack. Because the
 stack is a single data structure shared across all threads, the
 interactions with it must be protected inside critical sections. If they were
@@ -224,6 +342,26 @@ applies to only a single statement.&lt;/p&gt;
 &lt;p&gt;and &lt;code&gt;&amp;lt;op&amp;gt;&lt;/code&gt; is one of &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;/&lt;/code&gt;, &lt;code&gt;.and.&lt;/code&gt;, &lt;code&gt;.or.&lt;/code&gt;, &lt;code&gt;.eqv.&lt;/code&gt; or &lt;code&gt;.neqv.&lt;/code&gt;;
 and &lt;code&gt;&amp;lt;intr&amp;gt;&lt;/code&gt; is one of &lt;code&gt;max&lt;/code&gt;, &lt;code&gt;min&lt;/code&gt;, &lt;code&gt;iand&lt;/code&gt;, &lt;code&gt;ior&lt;/code&gt; or &lt;code&gt;ieor&lt;/code&gt;. Note that the
 evaluation if &lt;code&gt;&amp;lt;expr&amp;gt;&lt;/code&gt; is not atomic.&lt;/p&gt;
+&lt;h3&gt;Lock routines&lt;/h3&gt;
+&lt;p&gt;Occasionally we may require more flexibility than is provided by the &lt;code&gt;CRITICAL&lt;/code&gt;
+directive.&lt;/p&gt;
+&lt;p&gt;A lock is a special variable that can be set by a thread. No other thread can
+set the lock until the thread that set the lock has unset it.&lt;/p&gt;
+&lt;p&gt;Setting a lock can either be blocking or non-blocking.&lt;/p&gt;
+&lt;p&gt;A lock must be initialised before it is used, and can be destroyed when it is
+no longer required.&lt;/p&gt;
+&lt;p&gt;Lock variables should not be used for any other purpose.&lt;/p&gt;
+&lt;p&gt;The syntax is:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;omp_lib&lt;/span&gt;
+
+&lt;span class="k"&gt;subroutine &lt;/span&gt;&lt;span class="n"&gt;omp_init_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;omp_lock_kind&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;subroutine &lt;/span&gt;&lt;span class="n"&gt;omp_set_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;omp_lock_kind&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kt"&gt;logical &lt;/span&gt;&lt;span class="k"&gt;function &lt;/span&gt;&lt;span class="n"&gt;omp_test_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;omp_lock_kind&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;subroutine &lt;/span&gt;&lt;span class="n"&gt;omp_unset_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;omp_lock_kind&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;subroutine &lt;/span&gt;&lt;span class="n"&gt;omp_destroy_lock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;omp_lock_kind&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;hr/&gt;
 
 &lt;ul&gt;
@@ -231,9 +369,9 @@ evaluation if &lt;code&gt;&amp;lt;expr&amp;gt;&lt;/code&gt; is not atomic.&lt;/p
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -382,9 +520,9 @@ and low overheads.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -709,9 +847,9 @@ thread.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1552,9 +1690,9 @@ reduction is performed on each element of the array.&lt;/p&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1815,9 +1953,9 @@ the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can also have the followin
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -2013,9 +2151,9 @@ $ ./serial_thread_number
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -2078,126 +2216,7 @@ material under the following terms: you must give appropriate credit, provide a 
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content></entry><entry><title>OpenMP 1</title><link href="http://0x7df.github.io/openmp-1.html" rel="alternate"></link><published>2018-05-21T22:16:00+01:00</published><updated>2018-05-21T22:16:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-21:/openmp-1.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Overview&lt;/h1&gt;
-&lt;p&gt;OpenMP is a set of extensions to Fortran, C and C++, consisting of compiler
-directives, library routines, and environment variables, that allows the
-programming of shared-memory applications. Typically it allows parallelism to
-be added to an existing application without a major re-write.&lt;/p&gt;
-&lt;p&gt;The OpenMP programming model is based on the notion of &lt;em&gt;threads&lt;/em&gt;. Threads are
-similar to processes, but as well as having their own private memory, they can
-share memory with each other. Different threads can follow different logical
-paths through the same code; each thread has its own program counter.&lt;/p&gt;
-&lt;p&gt;Usually there is one thread per core; there can be more but then the core has
-to time-share between the threads, which introduces some overhead. In some
-systems there is hardware support for multiple threads per core
-(symmetric multithreading (SMT), also known as hyperthreading).&lt;/p&gt;
-&lt;p&gt;Unlike MPI, threads do not exchange information via messages, but simply via
-reading and writing to shared memory.&lt;/p&gt;
-&lt;p&gt;By default, threads execute independently of each other; there is no
-synchronisation. Therefore to ensure correctness, the programmer must ensure
-that actions on shared data occur in the correct order. Note that an update to
-a shared variable, e.g. &lt;code&gt;x = x + 1&lt;/code&gt;, is not atomic. If there are two threads, the
-correct result is &lt;code&gt;x + 2&lt;/code&gt;, but it is possible for thread 1 to read &lt;code&gt;x&lt;/code&gt;, and then
-for thread 2 to read &lt;code&gt;x&lt;/code&gt; before thread 1 has incremented the value and written it
-back to &lt;code&gt;x&lt;/code&gt;. The final result would be &lt;code&gt;x + 1&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;The most common OpenMP idiom is the parallelisation of loops, where the
-iterations of the loop are independent of each other.&lt;/p&gt;
-&lt;p&gt;For example, in:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;imax&lt;/span&gt;
-    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="k"&gt;end do&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;the loop iterations are independent of each other and the loop can be parallelised, whereas:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;imax&lt;/span&gt;
-    &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
-&lt;span class="k"&gt;end do&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;has a &lt;em&gt;loop-carried dependency&lt;/em&gt;. The loop iterations must be done in the
-correct order to obtain the correct result.&lt;/p&gt;
-&lt;p&gt;In the former case the loop iterations can be carried out in any order, and can
-therefore be shared amongst a number of threads. If &lt;code&gt;imax = 100&lt;/code&gt; and there are
-two threads, we could do iterations 1-50 on thread 1 and 51-100 on thread 2,
-giving essentially a factor of two increase. (In practive the overhead of
-creating and managing the threads reduces, often drastically, the speedup.)&lt;/p&gt;
-&lt;p&gt;A &lt;em&gt;reduction&lt;/em&gt; operation produces a single value from a set of values, e.g. the
-sum, product, maximum, minimum, etc. For example, consider the loop: &lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;
-    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="n"&gt;enddo&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;For correctness we would need to ensure only one thread at a time incremented
-&lt;code&gt;x&lt;/code&gt;, which would destroy all the parallelism. It's better if each thread performs
-its own private reduction, and then these per-thread results are reduced to the
-final answer. If the number of threads is small relative to the number of
-values being aggregated, then there is still substantial parallelism.&lt;/p&gt;
-&lt;h1&gt;Implementation&lt;/h1&gt;
-&lt;p&gt;OpenMP is implemented in source code by means of &lt;em&gt;compiler directives&lt;/em&gt;; these are special
-source code lines that are only meaningful to certain OpenMP-compliant compilers. Directives are
-protected by a &lt;em&gt;sentinel&lt;/em&gt;, which for OpenMP is:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;!$OMP&lt;/code&gt; for Fortran&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;#pragma omp&lt;/code&gt; for C/C++&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Clearly the directive appears as an ordinary comment and is therefore ignored by the
-compiler if the compiler is not OpenMP-compliant, or if OpenMP is not requested.&lt;/p&gt;
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
-    &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
-    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello world!&amp;quot;&lt;/span&gt;
-    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
-&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;To compile an OpenMP program, the addition of a (compiler-dependent) flag at
-the compile and link steps makes OpenMP available. E.g. using GCC:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o hello_world hello_world.f95
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;OpenMP is built into most compilers. The flag for Intel compilers is &lt;code&gt;-openmp&lt;/code&gt;.
-OpenMP is on by default in the Cray compiler.&lt;/p&gt;
-&lt;p&gt;The number of threads at run-time is determined from an environment variable:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;OMP_NUM_THREADS&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;(The default number of threads is implementation-dependent. It might be 1,
-or it might be equal to the number of cores in the system.)&lt;/p&gt;
-&lt;p&gt;Then the application is run as normal:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./hello_world 
- Hello world!
- Hello world!
- Hello world!
- Hello world!
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;hr/&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr/&gt;
-
-&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
-&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-08-06T18:55:00+01:00</published><updated>2017-08-06T18:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-08-06:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
+&lt;/script&gt;</content></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-08-06T18:55:00+01:00</published><updated>2017-08-06T18:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-08-06:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
 lot, is something worth automating.&lt;/p&gt;
 &lt;p&gt;Thanks to &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt; on
 &lt;a href="http://macscripter.net"&gt;MacScripter&lt;/a&gt; this is easy to do using AppleScript.&lt;/p&gt;

@@ -101,7 +101,6 @@ directives, which we'll look at here.</p>
     <span class="k">use </span><span class="n">OMP_LIB</span>
     <span class="k">implicit none</span>
 <span class="k">    </span><span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">ik</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="kt">integer</span><span class="p">,</span> <span class="k">parameter</span> <span class="kd">::</span> <span class="n">rk</span> <span class="o">=</span> <span class="mi">8</span>
     <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">thread_id</span>
     <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">num_threads</span>
     <span class="kt">integer</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">ik</span><span class="p">)</span> <span class="kd">::</span> <span class="n">neighbour</span>
@@ -140,13 +139,13 @@ $ ./barrier.x
        <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">0</span>
 $ ./barrier.x 
        <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+<span class="m">536870912</span>           <span class="m">0</span>   <span class="m">536870912</span>           <span class="m">2</span>
+$ ./barrier.x 
+       <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
+       <span class="m">3</span>           <span class="m">0</span>           <span class="m">0</span>           <span class="m">0</span>
 </pre></div>
 
 
-<p>536870912           0   536870912           2
-    $ ./barrier.x 
-           0           1           2           3
-           3           0           0           0</p>
 <p>The results are both wrong and non-deterministic, because some threads proceed to the
 lines where <code>a</code> is read before <code>a</code> has been fully populated. Correct placement
 of the barrier:</p>
@@ -178,7 +177,7 @@ $ ./barrier.x
 
 
 <p>Care must be taken about control flow: a likely bug is where some
-threads reach a barrier and some don't due to an <code>IF</code> condition.</p>
+threads reach a barrier and some don't, due to an <code>IF</code> condition.</p>
 <p>The <code>END PARALLEL</code> directive is an implicit barrier. The end of a parallel
 <code>DO</code> loop is an implicit barrier.</p>
 <h3>Critical region</h3>
@@ -271,7 +270,7 @@ protect updates to shared variables.</p>
 
 
 <p>Here, we create an initial stack of ten values, then enter a loop in which the
-latest value if popped off the stack and processed, during which there is a 50:50
+latest value is popped off the stack and processed, during which there is a 50:50
 probability of a new value being created and added to the stack. Because the
 stack is a single data structure shared across all threads, the
 interactions with it must be protected inside critical sections. If they were
@@ -299,6 +298,26 @@ applies to only a single statement.</p>
 <p>and <code>&lt;op&gt;</code> is one of <code>+</code>, <code>*</code>, <code>-</code>, <code>/</code>, <code>.and.</code>, <code>.or.</code>, <code>.eqv.</code> or <code>.neqv.</code>;
 and <code>&lt;intr&gt;</code> is one of <code>max</code>, <code>min</code>, <code>iand</code>, <code>ior</code> or <code>ieor</code>. Note that the
 evaluation if <code>&lt;expr&gt;</code> is not atomic.</p>
+<h3>Lock routines</h3>
+<p>Occasionally we may require more flexibility than is provided by the <code>CRITICAL</code>
+directive.</p>
+<p>A lock is a special variable that can be set by a thread. No other thread can
+set the lock until the thread that set the lock has unset it.</p>
+<p>Setting a lock can either be blocking or non-blocking.</p>
+<p>A lock must be initialised before it is used, and can be destroyed when it is
+no longer required.</p>
+<p>Lock variables should not be used for any other purpose.</p>
+<p>The syntax is:</p>
+<div class="highlight"><pre><span></span><span class="k">use </span><span class="n">omp_lib</span>
+
+<span class="k">subroutine </span><span class="n">omp_init_lock</span><span class="p">(</span><span class="n">omp_lock_kind</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">subroutine </span><span class="n">omp_set_lock</span><span class="p">(</span><span class="n">omp_lock_kind</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="kt">logical </span><span class="k">function </span><span class="n">omp_test_lock</span><span class="p">(</span><span class="n">omp_lock_kind</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">subroutine </span><span class="n">omp_unset_lock</span><span class="p">(</span><span class="n">omp_lock_kind</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">subroutine </span><span class="n">omp_destroy_lock</span><span class="p">(</span><span class="n">omp_lock_kind</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+
+
 <hr/>
 
 <ul>
@@ -306,9 +325,9 @@ evaluation if <code>&lt;expr&gt;</code> is not atomic.</p>
 <li><a href="http://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
 <li><a href="http://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
 <li><a href="http://0x7df.github.io/openmp-4.html">OpenMP 4 (Reductions)</a></li>
-<li><a href="http://0x7df.github.io/openmp-5.html">OpenMP 5 (Work-sharing constructs)</a></li>
-<li><a href="http://0x7df.github.io/openmp-6.html">OpenMP 6 (Synchronisation)</a></li>
-<li><a href="http://0x7df.github.io/openmp-7.html">OpenMP 7 ()</a></li>
+<li><a href="http://0x7df.github.io/openmp-5.html">OpenMP 5 (Exercise: Madelbrot set)</a></li>
+<li><a href="http://0x7df.github.io/openmp-6.html">OpenMP 6 (Work-sharing constructs)</a></li>
+<li><a href="http://0x7df.github.io/openmp-7.html">OpenMP 7 (Synchronisation)</a></li>
 </ul>
 <hr/>
 
