@@ -1,7 +1,7 @@
 Title: OpenMP 6
-Date: 2018-05-28 13:17
+Date: 2019-07-27 12:08
 Category:  
-Modified: 2018-05-28 13:17
+Modified: 2019-07-27 12:08
 Tags: 
 Slug: 
 Author: 0x7df
