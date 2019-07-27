@@ -1,7 +1,7 @@
 Title: OpenMP 1
-Date: 2018-05-21 22:16
+Date: 2019-07-27 20:26
 Category:  
-Modified: 2018-05-21 22:16
+Modified: 2019-07-27 20:26
 Tags: 
 Slug: 
 Author: 0x7df
@@ -130,9 +130,9 @@ Then the application is run as normal:
 - [OpenMP 2 (Parallel regions, OpenMP functions)]({filename}openmp-2.md)
 - [OpenMP 3 (OpenMP clauses)]({filename}openmp-3.md)
 - [OpenMP 4 (Reductions)]({filename}openmp-4.md)
-- [OpenMP 5 (Work-sharing constructs)]({filename}openmp-5.md)
-- [OpenMP 6 (Synchronisation)]({filename}openmp-6.md)
-- [OpenMP 7 ()]({filename}openmp-7.md)
+- [OpenMP 5 (Exercise: Madelbrot set)]({filename}openmp-5.md)
+- [OpenMP 6 (Work-sharing constructs)]({filename}openmp-6.md)
+- [OpenMP 7 (Synchronisation)]({filename}openmp-7.md)
 
 <hr/>
 
