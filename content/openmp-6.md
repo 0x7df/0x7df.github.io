@@ -1,7 +1,7 @@
 Title: OpenMP 6
-Date: 2019-07-27 12:08
+Date: 2019-07-27 20:31
 Category:  
-Modified: 2019-07-27 12:08
+Modified: 2019-07-27 20:31
 Tags: 
 Slug: 
 Author: 0x7df
@@ -95,7 +95,7 @@ In the manual work distribution in the
 
 Looking at the run times, we can see this:
 
-![Alt text]({filename}images/mandelbrot_openmp.001.png)
+![Alt text]({static}images/mandelbrot_openmp.001.png)
 
 The figure shows speed-ups (lower is better) compared with the serial version
 as a function of chunk size, for different schedules. The manual block schedule
@@ -116,7 +116,7 @@ is specified, it defaults to one.
 As might be expected, this schedule improves the overall performance slightly.
 Not only this, but the performance is less sensitive to chunk size.
 
-![Alt text]({filename}images/mandelbrot_openmp.002.png)
+![Alt text]({static}images/mandelbrot_openmp.002.png)
 
 Here we've also added single points for both the static and dynamic schedules,
 to indicate the performance when no chunk size is specified.
@@ -172,9 +172,9 @@ The following rules of thumb will help choosing a schedule:
 - [OpenMP 2 (Parallel regions, OpenMP functions)]({filename}openmp-2.md)
 - [OpenMP 3 (OpenMP clauses)]({filename}openmp-3.md)
 - [OpenMP 4 (Reductions)]({filename}openmp-4.md)
-- [OpenMP 5 (Work-sharing constructs)]({filename}openmp-5.md)
-- [OpenMP 6 (Synchronisation)]({filename}openmp-6.md)
-- [OpenMP 7 ()]({filename}openmp-7.md)
+- [OpenMP 5 (Exercise: Madelbrot set)]({filename}openmp-5.md)
+- [OpenMP 6 (Work-sharing constructs)]({filename}openmp-6.md)
+- [OpenMP 7 (Synchronisation)]({filename}openmp-7.md)
 
 <hr/>
 
