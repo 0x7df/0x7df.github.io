@@ -1,7 +1,7 @@
 Title: OpenMP 1
-Date: 2019-07-27 20:26
+Date: 2019-07-27 20:27
 Category:  
-Modified: 2019-07-27 20:26
+Modified: 2019-07-27 20:27
 Tags: 
 Slug: 
 Author: 0x7df
