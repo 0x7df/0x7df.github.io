@@ -1,7 +1,7 @@
 Title: OpenMP 5
-Date: 2019-07-27 12:07
+Date: 2019-07-27 20:30
 Category:  
-Modified: 2019-07-27 12:07
+Modified: 2019-07-27 20:30
 Tags: 
 Slug: 
 Author: 0x7df
@@ -162,7 +162,7 @@ so that:
     $ ./mandelbrot_serial.py
 
 gives:
-![Alt Text]({filename}/images/mandelbrot_serial.png)
+![Alt Text]({static}/images/mandelbrot_serial.png)
 which seems in the right ball park.
 
 ### Initial parallelism
@@ -285,9 +285,9 @@ thread.
 - [OpenMP 2 (Parallel regions, OpenMP functions)]({filename}openmp-2.md)
 - [OpenMP 3 (OpenMP clauses)]({filename}openmp-3.md)
 - [OpenMP 4 (Reductions)]({filename}openmp-4.md)
-- [OpenMP 5 (Work-sharing constructs)]({filename}openmp-5.md)
-- [OpenMP 6 (Synchronisation)]({filename}openmp-6.md)
-- [OpenMP 7 ()]({filename}openmp-7.md)
+- [OpenMP 5 (Exercise: Madelbrot set)]({filename}openmp-5.md)
+- [OpenMP 6 (Work-sharing constructs)]({filename}openmp-6.md)
+- [OpenMP 7 (Synchronisation)]({filename}openmp-7.md)
 
 <hr/>
 
