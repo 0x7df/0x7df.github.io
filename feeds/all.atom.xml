@@ -1,5 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T20:28:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 3</title><link href="http://0x7df.github.io/openmp-3.html" rel="alternate"></link><published>2019-07-27T20:28:00+01:00</published><updated>2019-07-27T20:28:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-3.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;OpenMP clauses&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T20:29:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 4</title><link href="http://0x7df.github.io/openmp-4.html" rel="alternate"></link><published>2019-07-27T20:29:00+01:00</published><updated>2019-07-27T20:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-4.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Reductions&lt;/h1&gt;
+&lt;p&gt;As mentioned in the &lt;a href=""&gt;overview post&lt;/a&gt;, a &lt;em&gt;reduction&lt;/em&gt; operation produces a
+single value from a set of values, e.g. the sum, product, maximum, minimum,
+etc.&lt;/p&gt;
+&lt;p&gt;To preserve as much parallelism as possible, each thread reduces its data into a
+private result, and then these are subsequently reduced into the final result.
+The first step is done in parallel.&lt;/p&gt;
+&lt;p&gt;These operations are implemented via the &lt;code&gt;REDUCTION&lt;/code&gt; clause:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;REDUCTION(&amp;lt;op&amp;gt;:&amp;lt;list...&amp;gt;)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;For example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;reduction&lt;/span&gt;
+    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;irow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;icol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nrows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ncols&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(:,:)&lt;/span&gt;
+
+    &lt;span class="n"&gt;nrows&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) SHARED(ncols)&lt;/span&gt;
+    &lt;span class="n"&gt;ncols&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+
+    &lt;span class="k"&gt;allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nrows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ncols&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;
+    &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(:,:)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP PARALLEL REDUCTION(+:b) PRIVATE(irow,icol)&lt;/span&gt;
+    &lt;span class="n"&gt;icol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nrows&lt;/span&gt;
+        &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;icol&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;enddo&lt;/span&gt;
+    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+
+    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;b =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;reduction&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o reduction1 reduction1.f95
+$ ./reduction1
+ &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;          &lt;span class="m"&gt;25&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The initial value of the &lt;em&gt;reduction variable&lt;/em&gt;, &lt;code&gt;b&lt;/code&gt;, is saved, and then each
+thread gets its own private copy of &lt;code&gt;b&lt;/code&gt;, initialised to zero. Inside the
+parallel region, each thread updates its own copy of &lt;code&gt;b&lt;/code&gt; within the loop. At
+the final &lt;code&gt;!$OMP END PARALLEL&lt;/code&gt; directive, the private copies are reduced to the
+final &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Reductions can be performed on arrays as well as scalar variables. The
+reduction is performed on each element of the array.&lt;/p&gt;
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+
+&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
+&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content></entry><entry><title>OpenMP 3</title><link href="http://0x7df.github.io/openmp-3.html" rel="alternate"></link><published>2019-07-27T20:28:00+01:00</published><updated>2019-07-27T20:28:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-3.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;OpenMP clauses&lt;/h1&gt;
 &lt;p&gt;The &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can have further information added in the form of
 &lt;em&gt;clauses&lt;/em&gt;, which can be comma- or space-separated:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;!$OMP PARALLEL &amp;lt;clauses...&amp;gt;
@@ -2145,78 +2216,7 @@ in-line equations), with &lt;code&gt;$$&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The difference here is that we have now had to escape the dollar sign - &lt;code&gt;\$&lt;/code&gt;
 rather than just &lt;code&gt;$&lt;/code&gt; - because we have added a final &lt;code&gt;$&lt;/code&gt; which is the special
-character to match the end of a line.&lt;/p&gt;</content><category term="bash"></category><category term="computing"></category><category term="linux"></category><category term="programming"></category></entry><entry><title>OpenMP 4</title><link href="http://0x7df.github.io/openmp-4.html" rel="alternate"></link><published>2018-05-22T21:44:00+01:00</published><updated>2018-05-22T21:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-22:/openmp-4.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Reductions&lt;/h1&gt;
-&lt;p&gt;As mentioned in the &lt;a href=""&gt;overview post&lt;/a&gt;, a &lt;em&gt;reduction&lt;/em&gt; operation produces a
-single value from a set of values, e.g. the sum, product, maximum, minimum,
-etc.&lt;/p&gt;
-&lt;p&gt;To preserve as much parallelism as possible, each thread reduces its data into a
-private result, and then these are subsequently reduced into the final result.
-The first step is done in parallel.&lt;/p&gt;
-&lt;p&gt;These operations are implemented via the &lt;code&gt;REDUCTION&lt;/code&gt; clause:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;REDUCTION(&amp;lt;op&amp;gt;:&amp;lt;list...&amp;gt;)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;For example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;reduction&lt;/span&gt;
-    &lt;span class="k"&gt;use &lt;/span&gt;&lt;span class="n"&gt;OMP_LIB&lt;/span&gt;
-    &lt;span class="k"&gt;implicit none&lt;/span&gt;
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;irow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;icol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nrows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ncols&lt;/span&gt;
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;allocatable&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(:,:)&lt;/span&gt;
-
-    &lt;span class="n"&gt;nrows&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
-    &lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) SHARED(ncols)&lt;/span&gt;
-    &lt;span class="n"&gt;ncols&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
-
-    &lt;span class="k"&gt;allocate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nrows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ncols&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-
-    &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;
-    &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(:,:)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-    &lt;span class="c"&gt;!$OMP PARALLEL REDUCTION(+:b) PRIVATE(irow,icol)&lt;/span&gt;
-    &lt;span class="n"&gt;icol&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;nrows&lt;/span&gt;
-        &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;irow&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;icol&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;enddo&lt;/span&gt;
-    &lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
-
-    &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;b =&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;
-&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;reduction&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -fopenmp -o reduction1 reduction1.f95
-$ ./reduction1
- &lt;span class="nv"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;          &lt;span class="m"&gt;25&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;The initial value of the &lt;em&gt;reduction variable&lt;/em&gt;, &lt;code&gt;b&lt;/code&gt;, is saved, and then each
-thread gets its own private copy of &lt;code&gt;b&lt;/code&gt;, initialised to zero. Inside the
-parallel region, each thread updates its own copy of &lt;code&gt;b&lt;/code&gt; within the loop. At
-the final &lt;code&gt;!$OMP END PARALLEL&lt;/code&gt; directive, the private copies are reduced to the
-final &lt;code&gt;b&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Reductions can be performed on arrays as well as scalar variables. The
-reduction is performed on each element of the array.&lt;/p&gt;
-&lt;hr/&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr/&gt;
-
-&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
-&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-08-06T18:55:00+01:00</published><updated>2017-08-06T18:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-08-06:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
+character to match the end of a line.&lt;/p&gt;</content><category term="bash"></category><category term="computing"></category><category term="linux"></category><category term="programming"></category></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-08-06T18:55:00+01:00</published><updated>2017-08-06T18:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-08-06:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
 lot, is something worth automating.&lt;/p&gt;
 &lt;p&gt;Thanks to &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt; on
 &lt;a href="http://macscripter.net"&gt;MacScripter&lt;/a&gt; this is easy to do using AppleScript.&lt;/p&gt;
