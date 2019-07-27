@@ -1,5 +1,332 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-03-24T11:03:00+00:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Bash and Ksh function distinctions</title><link href="http://0x7df.github.io/bash-and-ksh-function-distinctions.html" rel="alternate"></link><published>2019-03-24T11:03:00+00:00</published><updated>2019-03-24T11:03:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-03-24:/bash-and-ksh-function-distinctions.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Bash and Ksh function distinctions&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T12:07:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 5</title><link href="http://0x7df.github.io/openmp-5.html" rel="alternate"></link><published>2019-07-27T12:07:00+01:00</published><updated>2019-07-27T12:07:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-5.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Exercise - determine the area of a Mandelbrot set&lt;/h2&gt;
+&lt;h3&gt;Overview&lt;/h3&gt;
+&lt;p&gt;In &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;several&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;previous&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-3.html"&gt;posts&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-4.html"&gt;...&lt;/a&gt;, the basics of OpenMP were described.&lt;/p&gt;
+&lt;p&gt;As an exercise, let's determine the area of a Mandelbrot set using a simple 
+algorithm parallelised with OpenMP.&lt;/p&gt;
+&lt;h3&gt;Plotting a Mandelbrot set&lt;/h3&gt;
+&lt;p&gt;The Mandelbrot set is the set of complex numbers, &lt;span class="math"&gt;\(c\)&lt;/span&gt;, for which the function
+&lt;span class="math"&gt;\(f(z) = z^2 +c\)&lt;/span&gt; does not diverge when iterated from &lt;span class="math"&gt;\(z = 0\)&lt;/span&gt;. That is, the
+sequence &lt;span class="math"&gt;\(f(0), f(f(0)), ...\)&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(z_0 = 0\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(z_1 = z_0^2 + c = c\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(z_2 = z_1^2 + c = c^2 + c = c(c + 1)\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(z_3 = z_2^2 + c = c^2(c+1)^2 + c = c[c(c+1)^2 + 1]\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;does not diverge.&lt;/p&gt;
+&lt;p&gt;Plotting a Mandelbrot set involves creating a two-dimensional grid of pixels (a
+discretised representation of the complex plane), representing the potential
+&lt;span class="math"&gt;\(c\)&lt;/span&gt; values, and then running an algorithm
+for each pixel to determine whether it's inside the set (the sequence does not diverge for that value of &lt;span class="math"&gt;\(c\)&lt;/span&gt;) or outside the set.&lt;/p&gt;
+&lt;p&gt;Since the process for a given pixel is entirely independent of all other
+pixels, this process parallelises very well. Algorithms like this are often called
+&lt;em&gt;embarrassingly parallel&lt;/em&gt;, as the different tasks really are completely independent of each
+other and involve no communication or synchronisation, except perhaps for a step
+at the end. The speedup achieved by increasing the number of threads should be
+very close to ideal.&lt;/p&gt;
+&lt;p&gt;We will use a simple condition of &lt;span class="math"&gt;\(|z_i| &amp;gt; 2\)&lt;/span&gt; to identify points that diverge.
+Of course, the points that diverge do so at different rates (the points closer
+to the edges diverge more slowly), and we need to iterate for longer to
+determine if a point exceeds this threshold if it is diverging slowly.
+Therefore even with a finite threshold, in practice a maximum number of
+iterations is also defined. Since points closer to the edges diverge more and
+more slowly, this tends to smooth the edges; the lower the maximum number of
+iterations is, the less detail we see around the edges.&lt;/p&gt;
+&lt;p&gt;We will begin with a serial implementation, and just write something to prove
+we're calculating the Mandelbrot set correctly.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;mandelbrot_serial&lt;/span&gt;
+
+    &lt;span class="k"&gt;implicit none&lt;/span&gt;
+
+&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;rk&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;
+
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;maximum_iterations&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100000_ik&lt;/span&gt;
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;escape_threshold&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;2.0_rk&lt;/span&gt;
+
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5_rk&lt;/span&gt;
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;xmax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0_rk&lt;/span&gt;
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0_rk&lt;/span&gt;
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ymax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0_rk&lt;/span&gt;
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;xsize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmax&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt;
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ysize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ymax&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt;
+
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;scale_factor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;80_ik&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;nx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;7_ik&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;scale_factor&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ny&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2_ik&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;scale_factor&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;nx&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ny&lt;/span&gt;
+
+    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;dx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ipix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;iteration&lt;/span&gt;
+
+    &lt;span class="kt"&gt;complex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
+    &lt;span class="kt"&gt;complex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;
+
+    &lt;span class="kt"&gt;logical&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;diverged&lt;/span&gt;
+
+    &lt;span class="n"&gt;dx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xsize&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;dy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ysize&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ny&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;
+        &lt;span class="n"&gt;iy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
+        &lt;span class="n"&gt;ix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
+        &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dx&lt;/span&gt;
+        &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dy&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;1.e-07_rk&lt;/span&gt;
+
+        &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;cmplx&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="n"&gt;diverged&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;false&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+        &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
+        &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;iteration&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maximum_iterations&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;escape_threshold&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;                &lt;/span&gt;&lt;span class="n"&gt;diverged&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;true&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+                &lt;span class="k"&gt;exit&lt;/span&gt;
+&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="n"&gt;endif&lt;/span&gt;
+            &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2_ik&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
+        &lt;span class="n"&gt;enddo&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(.&lt;/span&gt;&lt;span class="nb"&gt;not&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;diverged&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;            write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+        &lt;span class="n"&gt;endif&lt;/span&gt;
+    &lt;span class="n"&gt;enddo&lt;/span&gt;
+
+&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;mandelbrot_serial&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We implement a one-dimensional loop over the pixels, and first find the indices in
+the &lt;span class="math"&gt;\(x\)&lt;/span&gt;- and &lt;span class="math"&gt;\(y\)&lt;/span&gt;-dimensions of the pixel, and from these the &lt;span class="math"&gt;\(x\)&lt;/span&gt; and &lt;span class="math"&gt;\(y\)&lt;/span&gt;
+co-ordinates; these are of course the real and imaginary parts of the complex
+number, &lt;span class="math"&gt;\(c\)&lt;/span&gt;. Note that since the set is symmetric about the &lt;span class="math"&gt;\(y\)&lt;/span&gt;-axis, we only
+calculate for &lt;span class="math"&gt;\(y \ge 0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;We then iterativaly calculate &lt;span class="math"&gt;\(z_i = z_{i-1}^2 + c\)&lt;/span&gt;, starting from
+&lt;span class="math"&gt;\(z_0 = 0\)&lt;/span&gt;, until &lt;span class="math"&gt;\(|z_i| &amp;gt; 2\)&lt;/span&gt;, which is our escape threshold. If this condition is
+fulfilled, we assume the sequence has diverged, which means the point is not part of the
+set. Otherwise, the point is considered part of the set, and the &lt;span class="math"&gt;\(x\)&lt;/span&gt;, &lt;span class="math"&gt;\(y\)&lt;/span&gt;
+coordinates are printed to allow plotting.&lt;/p&gt;
+&lt;p&gt;Compiling:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -o mandelbrot_serial.x mandelbrot_serial.f95
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./mandelbrot_serial.x &amp;gt; mandelbrot_serial.csv
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;gives a comma-separated value file to plot using some Python:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
+
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mandelbrot_serial.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;y+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Series&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fig&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_subplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xlim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;ylim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.k&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;legend&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xlim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;ylim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.k&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;legend&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_aspect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;equal&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_xlabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Re(c)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Im(c)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;so that:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./mandelbrot_serial.py
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;gives:
+&lt;img alt="Alt Text" src="http://0x7df.github.io/images/mandelbrot_serial.png"&gt;
+which seems in the right ball park.&lt;/p&gt;
+&lt;h3&gt;Initial parallelism&lt;/h3&gt;
+&lt;p&gt;We now make a first attempt to add OpenMP. So far, we've covered the &lt;code&gt;!$OMP
+PARALLEL&lt;/code&gt; directive, so we will stick to using just that, even though as we'll
+cover later there are much better ways of doing it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          PRIVATE(ipix, ix, iy, x, y, c, z, iteration) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          FIRSTPRIVATE(dx, dy) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          REDUCTION(+:n_diverged)&lt;/span&gt;
+&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;
+    &lt;span class="n"&gt;iy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
+    &lt;span class="n"&gt;ix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dx&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dy&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;1.e-07_rk&lt;/span&gt;
+    &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;cmplx&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
+    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;iteration&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maximum_iterations&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;escape_threshold&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="n"&gt;n_diverged&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n_diverged&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;
+            &lt;span class="k"&gt;exit&lt;/span&gt;
+&lt;span class="k"&gt;        &lt;/span&gt;&lt;span class="n"&gt;endif&lt;/span&gt;
+        &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2_ik&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
+    &lt;span class="n"&gt;enddo&lt;/span&gt;
+&lt;span class="n"&gt;enddo&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Simply inserting the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive pair gives an answer that's a
+factor of &lt;span class="math"&gt;\(N\)&lt;/span&gt; too large, because all &lt;span class="math"&gt;\(N\)&lt;/span&gt; threads perform the whole loop (each
+getting the correct answer in its private copy of &lt;code&gt;n_diverged&lt;/code&gt;), and of course
+this takes just as long as the serial version - longer actually, since we've
+added the redundant work of managing the threads. Therefore we must also add
+some logic to manually distribute the work amonsgt the threads. In the
+following example, we divide the total number of pixels into contiguous blocks
+and give each block to a thread:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          PRIVATE(ipix, ix, iy, x, y, c, z, iteration, number_of_threads, this_thread, pix_per_thread) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          FIRSTPRIVATE(dx, dy) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          REDUCTION(+:n_diverged)&lt;/span&gt;
+&lt;span class="n"&gt;number_of_threads&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;this_thread&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;pix_per_thread&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;number_of_threads&lt;/span&gt;
+&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pix_per_thread&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pix_per_thread&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c"&gt;! ... loop body ...&lt;/span&gt;
+
+&lt;span class="n"&gt;enddo&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This reduced the time to about 55% of the serial value on four threads, which
+is only about half of the theoretically available speed-up. If, instead, we
+try:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          PRIVATE(ipix, ix, iy, x, y, c, z, iteration, number_of_threads, this_thread, pix_per_thread) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          FIRSTPRIVATE(dx, dy) &amp;amp;&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP          REDUCTION(+:n_diverged)&lt;/span&gt;
+&lt;span class="n"&gt;number_of_threads&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;this_thread&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;mod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;number_of_threads&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+
+        &lt;span class="c"&gt;! ... loop body ...&lt;/span&gt;
+
+    &lt;span class="n"&gt;endif&lt;/span&gt;
+&lt;span class="n"&gt;enddo&lt;/span&gt;
+&lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which cycles over the threads and allocates each pixel to the next thread. This
+reduced the time to about 39% of the original, which is better. Why?&lt;/p&gt;
+&lt;p&gt;We can see more clearly what's happening by timing individual threads within
+the parallel block. In the first example, typical times for the threads are:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       3  0.187000006    
+       2   1.05900002    
+       1   2.03399992    
+       0   2.95700002
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;whereas for the second example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       0   2.01200008    
+       3   2.05299997    
+       2   2.05900002    
+       1   2.06500006
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Evidently, the time per thread is much more balanced in the second example; in
+the first, there's a factor of 15 difference between the time taken by the
+fastest and slowest threads. If we investigate the total number of iterations
+conducted by each thread:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       3  14779591
+       2  100787622
+       1  223484798
+       0  343662484
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;we see this is imbalanced by at least as much, whereas in the faster scheme:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       0   170697247
+       1   170807456
+       2   170696023
+       3   170513769
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The second version has better &lt;em&gt;load balance&lt;/em&gt; - a naive
+distribution of work, like dividing pixels equally between threads, can be poorly
+balanced if the work per pixel is highly variable. The second way of
+distributing the work clearly allocates a similar balance of pixels to each
+thread.&lt;/p&gt;
+&lt;hr/&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr/&gt;
+
+&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
+&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content></entry><entry><title>Bash and Ksh function distinctions</title><link href="http://0x7df.github.io/bash-and-ksh-function-distinctions.html" rel="alternate"></link><published>2019-03-24T11:03:00+00:00</published><updated>2019-03-24T11:03:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-03-24:/bash-and-ksh-function-distinctions.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Bash and Ksh function distinctions&lt;/h1&gt;
 &lt;p&gt;There are subtle differences in function declaration and behaviour between Bash
 and Ksh.&lt;/p&gt;
 &lt;h2&gt;Function declaration&lt;/h2&gt;
@@ -516,333 +843,6 @@ and low overheads.&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;AUTO&lt;/code&gt; might be useful if the loop is executed many times over.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;RUNTIME&lt;/code&gt; should only be used for interactive experimentation.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;hr/&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/drafts/openmp-7.html"&gt;OpenMP 7 ()&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr/&gt;
-
-&lt;p&gt;These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.&lt;/p&gt;
-&lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content></entry><entry><title>OpenMP 5</title><link href="http://0x7df.github.io/openmp-5.html" rel="alternate"></link><published>2018-05-28T00:43:00+01:00</published><updated>2018-05-28T00:43:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-28:/openmp-5.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Exercise - determine the area of a Mandelbrot set&lt;/h2&gt;
-&lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;In &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;several&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;previous&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-3.html"&gt;posts&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-4.html"&gt;...&lt;/a&gt;, the basics of OpenMP were described.&lt;/p&gt;
-&lt;p&gt;As an exercise, let's determine the area of a Mandelbrot set using a simple 
-algorithm parallelised with OpenMP.&lt;/p&gt;
-&lt;h3&gt;Plotting a Mandelbrot set&lt;/h3&gt;
-&lt;p&gt;The Mandelbrot set is the set of complex numbers, &lt;span class="math"&gt;\(c\)&lt;/span&gt;, for which the function
-&lt;span class="math"&gt;\(f(z) = z^2 +c\)&lt;/span&gt; does not diverge when iterated from &lt;span class="math"&gt;\(z = 0\)&lt;/span&gt;. That is, the
-sequence &lt;span class="math"&gt;\(f(0), f(f(0)), ...\)&lt;/span&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(z_0 = 0\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(z_1 = z_0^2 + c = c\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(z_2 = z_1^2 + c = c^2 + c = c(c + 1)\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(z_3 = z_2^2 + c = c^2(c+1)^2 + c = c[c(c+1)^2 + 1]\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;does not diverge.&lt;/p&gt;
-&lt;p&gt;Plotting a Mandelbrot set involves creating a two-dimensional grid of pixels (a
-discretised representation of the complex plane), representing the potential
-&lt;span class="math"&gt;\(c\)&lt;/span&gt; values, and then running an algorithm
-for each pixel to determine whether it's inside the set (the sequence does not diverge for that value of &lt;span class="math"&gt;\(c\)&lt;/span&gt;) or outside the set.&lt;/p&gt;
-&lt;p&gt;Since the process for a given pixel is entirely independent of all other
-pixels, this process parallelises very well. Algorithms like this are often called
-&lt;em&gt;embarrassingly parallel&lt;/em&gt;, as the different tasks really are completely independent of each
-other and involve no communication or synchronisation, except perhaps for a step
-at the end. The speedup achieved by increasing the number of threads should be
-very close to ideal.&lt;/p&gt;
-&lt;p&gt;We will use a simple condition of &lt;span class="math"&gt;\(|z_i| &amp;gt; 2\)&lt;/span&gt; to identify points that diverge.
-Of course, the points that diverge do so at different rates (the points closer
-to the edges diverge more slowly), and we need to iterate for longer to
-determine if a point exceeds this threshold if it is diverging slowly.
-Therefore even with a finite threshold, in practice a maximum number of
-iterations is also defined. Since points closer to the edges diverge more and
-more slowly, this tends to smooth the edges; the lower the maximum number of
-iterations is, the less detail we see around the edges.&lt;/p&gt;
-&lt;p&gt;We will begin with a serial implementation, and just write something to prove
-we're calculating the Mandelbrot set correctly.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;mandelbrot_serial&lt;/span&gt;
-
-    &lt;span class="k"&gt;implicit none&lt;/span&gt;
-
-&lt;span class="k"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ik&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;rk&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;
-
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;maximum_iterations&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100000_ik&lt;/span&gt;
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;escape_threshold&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;2.0_rk&lt;/span&gt;
-
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5_rk&lt;/span&gt;
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;xmax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0_rk&lt;/span&gt;
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0_rk&lt;/span&gt;
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ymax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0_rk&lt;/span&gt;
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;xsize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmax&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt;
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt;    &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ysize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ymax&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt;
-
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;scale_factor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;80_ik&lt;/span&gt;
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;nx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;7_ik&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;scale_factor&lt;/span&gt;
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ny&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2_ik&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;scale_factor&lt;/span&gt;
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;parameter&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;nx&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;ny&lt;/span&gt;
-
-    &lt;span class="kt"&gt;real&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;dx&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
-    &lt;span class="kt"&gt;integer&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;ipix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;iteration&lt;/span&gt;
-
-    &lt;span class="kt"&gt;complex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
-    &lt;span class="kt"&gt;complex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;
-
-    &lt;span class="kt"&gt;logical&lt;/span&gt; &lt;span class="kd"&gt;::&lt;/span&gt; &lt;span class="n"&gt;diverged&lt;/span&gt;
-
-    &lt;span class="n"&gt;dx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xsize&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;dy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ysize&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ny&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;
-        &lt;span class="n"&gt;iy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
-        &lt;span class="n"&gt;ix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
-        &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dx&lt;/span&gt;
-        &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dy&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;1.e-07_rk&lt;/span&gt;
-
-        &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;cmplx&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-        &lt;span class="n"&gt;diverged&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;false&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
-        &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
-        &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;iteration&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maximum_iterations&lt;/span&gt;
-            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;escape_threshold&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;                &lt;/span&gt;&lt;span class="n"&gt;diverged&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;true&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
-                &lt;span class="k"&gt;exit&lt;/span&gt;
-&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="n"&gt;endif&lt;/span&gt;
-            &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2_ik&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
-        &lt;span class="n"&gt;enddo&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(.&lt;/span&gt;&lt;span class="nb"&gt;not&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;diverged&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;            write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;,&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
-        &lt;span class="n"&gt;endif&lt;/span&gt;
-    &lt;span class="n"&gt;enddo&lt;/span&gt;
-
-&lt;span class="k"&gt;end program &lt;/span&gt;&lt;span class="n"&gt;mandelbrot_serial&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;We implement a one-dimensional loop over the pixels, and first find the indices in
-the &lt;span class="math"&gt;\(x\)&lt;/span&gt;- and &lt;span class="math"&gt;\(y\)&lt;/span&gt;-dimensions of the pixel, and from these the &lt;span class="math"&gt;\(x\)&lt;/span&gt; and &lt;span class="math"&gt;\(y\)&lt;/span&gt;
-co-ordinates; these are of course the real and imaginary parts of the complex
-number, &lt;span class="math"&gt;\(c\)&lt;/span&gt;. Note that since the set is symmetric about the &lt;span class="math"&gt;\(y\)&lt;/span&gt;-axis, we only
-calculate for &lt;span class="math"&gt;\(y \ge 0\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;We then iterativaly calculate &lt;span class="math"&gt;\(z_i = z_{i-1}^2 + c\)&lt;/span&gt;, starting from
-&lt;span class="math"&gt;\(z_0 = 0\)&lt;/span&gt;, until &lt;span class="math"&gt;\(|z_i| &amp;gt; 2\)&lt;/span&gt;, which is our escape threshold. If this condition is
-fulfilled, we assume the sequence has diverged, which means the point is not part of the
-set. Otherwise, the point is considered part of the set, and the &lt;span class="math"&gt;\(x\)&lt;/span&gt;, &lt;span class="math"&gt;\(y\)&lt;/span&gt;
-coordinates are printed to allow plotting.&lt;/p&gt;
-&lt;p&gt;Compiling:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ gfortran -o mandelbrot_serial.x mandelbrot_serial.f95
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;and running:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./mandelbrot_serial.x &amp;gt; mandelbrot_serial.csv
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;gives a comma-separated value file to plot using some Python:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
-
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
-&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
-
-&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mandelbrot_serial.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;header&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;y+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
-&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Series&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;fig&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="n"&gt;ax&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fig&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add_subplot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;111&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xlim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;ylim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.k&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;legend&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;y-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xlim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;2.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;ylim&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;style&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.k&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;legend&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ms&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_aspect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;equal&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_xlabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Re(c)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;ax&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Im(c)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;so that:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ ./mandelbrot_serial.py
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;gives:
-&lt;img alt="Alt Text" src="http://0x7df.github.io/images/mandelbrot_serial.png"&gt;
-which seems in the right ball park.&lt;/p&gt;
-&lt;h3&gt;Initial parallelism&lt;/h3&gt;
-&lt;p&gt;We now make a first attempt to add OpenMP. So far, we've covered the &lt;code&gt;!$OMP
-PARALLEL&lt;/code&gt; directive, so we will stick to using just that, even though as we'll
-cover later there are much better ways of doing it.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          PRIVATE(ipix, ix, iy, x, y, c, z, iteration) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          FIRSTPRIVATE(dx, dy) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          REDUCTION(+:n_diverged)&lt;/span&gt;
-&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;
-    &lt;span class="n"&gt;iy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
-    &lt;span class="n"&gt;ix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;nx&lt;/span&gt;
-    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;xmin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ix&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dx&lt;/span&gt;
-    &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ymin&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;iy&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;dy&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mf"&gt;1.e-07_rk&lt;/span&gt;
-    &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;cmplx&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;kind&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;rk&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-    &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
-    &lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;iteration&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;maximum_iterations&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;escape_threshold&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
-&lt;span class="k"&gt;            &lt;/span&gt;&lt;span class="n"&gt;n_diverged&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n_diverged&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;
-            &lt;span class="k"&gt;exit&lt;/span&gt;
-&lt;span class="k"&gt;        &lt;/span&gt;&lt;span class="n"&gt;endif&lt;/span&gt;
-        &lt;span class="n"&gt;z&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2_ik&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;
-    &lt;span class="n"&gt;enddo&lt;/span&gt;
-&lt;span class="n"&gt;enddo&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Simply inserting the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive pair gives an answer that's a
-factor of &lt;span class="math"&gt;\(N\)&lt;/span&gt; too large, because all &lt;span class="math"&gt;\(N\)&lt;/span&gt; threads perform the whole loop (each
-getting the correct answer in its private copy of &lt;code&gt;n_diverged&lt;/code&gt;), and of course
-this takes just as long as the serial version - longer actually, since we've
-added the redundant work of managing the threads. Therefore we must also add
-some logic to manually distribute the work amonsgt the threads. In the
-following example, we divide the total number of pixels into contiguous blocks
-and give each block to a thread:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          PRIVATE(ipix, ix, iy, x, y, c, z, iteration, number_of_threads, this_thread, pix_per_thread) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          FIRSTPRIVATE(dx, dy) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          REDUCTION(+:n_diverged)&lt;/span&gt;
-&lt;span class="n"&gt;number_of_threads&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="n"&gt;this_thread&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="n"&gt;pix_per_thread&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;number_of_threads&lt;/span&gt;
-&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pix_per_thread&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;this_thread&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;pix_per_thread&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-
-    &lt;span class="c"&gt;! ... loop body ...&lt;/span&gt;
-
-&lt;span class="n"&gt;enddo&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;This reduced the time to about 55% of the serial value on four threads, which
-is only about half of the theoretically available speed-up. If, instead, we
-try:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;!$OMP PARALLEL DEFAULT(NONE) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          PRIVATE(ipix, ix, iy, x, y, c, z, iteration, number_of_threads, this_thread, pix_per_thread) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          FIRSTPRIVATE(dx, dy) &amp;amp;&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP          REDUCTION(+:n_diverged)&lt;/span&gt;
-&lt;span class="n"&gt;number_of_threads&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_NUM_THREADS&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="n"&gt;this_thread&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OMP_GET_THREAD_NUM&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;span class="k"&gt;do &lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1_ik&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;npix&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;mod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ipix&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;number_of_threads&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;this_thread&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
-
-        &lt;span class="c"&gt;! ... loop body ...&lt;/span&gt;
-
-    &lt;span class="n"&gt;endif&lt;/span&gt;
-&lt;span class="n"&gt;enddo&lt;/span&gt;
-&lt;span class="c"&gt;!$OMP END PARALLEL&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;which cycles over the threads and allocates each pixel to the next thread. This
-reduced the time to about 39% of the original, which is better. Why?&lt;/p&gt;
-&lt;p&gt;We can see more clearly what's happening by timing individual threads within
-the parallel block. In the first example, typical times for the threads are:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       3  0.187000006    
-       2   1.05900002    
-       1   2.03399992    
-       0   2.95700002
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;whereas for the second example:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       0   2.01200008    
-       3   2.05299997    
-       2   2.05900002    
-       1   2.06500006
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Evidently, the time per thread is much more balanced in the second example; in
-the first, there's a factor of 15 difference between the time taken by the
-fastest and slowest threads. If we investigate the total number of iterations
-conducted by each thread:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       3  14779591
-       2  100787622
-       1  223484798
-       0  343662484
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;we see this is imbalanced by at least as much, whereas in the faster scheme:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;       0   170697247
-       1   170807456
-       2   170696023
-       3   170513769
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;The second version has better &lt;em&gt;load balance&lt;/em&gt; - a naive
-distribution of work, like dividing pixels equally between threads, can be poorly
-balanced if the work per pixel is highly variable. The second way of
-distributing the work clearly allocates a similar balance of pixels to each
-thread.&lt;/p&gt;
 &lt;hr/&gt;
 
 &lt;ul&gt;
