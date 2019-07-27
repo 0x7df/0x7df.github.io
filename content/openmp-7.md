@@ -1,23 +1,138 @@
 Title: OpenMP 7
-Date: 2018-05-20 11:16
+Date: 2018-05-21 09:53
 Category:  
-Modified: 2018-05-20 11:16
+Modified: 2018-05-21 09:53
 Tags: 
 Slug: 
 Author: 0x7df
 Summary: 
 Status: draft
 
-# Work-sharing constructs
+## Synchronisation
 
-In a parallel region, all threads execute the same code.
+We touched in [this post]({filename}openmp-1.md) on the need to sychronise
+OpenMP threads, to ensure correctness. For example we saw that updates to
+shared variables are not truly atomic, leading to the potential for race
+conditions. A sequence of actions on shared data, such as
+updating an array with new values then then using it in a subsequent
+computation, might need to be synchronised to ensure all threads complete their
+writes before any threads go on to the next stage. In [this
+post]({filename}openmp-2.md) we noted that the `!$OMP END PARALLEL` directive
+is an implicit synchronisation point, which OpenMP ensures that all threads
+reach before any thread is allowed to continue. Other directives are implicit
+synchronisation points.
 
-Work-sahring directives indicate that work should be divided up between
-threads, rather than replciated.
+In addition to these, OpenMP offers several explicit synchronisation
+directives.
 
-OpenMP has extensive support for parallelsing loops, since loops are the main
-source of parallelism in many, particularl scientific, applications. There are
-a number of options to control which iterations are executed by which thread.
+### Barrier
+
+    !$OMP BARRIER
+
+All threads must arrive at a barrier before any thread can proceed past it.
+
+For example:
+
+    :::fortran
+    program barrier
+
+        use OMP_LIB
+        implicit none
+        integer, parameter :: ik = 4
+        integer, parameter :: rk = 8
+        integer(kind=ik) :: thread_id
+        integer(kind=ik) :: num_threads
+        integer(kind=ik) :: neighbour
+        integer(kind=ik), allocatable :: a(:), b(:)
+
+        !$OMP PARALLEL DEFAULT(NONE) SHARED(num_threads)
+        num_threads = OMP_GET_NUM_THREADS()
+        !$OMP END PARALLEL
+
+        allocate(a(0:num_threads-1), b(0:num_threads-1))
+
+        !$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &
+        !$OMP SHARED(a,b, num_threads)
+
+        thread_id = OMP_GET_THREAD_NUM()
+        a(thread_id) = thread_id
+
+        neighbour = thread_id - 1_ik
+        if (thread_id == 0_ik) neighbour = OMP_GET_NUM_THREADS() - 1_ik
+        b(thread_id) = a(neighbour)
+
+        !$OMP END PARALLEL
+    
+        write(*,*) a
+        write(*,*) b
+    
+    end program barrier
+
+Without any synchronisation:
+
+    :::bash
+    $ gfortran -fopenmp -o barrier.x barrier.f95
+    $ ./barrier.x 
+    $ ./barrier.x 
+           0           1           2           3
+           3           0           1           0
+    $ ./barrier.x 
+           0           1           2           3
+   536870912           0   536870912           2
+    $ ./barrier.x 
+           0           1           2           3
+           3           0           0           0
+
+the results are wrong and non-deterministic. Correct placement of the barrier:
+
+    :::fortran
+    !$OMP PARALLEL DEFAULT(NONE) PRIVATE(thread_id, neighbour) &
+    !$OMP SHARED(a,b, num_threads)
+
+    thread_id = OMP_GET_THREAD_NUM()
+    a(thread_id) = thread_id
+
+    !$OMP BARRIER
+
+    neighbour = thread_id - 1_ik
+    if (thread_id == 0_ik) neighbour = OMP_GET_NUM_THREADS() - 1_ik
+    b(thread_id) = a(neighbour)
+
+    !$OMP END PARALLEL
+
+leads to the correct result:
+
+    :::bash
+    $ gfortran -fopenmp -o barrier.x barrier.f95
+    $ ./barrier.x 
+           0           1           2           3
+           3           0           1           2
+    $ ./barrier.x 
+           0           1           2           3
+           3           0           1           2
+
+Care must be taken about control flow: a likely bug is where some
+threads reach a barrier and some don't due to an `IF` condition:
+deadlock.
+
+The `END PARALLEL` directive is an implicit barrier. The end of a parallel
+`DO` loop is an implicit barrier.
+
+### Critical region
+
+Only one thread *at a time* can enter a critical region. They can be used to
+protect updates to shared variables.
+
+    !$OMP CRITICAL
+    ...
+    !$OMP END CRITICAL
+
+For example, consider implementing a stack:
+
+### Atomic update
+
+- Modification of shared variable. Update a shared variable can be modified by
+  only one thread at a time.
 
 
 <hr/>
