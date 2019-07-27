@@ -1,7 +1,7 @@
 Title: OpenMP 7
-Date: 2019-07-27 19:35
+Date: 2019-07-27 20:32
 Category:  
-Modified: 2019-07-27 19:35
+Modified: 2019-07-27 20:32
 Tags: 
 Slug: 
 Author: 0x7df
@@ -40,7 +40,6 @@ For example, consider the following code, which populates shared arrays `a` and
         use OMP_LIB
         implicit none
         integer, parameter :: ik = 4
-        integer, parameter :: rk = 8
         integer(kind=ik) :: thread_id
         integer(kind=ik) :: num_threads
         integer(kind=ik) :: neighbour
@@ -79,7 +78,7 @@ Without any synchronisation:
            3           0           1           0
     $ ./barrier.x 
            0           1           2           3
-   536870912           0   536870912           2
+    536870912           0   536870912           2
     $ ./barrier.x 
            0           1           2           3
            3           0           0           0
@@ -115,7 +114,7 @@ leads to the correct result:
            3           0           1           2
 
 Care must be taken about control flow: a likely bug is where some
-threads reach a barrier and some don't due to an `IF` condition.
+threads reach a barrier and some don't, due to an `IF` condition.
 
 The `END PARALLEL` directive is an implicit barrier. The end of a parallel
 `DO` loop is an implicit barrier.
@@ -210,7 +209,7 @@ For example, consider implementing a stack:
     end program critical
 
 Here, we create an initial stack of ten values, then enter a loop in which the
-latest value if popped off the stack and processed, during which there is a 50:50
+latest value is popped off the stack and processed, during which there is a 50:50
 probability of a new value being created and added to the stack. Because the
 stack is a single data structure shared across all threads, the
 interactions with it must be protected inside critical sections. If they were
@@ -241,15 +240,42 @@ and `<op>` is one of `+`, `*`, `-`, `/`, `.and.`, `.or.`, `.eqv.` or `.neqv.`;
 and `<intr>` is one of `max`, `min`, `iand`, `ior` or `ieor`. Note that the
 evaluation if `<expr>` is not atomic.
 
+### Lock routines
+
+Occasionally we may require more flexibility than is provided by the `CRITICAL`
+directive.
+
+A lock is a special variable that can be set by a thread. No other thread can
+set the lock until the thread that set the lock has unset it.
+
+Setting a lock can either be blocking or non-blocking.
+
+A lock must be initialised before it is used, and can be destroyed when it is
+no longer required.
+
+Lock variables should not be used for any other purpose.
+
+The syntax is:
+
+    :::fortran
+    use omp_lib
+
+    subroutine omp_init_lock(omp_lock_kind <var>)
+    subroutine omp_set_lock(omp_lock_kind <var>)
+    logical function omp_test_lock(omp_lock_kind <var>)
+    subroutine omp_unset_lock(omp_lock_kind <var>)
+    subroutine omp_destroy_lock(omp_lock_kind <var>)
+
+
 <hr/>
 
 - [OpenMP 1 (Overview, Implementaion)]({filename}openmp-1.md)
 - [OpenMP 2 (Parallel regions, OpenMP functions)]({filename}openmp-2.md)
 - [OpenMP 3 (OpenMP clauses)]({filename}openmp-3.md)
 - [OpenMP 4 (Reductions)]({filename}openmp-4.md)
-- [OpenMP 5 (Work-sharing constructs)]({filename}openmp-5.md)
-- [OpenMP 6 (Synchronisation)]({filename}openmp-6.md)
-- [OpenMP 7 ()]({filename}openmp-7.md)
+- [OpenMP 5 (Exercise: Madelbrot set)]({filename}openmp-5.md)
+- [OpenMP 6 (Work-sharing constructs)]({filename}openmp-6.md)
+- [OpenMP 7 (Synchronisation)]({filename}openmp-7.md)
 
 <hr/>
 
