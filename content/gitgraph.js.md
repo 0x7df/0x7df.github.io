@@ -1,7 +1,7 @@
 Title: GitGraph.js
-Date: 2019-07-29 13:35
+Date: 2019-07-29 13:39
 Category:  
-Modified: 2019-07-29 13:35
+Modified: 2019-07-29 13:39
 Tags: 
 Slug: 
 Author: 0x7df
@@ -214,7 +214,7 @@ To add multiple graphs, I just:
 This means that the first slide sends an event that triggers the event listener
 to render all the graphs.
 
-A full example is at https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b.
+A full example is at [https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b](https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b).
 
 ## PDF export
 
