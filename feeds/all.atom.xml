@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-29T13:35:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>GitGraph.js</title><link href="http://0x7df.github.io/gitgraphjs.html" rel="alternate"></link><published>2019-07-29T13:35:00+01:00</published><updated>2019-07-29T13:35:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-29:/gitgraphjs.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The documentation is at &lt;a href="https://gitgraphjs.com"&gt;https://gitgraphjs.com&lt;/a&gt;.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-29T13:39:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>GitGraph.js</title><link href="http://0x7df.github.io/gitgraphjs.html" rel="alternate"></link><published>2019-07-29T13:39:00+01:00</published><updated>2019-07-29T13:39:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-29:/gitgraphjs.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The documentation is at &lt;a href="https://gitgraphjs.com"&gt;https://gitgraphjs.com&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Installing GitGraph.js&lt;/h2&gt;
 &lt;p&gt;The documentation recommends installation via:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;npm install @gitgraph/js
@@ -185,7 +185,7 @@ except enclosed in a function definition.&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;This means that the first slide sends an event that triggers the event listener
 to render all the graphs.&lt;/p&gt;
-&lt;p&gt;A full example is at https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b.&lt;/p&gt;
+&lt;p&gt;A full example is at &lt;a href="https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b"&gt;https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;PDF export&lt;/h2&gt;
 &lt;p&gt;To
 &lt;a href="https://github.com/hakimel/reveal.js#pdf-export"&gt;export the reveal.js presentation to PDF&lt;/a&gt;
