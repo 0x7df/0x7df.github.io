@@ -1,12 +1,12 @@
 Title: GitGraph.js
-Date: 2019-07-29 08:44
+Date: 2019-07-29 13:35
 Category:  
-Modified: 2019-07-29 08:44
+Modified: 2019-07-29 13:35
 Tags: 
 Slug: 
 Author: 0x7df
 Summary: 
-Status: draft
+Status: published
 
 The documentation is at [https://gitgraphjs.com](https://gitgraphjs.com).
 
