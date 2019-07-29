@@ -1,5 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-27T20:32:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>OpenMP 7</title><link href="http://0x7df.github.io/openmp-7.html" rel="alternate"></link><published>2019-07-27T20:32:00+01:00</published><updated>2019-07-27T20:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-7.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Synchronisation&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2019-07-29T13:35:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>GitGraph.js</title><link href="http://0x7df.github.io/gitgraphjs.html" rel="alternate"></link><published>2019-07-29T13:35:00+01:00</published><updated>2019-07-29T13:35:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-29:/gitgraphjs.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The documentation is at &lt;a href="https://gitgraphjs.com"&gt;https://gitgraphjs.com&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Installing GitGraph.js&lt;/h2&gt;
+&lt;p&gt;The documentation recommends installation via:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;npm install @gitgraph/js
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;where &lt;code&gt;@gitgraph&lt;/code&gt; (as opposed to just &lt;code&gt;gitgraph&lt;/code&gt;) is v2 of the library.&lt;/p&gt;
+&lt;p&gt;However, usage directly in a web page via a CDN is also possible, to bypass
+installation.&lt;/p&gt;
+&lt;h2&gt;Basic usage&lt;/h2&gt;
+&lt;p&gt;The basic structure of the web page is given as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="c"&gt;&amp;lt;!-- Load the JS file --&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;https://cdn.jsdelivr.net/npm/@gitgraph/js&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class="c"&gt;&amp;lt;!-- DOM element in which we&amp;#39;ll mount our graph --&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;graph-container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+
+  &lt;span class="c"&gt;&amp;lt;!-- Use the `GitgraphJS` global variable to create your graph --&amp;gt;&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="c1"&gt;// Get the graph container HTML element.&lt;/span&gt;
+    &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;graphContainer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;graph-container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Instantiate the graph.&lt;/span&gt;
+    &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;gitgraph&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;GitgraphJS&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createGitgraph&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;graphContainer&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Simulate git commands with Gitgraph API.&lt;/span&gt;
+    &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;master&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;gitgraph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;branch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;master&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;master&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Initial commit&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;develop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;gitgraph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;branch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;develop&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;develop&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Add TypeScript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;aFeature&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;gitgraph&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;branch&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;a-feature&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;aFeature&lt;/span&gt;
+      &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Make it work&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Make it right&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Make it fast&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="nx"&gt;develop&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;merge&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;aFeature&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;develop&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;commit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Prepare v1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="nx"&gt;master&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;merge&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;develop&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;v1.0.0&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which renders as:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Basic example of a GitGraph-generated image" src="http://0x7df.github.io/images/GitGraph_basic_example.png"&gt;&lt;/p&gt;
+&lt;p&gt;Note that random commit hashes are generated automatically when the page is
+rendered, so when you refresh the page they change.&lt;/p&gt;
+&lt;h2&gt;Use in presentations rather than on web pages&lt;/h2&gt;
+&lt;p&gt;For importing into presentations, the simplest way seems to be just to take a
+screenshot, which is clunky but still beats drawing the graph by hand in
+PowerPoint or Keynote. There's probably a way to capture screenshots
+automatically using &lt;a href="https://www.seleniumhq.org"&gt;Selenium&lt;/a&gt;, which is the way
+the Python plotting library &lt;a href="https://bokeh.pydata.org"&gt;Bokeh&lt;/a&gt; seems to do it.&lt;/p&gt;
+&lt;p&gt;Another way would be use &lt;a href="https://revealjs.com"&gt;reveal.js&lt;/a&gt; to generate the whole
+presentation and then presumably the GitGraph JavaScript code can be wired into
+the presentation directly. Reveal.js supports exporting as PDF if you want the
+presentation as a file.&lt;/p&gt;
+&lt;h2&gt;Reveal.js basic usage&lt;/h2&gt;
+&lt;p&gt;To create a reveal.js presentation, first get reveal.js itself. For authoring
+presentations, &lt;a href="https://github.com/hakimel/reveal.js#basic-setup"&gt;only a download is needed&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -Lo tmp.tar.gz https://github.com/hakimel/reveal.js/archive/3.8.0.tar.gz
+tar xzf tmp.tar.gz &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; rm tmp.tar.gz
+&lt;span class="nb"&gt;cd&lt;/span&gt; reveal.js-3.8.0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;There is a template &lt;code&gt;index.html&lt;/code&gt; which can be viewed directly in a browser:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;cp index.html test.html
+open test.html &lt;span class="c1"&gt;# On a Mac&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;or served by a web server:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 -m http.server &lt;span class="p"&gt;&amp;amp;&lt;/span&gt;
+open http://localhost:8000/test.html
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;GitGraph.js code in a Reveal.js presentation&lt;/h2&gt;
+&lt;p&gt;Getting the GitGraph.js image to render correctly is slightly convoluted, or at
+least this way that I hacked around is; there might be better ways.&lt;/p&gt;
+&lt;p&gt;GitGraph.js uses a named &lt;code&gt;div&lt;/code&gt; element:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;graph-container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and then renders the graph in that node of the DOM using some JavaScript:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;graphContainer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;graph-container&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// Do stuff with graphContainer...&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you just put the named &lt;code&gt;div&lt;/code&gt; element inside one of reveal.js's
+&lt;code&gt;&amp;lt;section&amp;gt;...&amp;lt;/section&amp;gt;&lt;/code&gt; constructs, which define slides, the graph doesn't
+render. This has to be done explicitly.&lt;/p&gt;
+&lt;p&gt;Reveal provides a &lt;code&gt;data-state&lt;/code&gt; attribute that can be added to a &lt;code&gt;section&lt;/code&gt;
+element, which causes an event to be triggered when the slide in question
+comes up. An event listener can be added which listens for the value given to
+the &lt;code&gt;data-state&lt;/code&gt; attribute, and executes some action upon receiving it. The end
+result of this is that some custom code can be executed when the slide in
+question comes up. If the GitGraph code is encased inside a named function, the
+custom action can be to call this function, and hence render the graph.&lt;/p&gt;
+&lt;p&gt;Note however that if the &lt;code&gt;data-state&lt;/code&gt; attribute is added to the &lt;code&gt;section&lt;/code&gt; element that actually
+contains the graph, then the layout isn't right. This is because the &lt;code&gt;div&lt;/code&gt;
+element placement is determined &lt;em&gt;before&lt;/em&gt; the graph is rendered, while it is
+still empty. To get round this, it is enough to add the &lt;code&gt;data-state&lt;/code&gt; attribute
+to the &lt;em&gt;first&lt;/em&gt; section, to ensure the graph is rendered before the slide
+containing it comes up. Then the layout is correct. This will work as long as
+the first slide doesn't contain the graph; in which case it might be possible to
+add a hidden slide with the &lt;code&gt;data-state&lt;/code&gt; attribute as the first slide, but I
+didn't look into this.&lt;/p&gt;
+&lt;p&gt;So we have:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- Main slide structure --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;reveal&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;slides&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            Slide 1
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt; &lt;span class="na"&gt;data-state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;gitgraph&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            Slide 2
+            &lt;span class="c"&gt;&amp;lt;!-- DOM element in which we&amp;#39;ll mount our graph --&amp;gt;&lt;/span&gt;
+            &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;graph-container1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;and then the definition code for the graph we want to render:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- Git Graphs --&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;drawGit1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// Get the graph container HTML element.&lt;/span&gt;
+        &lt;span class="kr"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;graphContainer&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;graph-container1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// Instantiate the graph.&lt;/span&gt;
+        &lt;span class="p"&gt;...&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which is the same as the example code in the GitGraph.js template index.html,
+except enclosed in a function definition.&lt;/p&gt;
+&lt;p&gt;Finally, the initialisation step for the reveal presentation looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="c1"&gt;// Existing initialisation step&lt;/span&gt;
+    &lt;span class="nx"&gt;Reveal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;initialize&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+        &lt;span class="nx"&gt;dependencies&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;src&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plugin/markdown/marked.js&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;src&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plugin/markdown/markdown.js&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;src&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plugin/notes/notes.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;async&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;
+            &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;src&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;plugin/highlight/highlight.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;async&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Add the event listener&lt;/span&gt;
+    &lt;span class="nx"&gt;Reveal&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;addEventListener&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;gitgraph&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;drawGit1&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To add multiple graphs, I just:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;added the additional containers &lt;code&gt;graph-container2&lt;/code&gt;, &lt;code&gt;graph-container3&lt;/code&gt;, ..., in the appropriate places in the slides&lt;/li&gt;
+&lt;li&gt;created corresponding functions &lt;code&gt;drawGit2&lt;/code&gt;, &lt;code&gt;drawGit3&lt;/code&gt;, ..., in the same
+  &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; block, and&lt;/li&gt;
+&lt;li&gt;added calls to the new functions to the same event listener (that listens to the
+  &lt;code&gt;data-state&lt;/code&gt; value)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This means that the first slide sends an event that triggers the event listener
+to render all the graphs.&lt;/p&gt;
+&lt;p&gt;A full example is at https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b.&lt;/p&gt;
+&lt;h2&gt;PDF export&lt;/h2&gt;
+&lt;p&gt;To
+&lt;a href="https://github.com/hakimel/reveal.js#pdf-export"&gt;export the reveal.js presentation to PDF&lt;/a&gt;
+, it is necessary to serve it via a web server, and use the &lt;code&gt;?print-pdf&lt;/code&gt; query
+string; i.e.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python3 -m http.server &lt;span class="m"&gt;8080&lt;/span&gt;
+open http://localhost:8080/test.html?print-pdf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then use the 'Save as PDF' destination in the browser's 'Print' menu. This only
+works in Google Chrome and Chromium. The PDF export of the &lt;a href="https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b"&gt;example mentioned
+above&lt;/a&gt; is
+&lt;a href="http://0x7df.github.io/attachments/test_gitgraphjs_in_revealjs.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;</content></entry><entry><title>OpenMP 7</title><link href="http://0x7df.github.io/openmp-7.html" rel="alternate"></link><published>2019-07-27T20:32:00+01:00</published><updated>2019-07-27T20:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-7.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Synchronisation&lt;/h2&gt;
 &lt;p&gt;We touched in &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;this post&lt;/a&gt; on the need to sychronise
 OpenMP threads, to ensure correctness. For example, we saw that updates to
 shared variables are not truly atomic, leading to the potential for race

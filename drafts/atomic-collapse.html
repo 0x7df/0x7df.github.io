@@ -74,9 +74,11 @@
 
         <!-- Content -->
     <div class="container content">
-        <p>Show from classical electromgnetic theory that a negative electron
+        <blockquote>
+<p>Show from classical electromgnetic theory that a negative electron
 orbiting a positive nucleus in a mechanically stable orbit radiates
 energy continuously at a frequency equal to that of its motion.</p>
+</blockquote>
 <p>First, we show that a charge undergoing acceleration radiates energy, and work
 out the power radiated.</p>
 <p>We can do this without recourse to Maxwell's equations, by following a
@@ -87,7 +89,7 @@ law:</p>
 <div class="math">$$ E = \frac{kq}{r^2} $$</div>
 <p>If the charge were moving at a constant speed, then the pattern of electric
 field lines would be translating in the same direction at the same speed as the
-chanrge itself, but other than this constant translation, is otherwise
+charge itself, but other than this constant translation, is otherwise
 undisturbed.</p>
 <p>On the other hand, if the charge undergoes an <em>acceleration</em>, this results in a
 disturbance in the electric field that propagates from the charge outwards. To
@@ -95,7 +97,7 @@ see this, imagine that the charge, inititally moving left to right with some
 constant velocity, undergoes a change in velocity <span class="math">\(\Delta v\)</span> in some short time
 <span class="math">\(\Delta t\)</span>. The electric field does not adjust everywhere instantaneously to
 this new speed, but rather the 'knowledge' of the change propagates out at the
-speed of light, <span class="math">\(c\)</span>. Some time <span class="math">\(t &gt;&gt; $\Delta t\)</span> after the change in velocity,
+speed of light, <span class="math">\(c\)</span>. Some time <span class="math">\(t &gt;&gt; \Delta t\)</span> after the change in velocity,
 the electric field lines within a radius <span class="math">\(r = ct\)</span> of the charge have adjusted
 to the new velocity, but the electric field lines beyond the radius <span class="math">\(c(t +
 \Delta t)\)</span> are still in the configuration they would have been in had the
@@ -126,17 +128,17 @@ the same position - the acceleration has not changed this. That is:</p>
 <div class="math">$$ E_\perp = \frac{a \sin{\theta}}{c^2} \frac{kq}{r} $$</div>
 <p>At this point, we note that the field falls off as <span class="math">\(1/r\)</span>, whereas the radial
 field falls off as <span class="math">\(1/r^2\)</span>.</p>
-<p>The density of energy stored in the electric field, <span class="math">\(eta\)</span>, is given by:</p>
-<div class="math">$$ eta = \frac{1}{2} \eta_0 E^2 $$</div>
+<p>The density of energy stored in the electric field, <span class="math">\(\eta\)</span>, is given by:</p>
+<div class="math">$$ \eta = \frac{1}{2} \eta_0 E^2 $$</div>
 <p>hence:</p>
-<div class="math">$$ eta = \frac{1}{2} \eta_0 \frac{k^2 q^2 a^2 \sin^2{\theta}}{r^2 c^4} $$</div>
+<div class="math">$$ \eta = \frac{1}{2} \eta_0 \frac{k^2 q^2 a^2 \sin^2{\theta}}{r^2 c^4} $$</div>
 <p>and substituting:</p>
 <div class="math">$$ k = \frac{1}{4\pi\eta_0} $$</div>
 <p>simplifies this to:</p>
 <div class="math">$$ \eta_e = \frac{1}{2} \frac{q^2 a^2 \sin^2{\theta}}{16 \pi^2 \eta_0 r^2 c^4} $$</div>
 <p>The expression above gives the energy density due to the electric field,
 <span class="math">\(\eta_e\)</span>; but for plane waves the energy stored in the magnetic field,
-<span class="math">\(\eta_m\)</span>, is equal. Therefore the total energy densit, <span class="math">\(\eta\)</span>, is twice this.</p>
+<span class="math">\(\eta_m\)</span>, is equal. Therefore the total energy density, <span class="math">\(\eta\)</span>, is twice this.</p>
 <p>The energy passing through a unit area normal to the direction of propagation
 of the radiation, per unit time - i.e. the flux of energy - is given by the
 energy density multiplied by the speed of propagation; this flux is:</p>
@@ -146,15 +148,15 @@ energy density multiplied by the speed of propagation; this flux is:</p>
 <p>Since the flux is the power radiated per unit area, to find the total power
 radiated in all directions, we need only to integrate over all directions.</p>
 <p>A unit area in spherical coordinates is given by:</p>
-<div class="math">$$ dA = 2\pi\r^2 \sin{\theta} d\theta $$</div>
+<div class="math">$$ dA = 2\pi r^2 \sin{\theta} d\theta $$</div>
 <p>Hence:</p>
 <div class="math">$$ P = \int S dA $$</div>
 <p>and:</p>
 <div class="math">$$ P = \frac{q^2 a^2}{8 \pi \eta_0 c^3} \int_0^{\pi} \sin^3{\theta} d\theta $$</div>
 <p>The integral evaluates to <span class="math">\(4/3\)</span>, hence:</p>
 <div class="math">$$ P = \frac{q^2 a^2}{6 \pi \eta_0 c^3} $$</div>
-<p>This is known as <span class="math">\(Larmor's equation\)</span> (not to be confused in any way with
-<span class="math">\(Larmor frequency\)</span> which is to do with nuclear processes).</p>
+<p>This is known as <em>Larmor's equation</em> (not to be confused in any way with
+<em>Larmor frequency</em> which is to do with nuclear processes).</p>
 <p>Now that we know the power radiated (the energy loss per unit time), we can
 start to calculate the time it will take for the radiating electron to lose all
 its energy.</p>
