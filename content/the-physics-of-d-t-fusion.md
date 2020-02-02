@@ -2,7 +2,7 @@ Title: The Physics of D-T Fusion
 Date: 2015-02-21 21:49
 Author: 0x7df
 Category: Uncategorized
-Slug: 98
+Slug:
 Status: draft
 Tags: fusion, physics
 

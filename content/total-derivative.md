@@ -2,7 +2,7 @@ Title: Total derivative
 Date: 2015-08-30 21:43
 Author: 0x7df
 Category: Uncategorized
-Slug: 691
+Slug:
 Status: draft
 Tags: fluid dynamics, mathematics, physics
 

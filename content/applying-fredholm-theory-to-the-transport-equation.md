@@ -8,8 +8,9 @@ Author: 0x7df
 Summary: 
 Status: draft
 
-In a previous post, the spatially-discretised, 1D, fixed-source, mono-energetic
-neutron transport equation was shown to be:
+In a [previous post](discretisation-of-the-1d-neutron-transport-equation.md),
+the spatially-discretised, 1D, fixed-source, mono-energetic neutron transport
+equation was shown to be: 
 
 $$ \psi(\mu) = \lambda(\mu) \int_{-1}^1 \sigma(\mu, \mu') \psi(\mu') d\mu'
 + S(\mu) $$
@@ -20,8 +21,9 @@ $$ \lambda(\mu) = \frac{h}{2|\mu| + \Sigma h} $$
 
 $$ S(\mu) = \frac{hq(\mu) + 2|\mu|\psi^{\mathrm{IN}}_j}{2|\mu| + \Sigma h} $$
 
-In a different post, iterative methods for solving inhomogeneous Fredholm
-equations of the second kind were introduced; these equations have the form:
+In a [different post](fredholm-integral-equations-and-the-resolvent-kernel.md)
+, iterative methods for solving inhomogeneous Fredholm equations of the second
+kind were introduced. These equations have the form:
 
 $$ \psi(\mu) = \lambda \int_a^b K(\mu, \mu') \psi(\mu') d\mu' + S(\mu) $$
 

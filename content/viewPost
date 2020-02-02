@@ -17,7 +17,7 @@ echo $POST_TITLE
 echo $POST_BASE
 
 make -C .. html
-make -C .. serve &
+PORT=8000 make -C .. serve &
 
 open http://localhost:8000/drafts/${POST_BASE}.html
 

@@ -2,7 +2,7 @@ Title: Fusion
 Date: 2015-02-22 14:29
 Author: 0x7df
 Category: Uncategorized
-Slug: 79
+Slug:
 Status: draft
 Tags: physics, fusion
 

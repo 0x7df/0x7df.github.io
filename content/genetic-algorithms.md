@@ -2,7 +2,7 @@ Title: Genetic algorithms
 Date: 2015-06-03 07:36
 Author: 0x7df
 Category: Uncategorized
-Slug: 599
+Slug:
 Status: draft
 Tags: algorithm, evolutionary algorithm, evolutionary computing, computing,
 programming

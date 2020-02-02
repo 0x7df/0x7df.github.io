@@ -8,7 +8,7 @@ Author: 0x7df
 Summary: 
 Status: draft
 
-# Classification of partial differential equations
+## Classification of partial differential equations
 
 Partial differential equations (PDEs) can be classified in the following way.
 Consider the general linear second-order PDE:
@@ -35,7 +35,7 @@ and the original PDE classified according to the following rules:
 2. *Parabolic* at $(x,y)$ if $\Delta = 0$
 3. *Elliptic* at $(x,y)$ if $\Delta \lt 0$
 
-The equation is said to be hyperbolic, elliptic or parabolic if it so over its
+The equation is said to be hyperbolic, elliptic or parabolic if it is so over its
 whole domain. Equations can be of mixed type.
 
 For example, the *wave equation* is hyperbolic:
@@ -73,7 +73,7 @@ where:
 
 where $x_i$ is the $i^{\mathrm{th}}$ dimension of a $n$-dimensional domain.
 
-# Boundary conditions
+## Boundary conditions
 
 In general, boundary conditions are given by specifying values for $\alpha$,
 $\beta$ and $\gamma$ in the equation:
@@ -88,7 +88,7 @@ where $\partial/\partial n$ is the derivative normal to the boundary.
 Then, boundary conditions can be categorised as:
 
 1. *Dirichlet* conditions if $\beta = 0$ (the value is specified)
-2. *Neumann* conditions if $\alpha = 0$ (the value is specified)
+2. *Neumann* conditions if $\alpha = 0$ (the derivative is specified)
 3. *Robin* or *third*-type conditions if neither $\alpha$ nor $\beta$ is zero
 4. *Cauchy* conditions if two equations are given with $\alpha = 0$ in one and
    $\beta = 0$ in the other
@@ -97,7 +97,7 @@ In any case, if $\gamma = 0$, the boundary condition is said to be
 *homogeneous*, and *inhomogeneous* if $\gamma \ne 0$.
 
 Different types of boundary conditions are appropriate to different types of
-PDE. Hyperbolic equations require Cauchy boudary conditions and parabolic PDEs
+PDE. Hyperbolic equations require Cauchy boundary conditions and parabolic PDEs
 require Neumann or Dirichlet conditions; in both cases on an open boundary
 (otherwise the solution would be over-specfied). Elliptic equations require
 Dirichlet or Neumann boundary conditions, but on a closed boundary (otherwise
@@ -111,13 +111,13 @@ a steady state over a specified domain $\mathcal{D}$, given boundary conditions
 specified on the boundary $\mathcal{\Lambda}$; systems of this type are usually
 solved by iterative methods.
 
-# Finite difference discretisation of elliptic problems
+## Finite difference discretisation of elliptic problems
 
 Common solution techniques for elliptic equations include finite difference,
 finite element, and spectral methods. Here we consider only finite difference
 schemes.
 
-## Two-dimensional Poisson's equation
+### Two-dimensional Poisson's equation
 
 We have seen Poisson's equation as an example of an elliptic PDE:
 

@@ -2,7 +2,7 @@ Title: Radiation protection
 Date: 2015-02-22 14:42
 Author: 0x7df
 Category: Uncategorized
-Slug: 83
+Slug:
 Status: draft
 Tags: physics
 

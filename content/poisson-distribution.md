@@ -2,7 +2,7 @@ Title: Poisson distribution
 Date: 2015-02-21 20:37
 Author: 0x7df
 Category: Uncategorized
-Slug: 91
+Slug:
 Status: draft
 Tags: mathematics, statistics
 

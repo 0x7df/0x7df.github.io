@@ -2,7 +2,7 @@ Title: X-ray interactions with matter
 Date: 2015-02-22 16:29
 Author: 0x7df
 Category: Uncategorized
-Slug: 96
+Slug:
 Status: draft
 Tags: physics, radiation
 
@@ -14,17 +14,17 @@ strongly with charged particles, or the electric fields thereof. Several
 processes can occur when photons interact with matter. Some are listed
 here and dealt with separately below:
 
--   Elastic (coherent) scattering
--   Inelastic (incoherent) scattering
--   Compton scattering
--   Photoelectric effect
--   Resonance absorption
--   Fluorescence
--   Stimulated emission
--   Pair production (nuclear)
--   Electronic pair production
--   Photodisintegration/photofission
--   Photonuclear effect
+- Elastic (coherent) scattering
+- Inelastic (incoherent) scattering
+- Compton scattering
+- Photoelectric effect
+- Resonance absorption
+- Fluorescence
+- Stimulated emission
+- Pair production (nuclear)
+- Electronic pair production
+- Photodisintegration/photofission
+- Photonuclear effect
 
 Elastic (Coherent) Scattering
 -----------------------------
@@ -43,10 +43,10 @@ scattering target is much smaller than the wavelength of the radiation,
 the scattering is called Rayleigh scattering, which has the special
 property that the scattering cross-section varies as 1/λ^4^.
 
--   Interaction centre: bound electrons
--   Energy range: < 10 keV
--   *Z*-dependence: *Z*^2^
--   *E*-dependence: *E*^-1^ (notes) or None (LLNL paper)
+- Interaction centre: bound electrons
+- Energy range: < 10 keV
+- *Z*-dependence: *Z*^2^
+- *E*-dependence: *E*^-1^ (notes) or None (LLNL paper)
 
 Inelastic (Incoherent) Scattering
 ---------------------------------
@@ -81,10 +81,10 @@ scattered predominantly in the forward direction.
 Compton scattering is the dominant interaction at intermediate photon
 energies.
 
--   Interaction centre: "free" electrons
--   Energy range: 300 - 1500 keV
--   *Z*-dependence: None (notes) or *Z* (LLNL paper)
--   *E*-dependence: *E*^-1^
+- Interaction centre: "free" electrons
+- Energy range: 300 - 1500 keV
+- *Z*-dependence: None (notes) or *Z* (LLNL paper)
+- *E*-dependence: *E*^-1^
 
 Photoelectric Effect
 --------------------
@@ -105,12 +105,13 @@ The photoelectric effect is the dominant interaction at low photon
 energies. The cross-section exhibits peaks at photon energies equal to
 the binding energies of the electron shells
 
--   Interaction centre: tightly-bound electrons
--   Energy range: 0.1 - 500 keV
--   *Z*-dependence: *Z*^3^
--   *E*-dependence: *E*^-3^
+- Interaction centre: tightly-bound electrons
+- Energy range: 0.1 - 500 keV
+- *Z*-dependence: *Z*^3^
+- *E*-dependence: *E*^-3^
 
-\\section{Pair Production}
+Pair Production
+---------------
 
 Photon interaction with the electrinc field of the positively-charged
 nucleus gives rise to pair production; that is, the annihilation of the
@@ -120,16 +121,15 @@ is conserved in pair production, there is a broad spectrum of positron
 and electron energies.
 
 - Pair production is the dominant interaction at high photon energies.
-
 - Interaction centre: Nuclear electric field
-
 - Energy range: > 1022 keV
 
 $Z$-dependence:$Z$ (notes) or$Z^2$ (LLNL paper)
 
 $E$-dependence:$(E-1022)$ (notes) or$(E-1022)^2$ (LLNL paper)
 
-\\section{Photonuclear Effect}
+Photonuclear Effect
+-------------------
 
 The interaction of photons with the nucleus results in the emission of
 photonucleons (protons or neutrons). For most nuclei, the photonuclear
