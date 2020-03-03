@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Fill in all blank date entries in Markdown files
+
+set -eu
+set -o pipefail
+
+# Get Markdown files that have a blank date entry
+FILES=$(grep -l '^Date: $' content/*.md)
+
+for FILE in $FILES ; do
+    # Insert either the timestamp of the file or the modified time in the file
+    # header, whichever is the earliest(?)
+    DATE1=$(date -j -f "%Y-%m-%d %H:%M" "$(stat -f '%Sm' -t '%Y-%m-%d %H:%M' $FILE)" +%s)
+    DATE2=$(date -j -f "%Y-%m-%d %H:%M" "$(grep '^Modified: ' $FILE | cut -d':' -f2- | xargs)" +%s)
+    if [[ "${DATE1}" -lt "${DATE2}" ]] ; then
+        DATE=$(stat -f '%Sm' -t '%Y-%m-%d %H:%M' $FILE)
+    else
+        DATE=$(grep '^Modified: ' $FILE | cut -d':' -f2- | xargs)
+    fi
+    echo ${DATE} ${FILE}
+    sed -i ".backup" "s/^Date: $/Date: ${DATE}/" ${FILE}
+done
