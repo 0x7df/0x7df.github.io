@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Classification of partial differential equations Partial differential equations (PDEs) can be classified in the following way. Consider the general linear second-order PDE: \begin{equation} A(x,y)...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>Elliptic equations and boundary-value problems - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Elliptic equations and boundary-value problems</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 18 February 2017, modified Sat 18 February 2017, in category <a href="http://0x7df.github.io/category/maths.html">Maths</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h2>Classification of partial differential equations</h2>
+<p>Partial differential equations (PDEs) can be classified in the following way.
+Consider the general linear second-order PDE:</p>
+<div class="math">\begin{equation}
+      A(x,y) \frac{\partial^2 u}{\partial x^2}
+    + B(x,y) \frac{\partial^2 u}{\partial x \partial y}
+    + C(x,y) \frac{\partial^2 u}{\partial y^2}
+    =
+    F\left(
+        x,y,\frac{\partial u}{\partial x},\frac{\partial u}{\partial y}
+     \right)
+\end{equation}</div>
+<p>The discriminant <span class="math">\(\Delta(x,y)\)</span> can be defined as:</p>
+<div class="math">\begin{equation}
+    \Delta(x,y) = B^2(x,y) - A(x,y)C(x,y)
+\end{equation}</div>
+<p>and the original PDE classified according to the following rules:</p>
+<ol>
+<li><em>Hyperbolic</em> at <span class="math">\((x,y)\)</span> if <span class="math">\(\Delta \gt 0\)</span></li>
+<li><em>Parabolic</em> at <span class="math">\((x,y)\)</span> if <span class="math">\(\Delta = 0\)</span></li>
+<li><em>Elliptic</em> at <span class="math">\((x,y)\)</span> if <span class="math">\(\Delta \lt 0\)</span></li>
+</ol>
+<p>The equation is said to be hyperbolic, elliptic or parabolic if it is so over its
+whole domain. Equations can be of mixed type.</p>
+<p>For example, the <em>wave equation</em> is hyperbolic:</p>
+<div class="math">\begin{equation}
+    \frac{\partial^2 u}{\partial t^2} = c^2\frac{\partial^2 u}{\partial x^2}
+\end{equation}</div>
+<p>the <em>heat flow equation</em> or <em>diffusion equation</em> (with constant thermal
+conductivity or diffusion coefficient) is parabolic:</p>
+<div class="math">\begin{equation}
+    \frac{\partial u}{\partial t} = \kappa\frac{\partial^2 u}{\partial x^2}
+\end{equation}</div>
+<p>and <em>Poisson's equation</em> is elliptic:</p>
+<div class="math">\begin{equation}
+    \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}
+    = f(x,y)
+\end{equation}</div>
+<p>A more general form of Poisson's equation is:</p>
+<div class="math">\begin{equation}
+    \nabla^2u = f
+\end{equation}</div>
+<p>where:</p>
+<div class="math">\begin{equation}
+    \nabla^2u = \nabla\cdot(\nabla u)
+    = \sum_{i=1}^n \frac{\partial^2 u}{\partial x_i^2}
+\end{equation}</div>
+<p>where <span class="math">\(x_i\)</span> is the <span class="math">\(i^{\mathrm{th}}\)</span> dimension of a <span class="math">\(n\)</span>-dimensional domain.</p>
+<h2>Boundary conditions</h2>
+<p>In general, boundary conditions are given by specifying values for <span class="math">\(\alpha\)</span>,
+<span class="math">\(\beta\)</span> and <span class="math">\(\gamma\)</span> in the equation:</p>
+<div class="math">\begin{equation}
+    \alpha(x,y)u(x,y) + \beta(x,y)\frac{\partial}{\partial n}u(x,y)
+    = \gamma(x,y)
+\end{equation}</div>
+<p>where <span class="math">\(\partial/\partial n\)</span> is the derivative normal to the boundary.</p>
+<p>Then, boundary conditions can be categorised as:</p>
+<ol>
+<li><em>Dirichlet</em> conditions if <span class="math">\(\beta = 0\)</span> (the value is specified)</li>
+<li><em>Neumann</em> conditions if <span class="math">\(\alpha = 0\)</span> (the derivative is specified)</li>
+<li><em>Robin</em> or <em>third</em>-type conditions if neither <span class="math">\(\alpha\)</span> nor <span class="math">\(\beta\)</span> is zero</li>
+<li><em>Cauchy</em> conditions if two equations are given with <span class="math">\(\alpha = 0\)</span> in one and
+   <span class="math">\(\beta = 0\)</span> in the other</li>
+</ol>
+<p>In any case, if <span class="math">\(\gamma = 0\)</span>, the boundary condition is said to be
+<em>homogeneous</em>, and <em>inhomogeneous</em> if <span class="math">\(\gamma \ne 0\)</span>.</p>
+<p>Different types of boundary conditions are appropriate to different types of
+PDE. Hyperbolic equations require Cauchy boundary conditions and parabolic PDEs
+require Neumann or Dirichlet conditions; in both cases on an open boundary
+(otherwise the solution would be over-specfied). Elliptic equations require
+Dirichlet or Neumann boundary conditions, but on a closed boundary (otherwise
+the boundary conditions are insufficient).</p>
+<p>Hyperbolic and parabolic equations generally describe <em>initial-value problems</em>,
+and are often solved by forward integration ("time marching") schemes. On the
+other hand, elliptic equations, along with suitable boundary conditions,
+generally constitute <em>boundary-value problems</em>. In the latter, the PDE describes
+a steady state over a specified domain <span class="math">\(\mathcal{D}\)</span>, given boundary conditions
+specified on the boundary <span class="math">\(\mathcal{\Lambda}\)</span>; systems of this type are usually
+solved by iterative methods.</p>
+<h2>Finite difference discretisation of elliptic problems</h2>
+<p>Common solution techniques for elliptic equations include finite difference,
+finite element, and spectral methods. Here we consider only finite difference
+schemes.</p>
+<h3>Two-dimensional Poisson's equation</h3>
+<p>We have seen Poisson's equation as an example of an elliptic PDE:</p>
+<div class="math">\begin{equation}
+    \frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}
+    = f(x,y)
+\end{equation}</div>
+<p>Consider a rectangular domain with homogeneous Neumann boundary conditions:</p>
+<div class="math">\begin{equation}
+    u(0,y) = u(X,y) = u(x,0) = u(x,Y) = 0
+\end{equation}</div>
+<p>The second-order-accurate finite-difference approximation is:</p>
+<div class="math">\begin{equation}
+    \frac{1}{h_x^2} \left(u_{i-1,j} - 2u_{i,j} + u_{i+1,j}\right)
+    +
+    \frac{1}{h_y^2} \left(u_{i,j-1} - 2u_{i,j} + u_{i,j+1}\right)
+    = f_{i,j}
+\end{equation}</div>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

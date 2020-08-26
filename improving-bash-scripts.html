@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="I&#39;ve been working on improving my Bash scripting recently, working systematically through the Advanced Bash-Scripting Guide for things I didn&#39;t know and for good practices that I haven&#39;t...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>Improving Bash scripts - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Improving Bash scripts</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 05 March 2017, modified Sun 05 March 2017, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>I've been working on improving my Bash scripting recently, working
+systematically through the <a href="http://www.tldp.org/LDP/abs/abs-guide.pdf">Advanced Bash-Scripting Guide</a> for things I didn't know and for
+good practices that I haven't systematically applied.</p>
+<p>Here are a few of the things it motivated me to apply across all my Bash
+scripts.</p>
+<h2>Finding shell scripts</h2>
+<p>All my scripts already consistently used a sha-bang, which made them easy to
+find:</p>
+<div class="highlight"><pre><span></span><code>find ~/Code -type f -not -path <span class="s2">&quot;*/.git/*&quot;</span> -print0 <span class="se">\</span>
+    <span class="p">|</span> xargs -0 grep -Il <span class="s2">&quot;^[ ]*\#\!/[^\#\!]*sh&quot;</span>
+</code></pre></div>
+
+
+<p>The <code>find</code> command searches for all files in the <code>~/Code</code> directory (filtering
+out any that are inside a <code>.git</code> directory) and passes the resulting list to
+<code>xargs</code>, which runs the <code>grep</code> command on each result.</p>
+<p>The <code>-print0</code> and <code>-0</code>
+arguments to <code>find</code> and <code>xargs</code> are designed to work with each other to protect
+against whitespace or other dodgy characters in pathnames that <code>xargs</code> would
+split on. The former causes <code>find</code> to separate the list of pathnames that it
+produces with a special null character, and the latter causes <code>xargs</code> to split
+the list on that same character rather than on the usual characters, like
+whitespace.</p>
+<p>The <code>-I</code> and <code>-l</code> flags to <code>grep</code> tell it to ignore binary files, and to print
+out the name of the matched file, rather than the matching line, respectively.</p>
+<p>The regular expression matches strings of the form <code>#!/</code>...<code>sh</code>, where the
+middle part represented here by ... can consist of any number of characters
+other than <code>#</code> or <code>!</code>. This allows it to match various forms of sha-bang, such
+as:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1">#!/bin/ksh</span>
+<span class="c1">#!/bin/sh</span>
+<span class="c1">#!/usr/bin/env bash</span>
+</code></pre></div>
+
+
+<p>Note also that only cases where the sha-bang is preceded by zero or more spaces
+are matched, to prevent, for example, <code>this is a sha-bang: #!/bin/bash</code> from
+being matched.</p>
+<p>Once I had the list of scripts, I looped over the resulting list and <code>grep</code>ped
+for the following desirable features.</p>
+<h2>Error-checking with <code>set</code></h2>
+<p>A few of my scripts used <code>set -e</code> or <code>set -u</code>, depending on whether some
+problem had cropped up while I was developing or debugging them that using
+those commands helped me solve. However I decided it was time to get into the
+habit of using them systematically across all my scripts, and to start using
+<code>pipefail</code> as well. Hence I added:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">set</span> -eu
+<span class="nb">set</span> -o pipefail
+</code></pre></div>
+
+
+<p>to the top of all scripts that didn't already have them. If a script fails
+because of an error in a pipe, no information is printed; but:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="si">${</span><span class="nv">PIPESTATUS</span><span class="p">[*]</span><span class="si">}</span>
+</code></pre></div>
+
+
+<p>will show the return codes of each command in the pipe; irritatingly, this
+works only in Bash and not in Korn shell scripts. (There is an equivalent
+<code>$pipestatus</code> variable in Z shell.)</p>
+<h2>Extended test command</h2>
+<p>I was inconsistently mixing the standard <code>test</code> command:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span> ... <span class="o">]</span>
+</code></pre></div>
+
+
+<p>and the extended version, originally introduced in Korn shell and later ported
+to Bash:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[[</span> ... <span class="o">]]</span>
+</code></pre></div>
+
+
+<p>The latter has a few advantages.</p>
+<p>Quoting variables within <code>[[ ... ]]</code> isn't necessary. <code>[</code> is a command
+and what follows are arguments to that command; if a variable in a
+comparison is unset, e.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">a</span><span class="o">=</span>
+<span class="o">[</span> <span class="nv">$a</span> -lt <span class="nv">$b</span> <span class="o">]</span>
+</code></pre></div>
+
+
+<p>then <code>[</code> sees only two arguments, and therefore complains that <code>-lt</code> is not
+a permissible operator for what it thinks is a two-argument form of the
+command. Quoting ensures that the correct number of arguments is seen by
+test. However, this isn't the case with <code>[[ .. ]]</code> constructs.</p>
+<p>The <code>&amp;&amp;</code> and <code>||</code> logical operators can be used, e.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="nv">$a</span> <span class="o">==</span> <span class="nv">$b</span> <span class="o">&amp;&amp;</span> <span class="nv">$c</span> <span class="o">==</span> <span class="nv">$d</span> <span class="o">]]</span>
+<span class="o">[[</span> <span class="nv">$a</span> <span class="o">==</span> <span class="nv">$b</span> <span class="o">||</span> <span class="nv">$c</span> <span class="o">==</span> <span class="nv">$d</span> <span class="o">]]</span>
+</code></pre></div>
+
+
+<p>The <code>&lt;</code> and <code>&gt;</code> relational operators work without being escaped:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="nv">$a</span> &lt; <span class="nv">$b</span> <span class="o">]]</span>
+<span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">&quot;</span> <span class="se">\&lt;</span> <span class="s2">&quot;</span><span class="nv">$b</span><span class="s2">&quot;</span> <span class="o">]</span>
+</code></pre></div>
+
+
+<p>but remember of course that these are text comparisons, so:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="m">9</span> &gt; <span class="m">54</span> <span class="o">]]</span>   <span class="c1"># Returns true</span>
+<span class="o">[[</span> <span class="m">9</span> -gt <span class="m">54</span> <span class="o">]]</span> <span class="c1"># Returns false</span>
+</code></pre></div>
+
+
+<p>The extended test command implements the <code>=~</code> regular-expression match:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="nv">foobar</span> <span class="o">=</span>~ bar <span class="o">]]</span>
+</code></pre></div>
+
+
+<p>It should be noted tht file globbing and word splitting do not take place in
+the extended test command. From the Advanced Bash-Scripting Guide (attributed
+to Stephane Chazelas):</p>
+<div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="nv">$a</span> <span class="o">==</span> z* <span class="o">]]</span>   <span class="c1"># True if $a starts with a &quot;z&quot; (pattern matching).</span>
+<span class="o">[[</span> <span class="nv">$a</span> <span class="o">==</span> <span class="s2">&quot;z*&quot;</span> <span class="o">]]</span> <span class="c1"># True if $a is equal to z* (literal matching).</span>
+<span class="o">[</span> <span class="nv">$a</span> <span class="o">==</span> z* <span class="o">]</span>     <span class="c1"># File globbing and word splitting take place.</span>
+<span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;z*&quot;</span> <span class="o">]</span> <span class="c1"># True if $a is equal to z* (literal matching).</span>
+</code></pre></div>
+
+
+<h2>Explicit typing</h2>
+<p>In Bash, either <code>declare</code> or its synonym <code>typeset</code> can be used to specify the
+type of variables. I prefer <code>typeset</code>, as it's also recognised by the Korn
+shell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">typeset</span> -i integer_variable
+<span class="nb">typeset</span> -r constant
+</code></pre></div>
+
+
+<p>The <code>-r</code> form has the alternative <code>readonly</code>, but using the <code>typeset</code> form also
+gives some consistency since <code>typeset</code> has other uses, such as declaring
+arrays:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">typeset</span> -a an_array <span class="c1"># Prior to Bash v4</span>
+<span class="nb">typeset</span> -A an_array <span class="c1"># Bash v4 and Korn shell</span>
+</code></pre></div>
+
+
+<p>as well as allowing multiple attributes to be declared at once:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">typeset</span> -ir integer_constant
+</code></pre></div>
+
+
+<p>and attributes to be removed:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">typeset</span> +r variable <span class="c1"># No longer read-only</span>
+</code></pre></div>
+
+
+<p>and finally in functions to define the variable scope to be local to
+the function:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">typeset</span> local_variable
+</code></pre></div>
+
+
+<p>The variable is local whether or not other arguments (e.g. <code>-i</code>, <code>-r</code>, etc.)
+are supplied. Note that a variable inside a function declared with <code>readonly</code>
+is <em>not</em> local, whereas if declared with <code>typeset -r</code> it is - this is another
+reason to use <code>typeset -r</code> over <code>readonly</code>, since it's good practice to make
+variables local by default.</p>
+<h2>Conclusion</h2>
+<p>This is just scratching the surface of 'advanced' Bash scripting tips for
+defensive programming. More later.</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

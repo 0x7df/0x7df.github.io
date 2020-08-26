@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Work-sharing constructs As we&#39;ve seen in previous posts , in a parallel region, all threads execute the same code. When we parallelised the calculation of the Mandelbrot set , we had to devise...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>OpenMP 6 - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">OpenMP 6</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 27 July 2019, modified Sat 27 July 2019, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h2>Work-sharing constructs</h2>
+<p>As
+<a href="http://0x7df.github.io/openmp-1.html">we've</a>
+<a href="http://0x7df.github.io/openmp-2.html">seen</a>
+<a href="http://0x7df.github.io/openmp-3.html">in</a>
+<a href="http://0x7df.github.io/openmp-4.html">previous</a>
+<a href="http://0x7df.github.io/openmp-5.html">posts</a>
+, in a parallel region, all threads execute the same code.
+<a href="http://0x7df.github.io/openmp-5.html">When we parallelised the calculation of the Mandelbrot set</a>
+, we had to devise manual ways of dividing the work amongst the threads
+ourselves.</p>
+<p>However, OpenMP provides additional directives, called <em>work-sharing
+directives</em>, to help with this. Work-sharing directives indicate that work
+should be divided up between threads, rather than replicated.</p>
+<h3>Parallel Do</h3>
+<p>OpenMP has extensive support for parallelising loops, since loops are the main
+source of parallelism in many, particularly scientific, applications.</p>
+<div class="highlight"><pre><span></span><code><span class="err">!$OMP DO [&lt;clauses&gt;...]</span>
+<span class="err">...</span>
+<span class="err">[!$OMP END DO]</span>
+</code></pre></div>
+
+
+<p>The closing directive is optional.</p>
+<p>The <code>!$OMP DO</code> directive can take:</p>
+<ul>
+<li><code>PRIVATE</code></li>
+<li><code>FIRSTPRIVATE</code></li>
+<li><code>REDUCTION</code></li>
+</ul>
+<p>clauses. Recall from <a href="http://0x7df.github.io/openmp-3.html">earlier</a> that loop counters are
+private by default (in Fortran).</p>
+<p>Since the <code>!OMP PARALLEL</code> / <code>$OMP DO</code> combination is so common, there's a
+shorthand version:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!$OMP PARALLEL DO [&lt;clauses&gt;...]</span>
+<span class="err">...</span>
+<span class="err">[!$OMP END PARALLEL DO]</span>
+</code></pre></div>
+
+
+<p>This can take all the clauses that the <code>PARALLEL</code> directive can take.</p>
+<p>Returning to our Mandelbrot set example, we can replace the logic for manually
+distributing threads with the <code>!$OMP DO</code> directive:</p>
+<div class="highlight"><pre><span></span><code>  <span class="o">!</span><span class="err">$</span><span class="n">OMP</span> <span class="k">DO</span>
+  <span class="k">do</span> <span class="n">ipix</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_ik</span><span class="p">,</span> <span class="n">npix</span>
+
+      <span class="p">...</span> <span class="n">loop</span> <span class="n">body</span> <span class="p">...</span>
+
+  <span class="n">enddo</span>
+  <span class="o">!</span><span class="err">$</span><span class="n">OMP</span> <span class="k">END</span> <span class="k">DO</span>
+</code></pre></div>
+
+
+<p>The speedup we see is comparable with the first example, where we divided the
+pixels into a set of <span class="math">\(N\)</span> contiguous blocks, where <span class="math">\(N\)</span> was the number of threads
+used.</p>
+<h4><code>SCHEDULE</code> clause</h4>
+<p>Without any clauses, <code>!$OMP DO</code> or <code>!$OMP PARALLEL DO</code> will attempt to
+distribute work as evenly as possible across threads. The scheduling can also
+be controlled explicitly using the <code>SCHEDULE</code> clause:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!$OMP DO SCHEDULE(STATIC[,n]|DYNAMIC[,n]|AUTO|GUIDED|RUNTIME)</span>
+<span class="err">...</span>
+</code></pre></div>
+
+
+<p>where <code>n</code> is an integer chunk size to be passed to the scheduling algorithm.</p>
+<h5><code>STATIC</code></h5>
+<p>If <code>n</code> is specified, the iterations are divided into chunks of
+size <code>n</code>, and distributed cyclically to the the threads; this is called a
+<em>block cyclic</em> schedule. If a chunk size is not specified, the one chunk per
+thread is created, of approximately equal size; this is a <em>block</em> schedule.</p>
+<p>In the manual work distribution in the
+<a href="http://0x7df.github.io/openmp-5.html">Mandelbrot set exercise</a>
+, the first, poorer way we chose of distributing the threads was equivalent to
+<code>SCHEDULE(STATIC)</code>, and the second more successful attempt was equivalent to
+<code>SCHEDULE(STATIC, 1)</code>.</p>
+<p>Looking at the run times, we can see this:</p>
+<p><img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.001.png"></p>
+<p>The figure shows speed-ups (lower is better) compared with the serial version
+as a function of chunk size, for different schedules. The manual block schedule
+is the green curve and the manual cyclic schedule is the green curve. Use of
+the <code>!$OMP DO SCHEDULE(STATIC, n)</code> directive instead, gives the red curve. For
+<span class="math">\(n = 1\)</span> the performance is similar to the manual cyclic, and for <span class="math">\(n = 525\)</span> the
+performance is similar to the manual block schedule (where the total number of
+pixels in the problem was 2100, and four threads were used).</p>
+<h4><code>DYNAMIC</code></h4>
+<p>With the dynamic schedule, the problem is broken up into chunks of size <span class="math">\(n\)</span> as
+before, but instead of being cyclically allocated to threads, the chunks are
+allocated dynamically; i.e. on a first-come, first-served basis. Once a thread
+finishes its chunk, it is assigned the next chunk in the list. If no chunk size
+is specified, it defaults to one.</p>
+<p>As might be expected, this schedule improves the overall performance slightly.
+Not only this, but the performance is less sensitive to chunk size.</p>
+<p><img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.002.png"></p>
+<p>Here we've also added single points for both the static and dynamic schedules,
+to indicate the performance when no chunk size is specified.</p>
+<h4><code>GUIDED</code></h4>
+<p>This schedule is like <code>DYNAMIC</code>, except that the chunk size starts off large
+and gets exponentially smaller as it proceeds. The size of the next chunk is
+proportional to the number of remaining iterations divided by the number of
+threads. In this scheme the chunk size <span class="math">\(n\)</span> defines the <em>minimum</em> chunk size;
+when this is not defined, the default is one.</p>
+<p>The <code>GUIDED</code> schedule performs poorly for this problem at this scale; better
+than serial, but consistently worse than all the other ways of dividing the
+problem considered so far.</p>
+<h4><code>AUTO</code></h4>
+<p>The <code>AUTO</code> schedule allows the run-time complete freedom to choose the
+assignment of loop iterations to threads. This is useful if a loop is executed
+many time, as then the runtime can evolve a good schedule with high performance
+and low overheads.</p>
+<h4><code>RUNTIME</code></h4>
+<p><code>RUNTIME</code> causes the schedule to be determined at run time, from the
+<code>OMP_SCHEDULE</code> environment variable. E.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">OMP_SCHEDULE</span><span class="o">=</span><span class="s2">&quot;dynamic, 8&quot;</span>
+</code></pre></div>
+
+
+<h4>Choosing a schedule</h4>
+<p>The following rules of thumb will help choosing a schedule:</p>
+<ol>
+<li><code>STATIC</code> has the lowest overhead, but is appropriate for only load-balanced
+   loops.</li>
+<li><code>STATIC, n</code> can be an improvement for mildly load-imbalanced loops; the
+   smaller chunks can potentially help mix up the more and less costly
+   iterations so they are spread more evenly across threads.</li>
+<li><code>DYNAMIC</code> is often better if the load imbalance is very severe. However,
+   care must be taken with data locality.</li>
+<li><code>GUIDED</code> can be an improvement over <code>DYNAMIC</code>, but care should be taken
+    with loops where the earlier iterations are more costly. In such cases,
+    since the loop by definition can be performed in any order, it might be
+    possible to re-order it to begin with the less costly iterations.</li>
+<li><code>AUTO</code> might be useful if the loop is executed many times over.</li>
+<li><code>RUNTIME</code> should only be used for interactive experimentation.</li>
+</ol>
+<hr/>
+
+<ul>
+<li><a href="http://0x7df.github.io/openmp-1.html">OpenMP 1 (Overview, Implementaion)</a></li>
+<li><a href="http://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
+<li><a href="http://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
+<li><a href="http://0x7df.github.io/openmp-4.html">OpenMP 4 (Reductions)</a></li>
+<li><a href="http://0x7df.github.io/openmp-5.html">OpenMP 5 (Exercise: Madelbrot set)</a></li>
+<li><a href="http://0x7df.github.io/openmp-6.html">OpenMP 6 (Work-sharing constructs)</a></li>
+<li><a href="http://0x7df.github.io/openmp-7.html">OpenMP 7 (Synchronisation)</a></li>
+</ul>
+<hr/>
+
+<p>These notes are built on the "Hands-on Introduction to OpenMP" tutorial given at the UK OpenMP Users' Conference.</p>
+<p>This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</p>
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US">http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US</a></p>
+<p>This means you are free to copy and redistribute the material and adapt and build on the
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="The governing equations in geophysical fluid dynamics can be simplified somewhat if the horizontal length and velocity scales are much larger than the vertical length and velocity scales,...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>The shallow water equations - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">The shallow water equations</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Fri 17 February 2017, modified Fri 17 February 2017, in category <a href="http://0x7df.github.io/category/atmospheric-science.html">Atmospheric science</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>The governing equations in geophysical fluid dynamics can be simplified somewhat if the
+horizontal length and velocity scales are much larger than the vertical length and
+velocity scales, respectively.</p>
+<p>They are commonly used to describe both the ocean and atmosphere, as well as estuaries,
+rivers and channels.</p>
+<p>A set of assumptions are made:</p>
+<ol>
+<li>The fluid is incompressible.</li>
+<li>Vertical acceleration is small compared with horizontal accelerations, and
+   <a href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html">hydrostatic balance</a>
+   can be assumed.</li>
+</ol>
+<p>Making these assumptions results in the 3D shallow water equations (<a href="https://www.utwente.nl/ewi/sacs/teaching/Thesis/aukje-de-boer-comparison-of-two-numerical-schemes-for-solving-the-1d-shallow-water-equations.pdf">de Boer (2003)</a>.
+However it is much more common to make the additional assumption that:</p>
+<ol>
+<li>The horizontal velocity is constant with height/depth (there is no vertical shear).</li>
+</ol>
+<p>Given these assumptions, the 2D shallow water equations are then derived by integrating
+over height to remove the vertical velocity, and therefore the vertical dimension
+altogether. (Note that this is not the same as assuming the vertical velocity is zero,
+which is not necessarily the case. If the bathymetry accounted for, the vertical velocity must be
+non-zero where the floor changes depth. The vertical velocity can be recovered from
+solutions of the shallow water equations via the continuity equation.)</p>
+<p>In the following equations we will ignore viscosity (i.e we will work from the Euler
+fluid equations not the Navier-Stokes equations, although in some disciplines the
+fluid viscosity is important and can be included in the shallow water equtions). This
+renders the non-linear PDEs hyperbolic rather than parabolic. We shall also ignore
+diffusion.</p>
+<h2>Three-dimensional shallow water equtions</h2>
+<p>In general in 3D the conservation of momentum is expressed by:</p>
+<div class="math">$$ \frac{\partial \mathbf{u}}{\partial t} + \mathbf{u}\cdot\nabla\mathbf{u}
+    + f\mathbf{k}\times\mathbf{v} = -\frac{1}{\rho}\nabla p - g\mathbf{\hat k} $$</div>
+<p>where <span class="math">\(f\)</span> is the Coriolis parameter, <span class="math">\(\mathbf{\hat k}\)</span> is a unit vector pointing away
+from the centre of the planet. Also, <span class="math">\(\mathbf{u}\)</span> is the three-dimensional velocity
+vector and <span class="math">\(\mathbf{v}\)</span> is the two-dimensional horizontal velocity vector, and we
+have assumed the Coriolis force acts solely in the horizontal, since its vertical
+component is small compared with the gravitational and pressure gradient forces.</p>
+<p>Alternatively:</p>
+<div class="math">$$ \frac{\partial u}{\partial t} + \frac{\partial uu}{\partial x}
+    + \frac{\partial uv}{\partial y} + \frac{\partial uw}{\partial z}
+    = -\frac{1}{\rho}\frac{\partial p}{\partial x}  + fv $$</div>
+<div class="math">$$ \frac{\partial v}{\partial t} + \frac{\partial vu}{\partial x}
+    + \frac{\partial vv}{\partial y} + \frac{\partial vw}{\partial z}
+    = -\frac{1}{\rho}\frac{\partial p}{\partial y} - fu $$</div>
+<div class="math">$$ \frac{\partial w}{\partial t} + \frac{\partial wu}{\partial x}
+    + \frac{\partial wv}{\partial y} + \frac{\partial ww}{\partial z}
+    = -\frac{1}{\rho}\frac{\partial p}{\partial z} - g $$</div>
+<p>The conservation of mass under the assumption of incompressibility is:</p>
+<div class="math">$$ \nabla\cdot\mathbf{u} = 0 $$</div>
+<p>or:</p>
+<div class="math">$$ \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}
+   + \frac{\partial w}{\partial z} = 0 $$</div>
+<p>The condition of hydrostatic balance, which is the first key assumption of the
+shallow water equations, is given by:</p>
+<div class="math">\begin{equation} \label{HydrostaticBalance} \frac{1}{\rho}\frac{\partial p}{\partial z} = -g \end{equation}</div>
+<p>This is derived from the momentum equation describing <span class="math">\(w\)</span> by assuming that the left-
+hand side is zero:</p>
+<div class="math">$$ \frac{Dw}{Dt} = \frac{\partial w}{\partial t} + \frac{\partial wu}{\partial x}
+    + \frac{\partial wv}{\partial y} + \frac{\partial ww}{\partial z}
+    = 0 $$</div>
+<p>The hydrostatic balance equation can be immediately integrated from some arbitrary depth
+<span class="math">\(z\)</span> up to the free surface, to give:</p>
+<div class="math">$$ p = p_0 + \rho g\left(h - z\right) $$</div>
+<p>where <span class="math">\(p_0\)</span> is the fixed pressure at the free surface (e.g. zero for the atmosphere, or
+atmospheric pressure for the ocean), and <span class="math">\(h\)</span> is the elevation of the free
+surface above <span class="math">\(z = 0\)</span>.</p>
+<p>Then:</p>
+<div class="math">$$ \frac{\partial p}{\partial x} = \rho g\frac{\partial h}{\partial x} $$</div>
+<p>and similarly for <span class="math">\(\partial p/\partial y\)</span>. I.e.:</p>
+<div class="math">$$ -\frac{1}{\rho}\nabla_h p = -g \nabla_h h $$</div>
+<p>The implication is that the horizontal pressure gradient force is a result only of
+horizontal variatons in the free surface height.</p>
+<p>The remaining two components of the momentum equation are consequently:</p>
+<div class="math">\begin{equation} \label{3Du} \frac{\partial u}{\partial t} + \frac{\partial uu}{\partial x}
+    + \frac{\partial uv}{\partial y} + \frac{\partial uw}{\partial z}
+    = -g\frac{\partial h}{\partial x} + fv \end{equation}</div>
+<div class="math">\begin{equation} \label{3Dv} \frac{\partial v}{\partial t} + \frac{\partial vu}{\partial x}
+    + \frac{\partial vv}{\partial y} + \frac{\partial vw}{\partial z}
+    = -g\frac{\partial h}{\partial y} - fu \end{equation}</div>
+<p>Equations <span class="math">\(\ref{3Du}\)</span>, <span class="math">\(\ref{3Dv}\)</span> and <span class="math">\(\ref{3Dh}\)</span> are the 3D shallow water equations.</p>
+<h2>Two-dimensional shallow water equations</h2>
+<p>To obtain the 2D shallow water equations we integrate the 3D equations over <span class="math">\(z\)</span>, to
+obtain depth- (or height-) averaged forms of the equations. The Liebniz integral
+rule is required since <span class="math">\(h\)</span>, which is one of the limits of the integration over <span class="math">\(z\)</span>,
+depends on <span class="math">\(x\)</span>, <span class="math">\(y\)</span> and <span class="math">\(t\)</span>.</p>
+<p>In 2D, the shallow water equations (neglecting diffusion, viscosity and friction) are:</p>
+<div class="math">$$ \frac{\partial h}{\partial t} + \frac{\partial hu}{\partial x} + \frac{\partial hv}
+    {\partial y} = 0 $$</div>
+<div class="math">$$ \frac{\partial hu}{\partial t} + \frac{\partial hu^2}{\partial x}
+    + \frac{\partial huv}{\partial y} = -g\frac{\partial h}{\partial x} + fhv $$</div>
+<div class="math">$$ \frac{\partial hv}{\partial t} + \frac{\partial huv}{\partial x}
+    + \frac{\partial hv^2}{\partial y} = -g\frac{\partial h}{\partial y} -fhu $$</div>
+<p>The shallow water equations can be written more compactly thus:</p>
+<div class="math">$$ \frac{\partial phi}{\partial t} + \mathbf{v}\cdot\nabla\phi + \phi\nabla\cdot\mathbf{v}
+    = 0$$</div>
+<div class="math">$$ \frac{\partial\mathbf{v}}{\partial t} + \mathbf{v}\cdot\nabla\mathbf{v}
+    + \nabla\mathbf{\phi} + f\mathbf{\hat k}\times\mathbf{v} = 0 $$</div>
+<p>where <span class="math">\(\phi = gh\)</span>.</p>
+<p>The first equation is obtained by integrating the continuity equation:</p>
+<div class="math">$$ \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}
+   + \frac{\partial w}{\partial z} = 0 $$</div>
+<p>with respect to <span class="math">\(z\)</span> to give:</p>
+<div class="math">$$ \left(\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}\right)h + w_h - w_0 = 0 $$</div>
+<p>The vertical velocity disappears at the lower boundary (<span class="math">\(w_0 = 0\)</span>) and the vertical
+velocity at the free surface (at height <span class="math">\(h\)</span>) is given by:</p>
+<div class="math">$$ w_h = \frac{Dh}{Dt} $$</div>
+<p>Thus:</p>
+<div class="math">$$ \frac{Dh}{Dt} = \frac{\partial h}{\partial t} 
+    + \frac{\partial hu}{\partial x} + \frac{\partial hv}{\partial y} = w_h
+    = \left(\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y}\right)h $$</div>
+<h1>One-dimensional shallow water equations</h1>
+<p>In 1D, which is often used for river management and hydraulics, the equations are:</p>
+<div class="math">$$ \frac{\partial u}{\partial t} = -u \frac{\partial u}{\partial x}
+                                   -g \frac{\partial h}{\partial x} $$</div>
+<div class="math">$$ \frac{\partial h}{\partial t} = -u \frac{\partial h}{\partial x}
+                                   -h \frac{\partial u}{\partial x} $$</div>
+<p>where <span class="math">\(h\)</span> is the height of the free surface. Accelerations in the <span class="math">\(y\)</span> direction have
+also been assumed negligible.</p>
+<p>In both equations the first term on the right
+represents advection and the second term on the right represents <a href="http://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html">adjustment</a>. (More
+complex variants are used in river modelling and hydraulics that account for, for example,
+the cross-sectional area of the channel. These are often referred to as the
+<a href="https://en.wikipedia.org/wiki/Shallow_water_equations#One-dimensional_Saint-Venant_equations">Saint Venant</a>
+equations, having originally been derived by Adhemar Jean Claude Barre de Saint-Venant,
+in 1871.)</p>
+<p>In hydraulics studies Coriolis force is ignored but in geophysics applications it is
+included, making the shallow water equations a useful simplistic framework in which to
+study rotational flow under gravity.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

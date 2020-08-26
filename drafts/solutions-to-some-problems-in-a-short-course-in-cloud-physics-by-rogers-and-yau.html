@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="CHAPTER 1 - Thermodynamics of Dry Air The effective molecular weight, \( M_{eff}\) of dry air is a weighted average of the molecular weights of the main permanent constituents: $$ M_{\mathrm{eff}}...">
+        <meta name="keywords" content="atmospheric science, meteorology, physics">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>Solutions to some problems in "A Short Course in Cloud Physics", by Rogers and Yau - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Solutions to some problems in "A Short Course in Cloud Physics", by Rogers and Yau</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 21 February 2015, in category <a href="http://0x7df.github.io/category/uncategorized.html">Uncategorized</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+<a href="http://0x7df.github.io/tag/atmospheric-science.html">atmospheric science</a>, <a href="http://0x7df.github.io/tag/meteorology.html">meteorology</a>, <a href="http://0x7df.github.io/tag/physics.html">physics</a>                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h2>CHAPTER 1 - Thermodynamics of Dry Air</h2>
+<p>The effective molecular weight, <span class="math">\( M_{eff}\)</span> of dry
+air is a weighted average of the molecular weights of the main permanent
+constituents:</p>
+<div class="math">$$ M_{\mathrm{eff}} = \sum_{n=1}^N f_n M_n $$</div>
+<p>where <span class="math">\( f_n\)</span> and <span class="math">\( M_n $
+are the fraction (by mass) and the molecular weight of the
+$ n^{\mathrm{th}}\)</span> constituent. Given the data in the
+table, the effective molecular weight of dry air is:</p>
+<div class="math">$$ M_{\mathrm{eff}} = (0.7557 \times 28.016) + (0.2315 \times
+32.000) + (0.0128 \times 39.944) $$</div>
+<h2>CHAPTER 3 - Parcel Buoyancy and Atmospheric Stability</h2>
+<p><em>Two model atmospheres often used in theoretical work are the
+homogeneous atmosphere:</em></p>
+<div class="math">$$ \rho(z) = \rho_0 $$</div>
+<p><em>and the exponential atmosphere:</em></p>
+<div class="math">$$ \rho(z) = \rho_0 e^{-z/H} $$</div>
+<p><em>where</em> <span class="math">\( \rho_0\)</span> <em>is the density at the surface
+and H is called the scale height of the atmosphere. The top of the
+homogeneous atmosphere is defined as the altitude where the pressure
+falls to zero. Prove that the height of the top of the homogeneous
+atmosphere equals the scale height of the exponential atmosphere.</em></p>
+<p>For this problem we need only the equation of hydrostatic balance:</p>
+<div class="math">$$ \frac{\partial p}{\partial z} = -\rho(z) g $$</div>
+<p>First consider the homogeneous atmosphere; it is very simple to
+calculate the height at which the pressure falls to zero because, since
+the density is constant, the gradient of pressure with height is also
+constant:</p>
+<div class="math">$$ \frac{\partial p}{\partial z} = -\rho_0 g $$</div>
+<p>That is, the pressure falls off linearly:</p>
+<div class="math">$$ p(z) = \left( -\rho_0 g \right) z + p_0 $$</div>
+<p>where <span class="math">\( p_0\)</span> is the pressure at the surface
+(<span class="math">\( z = 0\)</span>). From this equation we see that the
+pressure falls to zero when:</p>
+<div class="math">$$ z|_{p=0} = \frac{p_0}{\rho_0 g} $$</div>
+<p>Now consider the exponential atmosphere; we can determine <em>H</em> in the
+following way. First, we integrate the equation for hydrostatic balance
+from some height <span class="math">\( z = z'\)</span> up to <span class="math">\( z =
+\infty\)</span> to obtain the pressure at height <em>z</em>':</p>
+<div class="math">$$ \int_{z'}^{\infty} \frac{\partial p}{\partial z} dz =
+-\rho_0 g \int_{z'}^{\infty} e^{-z/H} dz $$</div>
+<p>If we assume that the pressure tends to infinity as height tends to
+infinity, and we set <span class="math">\( z' = 0\)</span>, then:</p>
+<div class="math">$$ p_0 = \rho_0 g H $$</div>
+<p>Consequently:</p>
+<div class="math">$$ H = \frac{p_0}{\rho_0 g} $$</div>
+<p>Hence, as long as <span class="math">\( p_0\)</span> has the same value in
+both the homogeneous and exponential atmospheres, the height of the top
+of the homogeneous atmosphere is equal to the scale height of the
+exponential atmosphere.</p>
+<hr>
+<p><em>Prove that the geopotential</em> <span class="math">\( \mathrm{\psi}\)</span>
+<em>and the specific enthalpy, h, of an air sample undergoing a dry
+adiabatic process are related by:</em></p>
+<div class="math">$$ h + \psi = \mathrm{const} $$</div>
+<p>From problem (1.5) we recall that specific enthalpy of a gas is defined
+by:</p>
+<div class="math">$$ h = u + p\alpha $$</div>
+<p>where <em>u</em> is the specific internal energy. The geopotential is defined
+as the potential energy of a unit mass at height <em>z</em> above mean sea
+level (or some other reference level). From this definition we have:</p>
+<div class="math">$$ d\psi = g dz $$</div>
+<p>That is, the change in gravitational potential energy (per unit mass) is
+equal to the force (per unit mass) times the change in height. If <em>h</em>
++ <em>ψ</em> is constant, then <span class="math">\( dh = -d\psi\)</span>. That is:</p>
+<div class="math">$$ du + pd\alpha + \alpha dp = -g dz $$</div>
+<p>If the process is adiabatic, meaning there is no net energy flow into
+the air sample, then the change in internal energy <em>du</em> must be
+accounted for by the work done, <em>dw</em>:</p>
+<div class="math">$$ du = -dw $$</div>
+<p>That is, the work done by the sample in expanding its volume against the
+pressure of the surrounding medium must be accounted for by a drop in
+the sample's internal energy (altitude increase); or, the compressional
+work done on the sample by the atmosphere leads to an equivalent
+increase in the sample's internal energy (altitude decrease). Either way
+the work done is expressed by <span class="math">\( dw = pd\alpha\)</span>,
+therefore:</p>
+<div class="math">$$ du = -pd\alpha $$</div>
+<p>This leads to cancellation of the first two terms in the equation
+relating <em>dh</em> and <span class="math">\( d\psi\)</span>, such that:</p>
+<div class="math">$$ \alpha dp = -g dz $$</div>
+<p>or:</p>
+<div class="math">$$ \frac{dp}{dz} = -g\rho $$</div>
+<p>Since we know this result to be true (it is just the equation for
+hydrostatic balance), the initial premise must also be true.</p>
+<hr>
+<p><em>Show that the geopotential at pressure level<span class="math">\(p\)</span> of an
+atmosphere in hydrostatic equilibrium is given by:</em></p>
+<div class="math">$$ \psi(p) = R'\bar T_\nu \mathrm{ln} (p_0/p)
+$$</div>
+<p><em>where<span class="math">\(\psi(p_0) = 0\)</span>.</em></p>
+<p>The geopotential, assuming gravity is constant with height, is:</p>
+<div class="math">$$ \psi(z) = \int_0^z g dz' = gz $$</div>
+<p>An atmosphere in hydrostatic equilibrium is described by:</p>
+<div class="math">$$ \frac{\partial p}{\partial z} = -g\rho
+$$</div>
+<p>Substituting the ideal gas equation of state gives:</p>
+<div class="math">$$ \frac{\partial p}{\partial z} =
+-\frac{gp}{R'T_\nu} $$</div>
+<p>and integrating gives:</p>
+<div class="math">$$ \mathrm{ln} p = -\frac{g}{R' \bar T_\nu} z +
+\mathrm{ln} C $$</div>
+<p>where <span class="math">\(\mathrm{ln} C\)</span> is the constant of integration, and we have
+replaced <span class="math">\(T_\nu\)</span> everywhere with its average value<span class="math">\(\bar
+T_\nu\)</span>, to bring it out of the integral. Rearranging for<span class="math">\(z\)</span> and
+substituting into the equation for the geopotential gives:</p>
+<div class="math">$$ \psi(p) = R' \bar T_\nu\mathrm{ln} (C/p)
+$$</div>
+<p>If <span class="math">\(\psi(p_0) = 0\)</span>, then <span class="math">\(\mathrm{ln} (C/p_0) = 0\)</span> since neither
+<span class="math">\(R'\)</span> nor <span class="math">\(\bar T_\nu\)</span> is zero. Hence <span class="math">\(C = p_0\)</span>, and:</p>
+<div class="math">$$ \psi(p) = R' \bar T_\nu\mathrm{ln} (p_0/p) $$</div>
+<hr>
+<p>The geopotential as a function of altitude is given by:</p>
+<div class="math">$$ \mathrm{gpm}(z) = \frac{\psi(z)}{g_0} =
+\frac{1}{g_0}\int_0^z g(z') dz' $$</div>
+<p>The acceleration due to gravity is the gravitational force exerted by
+the earth on a unit mass:</p>
+<div class="math">$$ g(z) = \frac{F_g(z)}{m} = \frac{GM_e}{(R + z)^2}
+$$</div>
+<p>Substituting this into the equation for gpm gives:</p>
+<div class="math">$$ \mathrm{gpm}(z) = \frac{GM_e}{g_0}\int_0^z
+\frac{1}{(R + z)^2} dz' $$</div>
+<p>The reference value of<span class="math">\(g\)</span>,<span class="math">\(g_0\)</span>, is typically chosen to be the
+value at the earth's surface:</p>
+<div class="math">$$ g_0 = \frac{GM_e}{R^2} $$</div>
+<p>hence:</p>
+<div class="math">$$ \mathrm{gpm}(z) = R^2\int_0^z \frac{1}{(R +
+z)^2} dz' $$</div>
+<p>The integral of one over a quadratic is given by:</p>
+<div class="math">$$ \int \frac{1}{az'^2 + bz' + c} dz' =
+-\frac{2}{2az' + b} $$</div>
+<p>where <span class="math">\(4ac - b^2 = 0\)</span>, which is the case here. Hence the solution is:</p>
+<div class="math">$$ \mathrm{gpm}(z) = R^2 \left[ \frac{1}{R} - \frac{1}{z' + R} \right] dz' $$</div>
+<div class="math">$$ = R + \frac{R^2}{z' + R} $$</div>
+<div class="math">$$ = \frac{Rz}{R + z} $$</div>
+<div class="math">$$ = z\left(\frac{1}{1 + z/R}\right) $$</div>
+<div class="math">$$ \approx z\left( 1 - \frac{z}{R} \right)$$</div>
+<p>where the last step is valid as long as <span class="math">\(z/R &lt;&lt; 1\)</span>. Hence:</p>
+<div class="math">$$ \mathrm{gpm}(z) \approx z - az^2 $$</div>
+<p>if <span class="math">\(a = 1/R = 1/6.378137 \mathrm{km} = 0.156786 \mathrm{km}^{-1}\)</span>.
+The values of gpm at 1, 10 and 50 km are therefore 0.999843, 9.984321
+and 49.608036 km respectively.</p>
+<hr>
+<p>To solve this problem we use our knowledge of the ambient and parcel
+lapse rates to determine the buoyant force on the parcel arising from
+the temperature difference at a particular height. The upward force due
+to the pressure gradient is the same on the parcel as on the displaced
+air:<span class="math">\(-V(\partial p/\partial z)\)</span> for parcel volume<span class="math">\(V\)</span>. However
+the force due to gravity is<span class="math">\(\rho Vg\)</span> on the parcel, and<span class="math">\(\rho'Vg\)</span>$
+on the ambient air; hence:</p>
+<p>\</p>
+<div class="math">\begin{eqnarray} F_B &amp;=&amp; (-\rho Vg) - (-\rho'Vg) \\ &amp;=&amp;
+Vg(\rho'-\rho) \\end{eqnarray}</div>
+<p>The resulting acceleration, which is the buoyant force per unit mass, is
+therefore:</p>
+<div class="math">$$ \frac{d^2z}{dt^2} =
+g\left(\frac{\rho'-\rho}{\rho}\right) $$</div>
+<p>Using the equation of state for an ideal gas, we can re-write this in
+terms of temperature:</p>
+<p>\</p>
+<div class="math">\begin{eqnarray} \frac{d^2z}{dt^2} &amp;=&amp;
+g\left(\frac{p/R'T'-p/R'T}{p/R'T}\right) \\ &amp;=&amp;
+g\left(\frac{1/T'-1/T}{1/T}\right) \\ &amp;=&amp;
+g\left(\frac{T}{T'}-1\right) \\ &amp;=&amp; g\left(\frac{T-T'}{T'}\right)
+\\end{eqnarray}</div>
+<p>If we use the linear approximation for the dry adiabatic parcel lapse
+rate:</p>
+<p>\</p>
+<div class="math">\begin{eqnarray} \frac{dT}{dz} &amp;=&amp; -\frac{g}{c_p}\frac{T}{T'} \  
+&amp;\approx&amp; -\frac{g}{c_p} \\end{eqnarray}</div>
+<p>then both the lapse rates are linear, and we can write:</p>
+<p>\</p>
+<div class="math">\begin{eqnarray} T(z) &amp;=&amp; T(0) - \\Gamma z \\ T'(z) &amp;=&amp; T'(0) - \gamma
+z \\end{eqnarray}</div>
+<p>Substituting these into the equation of motion, and assuming the parcel
+is initially in equilibrium with its surroundings (<span class="math">\(T'(0) = T(0)\)</span>)
+gives:</p>
+<div class="math">$$ \frac{d^2z}{dt^2} = g(\gamma-\\Gamma)\frac{z}{T'}
+$$</div>
+<p>This is a second-order ODE, but it is non-linear in that the coefficient
+of<span class="math">\(z\)</span> depends on<span class="math">\(z\)</span>, through<span class="math">\(T'\)</span>. We can however substitute
+<span class="math">\(T(0)\)</span> for<span class="math">\(T'\)</span> on the assumption that the reduction in<span class="math">\(T'\)</span> over
+the sorts of height variation that will be occur in a minute is small
+compared to<span class="math">\(T(0)\)</span> itself. This linearises the equation and yields a
+second-order ODE with constant coefficients, with only a small penalty
+in error. To solve we postulate a solution<span class="math">\(z(t) = e^{\lambda t}\)</span>,
+then determine<span class="math">\(\lambda\)</span>. By differentiating this twice we can write:</p>
+<div class="math">$$ \lambda^2 e^{\lambda t} = q e^{\lambda t}
+$$</div>
+<p>Therefore<span class="math">\(\lambda = \\pm\sqrt{q}\)</span> and<span class="math">\(z(t) = e^{\sqrt{q}t}\)</span><span class="math">\(
+and\)</span>z(t) = e^{-\sqrt{q}t}$ are solutions of the differential
+equation (we could verify this by substitution back into the original
+equation). Since the solutions are linearly independent we can construct
+the general solution:</p>
+<div class="math">$$ z(t) = C_1 e^{\sqrt{q}t} + C_2 e^{-\sqrt{q}t}
+$$</div>
+<p>From the boundary conditions:</p>
+<p>\</p>
+<div class="math">\begin{eqnarray} z(0) &amp;=&amp; 0 \\ \frac{dz}{dt} &amp;=&amp; 0.5 \mathrm{m/s}
+\\end{eqnarray}</div>
+<p>we have:</p>
+<p>\</p>
+<div class="math">\begin{eqnarray} C_1 + C_2 &amp;=&amp; 0 \\ C_1\sqrt{q} - C_2\sqrt{q} &amp;=&amp;
+0.5 \mathrm{m/s} \\end{eqnarray}</div>
+<p>and:</p>
+<div class="math">$$ C_1 = \frac{0.25\mathrm{m/s}}{\sqrt{q}}
+$$</div>
+<p>Therefore:</p>
+<div class="math">$$ z(t) = \frac{0.25\mathrm{m/s}}{\sqrt{q}}
+\left(e^{\sqrt{q}t} - e^{-\sqrt{q}t}\right) $$</div>
+<p>Evaluating this for<span class="math">\(t = 60\)</span> s gives<span class="math">\(z = 45\)</span> m. Differentiating for
+speed,<span class="math">\(w\)</span>, gives:</p>
+<div class="math">$$ w(t) = \frac{dz}{dt} = 0.25\mathrm{m/s}
+\left(e^{\sqrt{q}t} + e^{-\sqrt{q}t}\right) $$</div>
+<p>For<span class="math">\(t = 60\)</span> s,<span class="math">\(w = 1.28\)</span> m/s.</p>
+<hr>
+<p><em>When deflated, a hot-air balloon has a weight of 1100 N. The balloon
+has a volume of 1000 m<span class="math">\(^3\)</span> when inflated. Estimate the temperature to
+which the air in the balloon must be heated for it to float at a steady
+altitude of 2 km while carrying passengers with a combined weight of
+1500 N. Assume a standard atmosphere, and assume that the pressure
+inside the balloon equals that of the ambient air.</em></p>
+<p>For the balloon to float at some steady altitude<span class="math">\(z'\)</span>, the net
+vertical force must be zero at that altitude:</p>
+<div class="math">$$ \left(\frac{\partial^2z}{\partial
+t^2}\right)_{z'} = 0 $$</div>
+<p>We can consider the air in balloon as a parcel of air, on which there is
+a downward force of<span class="math">\(\rho gV\)</span>; the downward force on the displaced
+air is<span class="math">\(\rho'gV\)</span>, so the net downward force is<span class="math">\(-gV(\rho-\rho')\)</span>.
+The upward force due to the pressure gradient is the same on the parcel
+as on the displaced air, so the net upward force is zero. In addition,
+we have a downward force due to the weight of the balloon and gondola
+etc,<span class="math">\(-mg\)</span>. Consequently, for steady floating at altitude<span class="math">\(z'\)</span>, we
+have:</p>
+<div class="math">$$ -g(z)V(\rho(z)-\rho'(z)) - mg(z) = 0 $$</div>
+<p>The<span class="math">\(g\)</span> cancels, and rearranging gives:</p>
+<div class="math">$$ \rho' - \rho = \frac{m}{V} $$</div>
+<p>Substituting the equation of state and recognising that the pressure in
+the balloon<span class="math">\(p\)</span> is the same as the pressure outside,<span class="math">\(p'\)</span>, gives:</p>
+<div class="math">$$ \frac{p}{R'T'} - \frac{p}{R'T} = \frac{m}{V}
+$$</div>
+<p>Hence:</p>
+<div class="math">$$ T = \left( \frac{1}{T'} -
+\frac{mR'}{pV}\right)^{-1} $$</div>
+<p>We know that<span class="math">\(V\)</span> = 1000 m<span class="math">\(^3\)</span> and<span class="math">\(m\)</span> = 2600 N/9.81 ms<span class="math">\(^{-2}\)</span>,
+and for a standard atmosphere,<span class="math">\(T'\)</span> = 275.154 K,<span class="math">\(p'\)</span> = 79.501 x
+10<span class="math">\(^3\)</span> Pa; consequently<span class="math">\(T\)</span> = 374 K.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

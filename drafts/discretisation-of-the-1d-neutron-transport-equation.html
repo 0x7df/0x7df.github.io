@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="The 1D, fixed-source, mono-energetic neutron transport equation is: $$ \mu \frac{d\psi}{dx} + \Sigma(x) \psi(\mu, x) = \int_{-1}^1 \sigma(\mu, \mu&#39;, x) \psi(\mu&#39;, x) d\mu&#39; + q(\mu, x) $$ where the...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>Discretisation of the 1D neutron transport equation - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Discretisation of the 1D neutron transport equation</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 25 September 2016, modified Sun 25 September 2016, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>The 1D, fixed-source, mono-energetic neutron transport equation is:</p>
+<div class="math">$$ \mu \frac{d\psi}{dx}
+   + \Sigma(x) \psi(\mu, x)
+   = \int_{-1}^1 \sigma(\mu, \mu', x) \psi(\mu', x) d\mu'
+   + q(\mu, x)
+$$</div>
+<p>where the independent variables <span class="math">\(x\)</span> and <span class="math">\(\mu\)</span> represent the spatial position
+and the direction cosine of travel of the neutrons, <span class="math">\(\psi(\mu, x)\)</span> is the
+angular flux of neutrons, <span class="math">\(\Sigma(x)\)</span> is the total neutron cross-section,
+<span class="math">\(\sigma(\mu, \mu', x)\)</span> is the cross-section for the scattering of
+neutrons from direction <span class="math">\(\mu'\)</span> into direction <span class="math">\(\mu\)</span>, and <span class="math">\(q(\mu, x)\)</span> is the
+emission density of neutrons into direction <span class="math">\(\mu\)</span> at point <span class="math">\(x\)</span> (independent of
+the neutron flux <span class="math">\(\psi\)</span>).</p>
+<p>Although this equation assumes time-independence, a fixed source, only
+scattering and absorption (not fission), and no energy-dependence, a fully
+general transport code with fission, energy-dependence, and either
+time-dependence or an eigenvalue search, boils down to solving this equation. The
+presence of fission as well as time-dependence or an eigenvalue search are taken
+care of by an outer iteration procedure which iteratively solves this equation
+whilst modifying the source density <span class="math">\(q(\mu, x)\)</span> of this equation.
+Energy-dependence, assuming a multi-group framework, is also taken care of by
+stepping through energy groups and having group-to-group scattering accounted
+for via the emission density.</p>
+<p>A spatial discretisation scheme often employed is called diamond differencing.
+Combining:</p>
+<div class="math">$$ \mu \frac{\psi_{j+1/2}(\mu) - \psi_{j-1/2}(\mu)}{h} + \Sigma_j \psi_j(\mu)
+= \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu) $$</div>
+<p>and:</p>
+<div class="math">$$ \psi_j = \frac{1}{2} \left(\psi_{j-1/2} + \psi_{j+1/2}\right) $$</div>
+<p>gives:</p>
+<div class="math">$$ 2\mu \frac{\psi_j(\mu) - \psi_{j-1/2}(\mu)}{h} + \Sigma_j \psi_j(\mu)
+= \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu) $$</div>
+<p>and hence:</p>
+<div class="math">$$ \psi_j(\mu) \left(\frac{2\mu}{h} + \Sigma_j\right)
+= \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu)
++ 2\mu\frac{\psi_{j-1/2}}{h} $$</div>
+<p>for <span class="math">\(\mu \gt 0\)</span> and:</p>
+<div class="math">$$ 2\mu \frac{\psi_{j+1/2}(\mu) - \psi_j(\mu)}{h} + \Sigma_j \psi_j(\mu)
+= \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu) $$</div>
+<div class="math">$$ \psi_j(\mu) \left(-\frac{2\mu}{h} + \Sigma_j\right)
+= \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu)
+- 2\mu\frac{\psi_{j+1/2}}{h} $$</div>
+<p>for <span class="math">\(\mu \lt 0\)</span>. These equations can be written:</p>
+<div class="math">$$ \psi_j(\mu) \left(\frac{2|\mu|}{h} + \Sigma_j\right)
+= \int_{-1}^1 \sigma_j(\mu, \mu') \psi_j(\mu') d\mu' + q_j(\mu)
++ \frac{2|\mu|}{h}\psi_j^{\mathrm{IN}} $$</div>
+<p>We now write this as:</p>
+<div class="math">$$ \psi(\mu) = \lambda(\mu) \int_{-1}^1 \sigma(\mu, \mu') \psi(\mu') d\mu'
++ S(\mu) $$</div>
+<p>where the subscript <span class="math">\(j\)</span> has been suppressed, and where:</p>
+<div class="math">$$ \lambda(\mu) = \frac{h}{2|\mu| + \Sigma h} $$</div>
+<div class="math">$$ S(\mu) = \frac{hq(\mu) + 2|\mu|\psi^{\mathrm{IN}}_j}{2|\mu| + \Sigma h} $$</div>
+<p>The equation is solved by an iterative process; an initial trial solution for
+<span class="math">\(\psi\)</span> is used to evaluate the integral on the right-hand side - the scattering
+source - and then this used in turn to solve for <span class="math">\(\psi\)</span>. </p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

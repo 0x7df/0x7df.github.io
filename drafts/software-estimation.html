@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Software estimation Estimating the duration of software projects is well known to be difficult [?refs?]. Making what are essentially intuitive judgements is an inherently biased human activity (in...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+
+        <title>Software estimation - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Software estimation</h1>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Tue 03 March 2020, modified Tue 03 March 2020, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>Software estimation</h1>
+<p>Estimating the duration of software projects is well known to be difficult
+[?refs?].</p>
+<p>Making what are essentially intuitive judgements is an inherently biased human
+activity (in any context, not just software), as described by [?Kahneman etc?].
+Intuitive forecasts are non-regressive, and forecasters are excessively
+confident. In fact, over-confidence and ignorance have been shown to be
+positively correlated [?In Kahneman, or just Dunning-Kruger?]. There are also
+good reasons to believe that estimating how log an activity will take is more
+difficult in software development than in other domains, due to the sheer
+complexity of software entities [?Brooks, Mythical Mon-Month?].</p>
+<p>Other than intuitive expert judgement, there also appears to be no consistently
+successful method or model for producing objective, accurate forecasts of
+software effort ?REF?. Adding slippage factors and estimating confidence
+intervals are prone to the same biases ?REF?.</p>
+<p>Ideally, an Agile approach to software development would always be used, in
+which medium- and long-term forecasts of project delivery are not made, or at
+least not in any detail ?REF?. Instead, frequent, short iterations are
+undertaken (e.g. three week 'sprints'). In this model, the only effort
+estimation needed is to determine what tasks can be achieved in the next
+iteration. The biases are still there, but with less impact, as a result simply
+of not forecasting far into the future. However, this kind of approach is not
+always compatible with the expectations of traditional project/programme
+management.</p>
+<p>Kahneman and Tversky ?REF? recommend anchoring estimates in the <em>base rate</em> for
+the appropriate class of tasks (the <em>reference class</em>), and then allowing the
+estimate for a specific instance of that class to deviate from the base rate
+only to a degree that is constrained by the measured predictability of the
+class. That is, if the average measured duration of past software rojects in
+the appropriate reference class is <span class="math">\(\tau\)</span>, then an adjusted, unbiased forecast,
+<span class="math">\(t'\)</span>, is obtained by reducing the difference between the estimate and the base
+rate by <span class="math">\(\rho\)</span>, the product-moment correlation between predictions and
+outcomes, which is a measure of predictability. Hence:</p>
+<p><span class="math">\(t' - \tau = \rho\(t - \tau\)\)</span></p>
+<p>Such an approach requires some level of data collection to understand the base
+rate, <span class="math">\(\tau\)</span>, and the predictability, <span class="math">\(\rho\)</span>, for the reference class in
+question.</p>
+<p>While collecting such data is definitely a good idea, in the meantime the only
+other approach that is documented to improve effrt estimates consistently is
+the use of estimation checklists. The nature of the estimation bias is to
+ignore external factors and focus on the 'internal' specifics of the task being
+estimated. Even in the absence of base rate data (which inherently account for
+external factors), at least with a checklist the forecaster is reminded of some
+of the external factors that ought to be taken in to account.</p>
+<p>Here's a suggested template for an estimation checklist. To avoid bureaucracy,
+rather than requiring a written response, this, or something based on it, could
+be used just to structure the discussions that necessarily take place between
+software developers, domain experts, project managers, suppliers, and users or
+customers, before delivery dates are agreed.</p>
+<ul>
+<li>Documentation and scope<ul>
+<li>Is there a written scope?</li>
+<li>Has a reasonable set of test problems been identified and agreed?</li>
+<li>Does the test set cover an appropriate range of modes of operation, use
+  cases, edge cases, etc.?</li>
+<li>Have acceptance criteria been agreed with the end user?</li>
+<li>Is there misleading or potentially biasing information in the scope or
+  other documentation?</li>
+</ul>
+</li>
+<li>People<ul>
+<li>Have individuals been identified to conduct each part of the work?</li>
+<li>Have other activities that could disrupt the developers' time been taken
+  into account, e.g.:<ul>
+<li>Conferences</li>
+<li>Training</li>
+<li>IT / hardware updates</li>
+<li>Downtime (planned and unplanned)</li>
+<li>Holidays</li>
+<li>Sickness</li>
+</ul>
+</li>
+<li>Do the estimates include time for all development phases, as well as
+  coding time, e.g.:<ul>
+<li>Research, planning, design</li>
+<li>Assembling and setting up tests</li>
+<li>Testing and debugging</li>
+<li>End user testing</li>
+<li>Refactoring/cleaning</li>
+<li>Code review</li>
+<li>Writing documentation</li>
+<li>Merging and conflict resolution</li>
+<li>Release, acceptance, authorisation meetings</li>
+<li>Technical reports, presentations</li>
+</ul>
+</li>
+<li>Do the estimates account for time spent on other non-development
+  activities, e.g.:<ul>
+<li>Team meetings, training, performance reviews, etc.</li>
+<li>Other unrelated planned technical work involving the same people or
+  infrastructure?</li>
+<li>Unplanned technical work: user support, bug reports, etc.</li>
+</ul>
+</li>
+<li>Has additional time been added for 'unknown unknowns'?</li>
+</ul>
+</li>
+</ul>
+<p>Kahneman, D. and A. Tversky (1977): Intuitive prediction: biases and corrective
+procedures. Decision Research, Technical Report PTR-1042-77-6.</p>
+<p>Kahneman, D. (20??): Thinking, Fast and Slow.</p>
+<p>Brooks, F.P. (1995): The Mythical Man-Month: Essays on Software Engineering,
+Addison-Wesley.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
