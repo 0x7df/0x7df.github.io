@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-08-26T18:43:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:43:00+01:00</published><updated>2020-08-26T18:43:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;conda create --name &amp;lt;new_env&amp;gt; pip&lt;/span&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-08-26T18:44:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda create --name &amp;lt;new_env&amp;gt; pip
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Then you can do the standard installation from the pre-existing
 &lt;code&gt;requirements.txt&lt;/code&gt; file:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;conda activate &amp;lt;new_env&amp;gt;&lt;/span&gt;
-&lt;span class="err"&gt;pip install -r requirements.txt&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda activate &amp;lt;new_env&amp;gt;
+pip install -r requirements.txt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
