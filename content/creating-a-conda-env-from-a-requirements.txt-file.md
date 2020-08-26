@@ -1,7 +1,7 @@
 Title: Creating a Conda env from a requirements.txt file
-Date: 2020-08-26 18:19
+Date: 2020-08-26 18:21
 Category:  
-Modified: 2020-08-26 18:19
+Modified: 2020-08-26 18:21
 Tags: TIL Anaconda Python
 Slug: 
 Author: 0x7df
