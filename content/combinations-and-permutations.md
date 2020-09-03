@@ -8,8 +8,6 @@ Slug: combinations-and-permutations
 Status: published
 Summary: The mathematics of combinations and permutations
 
-Test.
-
 ![abstract-balls-blue-200]({static}images/abstract-balls-blue-1346.png)
 
 I recently had to teach the formulae for calculating the number of
