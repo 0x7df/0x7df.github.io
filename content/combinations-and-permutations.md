@@ -7,70 +7,61 @@ Slug: combinations-and-permutations
 Status: published
 Summary: The mathematics of combinations and permutations
 
-[![abstract-balls-blue-200](https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png)](https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png)I
-recently had to explain the formulae for calculating the number of
+![abstract-balls-blue-200]({static}images/abstract-balls-blue-1346.png)
+
+I recently had to teach the formulae for calculating the number of
 combinations and permutations, when selecting $r$
 items out of a pool of $n$. In case you're ever
 in the same boat, here's a refresher. There are four scenarios:
 
 <table>
-<tbody>
-<tr>
-<td>
-</td>
-<td cellpadding=40>
-<span style="color:#333399;">Combinations</span><span
-style="color:#333399;">(order doesn't matter):</span>
-</td>
-<td>
-<span style="color:#333399;">Permutations</span> <span
-style="color:#333399;">(order does matter):</span>
-
-</td>
-</tr>
-<tr>
-<td>
-<span style="color:#333399;">Selected items are replaced:</span>
-
-</td>
-<td align="center">
-$$ \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!}
-$$
-
-</td>
-<td align="center">
-$$ n^r $$
-
-</td>
-</tr>
-<tr>
-<td>
-<span style="color:#333399;">Selected items are not replaced:</span>
-
-</td>
-<td align="center">
-$$ \frac{n!}{r!\left(n-r\right)!} $$
-
-</td>
-<td align="center">
-$$ \frac{n!}{\left(n-r\right)!} $$
-
-</td>
-</tr>
-</tbody>
+    <thead>
+        <tr>
+            <td>
+            </td>
+            <td align="center">
+                <span style="color:#333399;"> Combinations </br> &nbsp; (order doesn't matter): &nbsp; </span>
+            </td>
+            <td align="center">
+                <span style="color:#033399;"> Permutations </br> &nbsp; (order does matter):    &nbsp; </span>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <span style="color:#333399;"> Selected items are replaced: &nbsp; </span>
+            </td>
+            <td align="center">
+                $$ \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!} $$
+            </td>
+            <td align="center">
+                $$ n^r $$
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="color:#333399;"> Selected items are not replaced: &nbsp; </span>
+            </td>
+            <td align="center">
+                $$ \frac{n!}{r!\left(n-r\right)!} $$
+            </td>
+            <td align="center">
+                $$ \frac{n!}{\left(n-r\right)!} $$
+            </td>
+        </tr>
+    </tbody>
 </table>
+
 ### The factorial function
 
-The exclamation mark represents [the
-*factorial*](http://mathworld.wolfram.com/Factorial.html):
+The exclamation mark represents [the *factorial*](http://mathworld.wolfram.com/Factorial.html):
 
-$$ x! = x \times \left(x-1\right) \times \left(x-2\right)
-\times \ldots \times 2 \times 1 $$
+$$ x! = x \times \left(x-1\right) \times \left(x-2\right) \times \ldots \times 2 \times 1 $$
 
 For example:
 
-$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
-$$
+$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120 $$
 
 You can invoke it in [Python](https://www.python.org/) like this:
 
@@ -92,16 +83,16 @@ In [Julia](http://julialang.org/):
     julia> factorial(7)
     5040
 
-One last thing to know about the factorial function, is that $ 0! = 1$.
+One last thing to know about the factorial function, is that $0! = 1$.
 
 ### Permutations vs. combinations
 
-To get the formula right, there are two choices to make. First, we have
+To get the formulae right, there are two choices to make. First, we have
 to decide whether or not the order that items are selected in matters to
 us. The various different arrangements of some group of items are called
-*permutations* when the order matters; e.g. if the arrangement (1, 2, 3)
-is considered different from (2, 3, 1). If the order doesn't matter -
-e.g. if the arrangements (a, b, c), (b, c, a), (b, a, c), etc., are
+*permutations* when the order matters; e.g. if the arrangement $(1, 2, 3)$
+is considered different from $(2, 3, 1)$. If the order doesn't matter -
+e.g. if the arrangements $(a, b, c)$, $(b, c, a)$, $(b, a, c)$, etc., are
 considered to be the same - then the arrangements are referred to as
 *combinations*.  This depends on the application.
 
@@ -109,7 +100,7 @@ considered to be the same - then the arrangements are referred to as
 
 The second thing we have to consider is whether or not each item that
 gets selected is put back into the pool before the next selection is
-made. In a [lottery](http://en.wikipedia.org/wiki/Lottery), when a ball
+made. For example, in a [lottery](http://en.wikipedia.org/wiki/Lottery), when a ball
 is selected, it can't get selected again - this scenario is selection
 *without replacement*. For a group of kids playing [pass the
 parcel](http://en.wikipedia.org/wiki/Hot_potato_%28game%29), as far as
@@ -125,7 +116,7 @@ This leads to our four scenarios. Now let's work out the equations.
 ### 1. Permutations without replacement
 
 You have $ n$ distinct items and you have to
-select $ r$. The order doesn't matter, and the
+select $ r$ of them. The order doesn't matter, and the
 items aren't replaced in the pool once selected. There are $ n$
 possibilities for the first item, but because there is
 no replacement, there are only $n-1$
@@ -135,8 +126,7 @@ total number, we're going to multiply these together, we start to see
 that the formula for the total number of combinations, say $ M$,
 is going to look something like:
 
-$$ M = n \times \left(n-1\right) \times \left(n-2\right)
-\times \ldots $$
+$$ M = n \times \left(n-1\right) \times \left(n-2\right) \times \ldots $$
 
 If we continued this series of terms right to the end, down to 1, then
 that would be the same as taking the factorial of $ n$.
@@ -204,10 +194,10 @@ orderings of the selected items. Clearly, we're going to have reduce the
 number - there will be fewer combinations than there are permutations.
 Let's assume $ n = 5$ and $ r = 3$.
 Imagine the items are numbered balls like in a
-lottery, and imagine the selected balls are (1, 3, 4). If these were
+lottery, and imagine the selected balls are $(1, 3, 4)$. If these were
 your numbers, you'd win no matter what order they came out in, so the
-permutations of the $ r$ selected items - (1, 3,
-4), (1, 4, 3), (3, 1, 4), (3, 4, 1), (4, 1, 3) and (4, 3, 1) - are the
+permutations of the $ r$ selected items - $(1, 3,
+4)$, $(1, 4, 3)$, $(3, 1, 4)$, $(3, 4, 1)$, $(4, 1, 3)$ and $(4, 3, 1)$ - are the
 same, and should be considered just one distinct arrangement. Of course,
 we already know that there are $ r!$ permutations
 of $ r$ selected items, so if we care about the
@@ -228,19 +218,17 @@ permutations *with* replacement, similarly reduced by a factor of
 $ r!$; but it isn't. Let's take a simple example:
 a pool of three numbers, and selection of two items. The permutations
 without replacement are:
+</br>(1,2)
+</br><span style="color:#ff0000;">(2,1)</span>
+</br>(1,3)
+</br><span style="color:#ff0000;">(3,1)</span>
+</br>(2,3)
+</br><span style="color:#ff0000;">(3,2)</span>
 
-(1,2)
-<span style="color:#ff0000;">(2,1)</span>
-(1,3)
-<span style="color:#ff0000;">(3,1)</span>
-(2,3)
-<span style="color:#ff0000;">(3,2)</span>
-
-and the additional ones if replacement is allowed are:
-
-(1,1)
-(2,2)
-(3,3)
+and the _additional_ ones if replacement is allowed are:
+</br>(1,1)
+</br>(2,2)
+</br>(3,3)
 
 The permutations highlighted in red are the ones you'd get rid of if you
 were interested only in combinations. Notice that there aren't any red
@@ -257,10 +245,10 @@ actually help us do the calculation, because we can't easily work out
 how big the second batch is, nor what factor to reduce it by. However,
 what if we pretend that, whenever we get repetition due to the items
 being replaced, an item being selected a second time is actually a new
-item? So instead of (1,1) we could perhaps write (1,1′), with the prime
-on the second 1 indicating our pretense that it's a different item. If
-we had (1,1,2,1) for an $ r = 4$ trial, we'd call
-it (1,1′,2,1′′), indicating that the three instances where 1 was
+item? So instead of $(1,1)$ we could perhaps write $(1,1′)$, with the prime
+on the second $1$ indicating our pretense that it's a different item. If
+we had $(1,1,2,1)$ for an $ r = 4$ trial, we'd call
+it $(1,1′,2,1′′)$, indicating that the three instances where $1$ was
 selected should all be treated as if they were different items. We're
 now back in the realm of permutations without replacement, for which the
 formula is $ m! /r!\left(m-r\right)!$, where now
