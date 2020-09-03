@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="I recently had to explain the formulae for calculating the number of combinations and permutations, when selecting \(r\) items out of a pool of \(n\). In case you&#39;re ever in the same boat, here&#39;s...">
+        <meta name="description" content="I recently had to teach the formulae for calculating the number of combinations and permutations, when selecting \(r\) items out of a pool of \(n\). In case you&#39;re ever in the same boat, here&#39;s a...">
         <meta name="keywords" content="combinations, combinatorics, factorial, julia, permutations, python">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -55,7 +55,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Combinations and permutations</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Fri 13 March 2015, in category <a href="http://0x7df.github.io/category/maths.html">Maths</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Fri 13 March 2015, modified Thu 03 September 2020, in category <a href="http://0x7df.github.io/category/maths.html">Maths</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -74,66 +74,55 @@
 
         <!-- Content -->
     <div class="container content">
-        <p><a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"><img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"></a>I
-recently had to explain the formulae for calculating the number of
+        <p><img alt="abstract-balls-blue-200" src="http://0x7df.github.io/images/abstract-balls-blue-1346.png"></p>
+<p>I recently had to teach the formulae for calculating the number of
 combinations and permutations, when selecting <span class="math">\(r\)</span>
 items out of a pool of <span class="math">\(n\)</span>. In case you're ever
 in the same boat, here's a refresher. There are four scenarios:</p>
 <table>
-<tbody>
-<tr>
-<td>
-</td>
-<td cellpadding=40>
-<span style="color:#333399;">Combinations</span><span
-style="color:#333399;">(order doesn't matter):</span>
-</td>
-<td>
-<span style="color:#333399;">Permutations</span> <span
-style="color:#333399;">(order does matter):</span>
-
-</td>
-</tr>
-<tr>
-<td>
-<span style="color:#333399;">Selected items are replaced:</span>
-
-</td>
-<td align="center">
-$$ \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!}
-$$
-
-</td>
-<td align="center">
-$$ n^r $$
-
-</td>
-</tr>
-<tr>
-<td>
-<span style="color:#333399;">Selected items are not replaced:</span>
-
-</td>
-<td align="center">
-$$ \frac{n!}{r!\left(n-r\right)!} $$
-
-</td>
-<td align="center">
-$$ \frac{n!}{\left(n-r\right)!} $$
-
-</td>
-</tr>
-</tbody>
+    <thead>
+        <tr>
+            <td>
+            </td>
+            <td align="center">
+                <span style="color:#333399;"> Combinations </br> &nbsp; (order doesn't matter): &nbsp; </span>
+            </td>
+            <td align="center">
+                <span style="color:#033399;"> Permutations </br> &nbsp; (order does matter):    &nbsp; </span>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <span style="color:#333399;"> Selected items are replaced: &nbsp; </span>
+            </td>
+            <td align="center">
+                $$ \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!} $$
+            </td>
+            <td align="center">
+                $$ n^r $$
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span style="color:#333399;"> Selected items are not replaced: &nbsp; </span>
+            </td>
+            <td align="center">
+                $$ \frac{n!}{r!\left(n-r\right)!} $$
+            </td>
+            <td align="center">
+                $$ \frac{n!}{\left(n-r\right)!} $$
+            </td>
+        </tr>
+    </tbody>
 </table>
 
 <h3>The factorial function</h3>
-<p>The exclamation mark represents <a href="http://mathworld.wolfram.com/Factorial.html">the
-<em>factorial</em></a>:</p>
-<div class="math">$$ x! = x \times \left(x-1\right) \times \left(x-2\right)
-\times \ldots \times 2 \times 1 $$</div>
+<p>The exclamation mark represents <a href="http://mathworld.wolfram.com/Factorial.html">the <em>factorial</em></a>:</p>
+<div class="math">$$ x! = x \times \left(x-1\right) \times \left(x-2\right) \times \ldots \times 2 \times 1 $$</div>
 <p>For example:</p>
-<div class="math">$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
-$$</div>
+<div class="math">$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120 $$</div>
 <p>You can invoke it in <a href="https://www.python.org/">Python</a> like this:</p>
 <div class="highlight"><pre><span></span><code><span class="err">$</span> <span class="n">python</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">math</span>
@@ -157,20 +146,20 @@ julia&gt; factorial<span class="o">(</span><span class="m">7</span><span class="
 </code></pre></div>
 
 
-<p>One last thing to know about the factorial function, is that <span class="math">\( 0! = 1\)</span>.</p>
+<p>One last thing to know about the factorial function, is that <span class="math">\(0! = 1\)</span>.</p>
 <h3>Permutations vs. combinations</h3>
-<p>To get the formula right, there are two choices to make. First, we have
+<p>To get the formulae right, there are two choices to make. First, we have
 to decide whether or not the order that items are selected in matters to
 us. The various different arrangements of some group of items are called
-<em>permutations</em> when the order matters; e.g. if the arrangement (1, 2, 3)
-is considered different from (2, 3, 1). If the order doesn't matter -
-e.g. if the arrangements (a, b, c), (b, c, a), (b, a, c), etc., are
+<em>permutations</em> when the order matters; e.g. if the arrangement <span class="math">\((1, 2, 3)\)</span>
+is considered different from <span class="math">\((2, 3, 1)\)</span>. If the order doesn't matter -
+e.g. if the arrangements <span class="math">\((a, b, c)\)</span>, <span class="math">\((b, c, a)\)</span>, <span class="math">\((b, a, c)\)</span>, etc., are
 considered to be the same - then the arrangements are referred to as
 <em>combinations</em>.  This depends on the application.</p>
 <h3>With vs. without replacement</h3>
 <p>The second thing we have to consider is whether or not each item that
 gets selected is put back into the pool before the next selection is
-made. In a <a href="http://en.wikipedia.org/wiki/Lottery">lottery</a>, when a ball
+made. For example, in a <a href="http://en.wikipedia.org/wiki/Lottery">lottery</a>, when a ball
 is selected, it can't get selected again - this scenario is selection
 <em>without replacement</em>. For a group of kids playing <a href="http://en.wikipedia.org/wiki/Hot_potato_%28game%29">pass the
 parcel</a>, as far as
@@ -183,7 +172,7 @@ more likely to see it as selection <em>without replacement</em>...)</p>
 <p>This leads to our four scenarios. Now let's work out the equations.</p>
 <h3>1. Permutations without replacement</h3>
 <p>You have <span class="math">\( n\)</span> distinct items and you have to
-select <span class="math">\( r\)</span>. The order doesn't matter, and the
+select <span class="math">\( r\)</span> of them. The order doesn't matter, and the
 items aren't replaced in the pool once selected. There are <span class="math">\( n\)</span>
 possibilities for the first item, but because there is
 no replacement, there are only <span class="math">\(n-1\)</span>
@@ -192,8 +181,7 @@ possibilities for the third, etc. Since, to get the
 total number, we're going to multiply these together, we start to see
 that the formula for the total number of combinations, say <span class="math">\( M\)</span>,
 is going to look something like:</p>
-<div class="math">$$ M = n \times \left(n-1\right) \times \left(n-2\right)
-\times \ldots $$</div>
+<div class="math">$$ M = n \times \left(n-1\right) \times \left(n-2\right) \times \ldots $$</div>
 <p>If we continued this series of terms right to the end, down to 1, then
 that would be the same as taking the factorial of <span class="math">\( n\)</span>.
 However, the number of terms we need to multiply
@@ -241,10 +229,10 @@ orderings of the selected items. Clearly, we're going to have reduce the
 number - there will be fewer combinations than there are permutations.
 Let's assume <span class="math">\( n = 5\)</span> and <span class="math">\( r = 3\)</span>.
 Imagine the items are numbered balls like in a
-lottery, and imagine the selected balls are (1, 3, 4). If these were
+lottery, and imagine the selected balls are <span class="math">\((1, 3, 4)\)</span>. If these were
 your numbers, you'd win no matter what order they came out in, so the
-permutations of the <span class="math">\( r\)</span> selected items - (1, 3,
-4), (1, 4, 3), (3, 1, 4), (3, 4, 1), (4, 1, 3) and (4, 3, 1) - are the
+permutations of the <span class="math">\( r\)</span> selected items - <span class="math">\((1, 3,
+4)\)</span>, <span class="math">\((1, 4, 3)\)</span>, <span class="math">\((3, 1, 4)\)</span>, <span class="math">\((3, 4, 1)\)</span>, <span class="math">\((4, 1, 3)\)</span> and <span class="math">\((4, 3, 1)\)</span> - are the
 same, and should be considered just one distinct arrangement. Of course,
 we already know that there are <span class="math">\( r!\)</span> permutations
 of <span class="math">\( r\)</span> selected items, so if we care about the
@@ -261,17 +249,17 @@ therefore think that the answer here is going to be the number of
 permutations <em>with</em> replacement, similarly reduced by a factor of
 <span class="math">\( r!\)</span>; but it isn't. Let's take a simple example:
 a pool of three numbers, and selection of two items. The permutations
-without replacement are:</p>
-<p>(1,2)
-<span style="color:#ff0000;">(2,1)</span>
-(1,3)
-<span style="color:#ff0000;">(3,1)</span>
-(2,3)
-<span style="color:#ff0000;">(3,2)</span></p>
-<p>and the additional ones if replacement is allowed are:</p>
-<p>(1,1)
-(2,2)
-(3,3)</p>
+without replacement are:
+</br>(1,2)
+</br><span style="color:#ff0000;">(2,1)</span>
+</br>(1,3)
+</br><span style="color:#ff0000;">(3,1)</span>
+</br>(2,3)
+</br><span style="color:#ff0000;">(3,2)</span></p>
+<p>and the <em>additional</em> ones if replacement is allowed are:
+</br>(1,1)
+</br>(2,2)
+</br>(3,3)</p>
 <p>The permutations highlighted in red are the ones you'd get rid of if you
 were interested only in combinations. Notice that there aren't any red
 ones in the second batch - the "extra" possibilities that arise when
@@ -286,10 +274,10 @@ actually help us do the calculation, because we can't easily work out
 how big the second batch is, nor what factor to reduce it by. However,
 what if we pretend that, whenever we get repetition due to the items
 being replaced, an item being selected a second time is actually a new
-item? So instead of (1,1) we could perhaps write (1,1′), with the prime
-on the second 1 indicating our pretense that it's a different item. If
-we had (1,1,2,1) for an <span class="math">\( r = 4\)</span> trial, we'd call
-it (1,1′,2,1′′), indicating that the three instances where 1 was
+item? So instead of <span class="math">\((1,1)\)</span> we could perhaps write <span class="math">\((1,1′)\)</span>, with the prime
+on the second <span class="math">\(1\)</span> indicating our pretense that it's a different item. If
+we had <span class="math">\((1,1,2,1)\)</span> for an <span class="math">\( r = 4\)</span> trial, we'd call
+it <span class="math">\((1,1′,2,1′′)\)</span>, indicating that the three instances where <span class="math">\(1\)</span> was
 selected should all be treated as if they were different items. We're
 now back in the realm of permutations without replacement, for which the
 formula is <span class="math">\( m! /r!\left(m-r\right)!\)</span>, where now

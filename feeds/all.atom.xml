@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-08-26T18:44:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-03T20:55:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda create --name &amp;lt;new_env&amp;gt; pip
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -7425,66 +7425,55 @@ particles that display the same properties&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Physics"></category><category term="particle physics"></category></entry><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:/combinations-and-permutations.html</id><summary type="html">&lt;p&gt;The mathematics of combinations and permutations&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;/a&gt;I
-recently had to explain the formulae for calculating the number of
+&lt;/script&gt;</content><category term="Physics"></category><category term="particle physics"></category></entry><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2020-09-03T20:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:/combinations-and-permutations.html</id><summary type="html">&lt;p&gt;The mathematics of combinations and permutations&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="abstract-balls-blue-200" src="http://0x7df.github.io/images/abstract-balls-blue-1346.png"&gt;&lt;/p&gt;
+&lt;p&gt;I recently had to teach the formulae for calculating the number of
 combinations and permutations, when selecting &lt;span class="math"&gt;\(r\)&lt;/span&gt;
 items out of a pool of &lt;span class="math"&gt;\(n\)&lt;/span&gt;. In case you're ever
 in the same boat, here's a refresher. There are four scenarios:&lt;/p&gt;
 &lt;table&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;/td&gt;
-&lt;td cellpadding=40&gt;
-&lt;span style="color:#333399;"&gt;Combinations&lt;/span&gt;&lt;span
-style="color:#333399;"&gt;(order doesn't matter):&lt;/span&gt;
-&lt;/td&gt;
-&lt;td&gt;
-&lt;span style="color:#333399;"&gt;Permutations&lt;/span&gt; &lt;span
-style="color:#333399;"&gt;(order does matter):&lt;/span&gt;
-
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;span style="color:#333399;"&gt;Selected items are replaced:&lt;/span&gt;
-
-&lt;/td&gt;
-&lt;td align="center"&gt;
-$$ \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!}
-$$
-
-&lt;/td&gt;
-&lt;td align="center"&gt;
-$$ n^r $$
-
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;
-&lt;span style="color:#333399;"&gt;Selected items are not replaced:&lt;/span&gt;
-
-&lt;/td&gt;
-&lt;td align="center"&gt;
-$$ \frac{n!}{r!\left(n-r\right)!} $$
-
-&lt;/td&gt;
-&lt;td align="center"&gt;
-$$ \frac{n!}{\left(n-r\right)!} $$
-
-&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+            &lt;/td&gt;
+            &lt;td align="center"&gt;
+                &lt;span style="color:#333399;"&gt; Combinations &lt;/br&gt; &amp;nbsp; (order doesn't matter): &amp;nbsp; &lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td align="center"&gt;
+                &lt;span style="color:#033399;"&gt; Permutations &lt;/br&gt; &amp;nbsp; (order does matter):    &amp;nbsp; &lt;/span&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;span style="color:#333399;"&gt; Selected items are replaced: &amp;nbsp; &lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td align="center"&gt;
+                $$ \frac{\left(n + r - 1\right)!}{ r!\left(n - 1\right)!} $$
+            &lt;/td&gt;
+            &lt;td align="center"&gt;
+                $$ n^r $$
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;span style="color:#333399;"&gt; Selected items are not replaced: &amp;nbsp; &lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td align="center"&gt;
+                $$ \frac{n!}{r!\left(n-r\right)!} $$
+            &lt;/td&gt;
+            &lt;td align="center"&gt;
+                $$ \frac{n!}{\left(n-r\right)!} $$
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
 &lt;/table&gt;
 
 &lt;h3&gt;The factorial function&lt;/h3&gt;
-&lt;p&gt;The exclamation mark represents &lt;a href="http://mathworld.wolfram.com/Factorial.html"&gt;the
-&lt;em&gt;factorial&lt;/em&gt;&lt;/a&gt;:&lt;/p&gt;
-&lt;div class="math"&gt;$$ x! = x \times \left(x-1\right) \times \left(x-2\right)
-\times \ldots \times 2 \times 1 $$&lt;/div&gt;
+&lt;p&gt;The exclamation mark represents &lt;a href="http://mathworld.wolfram.com/Factorial.html"&gt;the &lt;em&gt;factorial&lt;/em&gt;&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ x! = x \times \left(x-1\right) \times \left(x-2\right) \times \ldots \times 2 \times 1 $$&lt;/div&gt;
 &lt;p&gt;For example:&lt;/p&gt;
-&lt;div class="math"&gt;$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120
-$$&lt;/div&gt;
+&lt;div class="math"&gt;$$ 5! = 5 \times 4 \times 3 \times 2 \times 1 = 120 $$&lt;/div&gt;
 &lt;p&gt;You can invoke it in &lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt; like this:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;$&lt;/span&gt; &lt;span class="n"&gt;python&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt;
@@ -7508,20 +7497,20 @@ julia&amp;gt; factorial&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;One last thing to know about the factorial function, is that &lt;span class="math"&gt;\( 0! = 1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;One last thing to know about the factorial function, is that &lt;span class="math"&gt;\(0! = 1\)&lt;/span&gt;.&lt;/p&gt;
 &lt;h3&gt;Permutations vs. combinations&lt;/h3&gt;
-&lt;p&gt;To get the formula right, there are two choices to make. First, we have
+&lt;p&gt;To get the formulae right, there are two choices to make. First, we have
 to decide whether or not the order that items are selected in matters to
 us. The various different arrangements of some group of items are called
-&lt;em&gt;permutations&lt;/em&gt; when the order matters; e.g. if the arrangement (1, 2, 3)
-is considered different from (2, 3, 1). If the order doesn't matter -
-e.g. if the arrangements (a, b, c), (b, c, a), (b, a, c), etc., are
+&lt;em&gt;permutations&lt;/em&gt; when the order matters; e.g. if the arrangement &lt;span class="math"&gt;\((1, 2, 3)\)&lt;/span&gt;
+is considered different from &lt;span class="math"&gt;\((2, 3, 1)\)&lt;/span&gt;. If the order doesn't matter -
+e.g. if the arrangements &lt;span class="math"&gt;\((a, b, c)\)&lt;/span&gt;, &lt;span class="math"&gt;\((b, c, a)\)&lt;/span&gt;, &lt;span class="math"&gt;\((b, a, c)\)&lt;/span&gt;, etc., are
 considered to be the same - then the arrangements are referred to as
 &lt;em&gt;combinations&lt;/em&gt;.  This depends on the application.&lt;/p&gt;
 &lt;h3&gt;With vs. without replacement&lt;/h3&gt;
 &lt;p&gt;The second thing we have to consider is whether or not each item that
 gets selected is put back into the pool before the next selection is
-made. In a &lt;a href="http://en.wikipedia.org/wiki/Lottery"&gt;lottery&lt;/a&gt;, when a ball
+made. For example, in a &lt;a href="http://en.wikipedia.org/wiki/Lottery"&gt;lottery&lt;/a&gt;, when a ball
 is selected, it can't get selected again - this scenario is selection
 &lt;em&gt;without replacement&lt;/em&gt;. For a group of kids playing &lt;a href="http://en.wikipedia.org/wiki/Hot_potato_%28game%29"&gt;pass the
 parcel&lt;/a&gt;, as far as
@@ -7534,7 +7523,7 @@ more likely to see it as selection &lt;em&gt;without replacement&lt;/em&gt;...)&
 &lt;p&gt;This leads to our four scenarios. Now let's work out the equations.&lt;/p&gt;
 &lt;h3&gt;1. Permutations without replacement&lt;/h3&gt;
 &lt;p&gt;You have &lt;span class="math"&gt;\( n\)&lt;/span&gt; distinct items and you have to
-select &lt;span class="math"&gt;\( r\)&lt;/span&gt;. The order doesn't matter, and the
+select &lt;span class="math"&gt;\( r\)&lt;/span&gt; of them. The order doesn't matter, and the
 items aren't replaced in the pool once selected. There are &lt;span class="math"&gt;\( n\)&lt;/span&gt;
 possibilities for the first item, but because there is
 no replacement, there are only &lt;span class="math"&gt;\(n-1\)&lt;/span&gt;
@@ -7543,8 +7532,7 @@ possibilities for the third, etc. Since, to get the
 total number, we're going to multiply these together, we start to see
 that the formula for the total number of combinations, say &lt;span class="math"&gt;\( M\)&lt;/span&gt;,
 is going to look something like:&lt;/p&gt;
-&lt;div class="math"&gt;$$ M = n \times \left(n-1\right) \times \left(n-2\right)
-\times \ldots $$&lt;/div&gt;
+&lt;div class="math"&gt;$$ M = n \times \left(n-1\right) \times \left(n-2\right) \times \ldots $$&lt;/div&gt;
 &lt;p&gt;If we continued this series of terms right to the end, down to 1, then
 that would be the same as taking the factorial of &lt;span class="math"&gt;\( n\)&lt;/span&gt;.
 However, the number of terms we need to multiply
@@ -7592,10 +7580,10 @@ orderings of the selected items. Clearly, we're going to have reduce the
 number - there will be fewer combinations than there are permutations.
 Let's assume &lt;span class="math"&gt;\( n = 5\)&lt;/span&gt; and &lt;span class="math"&gt;\( r = 3\)&lt;/span&gt;.
 Imagine the items are numbered balls like in a
-lottery, and imagine the selected balls are (1, 3, 4). If these were
+lottery, and imagine the selected balls are &lt;span class="math"&gt;\((1, 3, 4)\)&lt;/span&gt;. If these were
 your numbers, you'd win no matter what order they came out in, so the
-permutations of the &lt;span class="math"&gt;\( r\)&lt;/span&gt; selected items - (1, 3,
-4), (1, 4, 3), (3, 1, 4), (3, 4, 1), (4, 1, 3) and (4, 3, 1) - are the
+permutations of the &lt;span class="math"&gt;\( r\)&lt;/span&gt; selected items - &lt;span class="math"&gt;\((1, 3,
+4)\)&lt;/span&gt;, &lt;span class="math"&gt;\((1, 4, 3)\)&lt;/span&gt;, &lt;span class="math"&gt;\((3, 1, 4)\)&lt;/span&gt;, &lt;span class="math"&gt;\((3, 4, 1)\)&lt;/span&gt;, &lt;span class="math"&gt;\((4, 1, 3)\)&lt;/span&gt; and &lt;span class="math"&gt;\((4, 3, 1)\)&lt;/span&gt; - are the
 same, and should be considered just one distinct arrangement. Of course,
 we already know that there are &lt;span class="math"&gt;\( r!\)&lt;/span&gt; permutations
 of &lt;span class="math"&gt;\( r\)&lt;/span&gt; selected items, so if we care about the
@@ -7612,17 +7600,17 @@ therefore think that the answer here is going to be the number of
 permutations &lt;em&gt;with&lt;/em&gt; replacement, similarly reduced by a factor of
 &lt;span class="math"&gt;\( r!\)&lt;/span&gt;; but it isn't. Let's take a simple example:
 a pool of three numbers, and selection of two items. The permutations
-without replacement are:&lt;/p&gt;
-&lt;p&gt;(1,2)
-&lt;span style="color:#ff0000;"&gt;(2,1)&lt;/span&gt;
-(1,3)
-&lt;span style="color:#ff0000;"&gt;(3,1)&lt;/span&gt;
-(2,3)
-&lt;span style="color:#ff0000;"&gt;(3,2)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;and the additional ones if replacement is allowed are:&lt;/p&gt;
-&lt;p&gt;(1,1)
-(2,2)
-(3,3)&lt;/p&gt;
+without replacement are:
+&lt;/br&gt;(1,2)
+&lt;/br&gt;&lt;span style="color:#ff0000;"&gt;(2,1)&lt;/span&gt;
+&lt;/br&gt;(1,3)
+&lt;/br&gt;&lt;span style="color:#ff0000;"&gt;(3,1)&lt;/span&gt;
+&lt;/br&gt;(2,3)
+&lt;/br&gt;&lt;span style="color:#ff0000;"&gt;(3,2)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;and the &lt;em&gt;additional&lt;/em&gt; ones if replacement is allowed are:
+&lt;/br&gt;(1,1)
+&lt;/br&gt;(2,2)
+&lt;/br&gt;(3,3)&lt;/p&gt;
 &lt;p&gt;The permutations highlighted in red are the ones you'd get rid of if you
 were interested only in combinations. Notice that there aren't any red
 ones in the second batch - the "extra" possibilities that arise when
@@ -7637,10 +7625,10 @@ actually help us do the calculation, because we can't easily work out
 how big the second batch is, nor what factor to reduce it by. However,
 what if we pretend that, whenever we get repetition due to the items
 being replaced, an item being selected a second time is actually a new
-item? So instead of (1,1) we could perhaps write (1,1′), with the prime
-on the second 1 indicating our pretense that it's a different item. If
-we had (1,1,2,1) for an &lt;span class="math"&gt;\( r = 4\)&lt;/span&gt; trial, we'd call
-it (1,1′,2,1′′), indicating that the three instances where 1 was
+item? So instead of &lt;span class="math"&gt;\((1,1)\)&lt;/span&gt; we could perhaps write &lt;span class="math"&gt;\((1,1′)\)&lt;/span&gt;, with the prime
+on the second &lt;span class="math"&gt;\(1\)&lt;/span&gt; indicating our pretense that it's a different item. If
+we had &lt;span class="math"&gt;\((1,1,2,1)\)&lt;/span&gt; for an &lt;span class="math"&gt;\( r = 4\)&lt;/span&gt; trial, we'd call
+it &lt;span class="math"&gt;\((1,1′,2,1′′)\)&lt;/span&gt;, indicating that the three instances where &lt;span class="math"&gt;\(1\)&lt;/span&gt; was
 selected should all be treated as if they were different items. We're
 now back in the realm of permutations without replacement, for which the
 formula is &lt;span class="math"&gt;\( m! /r!\left(m-r\right)!\)&lt;/span&gt;, where now
