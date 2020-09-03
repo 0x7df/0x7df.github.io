@@ -29,11 +29,17 @@ if [[ "${BRANCH_NAME}" != "source" ]] ; then
 fi
 
 # Update dates and status in post metadata
-typeset -r PUBLISHDATE=$(date +"%Y-%m-%d %H:%M")
+typeset -r MODIFICATION_DATE=$(date +"%Y-%m-%d %H:%M")
+
+if grep '^Status: draft$' "${FILENAME}" ; then
+    sed -i '.backup'                              \
+        -e "s/^Date:\ .*$/Date:\ ${MODIFICATION_DATE}"/ \
+        -e 's/^Status: draft$/Status: published/' \
+    ${FILENAME}
+fi
+
 sed -i '.backup'                                    \
-    -e "s/^Date:\ .*$/Date:\ ${PUBLISHDATE}"/       \
-    -e "s/^Modified: .*$/Modified: ${PUBLISHDATE}/" \
-    -e 's/^Status: draft$/Status: published/'       \
+    -e "s/^Modified: .*$/Modified: ${MODIFICATION_DATE}/" \
 ${FILENAME}
 
 # Commit and push changes on source branch to GitHub
