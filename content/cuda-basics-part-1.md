@@ -1,5 +1,6 @@
 Title: CUDA basics part 1
 Date: 2015-04-05 20:59
+Modified: 2015-04-05 20:59
 Author: 0x7df
 Category: Computer science
 Tags: c, cuda, gpu, hpc, massively parallel, parallel computing, parallel programming
@@ -9,14 +10,16 @@ Status: published
 Introduction
 ------------
 
-[CUDA (Compute Unified Device
-Architecture)](http://en.wikipedia.org/wiki/CUDA)is an extension of
+[CUDA (Compute Unified Device Architecture)](http://en.wikipedia.org/wiki/CUDA)
+is an extension of
 [C/C++](http://www.tutorialspoint.com/cprogramming/c_overview.htm),
 developed by [NVIDIA](http://www.nvidia.com/page/home.html), the
-[GPU](http://www.webopedia.com/TERM/G/GPU.html)manufacturer, for
+[GPU](http://www.webopedia.com/TERM/G/GPU.html) manufacturer, for
 programming their devices. (There is also a [Fortran
 version](https://www.pgroup.com/resources/cudafortran.htm), developed by
-[PGI](http://www.pgroup.com/).) The purpose of CUDA is to allow
+[PGI](http://www.pgroup.com/).)
+
+The purpose of CUDA is to allow
 developers to program GPUs much more easily than previously, and since
 its inception in 2007, the use of GPUs has opened up beyond just
 graphics to more general, e.g. scientific, computing, which is often
@@ -33,7 +36,7 @@ of compilers and on a wide range of platforms. (A similar programming
 language is [OpenCL](https://www.khronos.org/opencl/), which as the name
 suggests, is an open standard, being developed by a consortium of
 organisations.) However, the [point has been
-made](https://www.coursera.org/course/hetero)that CUDA is a useful
+made](https://www.coursera.org/course/hetero) that CUDA is a useful
 teaching vehicle for the basic concepts of programming heterogeneous,
 many-core supercomputers.
 
@@ -44,19 +47,20 @@ Let's assume here that the model is heterogeneous; i.e. there are CPUs
 (hosts) and GPUs (devices) working in conjunction, and that the
 application runs on the CPU host, handing specific, highly
 [data-parallel](http://queue.acm.org/detail.cfm?id=1365499) parts of the
-program off to the device as and when appropriate. Also , we assume
+program off to the device as and when appropriate. Also, we assume
 initially that the CPU part is basically serial; that is, we're not
 combining CUDA with [MPI](http://www.mpi-forum.org/) at this stage.
 
 To exploit this kind of architecture, it's necessary to *kernelise* the
 code: identify parts of it suitable for a high level of concurrency,
-turn them into kernel functions that are handed over to the GPU device.
+then turn them into kernel functions that are handed over to the GPU device.
 These will typically be portions of the code that are highly
 data-parallel - i.e. loops over large sets of data items where the
 iterations of the loops are independent of each other. A nice example is
-a simple "DAXPY" loop (i.e. a double precision *Ax* + *y* vector
-addition) or "DAXBY" loop (*Ax* × *y*), implemented here in C:
+a simple "DAXPY" loop (i.e. a double precision $Ax + y$ vector
+addition) or "DAXBY" loop ($Ax \times y$), implemented here in C:
 
+    :::c
     void vectorAdd(int n, double a, double *x, double *y) {
         for (int i = 0; i < n; ++i) {  
             y[i] = a*x[i] + y[i];
@@ -87,7 +91,7 @@ non-GPU equivalent being a multithreaded [vector
 processor](http://www.phy.ornl.gov/csep/ca/node24.html). The typical
 number of SMs in one GPU is between 2 and 30, varying from generation to
 generation. Each SM can support a maximum number of threads at one time,
-typically in the low thousands (e.g. 1,536) ; so overall the GPU can
+typically in the low thousands (e.g. 1,536); so overall the GPU can
 handle tens of thousands of threads simultaneously. A key aspect of the
 GPU is that, as well as being massively multithreaded, it also has a
 SIMD aspect. The threads assigned to a streaming multiprocessor are
@@ -97,8 +101,9 @@ fetched once and executed for all 32 threads at the same time. So all
 the threads in a particular warp are progressed in lock-step. Hence
 there are two types of parallelism at play in a GPU:
 
-1.  Multithreading (a kind of[SPMD - single program/multiple data
-    parallelism](en.wikipedia.org/wiki/SPMD)), where different
+1.  Multithreading (a kind of
+    [SPMD - single program/multiple data parallelism](en.wikipedia.org/wiki/SPMD)),
+    where different
     processors execute the same program independently, on different
     subsets of the data; and
 2.  SIMD (single instruction/multiple data), where each processor is
@@ -120,7 +125,7 @@ memory (and we'll ignore the
 [hierarchy](http://www.bottomupcs.com/memory.html)there), the GPU device
 has several different levels of memory:
 
-![gpu_layout](https://0x7df.files.wordpress.com/2015/02/gpu_layout.png)
+![GPU Layout]({static}images/gpu_layout.png)
 
 -   The main *global memory* or *device memory*, which is accessible to
     all the threads on the GPU,
@@ -157,6 +162,7 @@ blocks, each of which is three-dimensional grouping of *i* × *j* × *k*
 threads. The actual values of *i*, *j*, ... to be used are defined in
 the host code by the special CUDA statements:
 
+    :::c
     dim3 gridDims(l,m,n);  
     dim3 blockDims(i,j,l);  
     myKernel<<<gridDims,blockDims>>>(args);  
@@ -182,6 +188,7 @@ Vector addition - host code
 
 The host C code running on the CPU will look something like this:
 
+    :::c
     int main(int argc, char **argv) {
         int n, gridSize;  
         float *hostX, *hostY;  
@@ -218,9 +225,9 @@ The host C code running on the CPU will look something like this:
     }  
 
 In the definition of the grid and block dimensions, we've chosen to have
-256 threads per block, and therefore *n*/256 blocks (and we've used the
+256 threads per block, and therefore $n/256$ blocks (and we've used the
 ceiling function to make sure the number of blocks is rounded *up* to
-the nearest integer if *n* isn't divisible by 256). The grid and the
+the nearest integer if $n$ isn't divisible by 256). The grid and the
 blocks are one-dimensional, for simplicity.
 
 Hopefully, the various CUDA functions that are called - `cudaMalloc`,
@@ -232,6 +239,7 @@ Vector addition - kernel code
 
 The CUDA kernel function that is called looks like this:
 
+    :::c
     __global__ void vecAdd(int n, float *x, float *y) {  
         int i = threadIdx.x + blockDim.x*blockIdx.x;  
         if (i < n) y[i] = x[i] + y[i];  
@@ -243,19 +251,19 @@ to distinguish between functions for the host CPU and kernel functions
 intended for the GPU; it does this using the keywords `__host__` for the
 former, and either `__global__` or `__device__` for the latter. The
 second difference is the existence of the pre-defined variables
-`threadIdx` and `blockIdx`, which give the (*x*, *y*, *z*) indices of
+`threadIdx` and `blockIdx`, which give the $(x, y, z)$ indices of
 the thread within the block, and of the block within the grid,
-respectively; and `blockDim`, which gives the (*x*, *y*, *z*) dimensions
+respectively; and `blockDim`, which gives the $(x, y, z)$ dimensions
 of the block, as defined in the function call.
 
-The `if` statement is included for the case where *n* is not divisible
+The `if` statement is included for the case where $n$ is not divisible
 by 256 and therefore we have `ceil(n/256)` blocks, resulting in there
 being more threads than elements in the vector(s).
 
 Parallel efficiency
 -------------------
 
-If we ignore the multiplication by the constant *A* for the moment, and
+If we ignore the multiplication by the constant $A$ for the moment, and
 concentrate on the vector addition `y[i] = x[i] + y[i]`, we can see that
 there are three memory accesses (two reads and a write) for each
 statement, and only one floating-point calculation (the addition). The
@@ -289,7 +297,7 @@ global memory and the processors.
 
 For this function - simple vector addition - there isn't a great deal we
 can do about the fact that it's memory bound. You have to bring back
-each pair of elements from *x* and *y* from memory, then put the result
+each pair of elements of $x$ and $y$ from memory, then put the result
 back again - the number of memory operations is irreducible. For more
 complex operations, where pieces of data are typically used multiple
 times, the trick is to use shared memory, which is much, much faster
@@ -312,30 +320,30 @@ utilise [instruction-level parallelism
 In the kernel, the single floating-point operation has to wait for both
 of the input vector elements (`x[i]` and `y[i]`) to be retrieved from
 global memory before it can begin. Hence if the global memory reads and
-writes take *M* clock cycles each, and the floating operation takes *N*,
-then the total number of clock cycles is *(M+1)+N+M* (assuming the
+writes take $M$ clock cycles each, and the floating operation takes $N$,
+then the total number of clock cycles is $(M+1)+N+M$ (assuming the
 second load begins one clock cycle after the first, but otherwise that
-they are done simultaneously). This is *2M+N+1*, so to go through it *k*
-times is *k(2M+N+1)*.
+they are done simultaneously). This is $2M+N+1$, so to go through it $k$
+times is $k(2M+N+1)$.
 
 However, if within the kernel we loaded two values of each input vector,
 say `x[i+1]` and `y[i+1]` as well as `x[i]` and `y[i]`, then the
-computation of `x[i] + y[i]` starts after *M+1* cycles and takes *N*
-cycles, so the result is written back to global memory after *(M+1)+N+M*
-cycles as before; *but*, x[i+1] can start to load after 2 cycles, and
-y[i+1] after 3 cycles, so computation of `x[i+1] + y[i+1]` can begin
-after *M+3* cycles, and still takes *N*. Hence `y[i+1]` has been written
-back to global memory after *(M+3)+N+M* cycles. This means the whole
-operation to get `x[i] + y[i]` and `x[i+1] + y[i+1]` takes *(M+3)+N+M*
+computation of `x[i] + y[i]` starts after $M+1$ cycles and takes $N$
+cycles, so the result is written back to global memory after $(M+1)+N+M$
+cycles as before; *but*, `x[i+1]` can start to load after 2 cycles, and
+`y[i+1]` after 3 cycles, so computation of `x[i+1] + y[i+1]` can begin
+after $M+3$ cycles, and still takes $N$. Hence `y[i+1]` has been written
+back to global memory after $(M+3)+N+M$ cycles. This means the whole
+operation to get `x[i] + y[i]` and `x[i+1] + y[i+1]` takes $(M+3)+N+M$
 cycles overall, which is only 2 cycles more than it took to get only
-`x[i] + y[i]` in the original kernel. For *k* elements, it will take
-*k(2M+N+3)/2*. This is basically going to take half the time of the
-original (as long as *2M+N* is large enough that the constant doesn't
+`x[i] + y[i]` in the original kernel. For $k$ elements, it will take
+$k(2M+N+3)/2$. This is basically going to take half the time of the
+original (as long as $2M+N$ is large enough that the constant doesn't
 matter).
 
 Nothing has been done to reduce the
-[latency](http://www.hardwaresecrets.com/article/Understanding-RAM-Timings/26/2)of
-the memory operations, or to do fewer of them; instead they've been
+[latency](http://www.hardwaresecrets.com/article/Understanding-RAM-Timings/26/2)
+of the memory operations, or to do fewer of them; instead they've been
 overlapped as much as possible. This is called *latency-hiding* - doing
 other useful things while waiting for data to return from memory.
 Actually, at a different level, the concept of latency-hiding is also
