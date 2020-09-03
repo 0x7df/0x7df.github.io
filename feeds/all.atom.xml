@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-03T21:06:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-03T21:56:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda create --name &amp;lt;new_env&amp;gt; pip
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -5905,25 +5905,27 @@ adding them to a profile. The useful extra options are:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Programming"></category><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:/cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
-Architecture)&lt;/a&gt;is an extension of
+&lt;/script&gt;</content><category term="Programming"></category><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2020-09-03T21:56:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:/cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device Architecture)&lt;/a&gt;
+is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
 developed by &lt;a href="http://www.nvidia.com/page/home.html"&gt;NVIDIA&lt;/a&gt;, the
-&lt;a href="http://www.webopedia.com/TERM/G/GPU.html"&gt;GPU&lt;/a&gt;manufacturer, for
+&lt;a href="http://www.webopedia.com/TERM/G/GPU.html"&gt;GPU&lt;/a&gt; manufacturer, for
 programming their devices. (There is also a &lt;a href="https://www.pgroup.com/resources/cudafortran.htm"&gt;Fortran
 version&lt;/a&gt;, developed by
-&lt;a href="http://www.pgroup.com/"&gt;PGI&lt;/a&gt;.) The purpose of CUDA is to allow
+&lt;a href="http://www.pgroup.com/"&gt;PGI&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;The purpose of CUDA is to allow
 developers to program GPUs much more easily than previously, and since
 its …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
-Architecture)&lt;/a&gt;is an extension of
+&lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device Architecture)&lt;/a&gt;
+is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
 developed by &lt;a href="http://www.nvidia.com/page/home.html"&gt;NVIDIA&lt;/a&gt;, the
-&lt;a href="http://www.webopedia.com/TERM/G/GPU.html"&gt;GPU&lt;/a&gt;manufacturer, for
+&lt;a href="http://www.webopedia.com/TERM/G/GPU.html"&gt;GPU&lt;/a&gt; manufacturer, for
 programming their devices. (There is also a &lt;a href="https://www.pgroup.com/resources/cudafortran.htm"&gt;Fortran
 version&lt;/a&gt;, developed by
-&lt;a href="http://www.pgroup.com/"&gt;PGI&lt;/a&gt;.) The purpose of CUDA is to allow
+&lt;a href="http://www.pgroup.com/"&gt;PGI&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;The purpose of CUDA is to allow
 developers to program GPUs much more easily than previously, and since
 its inception in 2007, the use of GPUs has opened up beyond just
 graphics to more general, e.g. scientific, computing, which is often
@@ -5939,7 +5941,7 @@ of compilers and on a wide range of platforms. (A similar programming
 language is &lt;a href="https://www.khronos.org/opencl/"&gt;OpenCL&lt;/a&gt;, which as the name
 suggests, is an open standard, being developed by a consortium of
 organisations.) However, the &lt;a href="https://www.coursera.org/course/hetero"&gt;point has been
-made&lt;/a&gt;that CUDA is a useful
+made&lt;/a&gt; that CUDA is a useful
 teaching vehicle for the basic concepts of programming heterogeneous,
 many-core supercomputers.&lt;/p&gt;
 &lt;h2&gt;Heterogeneous Computing&lt;/h2&gt;
@@ -5947,22 +5949,22 @@ many-core supercomputers.&lt;/p&gt;
 (hosts) and GPUs (devices) working in conjunction, and that the
 application runs on the CPU host, handing specific, highly
 &lt;a href="http://queue.acm.org/detail.cfm?id=1365499"&gt;data-parallel&lt;/a&gt; parts of the
-program off to the device as and when appropriate. Also , we assume
+program off to the device as and when appropriate. Also, we assume
 initially that the CPU part is basically serial; that is, we're not
 combining CUDA with &lt;a href="http://www.mpi-forum.org/"&gt;MPI&lt;/a&gt; at this stage.&lt;/p&gt;
 &lt;p&gt;To exploit this kind of architecture, it's necessary to &lt;em&gt;kernelise&lt;/em&gt; the
 code: identify parts of it suitable for a high level of concurrency,
-turn them into kernel functions that are handed over to the GPU device.
+then turn them into kernel functions that are handed over to the GPU device.
 These will typically be portions of the code that are highly
 data-parallel - i.e. loops over large sets of data items where the
 iterations of the loops are independent of each other. A nice example is
-a simple "DAXPY" loop (i.e. a double precision &lt;em&gt;Ax&lt;/em&gt; + &lt;em&gt;y&lt;/em&gt; vector
-addition) or "DAXBY" loop (&lt;em&gt;Ax&lt;/em&gt; × &lt;em&gt;y&lt;/em&gt;), implemented here in C:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;void&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;vectorAdd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;double&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;double&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;double&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
-&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
-&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+a simple "DAXPY" loop (i.e. a double precision &lt;span class="math"&gt;\(Ax + y\)&lt;/span&gt; vector
+addition) or "DAXBY" loop (&lt;span class="math"&gt;\(Ax \times y\)&lt;/span&gt;), implemented here in C:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;vectorAdd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+        &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -5986,7 +5988,7 @@ non-GPU equivalent being a multithreaded &lt;a href="http://www.phy.ornl.gov/cse
 processor&lt;/a&gt;. The typical
 number of SMs in one GPU is between 2 and 30, varying from generation to
 generation. Each SM can support a maximum number of threads at one time,
-typically in the low thousands (e.g. 1,536) ; so overall the GPU can
+typically in the low thousands (e.g. 1,536); so overall the GPU can
 handle tens of thousands of threads simultaneously. A key aspect of the
 GPU is that, as well as being massively multithreaded, it also has a
 SIMD aspect. The threads assigned to a streaming multiprocessor are
@@ -5996,8 +5998,9 @@ fetched once and executed for all 32 threads at the same time. So all
 the threads in a particular warp are progressed in lock-step. Hence
 there are two types of parallelism at play in a GPU:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Multithreading (a kind of&lt;a href="en.wikipedia.org/wiki/SPMD"&gt;SPMD - single program/multiple data
-    parallelism&lt;/a&gt;), where different
+&lt;li&gt;Multithreading (a kind of
+    &lt;a href="en.wikipedia.org/wiki/SPMD"&gt;SPMD - single program/multiple data parallelism&lt;/a&gt;),
+    where different
     processors execute the same program independently, on different
     subsets of the data; and&lt;/li&gt;
 &lt;li&gt;SIMD (single instruction/multiple data), where each processor is
@@ -6016,7 +6019,7 @@ memory hierarchy of a GPU. As well as, and separate from, the host CPU's
 memory (and we'll ignore the
 &lt;a href="http://www.bottomupcs.com/memory.html"&gt;hierarchy&lt;/a&gt;there), the GPU device
 has several different levels of memory:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="gpu_layout" src="https://0x7df.files.wordpress.com/2015/02/gpu_layout.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPU Layout" src="http://0x7df.github.io/images/gpu_layout.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The main &lt;em&gt;global memory&lt;/em&gt; or &lt;em&gt;device memory&lt;/em&gt;, which is accessible to
     all the threads on the GPU,&lt;/li&gt;
@@ -6048,9 +6051,9 @@ grid is a three-dimensional construction of &lt;em&gt;l ×&lt;/em&gt; &lt;em&gt
 blocks, each of which is three-dimensional grouping of &lt;em&gt;i&lt;/em&gt; × &lt;em&gt;j&lt;/em&gt; × &lt;em&gt;k&lt;/em&gt;
 threads. The actual values of &lt;em&gt;i&lt;/em&gt;, &lt;em&gt;j&lt;/em&gt;, ... to be used are defined in
 the host code by the special CUDA statements:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;dim3 gridDims(l,m,n);  &lt;/span&gt;
-&lt;span class="err"&gt;dim3 blockDims(i,j,l);  &lt;/span&gt;
-&lt;span class="err"&gt;myKernel&amp;lt;&amp;lt;&amp;lt;gridDims,blockDims&amp;gt;&amp;gt;&amp;gt;(args);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;dim3&lt;/span&gt; &lt;span class="nf"&gt;gridDims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+&lt;span class="n"&gt;dim3&lt;/span&gt; &lt;span class="nf"&gt;blockDims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;j&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;l&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+&lt;span class="n"&gt;myKernel&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;gridDims&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;blockDims&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -6069,57 +6072,57 @@ lock-step) - this means that one warp is waiting for a memory access,
 the SM can switch to another in the meantime.&lt;/p&gt;
 &lt;h2&gt;Vector addition - host code&lt;/h2&gt;
 &lt;p&gt;The host C code running on the CPU will look something like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;char&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
-    &lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gridSize&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
-    &lt;span class="nb"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;hostX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;hostY&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
-    &lt;span class="nb"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gridSize&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;hostX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;hostY&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+    &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
     &lt;span class="n"&gt;cudaError_t&lt;/span&gt; &lt;span class="n"&gt;err&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="k"&gt;Allocate&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;populate&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;hostX&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;hostY&lt;/span&gt; &lt;span class="n"&gt;vectors&lt;/span&gt;
+    &lt;span class="c1"&gt;// Allocate and populate the hostX and hostY vectors&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="k"&gt;Allocate&lt;/span&gt; &lt;span class="n"&gt;GPU&lt;/span&gt; &lt;span class="n"&gt;memory&lt;/span&gt;  
-    &lt;span class="nb"&gt;int&lt;/span&gt; &lt;span class="k"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
-    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMalloc&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
-    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMalloc&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// Allocate GPU memory  &lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMalloc&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMalloc&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="k"&gt;Copy&lt;/span&gt; &lt;span class="n"&gt;memory&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;GPU&lt;/span&gt;  
-    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hostX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpyHostToDevice&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
-    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hostY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpyHostToDevice&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// Copy memory to the GPU  &lt;/span&gt;
+    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hostX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpyHostToDevice&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
+    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hostY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpyHostToDevice&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="k"&gt;Initialize&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;grid&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;block&lt;/span&gt; &lt;span class="n"&gt;dimensions&lt;/span&gt;  
+    &lt;span class="c1"&gt;// Initialize the grid and block dimensions  &lt;/span&gt;
     &lt;span class="n"&gt;dim3&lt;/span&gt; &lt;span class="n"&gt;gridDims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ceil&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;256&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
     &lt;span class="n"&gt;dim3&lt;/span&gt; &lt;span class="n"&gt;blockDims&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;256&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="n"&gt;Launch&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;GPU&lt;/span&gt; &lt;span class="n"&gt;Kernel&lt;/span&gt;  
+    &lt;span class="c1"&gt;// Launch the GPU Kernel  &lt;/span&gt;
     &lt;span class="n"&gt;myKernel&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;gridDims&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;blockDims&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="k"&gt;Copy&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;GPU&lt;/span&gt; &lt;span class="n"&gt;memory&lt;/span&gt; &lt;span class="n"&gt;back&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;CPU&lt;/span&gt;  
-    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hostY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpyDeviceToHost&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;// Copy the GPU memory back to the CPU  &lt;/span&gt;
+    &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hostY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cudaMemcpyDeviceToHost&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="k"&gt;Free&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;GPU&lt;/span&gt; &lt;span class="n"&gt;memory&lt;/span&gt;  
+    &lt;span class="c1"&gt;// Free the GPU memory  &lt;/span&gt;
     &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaFree&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deviceX&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  
     &lt;span class="n"&gt;err&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cudaFree&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deviceY&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="k"&gt;Do&lt;/span&gt; &lt;span class="n"&gt;something&lt;/span&gt; &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;solution&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;free&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;host&lt;/span&gt;  
-    &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="n"&gt;arrays&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt;  
-&lt;span class="err"&gt;}&lt;/span&gt;
+    &lt;span class="c1"&gt;// Do something with the solution, free the host  &lt;/span&gt;
+    &lt;span class="c1"&gt;// arrays, return  &lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;In the definition of the grid and block dimensions, we've chosen to have
-256 threads per block, and therefore &lt;em&gt;n&lt;/em&gt;/256 blocks (and we've used the
+256 threads per block, and therefore &lt;span class="math"&gt;\(n/256\)&lt;/span&gt; blocks (and we've used the
 ceiling function to make sure the number of blocks is rounded &lt;em&gt;up&lt;/em&gt; to
-the nearest integer if &lt;em&gt;n&lt;/em&gt; isn't divisible by 256). The grid and the
+the nearest integer if &lt;span class="math"&gt;\(n\)&lt;/span&gt; isn't divisible by 256). The grid and the
 blocks are one-dimensional, for simplicity.&lt;/p&gt;
 &lt;p&gt;Hopefully, the various CUDA functions that are called - &lt;code&gt;cudaMalloc&lt;/code&gt;,
 &lt;code&gt;cudaMemcpy&lt;/code&gt; and &lt;code&gt;cudaFree&lt;/code&gt; - are fairly self-explanatory, and are &lt;a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide"&gt;well
 documented&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Vector addition - kernel code&lt;/h2&gt;
 &lt;p&gt;The CUDA kernel function that is called looks like this:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;__global__&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;void&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;vecAdd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;float&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;float&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="nc"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;threadIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;blockDim&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;blockIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
-&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
-&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;__global__&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;vecAdd&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;threadIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;blockDim&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;blockIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
@@ -6129,15 +6132,15 @@ to distinguish between functions for the host CPU and kernel functions
 intended for the GPU; it does this using the keywords &lt;code&gt;__host__&lt;/code&gt; for the
 former, and either &lt;code&gt;__global__&lt;/code&gt; or &lt;code&gt;__device__&lt;/code&gt; for the latter. The
 second difference is the existence of the pre-defined variables
-&lt;code&gt;threadIdx&lt;/code&gt; and &lt;code&gt;blockIdx&lt;/code&gt;, which give the (&lt;em&gt;x&lt;/em&gt;, &lt;em&gt;y&lt;/em&gt;, &lt;em&gt;z&lt;/em&gt;) indices of
+&lt;code&gt;threadIdx&lt;/code&gt; and &lt;code&gt;blockIdx&lt;/code&gt;, which give the &lt;span class="math"&gt;\((x, y, z)\)&lt;/span&gt; indices of
 the thread within the block, and of the block within the grid,
-respectively; and &lt;code&gt;blockDim&lt;/code&gt;, which gives the (&lt;em&gt;x&lt;/em&gt;, &lt;em&gt;y&lt;/em&gt;, &lt;em&gt;z&lt;/em&gt;) dimensions
+respectively; and &lt;code&gt;blockDim&lt;/code&gt;, which gives the &lt;span class="math"&gt;\((x, y, z)\)&lt;/span&gt; dimensions
 of the block, as defined in the function call.&lt;/p&gt;
-&lt;p&gt;The &lt;code&gt;if&lt;/code&gt; statement is included for the case where &lt;em&gt;n&lt;/em&gt; is not divisible
+&lt;p&gt;The &lt;code&gt;if&lt;/code&gt; statement is included for the case where &lt;span class="math"&gt;\(n\)&lt;/span&gt; is not divisible
 by 256 and therefore we have &lt;code&gt;ceil(n/256)&lt;/code&gt; blocks, resulting in there
 being more threads than elements in the vector(s).&lt;/p&gt;
 &lt;h2&gt;Parallel efficiency&lt;/h2&gt;
-&lt;p&gt;If we ignore the multiplication by the constant &lt;em&gt;A&lt;/em&gt; for the moment, and
+&lt;p&gt;If we ignore the multiplication by the constant &lt;span class="math"&gt;\(A\)&lt;/span&gt; for the moment, and
 concentrate on the vector addition &lt;code&gt;y[i] = x[i] + y[i]&lt;/code&gt;, we can see that
 there are three memory accesses (two reads and a write) for each
 statement, and only one floating-point calculation (the addition). The
@@ -6165,7 +6168,7 @@ limiting factor is how quickly data can be transferred between the
 global memory and the processors.&lt;/p&gt;
 &lt;p&gt;For this function - simple vector addition - there isn't a great deal we
 can do about the fact that it's memory bound. You have to bring back
-each pair of elements from &lt;em&gt;x&lt;/em&gt; and &lt;em&gt;y&lt;/em&gt; from memory, then put the result
+each pair of elements of &lt;span class="math"&gt;\(x\)&lt;/span&gt; and &lt;span class="math"&gt;\(y\)&lt;/span&gt; from memory, then put the result
 back again - the number of memory operations is irreducible. For more
 complex operations, where pieces of data are typically used multiple
 times, the trick is to use shared memory, which is much, much faster
@@ -6187,28 +6190,28 @@ utilise &lt;a href="www.cs.iastate.edu/~prabhu/Tutorial/PIPELINE/instrLevParal.h
 In the kernel, the single floating-point operation has to wait for both
 of the input vector elements (&lt;code&gt;x[i]&lt;/code&gt; and &lt;code&gt;y[i]&lt;/code&gt;) to be retrieved from
 global memory before it can begin. Hence if the global memory reads and
-writes take &lt;em&gt;M&lt;/em&gt; clock cycles each, and the floating operation takes &lt;em&gt;N&lt;/em&gt;,
-then the total number of clock cycles is &lt;em&gt;(M+1)+N+M&lt;/em&gt; (assuming the
+writes take &lt;span class="math"&gt;\(M\)&lt;/span&gt; clock cycles each, and the floating operation takes &lt;span class="math"&gt;\(N\)&lt;/span&gt;,
+then the total number of clock cycles is &lt;span class="math"&gt;\((M+1)+N+M\)&lt;/span&gt; (assuming the
 second load begins one clock cycle after the first, but otherwise that
-they are done simultaneously). This is &lt;em&gt;2M+N+1&lt;/em&gt;, so to go through it &lt;em&gt;k&lt;/em&gt;
-times is &lt;em&gt;k(2M+N+1)&lt;/em&gt;.&lt;/p&gt;
+they are done simultaneously). This is &lt;span class="math"&gt;\(2M+N+1\)&lt;/span&gt;, so to go through it &lt;span class="math"&gt;\(k\)&lt;/span&gt;
+times is &lt;span class="math"&gt;\(k(2M+N+1)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;However, if within the kernel we loaded two values of each input vector,
 say &lt;code&gt;x[i+1]&lt;/code&gt; and &lt;code&gt;y[i+1]&lt;/code&gt; as well as &lt;code&gt;x[i]&lt;/code&gt; and &lt;code&gt;y[i]&lt;/code&gt;, then the
-computation of &lt;code&gt;x[i] + y[i]&lt;/code&gt; starts after &lt;em&gt;M+1&lt;/em&gt; cycles and takes &lt;em&gt;N&lt;/em&gt;
-cycles, so the result is written back to global memory after &lt;em&gt;(M+1)+N+M&lt;/em&gt;
-cycles as before; &lt;em&gt;but&lt;/em&gt;, x[i+1] can start to load after 2 cycles, and
-y[i+1] after 3 cycles, so computation of &lt;code&gt;x[i+1] + y[i+1]&lt;/code&gt; can begin
-after &lt;em&gt;M+3&lt;/em&gt; cycles, and still takes &lt;em&gt;N&lt;/em&gt;. Hence &lt;code&gt;y[i+1]&lt;/code&gt; has been written
-back to global memory after &lt;em&gt;(M+3)+N+M&lt;/em&gt; cycles. This means the whole
-operation to get &lt;code&gt;x[i] + y[i]&lt;/code&gt; and &lt;code&gt;x[i+1] + y[i+1]&lt;/code&gt; takes &lt;em&gt;(M+3)+N+M&lt;/em&gt;
+computation of &lt;code&gt;x[i] + y[i]&lt;/code&gt; starts after &lt;span class="math"&gt;\(M+1\)&lt;/span&gt; cycles and takes &lt;span class="math"&gt;\(N\)&lt;/span&gt;
+cycles, so the result is written back to global memory after &lt;span class="math"&gt;\((M+1)+N+M\)&lt;/span&gt;
+cycles as before; &lt;em&gt;but&lt;/em&gt;, &lt;code&gt;x[i+1]&lt;/code&gt; can start to load after 2 cycles, and
+&lt;code&gt;y[i+1]&lt;/code&gt; after 3 cycles, so computation of &lt;code&gt;x[i+1] + y[i+1]&lt;/code&gt; can begin
+after &lt;span class="math"&gt;\(M+3\)&lt;/span&gt; cycles, and still takes &lt;span class="math"&gt;\(N\)&lt;/span&gt;. Hence &lt;code&gt;y[i+1]&lt;/code&gt; has been written
+back to global memory after &lt;span class="math"&gt;\((M+3)+N+M\)&lt;/span&gt; cycles. This means the whole
+operation to get &lt;code&gt;x[i] + y[i]&lt;/code&gt; and &lt;code&gt;x[i+1] + y[i+1]&lt;/code&gt; takes &lt;span class="math"&gt;\((M+3)+N+M\)&lt;/span&gt;
 cycles overall, which is only 2 cycles more than it took to get only
-&lt;code&gt;x[i] + y[i]&lt;/code&gt; in the original kernel. For &lt;em&gt;k&lt;/em&gt; elements, it will take
-&lt;em&gt;k(2M+N+3)/2&lt;/em&gt;. This is basically going to take half the time of the
-original (as long as &lt;em&gt;2M+N&lt;/em&gt; is large enough that the constant doesn't
+&lt;code&gt;x[i] + y[i]&lt;/code&gt; in the original kernel. For &lt;span class="math"&gt;\(k\)&lt;/span&gt; elements, it will take
+&lt;span class="math"&gt;\(k(2M+N+3)/2\)&lt;/span&gt;. This is basically going to take half the time of the
+original (as long as &lt;span class="math"&gt;\(2M+N\)&lt;/span&gt; is large enough that the constant doesn't
 matter).&lt;/p&gt;
 &lt;p&gt;Nothing has been done to reduce the
-&lt;a href="http://www.hardwaresecrets.com/article/Understanding-RAM-Timings/26/2"&gt;latency&lt;/a&gt;of
-the memory operations, or to do fewer of them; instead they've been
+&lt;a href="http://www.hardwaresecrets.com/article/Understanding-RAM-Timings/26/2"&gt;latency&lt;/a&gt;
+of the memory operations, or to do fewer of them; instead they've been
 overlapped as much as possible. This is called &lt;em&gt;latency-hiding&lt;/em&gt; - doing
 other useful things while waiting for data to return from memory.
 Actually, at a different level, the concept of latency-hiding is also

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Introduction CUDA (Compute Unified Device Architecture)is an extension of C/C++, developed by NVIDIA, the GPUmanufacturer, for programming their devices. (There is also a Fortran version,...">
+        <meta name="description" content="Introduction CUDA (Compute Unified Device Architecture) is an extension of C/C++, developed by NVIDIA, the GPU manufacturer, for programming their devices. (There is also a Fortran version,...">
         <meta name="keywords" content="c, cuda, gpu, hpc, massively parallel, parallel computing, parallel programming">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -55,7 +55,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">CUDA basics part 1</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 05 April 2015, in category <a href="http://0x7df.github.io/category/computer-science.html">Computer science</a></p>
+                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 05 April 2015, modified Thu 03 September 2020, in category <a href="http://0x7df.github.io/category/computer-science.html">Computer science</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -75,14 +75,15 @@
         <!-- Content -->
     <div class="container content">
         <h2>Introduction</h2>
-<p><a href="http://en.wikipedia.org/wiki/CUDA">CUDA (Compute Unified Device
-Architecture)</a>is an extension of
+<p><a href="http://en.wikipedia.org/wiki/CUDA">CUDA (Compute Unified Device Architecture)</a>
+is an extension of
 <a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm">C/C++</a>,
 developed by <a href="http://www.nvidia.com/page/home.html">NVIDIA</a>, the
-<a href="http://www.webopedia.com/TERM/G/GPU.html">GPU</a>manufacturer, for
+<a href="http://www.webopedia.com/TERM/G/GPU.html">GPU</a> manufacturer, for
 programming their devices. (There is also a <a href="https://www.pgroup.com/resources/cudafortran.htm">Fortran
 version</a>, developed by
-<a href="http://www.pgroup.com/">PGI</a>.) The purpose of CUDA is to allow
+<a href="http://www.pgroup.com/">PGI</a>.)</p>
+<p>The purpose of CUDA is to allow
 developers to program GPUs much more easily than previously, and since
 its inception in 2007, the use of GPUs has opened up beyond just
 graphics to more general, e.g. scientific, computing, which is often
@@ -98,7 +99,7 @@ of compilers and on a wide range of platforms. (A similar programming
 language is <a href="https://www.khronos.org/opencl/">OpenCL</a>, which as the name
 suggests, is an open standard, being developed by a consortium of
 organisations.) However, the <a href="https://www.coursera.org/course/hetero">point has been
-made</a>that CUDA is a useful
+made</a> that CUDA is a useful
 teaching vehicle for the basic concepts of programming heterogeneous,
 many-core supercomputers.</p>
 <h2>Heterogeneous Computing</h2>
@@ -106,22 +107,22 @@ many-core supercomputers.</p>
 (hosts) and GPUs (devices) working in conjunction, and that the
 application runs on the CPU host, handing specific, highly
 <a href="http://queue.acm.org/detail.cfm?id=1365499">data-parallel</a> parts of the
-program off to the device as and when appropriate. Also , we assume
+program off to the device as and when appropriate. Also, we assume
 initially that the CPU part is basically serial; that is, we're not
 combining CUDA with <a href="http://www.mpi-forum.org/">MPI</a> at this stage.</p>
 <p>To exploit this kind of architecture, it's necessary to <em>kernelise</em> the
 code: identify parts of it suitable for a high level of concurrency,
-turn them into kernel functions that are handed over to the GPU device.
+then turn them into kernel functions that are handed over to the GPU device.
 These will typically be portions of the code that are highly
 data-parallel - i.e. loops over large sets of data items where the
 iterations of the loops are independent of each other. A nice example is
-a simple "DAXPY" loop (i.e. a double precision <em>Ax</em> + <em>y</em> vector
-addition) or "DAXBY" loop (<em>Ax</em> × <em>y</em>), implemented here in C:</p>
-<div class="highlight"><pre><span></span><code><span class="n">void</span><span class="w"> </span><span class="n">vectorAdd</span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="k">double</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="k">double</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="k">double</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w">  </span>
-<span class="w">        </span><span class="n">y</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="err">}</span><span class="w"></span>
-<span class="err">}</span><span class="w"></span>
+a simple "DAXPY" loop (i.e. a double precision <span class="math">\(Ax + y\)</span> vector
+addition) or "DAXBY" loop (<span class="math">\(Ax \times y\)</span>), implemented here in C:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">vectorAdd</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">double</span> <span class="n">a</span><span class="p">,</span> <span class="kt">double</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">double</span> <span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>  
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 
 
@@ -145,7 +146,7 @@ non-GPU equivalent being a multithreaded <a href="http://www.phy.ornl.gov/csep/c
 processor</a>. The typical
 number of SMs in one GPU is between 2 and 30, varying from generation to
 generation. Each SM can support a maximum number of threads at one time,
-typically in the low thousands (e.g. 1,536) ; so overall the GPU can
+typically in the low thousands (e.g. 1,536); so overall the GPU can
 handle tens of thousands of threads simultaneously. A key aspect of the
 GPU is that, as well as being massively multithreaded, it also has a
 SIMD aspect. The threads assigned to a streaming multiprocessor are
@@ -155,8 +156,9 @@ fetched once and executed for all 32 threads at the same time. So all
 the threads in a particular warp are progressed in lock-step. Hence
 there are two types of parallelism at play in a GPU:</p>
 <ol>
-<li>Multithreading (a kind of<a href="en.wikipedia.org/wiki/SPMD">SPMD - single program/multiple data
-    parallelism</a>), where different
+<li>Multithreading (a kind of
+    <a href="en.wikipedia.org/wiki/SPMD">SPMD - single program/multiple data parallelism</a>),
+    where different
     processors execute the same program independently, on different
     subsets of the data; and</li>
 <li>SIMD (single instruction/multiple data), where each processor is
@@ -175,7 +177,7 @@ memory hierarchy of a GPU. As well as, and separate from, the host CPU's
 memory (and we'll ignore the
 <a href="http://www.bottomupcs.com/memory.html">hierarchy</a>there), the GPU device
 has several different levels of memory:</p>
-<p><img alt="gpu_layout" src="https://0x7df.files.wordpress.com/2015/02/gpu_layout.png"></p>
+<p><img alt="GPU Layout" src="http://0x7df.github.io/images/gpu_layout.png"></p>
 <ul>
 <li>The main <em>global memory</em> or <em>device memory</em>, which is accessible to
     all the threads on the GPU,</li>
@@ -207,9 +209,9 @@ grid is a three-dimensional construction of <em>l ×</em> <em>m</em> × <em>n</
 blocks, each of which is three-dimensional grouping of <em>i</em> × <em>j</em> × <em>k</em>
 threads. The actual values of <em>i</em>, <em>j</em>, ... to be used are defined in
 the host code by the special CUDA statements:</p>
-<div class="highlight"><pre><span></span><code><span class="err">dim3 gridDims(l,m,n);  </span>
-<span class="err">dim3 blockDims(i,j,l);  </span>
-<span class="err">myKernel&lt;&lt;&lt;gridDims,blockDims&gt;&gt;&gt;(args);</span>
+<div class="highlight"><pre><span></span><code><span class="n">dim3</span> <span class="nf">gridDims</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">);</span>  
+<span class="n">dim3</span> <span class="nf">blockDims</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">l</span><span class="p">);</span>  
+<span class="n">myKernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">gridDims</span><span class="p">,</span><span class="n">blockDims</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
 </code></pre></div>
 
 
@@ -228,57 +230,57 @@ lock-step) - this means that one warp is waiting for a memory access,
 the SM can switch to another in the meantime.</p>
 <h2>Vector addition - host code</h2>
 <p>The host C code running on the CPU will look something like this:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span> <span class="n">argc</span><span class="p">,</span> <span class="nb">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="err">{</span>
-    <span class="nb">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">gridSize</span><span class="p">;</span>  
-    <span class="nb">float</span> <span class="o">*</span><span class="n">hostX</span><span class="p">,</span> <span class="o">*</span><span class="n">hostY</span><span class="p">;</span>  
-    <span class="nb">float</span> <span class="o">*</span><span class="n">deviceX</span><span class="p">,</span> <span class="o">*</span><span class="n">deviceY</span><span class="p">;</span>  
+<div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">gridSize</span><span class="p">;</span>  
+    <span class="kt">float</span> <span class="o">*</span><span class="n">hostX</span><span class="p">,</span> <span class="o">*</span><span class="n">hostY</span><span class="p">;</span>  
+    <span class="kt">float</span> <span class="o">*</span><span class="n">deviceX</span><span class="p">,</span> <span class="o">*</span><span class="n">deviceY</span><span class="p">;</span>  
     <span class="n">cudaError_t</span> <span class="n">err</span><span class="p">;</span>
 
-    <span class="o">//</span> <span class="k">Allocate</span> <span class="k">and</span> <span class="n">populate</span> <span class="n">the</span> <span class="n">hostX</span> <span class="k">and</span> <span class="n">hostY</span> <span class="n">vectors</span>
+    <span class="c1">// Allocate and populate the hostX and hostY vectors</span>
 
-    <span class="o">//</span> <span class="k">Allocate</span> <span class="n">GPU</span> <span class="n">memory</span>  
-    <span class="nb">int</span> <span class="k">size</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="n">sizeof</span><span class="p">(</span><span class="nb">float</span><span class="p">);</span>  
-    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMalloc</span><span class="p">((</span><span class="n">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">deviceX</span><span class="p">,</span> <span class="k">size</span><span class="p">);</span>  
-    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMalloc</span><span class="p">((</span><span class="n">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">deviceY</span><span class="p">,</span> <span class="k">size</span><span class="p">);</span>
+    <span class="c1">// Allocate GPU memory  </span>
+    <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">);</span>  
+    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMalloc</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">deviceX</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>  
+    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMalloc</span><span class="p">((</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">deviceY</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
 
-    <span class="o">//</span> <span class="k">Copy</span> <span class="n">memory</span> <span class="k">to</span> <span class="n">the</span> <span class="n">GPU</span>  
-    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">deviceX</span><span class="p">,</span> <span class="n">hostX</span><span class="p">,</span> <span class="k">size</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>  
-    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">deviceY</span><span class="p">,</span> <span class="n">hostY</span><span class="p">,</span> <span class="k">size</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+    <span class="c1">// Copy memory to the GPU  </span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">deviceX</span><span class="p">,</span> <span class="n">hostX</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>  
+    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">deviceY</span><span class="p">,</span> <span class="n">hostY</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
 
-    <span class="o">//</span> <span class="k">Initialize</span> <span class="n">the</span> <span class="n">grid</span> <span class="k">and</span> <span class="n">block</span> <span class="n">dimensions</span>  
+    <span class="c1">// Initialize the grid and block dimensions  </span>
     <span class="n">dim3</span> <span class="n">gridDims</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">n</span><span class="o">/</span><span class="mi">256</span><span class="p">),</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>  
     <span class="n">dim3</span> <span class="n">blockDims</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
 
-    <span class="o">//</span> <span class="n">Launch</span> <span class="n">the</span> <span class="n">GPU</span> <span class="n">Kernel</span>  
+    <span class="c1">// Launch the GPU Kernel  </span>
     <span class="n">myKernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">gridDims</span><span class="p">,</span><span class="n">blockDims</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">deviceX</span><span class="p">,</span> <span class="n">deviceY</span><span class="p">);</span>
 
-    <span class="o">//</span> <span class="k">Copy</span> <span class="n">the</span> <span class="n">GPU</span> <span class="n">memory</span> <span class="n">back</span> <span class="k">to</span> <span class="n">the</span> <span class="n">CPU</span>  
-    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">hostY</span><span class="p">,</span> <span class="n">deviceY</span><span class="p">,</span> <span class="k">size</span><span class="p">,</span> <span class="n">cudaMemcpyDeviceToHost</span><span class="p">);</span>
+    <span class="c1">// Copy the GPU memory back to the CPU  </span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">hostY</span><span class="p">,</span> <span class="n">deviceY</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">cudaMemcpyDeviceToHost</span><span class="p">);</span>
 
-    <span class="o">//</span> <span class="k">Free</span> <span class="n">the</span> <span class="n">GPU</span> <span class="n">memory</span>  
+    <span class="c1">// Free the GPU memory  </span>
     <span class="n">err</span> <span class="o">=</span> <span class="n">cudaFree</span><span class="p">(</span><span class="n">deviceX</span><span class="p">);</span>  
     <span class="n">err</span> <span class="o">=</span> <span class="n">cudaFree</span><span class="p">(</span><span class="n">deviceY</span><span class="p">);</span>
 
-    <span class="o">//</span> <span class="k">Do</span> <span class="n">something</span> <span class="k">with</span> <span class="n">the</span> <span class="n">solution</span><span class="p">,</span> <span class="k">free</span> <span class="n">the</span> <span class="k">host</span>  
-    <span class="o">//</span> <span class="n">arrays</span><span class="p">,</span> <span class="k">return</span>  
-<span class="err">}</span>
+    <span class="c1">// Do something with the solution, free the host  </span>
+    <span class="c1">// arrays, return  </span>
+<span class="p">}</span>
 </code></pre></div>
 
 
 <p>In the definition of the grid and block dimensions, we've chosen to have
-256 threads per block, and therefore <em>n</em>/256 blocks (and we've used the
+256 threads per block, and therefore <span class="math">\(n/256\)</span> blocks (and we've used the
 ceiling function to make sure the number of blocks is rounded <em>up</em> to
-the nearest integer if <em>n</em> isn't divisible by 256). The grid and the
+the nearest integer if <span class="math">\(n\)</span> isn't divisible by 256). The grid and the
 blocks are one-dimensional, for simplicity.</p>
 <p>Hopefully, the various CUDA functions that are called - <code>cudaMalloc</code>,
 <code>cudaMemcpy</code> and <code>cudaFree</code> - are fairly self-explanatory, and are <a href="http://docs.nvidia.com/cuda/cuda-c-programming-guide">well
 documented</a>.</p>
 <h2>Vector addition - kernel code</h2>
 <p>The CUDA kernel function that is called looks like this:</p>
-<div class="highlight"><pre><span></span><code><span class="n">__global__</span><span class="w"> </span><span class="n">void</span><span class="w"> </span><span class="n">vecAdd</span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="nc">float</span><span class="w"> </span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="nc">float</span><span class="w"> </span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w">  </span>
-<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span><span class="w">  </span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="n">y</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span><span class="w">  </span>
-<span class="err">}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">vecAdd</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>  
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>  
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>  
+<span class="p">}</span>
 </code></pre></div>
 
 
@@ -288,15 +290,15 @@ to distinguish between functions for the host CPU and kernel functions
 intended for the GPU; it does this using the keywords <code>__host__</code> for the
 former, and either <code>__global__</code> or <code>__device__</code> for the latter. The
 second difference is the existence of the pre-defined variables
-<code>threadIdx</code> and <code>blockIdx</code>, which give the (<em>x</em>, <em>y</em>, <em>z</em>) indices of
+<code>threadIdx</code> and <code>blockIdx</code>, which give the <span class="math">\((x, y, z)\)</span> indices of
 the thread within the block, and of the block within the grid,
-respectively; and <code>blockDim</code>, which gives the (<em>x</em>, <em>y</em>, <em>z</em>) dimensions
+respectively; and <code>blockDim</code>, which gives the <span class="math">\((x, y, z)\)</span> dimensions
 of the block, as defined in the function call.</p>
-<p>The <code>if</code> statement is included for the case where <em>n</em> is not divisible
+<p>The <code>if</code> statement is included for the case where <span class="math">\(n\)</span> is not divisible
 by 256 and therefore we have <code>ceil(n/256)</code> blocks, resulting in there
 being more threads than elements in the vector(s).</p>
 <h2>Parallel efficiency</h2>
-<p>If we ignore the multiplication by the constant <em>A</em> for the moment, and
+<p>If we ignore the multiplication by the constant <span class="math">\(A\)</span> for the moment, and
 concentrate on the vector addition <code>y[i] = x[i] + y[i]</code>, we can see that
 there are three memory accesses (two reads and a write) for each
 statement, and only one floating-point calculation (the addition). The
@@ -324,7 +326,7 @@ limiting factor is how quickly data can be transferred between the
 global memory and the processors.</p>
 <p>For this function - simple vector addition - there isn't a great deal we
 can do about the fact that it's memory bound. You have to bring back
-each pair of elements from <em>x</em> and <em>y</em> from memory, then put the result
+each pair of elements of <span class="math">\(x\)</span> and <span class="math">\(y\)</span> from memory, then put the result
 back again - the number of memory operations is irreducible. For more
 complex operations, where pieces of data are typically used multiple
 times, the trick is to use shared memory, which is much, much faster
@@ -346,28 +348,28 @@ utilise <a href="www.cs.iastate.edu/~prabhu/Tutorial/PIPELINE/instrLevParal.html
 In the kernel, the single floating-point operation has to wait for both
 of the input vector elements (<code>x[i]</code> and <code>y[i]</code>) to be retrieved from
 global memory before it can begin. Hence if the global memory reads and
-writes take <em>M</em> clock cycles each, and the floating operation takes <em>N</em>,
-then the total number of clock cycles is <em>(M+1)+N+M</em> (assuming the
+writes take <span class="math">\(M\)</span> clock cycles each, and the floating operation takes <span class="math">\(N\)</span>,
+then the total number of clock cycles is <span class="math">\((M+1)+N+M\)</span> (assuming the
 second load begins one clock cycle after the first, but otherwise that
-they are done simultaneously). This is <em>2M+N+1</em>, so to go through it <em>k</em>
-times is <em>k(2M+N+1)</em>.</p>
+they are done simultaneously). This is <span class="math">\(2M+N+1\)</span>, so to go through it <span class="math">\(k\)</span>
+times is <span class="math">\(k(2M+N+1)\)</span>.</p>
 <p>However, if within the kernel we loaded two values of each input vector,
 say <code>x[i+1]</code> and <code>y[i+1]</code> as well as <code>x[i]</code> and <code>y[i]</code>, then the
-computation of <code>x[i] + y[i]</code> starts after <em>M+1</em> cycles and takes <em>N</em>
-cycles, so the result is written back to global memory after <em>(M+1)+N+M</em>
-cycles as before; <em>but</em>, x[i+1] can start to load after 2 cycles, and
-y[i+1] after 3 cycles, so computation of <code>x[i+1] + y[i+1]</code> can begin
-after <em>M+3</em> cycles, and still takes <em>N</em>. Hence <code>y[i+1]</code> has been written
-back to global memory after <em>(M+3)+N+M</em> cycles. This means the whole
-operation to get <code>x[i] + y[i]</code> and <code>x[i+1] + y[i+1]</code> takes <em>(M+3)+N+M</em>
+computation of <code>x[i] + y[i]</code> starts after <span class="math">\(M+1\)</span> cycles and takes <span class="math">\(N\)</span>
+cycles, so the result is written back to global memory after <span class="math">\((M+1)+N+M\)</span>
+cycles as before; <em>but</em>, <code>x[i+1]</code> can start to load after 2 cycles, and
+<code>y[i+1]</code> after 3 cycles, so computation of <code>x[i+1] + y[i+1]</code> can begin
+after <span class="math">\(M+3\)</span> cycles, and still takes <span class="math">\(N\)</span>. Hence <code>y[i+1]</code> has been written
+back to global memory after <span class="math">\((M+3)+N+M\)</span> cycles. This means the whole
+operation to get <code>x[i] + y[i]</code> and <code>x[i+1] + y[i+1]</code> takes <span class="math">\((M+3)+N+M\)</span>
 cycles overall, which is only 2 cycles more than it took to get only
-<code>x[i] + y[i]</code> in the original kernel. For <em>k</em> elements, it will take
-<em>k(2M+N+3)/2</em>. This is basically going to take half the time of the
-original (as long as <em>2M+N</em> is large enough that the constant doesn't
+<code>x[i] + y[i]</code> in the original kernel. For <span class="math">\(k\)</span> elements, it will take
+<span class="math">\(k(2M+N+3)/2\)</span>. This is basically going to take half the time of the
+original (as long as <span class="math">\(2M+N\)</span> is large enough that the constant doesn't
 matter).</p>
 <p>Nothing has been done to reduce the
-<a href="http://www.hardwaresecrets.com/article/Understanding-RAM-Timings/26/2">latency</a>of
-the memory operations, or to do fewer of them; instead they've been
+<a href="http://www.hardwaresecrets.com/article/Understanding-RAM-Timings/26/2">latency</a>
+of the memory operations, or to do fewer of them; instead they've been
 overlapped as much as possible. This is called <em>latency-hiding</em> - doing
 other useful things while waiting for data to return from memory.
 Actually, at a different level, the concept of latency-hiding is also
