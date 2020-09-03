@@ -6,15 +6,12 @@ Tags: particle physics
 Slug: restarting-the-lhc
 Status: published
 
-[![The Large Hadron Collider/ATLAS at CERN from Flickr via
-Wylio](https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg "'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio")](https://www.flickr.com/photos/11304375@N07/2046228644/)
-© 2007 [Image
-Editor](https://www.flickr.com/people/11304375@N07/ "'The Large Hadron Collider/ATLAS at CERN' published on Flickr by Image Editor"),
-[Flickr](https://www.flickr.com/photos/11304375@N07/2046228644/ "from Flickr")
+[![The Large Hadron Collider/ATLAS at CERN from Flickr via Wylio](https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg "'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio")](https://www.flickr.com/photos/11304375@N07/2046228644/)
+© 2007 [Image Editor](https://www.flickr.com/people/11304375@N07/ "'The Large Hadron Collider/ATLAS at CERN' published on Flickr by Image Editor"), [Flickr](https://www.flickr.com/photos/11304375@N07/2046228644/ "from Flickr")
 |
 [CC-BY](https://creativecommons.org/licenses/by/2.0/ "Creative Commons Attribution License  https://creativecommons.org/licenses/by/2.0/")
-| [via
-Wylio](https://www.wylio.com "Easily credit free 'large hadron collider' pictures with Wylio.")[/caption]
+|
+[via Wylio](https://www.wylio.com "Easily credit free 'large hadron collider' pictures with Wylio.")
 
 As the [Large Hadron Collider
 (LHC)](http://home.web.cern.ch/topics/large-hadron-collider) gears up,
@@ -56,12 +53,12 @@ tera-electron-volts (probably easier just to say teravolts - people will
 know what you mean from the context). During the first run of LHC, up to
 the end of 2012, the proton beams had an energy of 3.5 TeV.
 
-Now, 1 TeV is $10^{12}$ - or 1 trillion - electron-volts, where an
+Now, 1 TeV is 10$^{12}$ - or 1 trillion - electron-volts, where an
 [electron-volt is defined as the amount of energy an electron would have
 if it were accelerated from rest through a potential difference of 1
 V](http://physics.stackexchange.com/questions/23294/how-much-is-1-electron-volt-ev).
-That turns out to be $1.6 × 10^{-19}$ J, so 3.5 TeV is $5.6 × 10^{-7}$ J. For
-context, a [Joule](www.thefreedictionary.com/joule)is the energy it
+That turns out to be 1.6 $\times$ 10$^{-19}$ J, so 3.5 TeV is 5.6 × 10$^{-7}$ J. For
+context, a [Joule](www.thefreedictionary.com/joule) is the energy it
 takes to lift 100 g (e.g. a small apple) through 1 m at the earth's
 surface; so, with an energy of 3.5 TeV each, it would take the combined
 energy of only 1.8 million of these protons to lift that apple...
@@ -73,13 +70,13 @@ of equal energy are directed head-on at each other. So the first run had
 a collision energy of 7 TeV, and the post-upgrade second run will have a
 collision energy of 13 TeV. The design intent was always that the LHC
 would achieve 14 TeV, but because of technological problems (discussed
-later), [CERN](home.web.cern.ch) have played it safe and kept the energy
+later), [CERN](home.web.cern.ch) have kept the energy
 lower.
 
 However, even the lower collision energy of 7 TeV was a big step up from
 what had been achieved before: the previous record, set by the 6.3 km
-[Tevatron](http://www.fnal.gov/pub/tevatron/) proton-
-[antiproton](www.britannica.com/EBchecked/topic/28507/antiproton)
+[Tevatron](http://www.fnal.gov/pub/tevatron/)
+proton-[antiproton](www.britannica.com/EBchecked/topic/28507/antiproton)
 collider at [Fermilab](www.fnal.gov) in Illinois, was 1.96 TeV. And, it
 turned out OK, because as we'll see, the LHC
 fulfilled its main purpose of discovering the Higgs boson.
@@ -97,13 +94,13 @@ acceleration](http://theory.uwinnipeg.ca/physics/circ/node6.html), so:
 
 $$ q_pvB = \frac{\gamma m_p v^2}{r} $$
 
-where *q*~p~ and *m*~p~ are the charge and mass of the proton,
-respectively, *v* is its speed, *B* is the magnetic field strength, *r*
-is the radius of the circular motion, and *γ* is the [relativistic
+where $q_p$ and $m_p$ are the charge and mass of the proton,
+respectively, $v$ is its speed, $B$ is the magnetic field strength, $r$
+is the radius of the circular motion, and $\gamma$ is the [relativistic
 factor](http://simple.wikipedia.org/wiki/Lorentz_factor) that we must
 include to account for the fact that the protons are moving at an
 appreciable fraction of the speed of light. The energy of a relativistic
-proton is *γm*~p~, so:
+proton is $\gamma m_p$, so:
 
 $$ q_p B = \frac{E v}{r} $$
 
@@ -139,8 +136,8 @@ Furthermore, protons, like electrons and other charged particles, emit
 [synchrotron
 radiation](http://abyss.uoregon.edu/~js/glossary/synchrotron_radiation.html)
 and thus lose energy when they travel in circular orbits such as in the
-LHC. The radiated power goes as the fourth power of *γ*, and since the
-energy of a relativistic proton is *γm*~p~, the rate of energy loss is
+LHC. The radiated power goes as the fourth power of $\gamma$, and since the
+energy of a relativistic proton is $\gamma m_p$, the rate of energy loss is
 proportional to the fourth power of the beam energy. Clearly also, the
 loss is worse for electrons and positrons, because of their lower mass,
 than for protons.
@@ -157,10 +154,10 @@ the particles are actually grouped into *bunches*, rather than being a
 continuous stream. If we imagine one beam as a stationary target and the
 other beam as impacting on it (with twice the nominal collision energy),
 it makes it easier to work out the collision rate. The number of protons
-in the target bunch is *n~T~*, and the cross-sectional area of each
-proton is *σ*, so the total area 'blocked out' by the target protons in
-*n~T~σ*. The actual cross-sectional area of the beam is *πr*^2^; so the
-proportion of this that's blocked out by protons is *n~T~σ* / *πr*^2^ -
+in the target bunch is $n_T$, and the cross-sectional area of each
+proton is $\sigma$, so the total area 'blocked out' by the target protons in
+$n_T\sigma$. The actual cross-sectional area of the beam is $\pi r^2$; so the
+proportion of this that's blocked out by protons is $n_T\sigma / \pi r^2$ -
 the rest of the area is empty space. (This assumes that the protons in
 the bunch are spaced out enough that, if we were to look along the
 length of the 'target' beam, none of the protons further away from us
@@ -168,26 +165,26 @@ would be hidden behind any others. Because the size of the protons is so
 astonishingly tiny relative to the cross-sectional area of the beam,
 this is a fair assumption).
 
-Now, when the incident bunch of protons, *n~I~*, impacts the target
+Now, when the incident bunch of protons, $n_I$, impacts the target
 bunch, the fraction of them that collide with a proton in the target is
 equal to the fraction of the total area that's blocked out by target
-protons; which we've already determined to be *n~T~σ* / *πr*^2^. Hence
-there are *n~I~n~T~σ* / *πr*^2^ collisions for every bunch crossing. If
-the rate of bunch crossings is *f*, then the overall collision rate is
-*fn~I~n~T~σ* / *πr*^2^.
+protons; which we've already determined to be $n_T\sigma / \pi r^2$. Hence
+there are $n_In_T\sigma / \pi r^2$ collisions for every bunch crossing. If
+the rate of bunch crossings is $f$, then the overall collision rate is
+$fn_In_T\sigma / \pi r^2$.
 
 [The cross-section for inelastic scatter is about 60
 mb](http://www.nature.com/ncomms/journal/v2/n9/full/ncomms1472.html),
-which is 6 × 10^-30^ m^2^. The diameter of the beam at the point of
+which is 6 × 10$^{-30}$ m$^2$. The diameter of the beam at the point of
 collision is about 16 microns, so its cross-sectional area is 2 ×
-10^-10^ m^2^. The ratio of these areas - and therefore the probability
-of a collision - is about 3 × 10^-20^. The value of *n* is about 10^11^,
+10$^{-10}$ m$^2$. The ratio of these areas - and therefore the probability
+of a collision - is about 3 × 10$^{-20}$. The value of $n$ is about 10$^{11}$,
 which suggests the number of collisions is 300 per bunch crossing. The
-bunches are crossed every 50 ns, so there are 2 × 10^7^ crossings per
+bunches are crossed every 50 ns, so there are 2 × 10$^7$ crossings per
 second, and so 6 billion collisions per second. (Actually, the figures
 are about a factor of 15 too high - [CERN reports the number of
 collision per bunch to be about 20 for bunch size of
-10](http://cds.cern.ch/record/1165534/files/CERN-Brochure-2009-003-Eng.pdf)^11^,
+10$^{11}$](http://cds.cern.ch/record/1165534/files/CERN-Brochure-2009-003-Eng.pdf),
 suggesting the cross-section of 60 mb used should be more like 4 mb.)
 
 It's conventional to take the proton cross-section, which is dependent
@@ -198,7 +195,7 @@ the *luminosity*, *L*:
 $$ L = \frac{f n_I n_T }{\pi r^2}  $$
 
 which is expressed in collisions per unit area per unit time, i.e. it
-has units of [T]^-1^ [L]^-2^.  With luminosity so defined, the collision
+has units of $[T]^{-1} [L]^{-2}$.  With luminosity so defined, the collision
 rate is just the product of the accelerator's luminosity and the
 cross-section of the proton collision (at the particular proton energy
 in question).
@@ -214,22 +211,22 @@ $$ N = \int_0^T R dt  $$
 
 $$ N = \sigma \int_0^T L dt  $$
 
-The integrated luminosity has units of inverse area, [L]^-2^.
+The integrated luminosity has units of inverse area, $[L]^{-2}$.
 
 The unit of area in typical use is the
 [*barn*](http://en.wikipedia.org/wiki/Barn_%28unit%29), which is
 approximately the cross-sectional area of the
-[uranium](http://education.jlab.org/itselemental/ele092.html)nucleus (1
-b is 10^-28^ m^2^). A *femtobarn* is 10^-15^ b, so 1 fb = 10^-43^ m^2^.
-Hence, the luminosity is measured in fb^-1^ s^-1^, which, when
+[uranium](http://education.jlab.org/itselemental/ele092.html) nucleus (1
+b is 10$^{-28}$ m$^2$). A *femtobarn* is 10$^{-15}$ b, so 1 fb = 10$^{-43}$ m$^2$.
+Hence, the luminosity is measured in fb$^{-1}$ s$^{-1}$, which, when
 multiplied by the collision cross-section in fb, gives a collision rate
-in s^-1^. The time-integrated luminosity is therefore typically
+in s$^{-1}$. The time-integrated luminosity is therefore typically
 expressed in *inverse femtobarns*. In fact, the total number of
 collisions is also usually quoted in inverse femtobarns (the true number
 of collisions would be this number times the cross-section of the
 proton-proton collision at whatever energy is being used). Given the
 actual cross-section of the proton-proton collision at 7 TeV collision
-energy, 1 fb^-1^ corresponds to about 8 × 10^12^ collisions.
+energy, 1 fb$^{-1}$ corresponds to about 8 × 10$^{12}$ collisions.
 
 What about the magnets?
 -----------------------
@@ -302,7 +299,7 @@ particle physics](http://www.superstringtheory.com/experm/exper2.html),
 which was conceived in the early 1970s and remains the best description
 of particle physics. The existence of the particle was predicted by
 [Peter Higgs](http://www.ph.ed.ac.uk/higgs/peter-higgs) in 1964, and
-Higgs (along with[Francois
+Higgs (along with [Francois
 Englert](http://www.ulb.ac.be/sciences/physth/people_FEnglert.html)) won
 the [Nobel Prize for physics in
 2013](http://www.nobelprize.org/nobel_prizes/physics/laureates/2013/),
@@ -391,11 +388,11 @@ What is 'five sigma' significance?
 The protons are collided in bunches, which causes pile-up - multiple
 collisions within each bunch crossing. Furthermore, protons aren't
 elementary particles like electrons, but are composite particles made of
-[quarks](http://www.physics.ox.ac.uk/documents/PUS/dis/fundam.htm)held
+[quarks](http://www.physics.ox.ac.uk/documents/PUS/dis/fundam.htm) held
 together by
 [gluons](http://math.ucr.edu/home/baez/physics/ParticleAndNuclear/gluons.html).
 Therefore, when they collide at these high energies, a lot of debris is
-created - [Feynman](www.feynman.com/)likened it to 'smashing garbage
+created - [Feynman](www.feynman.com/) likened it to 'smashing garbage
 cans into garbage cans'. This means there's a huge background of
 detected events that disguise the events actually being looked for;
 getting confidence about the signal in the light of this background
@@ -457,7 +454,7 @@ These modifications will allow the LHC to operate safely at the higher
 collision energy of 13 TeV.
 
 The other operational change will be that the bunch size will be reduced
-from 1.7 × 10^11^ protons per bunch down to 1.2 × 10^11^. This will
+from 1.7 × 10$^{11}$ protons per bunch down to 1.2 × 10$^{11}$. This will
 reduce 'pile-up', which is the simultaneous occurrence of numerous
 collisions, which are hard to disentangle from each other when analysing
 the data. However, the bunches will be collided every 25 ns instead of
