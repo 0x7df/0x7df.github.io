@@ -1,6 +1,6 @@
 Title: CUDA basics part 1
 Date: 2015-04-05 20:59
-Modified: 2015-04-05 20:59
+Modified: 2020-09-03 21:56
 Author: 0x7df
 Category: Computer science
 Tags: c, cuda, gpu, hpc, massively parallel, parallel computing, parallel programming
