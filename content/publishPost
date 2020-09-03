@@ -91,7 +91,7 @@ fi
 # post
 TWEET_BODY="${TWEET_BASE}${BASE_URL}/${POST_URL}.html"
 PAYLOAD="{\"value1\":\"${TWEET_BODY}\", \"value2\":\"test2\", \"value3\":\"test3\"}"
-APIKEY=$(cat ./file_containing_secret_key)
+APIKEY=$(cat ./file_containing_twitter_secret_key)
 #curl -X POST -H "Content-Type: application/json" \
 #    -d "${PAYLOAD}" \
 #    "https://maker.ifttt.com/trigger/0x7df_blog_post_published/with/key/${APIKEY}"
