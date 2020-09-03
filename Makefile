@@ -72,9 +72,9 @@ regenerate:
 
 serve:
 ifdef PORT
-	cd $(OUTPUTDIR) && $(PELICAN) -l $(PORT)
+	$(PELICAN) -l -p $(PORT)
 else
-	cd $(OUTPUTDIR) && $(PELICAN) -l
+	$(PELICAN) -l
 endif
 
 serve-global:
