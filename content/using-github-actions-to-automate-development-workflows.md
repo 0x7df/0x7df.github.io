@@ -1,7 +1,7 @@
 Title: Using GitHub Actions to automate development workflows
 Date: 2020-09-16 11:36
 Category:
-Modified: 2020-09-16 11:36
+Modified: 2020-09-16 11:40
 Tags: automation, ci, git, github, python, workflows, yaml
 Slug: 
 Author: 0x7df
