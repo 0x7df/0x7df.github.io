@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-16T23:47:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Changing DNS provider to stop ISP blocking websites</title><link href="http://0x7df.github.io/changing-dns-provider-to-stop-isp-blocking-websites.html" rel="alternate"></link><published>2020-09-16T23:47:00+01:00</published><updated>2020-09-16T23:47:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/changing-dns-provider-to-stop-isp-blocking-websites.html</id><summary type="html"></summary><content type="html">&lt;p&gt;ISPs provide their own domain name services (DNSs) - the look-up tables that
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-09-16T23:47:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Changing DNS provider to stop ISP blocking websites</title><link href="https://0x7df.github.io/changing-dns-provider-to-stop-isp-blocking-websites.html" rel="alternate"></link><published>2020-09-16T23:47:00+01:00</published><updated>2020-09-16T23:47:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/changing-dns-provider-to-stop-isp-blocking-websites.html</id><summary type="html"></summary><content type="html">&lt;p&gt;ISPs provide their own domain name services (DNSs) - the look-up tables that
 map human-readable URLs to IP addresses. This means that they can
 choose &lt;em&gt;not&lt;/em&gt; to include some entries. While this might be marketed as protection
 against malicious sites, it is also the case that privacy and security websites
@@ -14,7 +14,7 @@ such as Google DNS.&lt;/p&gt;
 &lt;a href="https://support.apple.com/en-gb/guide/mac-help/mh14127/mac"&gt;https://support.apple.com/en-gb/guide/mac-help/mh14127/mac&lt;/a&gt;. For Google DNS,
 the DNS server IP addresses are 8.8.8.8 and 8.8.4.4; either address can be used
 as a primary or a secondary DNS server. (See
-&lt;a href="https://developers.google.com/speed/public-dns/docs/using"&gt;https://developers.google.com/speed/public-dns/docs/using&lt;/a&gt;.)&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Using GitHub Actions to automate development workflows</title><link href="http://0x7df.github.io/using-github-actions-to-automate-development-workflows.html" rel="alternate"></link><published>2020-09-16T11:36:00+01:00</published><updated>2020-09-16T11:40:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/using-github-actions-to-automate-development-workflows.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Learn/test GitHub Actions for running CI/CD.&lt;/p&gt;
+&lt;a href="https://developers.google.com/speed/public-dns/docs/using"&gt;https://developers.google.com/speed/public-dns/docs/using&lt;/a&gt;.)&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Using GitHub Actions to automate development workflows</title><link href="https://0x7df.github.io/using-github-actions-to-automate-development-workflows.html" rel="alternate"></link><published>2020-09-16T11:36:00+01:00</published><updated>2020-09-16T11:40:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/using-github-actions-to-automate-development-workflows.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Learn/test GitHub Actions for running CI/CD.&lt;/p&gt;
 &lt;h2&gt;Setting up GitHub Actions&lt;/h2&gt;
 &lt;p&gt;To start, add a directory in your repo at &lt;code&gt;.github/workflows&lt;/code&gt;. GitHub will
 automatically detect this when it's pushed.&lt;/p&gt;
@@ -212,7 +212,7 @@ repository.&lt;/p&gt;
 &lt;p&gt;GitHub Actions Marketplace: &lt;a href="https://github.com/marketplace?type=actions"&gt;https://github.com/marketplace?type=actions&lt;/a&gt; to
   browse existing solutions&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</content><category term="misc"></category><category term="automation"></category><category term="ci"></category><category term="git"></category><category term="github"></category><category term="python"></category><category term="workflows"></category><category term="yaml"></category></entry><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
+&lt;/ul&gt;</content><category term="misc"></category><category term="automation"></category><category term="ci"></category><category term="git"></category><category term="github"></category><category term="python"></category><category term="workflows"></category><category term="yaml"></category></entry><entry><title>Creating a Conda env from a requirements.txt file</title><link href="https://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda create --name &amp;lt;new_env&amp;gt; pip
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -224,7 +224,7 @@ pip install -r requirements.txt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;(From &lt;a href="http://datumorphism.com/til/programming/python/python-anaconda-install-requirements"&gt;Datumorphism&lt;/a&gt;.)&lt;/p&gt;</content><category term="misc"></category><category term="TIL Anaconda Python"></category></entry><entry><title>GitGraph.js</title><link href="http://0x7df.github.io/gitgraphjs.html" rel="alternate"></link><published>2019-07-29T13:39:00+01:00</published><updated>2019-07-29T13:39:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-29:/gitgraphjs.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The documentation is at &lt;a href="https://gitgraphjs.com"&gt;https://gitgraphjs.com&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;(From &lt;a href="http://datumorphism.com/til/programming/python/python-anaconda-install-requirements"&gt;Datumorphism&lt;/a&gt;.)&lt;/p&gt;</content><category term="misc"></category><category term="TIL Anaconda Python"></category></entry><entry><title>GitGraph.js</title><link href="https://0x7df.github.io/gitgraphjs.html" rel="alternate"></link><published>2019-07-29T13:39:00+01:00</published><updated>2019-07-29T13:39:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-29:/gitgraphjs.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The documentation is at &lt;a href="https://gitgraphjs.com"&gt;https://gitgraphjs.com&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Installing GitGraph.js&lt;/h2&gt;
 &lt;p&gt;The documentation recommends installation via:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;npm install @gitgraph/js
@@ -278,7 +278,7 @@ installation.&lt;/p&gt;
 
 
 &lt;p&gt;which renders as:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Basic example of a GitGraph-generated image" src="http://0x7df.github.io/images/GitGraph_basic_example.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Basic example of a GitGraph-generated image" src="https://0x7df.github.io/images/GitGraph_basic_example.png"&gt;&lt;/p&gt;
 &lt;p&gt;Note that random commit hashes are generated automatically when the page is
 rendered, so when you refresh the page they change.&lt;/p&gt;
 &lt;h2&gt;Use in presentations rather than on web pages&lt;/h2&gt;
@@ -424,14 +424,14 @@ open http://localhost:8080/test.html?print-pdf
 &lt;p&gt;Then use the 'Save as PDF' destination in the browser's 'Print' menu. This only
 works in Google Chrome and Chromium. The PDF export of the &lt;a href="https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b"&gt;example mentioned
 above&lt;/a&gt; is
-&lt;a href="http://0x7df.github.io/attachments/test_gitgraphjs_in_revealjs.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 7</title><link href="http://0x7df.github.io/openmp-7.html" rel="alternate"></link><published>2019-07-27T20:32:00+01:00</published><updated>2019-07-27T20:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-7.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Synchronisation&lt;/h2&gt;
-&lt;p&gt;We touched in &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;this post&lt;/a&gt; on the need to sychronise
+&lt;a href="https://0x7df.github.io/attachments/test_gitgraphjs_in_revealjs.pdf"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 7</title><link href="https://0x7df.github.io/openmp-7.html" rel="alternate"></link><published>2019-07-27T20:32:00+01:00</published><updated>2019-07-27T20:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-7.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Synchronisation&lt;/h2&gt;
+&lt;p&gt;We touched in &lt;a href="https://0x7df.github.io/openmp-1.html"&gt;this post&lt;/a&gt; on the need to sychronise
 OpenMP threads, to ensure correctness. For example, we saw that updates to
 shared variables are not truly atomic, leading to the potential for race
 conditions. A sequence of actions on shared data, such as
 updating an array with new values then then using it in a subsequent
 computation, might need to be synchronised to ensure that all threads complete their
-writes before any threads go on to the next stage. In &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;this
+writes before any threads go on to the next stage. In &lt;a href="https://0x7df.github.io/openmp-2.html"&gt;this
 post&lt;/a&gt; we noted that the &lt;code&gt;!$OMP END PARALLEL&lt;/code&gt; directive
 is an implicit synchronisation point, which OpenMP ensures that all threads
 reach before any thread is allowed to continue. Other directives are implicit
@@ -671,13 +671,13 @@ no longer required.&lt;/p&gt;
 &lt;hr/&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -685,15 +685,15 @@ no longer required.&lt;/p&gt;
 &lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 6</title><link href="http://0x7df.github.io/openmp-6.html" rel="alternate"></link><published>2019-07-27T20:31:00+01:00</published><updated>2019-07-27T20:31:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-6.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Work-sharing constructs&lt;/h2&gt;
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 6</title><link href="https://0x7df.github.io/openmp-6.html" rel="alternate"></link><published>2019-07-27T20:31:00+01:00</published><updated>2019-07-27T20:31:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-6.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Work-sharing constructs&lt;/h2&gt;
 &lt;p&gt;As
-&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;we've&lt;/a&gt;
-&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;seen&lt;/a&gt;
-&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;in&lt;/a&gt;
-&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;previous&lt;/a&gt;
-&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;posts&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;we've&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;seen&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;in&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;previous&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;posts&lt;/a&gt;
 , in a parallel region, all threads execute the same code.
-&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;When we parallelised the calculation of the Mandelbrot set&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;When we parallelised the calculation of the Mandelbrot set&lt;/a&gt;
 , we had to devise manual ways of dividing the work amongst the threads
 ourselves.&lt;/p&gt;
 &lt;p&gt;However, OpenMP provides additional directives, called &lt;em&gt;work-sharing
@@ -715,7 +715,7 @@ source of parallelism in many, particularly scientific, applications.&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;FIRSTPRIVATE&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;REDUCTION&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;clauses. Recall from &lt;a href="http://0x7df.github.io/openmp-3.html"&gt;earlier&lt;/a&gt; that loop counters are
+&lt;p&gt;clauses. Recall from &lt;a href="https://0x7df.github.io/openmp-3.html"&gt;earlier&lt;/a&gt; that loop counters are
 private by default (in Fortran).&lt;/p&gt;
 &lt;p&gt;Since the &lt;code&gt;!OMP PARALLEL&lt;/code&gt; / &lt;code&gt;$OMP DO&lt;/code&gt; combination is so common, there's a
 shorthand version:&lt;/p&gt;
@@ -757,12 +757,12 @@ size &lt;code&gt;n&lt;/code&gt;, and distributed cyclically to the the threads; 
 &lt;em&gt;block cyclic&lt;/em&gt; schedule. If a chunk size is not specified, the one chunk per
 thread is created, of approximately equal size; this is a &lt;em&gt;block&lt;/em&gt; schedule.&lt;/p&gt;
 &lt;p&gt;In the manual work distribution in the
-&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;Mandelbrot set exercise&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;Mandelbrot set exercise&lt;/a&gt;
 , the first, poorer way we chose of distributing the threads was equivalent to
 &lt;code&gt;SCHEDULE(STATIC)&lt;/code&gt;, and the second more successful attempt was equivalent to
 &lt;code&gt;SCHEDULE(STATIC, 1)&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Looking at the run times, we can see this:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.001.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Alt text" src="https://0x7df.github.io/images/mandelbrot_openmp.001.png"&gt;&lt;/p&gt;
 &lt;p&gt;The figure shows speed-ups (lower is better) compared with the serial version
 as a function of chunk size, for different schedules. The manual block schedule
 is the green curve and the manual cyclic schedule is the green curve. Use of
@@ -778,7 +778,7 @@ finishes its chunk, it is assigned the next chunk in the list. If no chunk size
 is specified, it defaults to one.&lt;/p&gt;
 &lt;p&gt;As might be expected, this schedule improves the overall performance slightly.
 Not only this, but the performance is less sensitive to chunk size.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.002.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Alt text" src="https://0x7df.github.io/images/mandelbrot_openmp.002.png"&gt;&lt;/p&gt;
 &lt;p&gt;Here we've also added single points for both the static and dynamic schedules,
 to indicate the performance when no chunk size is specified.&lt;/p&gt;
 &lt;h4&gt;&lt;code&gt;GUIDED&lt;/code&gt;&lt;/h4&gt;
@@ -822,13 +822,13 @@ and low overheads.&lt;/p&gt;
 &lt;hr/&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -891,9 +891,9 @@ material under the following terms: you must give appropriate credit, provide a 
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 5</title><link href="http://0x7df.github.io/openmp-5.html" rel="alternate"></link><published>2019-07-27T20:30:00+01:00</published><updated>2019-07-27T20:30:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-5.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Exercise - determine the area of a Mandelbrot set&lt;/h2&gt;
+&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 5</title><link href="https://0x7df.github.io/openmp-5.html" rel="alternate"></link><published>2019-07-27T20:30:00+01:00</published><updated>2019-07-27T20:30:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-5.html</id><summary type="html"></summary><content type="html">&lt;h2&gt;Exercise - determine the area of a Mandelbrot set&lt;/h2&gt;
 &lt;h3&gt;Overview&lt;/h3&gt;
-&lt;p&gt;In &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;several&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-2.html"&gt;previous&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-3.html"&gt;posts&lt;/a&gt; &lt;a href="http://0x7df.github.io/openmp-4.html"&gt;...&lt;/a&gt;, the basics of OpenMP were described.&lt;/p&gt;
+&lt;p&gt;In &lt;a href="https://0x7df.github.io/openmp-1.html"&gt;several&lt;/a&gt; &lt;a href="https://0x7df.github.io/openmp-2.html"&gt;previous&lt;/a&gt; &lt;a href="https://0x7df.github.io/openmp-3.html"&gt;posts&lt;/a&gt; &lt;a href="https://0x7df.github.io/openmp-4.html"&gt;...&lt;/a&gt;, the basics of OpenMP were described.&lt;/p&gt;
 &lt;p&gt;As an exercise, let's determine the area of a Mandelbrot set using a simple 
 algorithm parallelised with OpenMP.&lt;/p&gt;
 &lt;h3&gt;Plotting a Mandelbrot set&lt;/h3&gt;
@@ -1029,7 +1029,7 @@ coordinates are printed to allow plotting.&lt;/p&gt;
 
 
 &lt;p&gt;gives:
-&lt;img alt="Alt Text" src="http://0x7df.github.io/images/mandelbrot_serial.png"&gt;
+&lt;img alt="Alt Text" src="https://0x7df.github.io/images/mandelbrot_serial.png"&gt;
 which seems in the right ball park.&lt;/p&gt;
 &lt;h3&gt;Initial parallelism&lt;/h3&gt;
 &lt;p&gt;We now make a first attempt to add OpenMP. So far, we've covered the &lt;code&gt;!$OMP
@@ -1149,13 +1149,13 @@ thread.&lt;/p&gt;
 &lt;hr/&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1218,7 +1218,7 @@ material under the following terms: you must give appropriate credit, provide a 
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 4</title><link href="http://0x7df.github.io/openmp-4.html" rel="alternate"></link><published>2019-07-27T20:29:00+01:00</published><updated>2019-07-27T20:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-4.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Reductions&lt;/h1&gt;
+&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 4</title><link href="https://0x7df.github.io/openmp-4.html" rel="alternate"></link><published>2019-07-27T20:29:00+01:00</published><updated>2019-07-27T20:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-4.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Reductions&lt;/h1&gt;
 &lt;p&gt;As mentioned in the &lt;a href=""&gt;overview post&lt;/a&gt;, a &lt;em&gt;reduction&lt;/em&gt; operation produces a
 single value from a set of values, e.g. the sum, product, maximum, minimum,
 etc.&lt;/p&gt;
@@ -1275,13 +1275,13 @@ reduction is performed on each element of the array.&lt;/p&gt;
 &lt;hr/&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1289,7 +1289,7 @@ reduction is performed on each element of the array.&lt;/p&gt;
 &lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 3</title><link href="http://0x7df.github.io/openmp-3.html" rel="alternate"></link><published>2019-07-27T20:28:00+01:00</published><updated>2019-07-27T20:28:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-3.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;OpenMP clauses&lt;/h1&gt;
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 3</title><link href="https://0x7df.github.io/openmp-3.html" rel="alternate"></link><published>2019-07-27T20:28:00+01:00</published><updated>2019-07-27T20:28:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-3.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;OpenMP clauses&lt;/h1&gt;
 &lt;p&gt;The &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can have further information added in the form of
 &lt;em&gt;clauses&lt;/em&gt;, which can be comma- or space-separated:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;!$OMP PARALLEL &amp;lt;clauses...&amp;gt;&lt;/span&gt;
@@ -1538,13 +1538,13 @@ the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can also have the followin
 &lt;hr/&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1552,7 +1552,7 @@ the &lt;code&gt;!$OMP PARALLEL&lt;/code&gt; directive can also have the followin
 &lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 1</title><link href="http://0x7df.github.io/openmp-1.html" rel="alternate"></link><published>2019-07-27T20:27:00+01:00</published><updated>2019-07-27T20:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-1.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Overview&lt;/h1&gt;
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 1</title><link href="https://0x7df.github.io/openmp-1.html" rel="alternate"></link><published>2019-07-27T20:27:00+01:00</published><updated>2019-07-27T20:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-1.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Overview&lt;/h1&gt;
 &lt;p&gt;OpenMP is a set of extensions to Fortran, C and C++, consisting of compiler
 directives, library routines, and environment variables, that allows the
 programming of shared-memory applications. Typically it allows parallelism to
@@ -1657,13 +1657,13 @@ or it might be equal to the number of cores in the system.)&lt;/p&gt;
 &lt;hr/&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1671,8 +1671,8 @@ or it might be equal to the number of cores in the system.)&lt;/p&gt;
 &lt;p&gt;This work is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US"&gt;http://creativecommons.org/licenses/by-nc-sa/4.0/deed.en_US&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This means you are free to copy and redistribute the material and adapt and build on the
-material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 2</title><link href="http://0x7df.github.io/openmp-2.html" rel="alternate"></link><published>2019-07-27T20:27:00+01:00</published><updated>2019-07-27T20:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-2.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Parallel regions&lt;/h1&gt;
-&lt;p&gt;In the example in the &lt;a href="http://0x7df.github.io/openmp-1.html"&gt;first post&lt;/a&gt;:&lt;/p&gt;
+material under the following terms: you must give appropriate credit, provide a link to the license and indicate if changes were made. If you adapt or build on the material you must distribute your work under the same license as the original.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>OpenMP 2</title><link href="https://0x7df.github.io/openmp-2.html" rel="alternate"></link><published>2019-07-27T20:27:00+01:00</published><updated>2019-07-27T20:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-07-27:/openmp-2.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Parallel regions&lt;/h1&gt;
+&lt;p&gt;In the example in the &lt;a href="https://0x7df.github.io/openmp-1.html"&gt;first post&lt;/a&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;program &lt;/span&gt;&lt;span class="n"&gt;hello_world&lt;/span&gt;
     &lt;span class="c"&gt;!$OMP PARALLEL&lt;/span&gt;
     &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello world!&amp;quot;&lt;/span&gt;
@@ -1855,13 +1855,13 @@ $ ./serial_thread_number
 &lt;hr/&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-1.html"&gt;OpenMP 1 (Overview, Implementaion)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-2.html"&gt;OpenMP 2 (Parallel regions, OpenMP functions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-3.html"&gt;OpenMP 3 (OpenMP clauses)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-4.html"&gt;OpenMP 4 (Reductions)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-5.html"&gt;OpenMP 5 (Exercise: Madelbrot set)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-6.html"&gt;OpenMP 6 (Work-sharing constructs)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://0x7df.github.io/openmp-7.html"&gt;OpenMP 7 (Synchronisation)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr/&gt;
 
@@ -1924,7 +1924,7 @@ material under the following terms: you must give appropriate credit, provide a 
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>Bash and Ksh function distinctions</title><link href="http://0x7df.github.io/bash-and-ksh-function-distinctions.html" rel="alternate"></link><published>2019-03-24T11:03:00+00:00</published><updated>2019-03-24T11:03:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-03-24:/bash-and-ksh-function-distinctions.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Bash and Ksh function distinctions&lt;/h1&gt;
+&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>Bash and Ksh function distinctions</title><link href="https://0x7df.github.io/bash-and-ksh-function-distinctions.html" rel="alternate"></link><published>2019-03-24T11:03:00+00:00</published><updated>2019-03-24T11:03:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2019-03-24:/bash-and-ksh-function-distinctions.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Bash and Ksh function distinctions&lt;/h1&gt;
 &lt;p&gt;There are subtle differences in function declaration and behaviour between Bash
 and Ksh.&lt;/p&gt;
 &lt;h2&gt;Function declaration&lt;/h2&gt;
@@ -2169,7 +2169,7 @@ may still be other differences) is to use the bracket-style declaration:&lt;/p&g
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;for functions.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Upstream differencing and the semi-Lagrangian scheme</title><link href="http://0x7df.github.io/upstream-differencing-and-the-semi-lagrangian-scheme.html" rel="alternate"></link><published>2018-05-31T22:46:00+01:00</published><updated>2018-05-31T22:46:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-31:/upstream-differencing-and-the-semi-lagrangian-scheme.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The upstream differencing technique is probably the simplest numerical
+&lt;p&gt;for functions.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Upstream differencing and the semi-Lagrangian scheme</title><link href="https://0x7df.github.io/upstream-differencing-and-the-semi-lagrangian-scheme.html" rel="alternate"></link><published>2018-05-31T22:46:00+01:00</published><updated>2018-05-31T22:46:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-31:/upstream-differencing-and-the-semi-lagrangian-scheme.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The upstream differencing technique is probably the simplest numerical
 discretisation technique; take as an example the linear advection equation:&lt;/p&gt;
 &lt;div class="math"&gt;$$
 \frac{\partial y}{\partial t} + u_0 \frac{\partial y}{\partial x} = 0
@@ -2307,14 +2307,14 @@ accuracy is as usual a different matter).&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>Radiation pressure and the Stefan-Boltzmann law (2/4)</title><link href="http://0x7df.github.io/radiation-pressure-and-the-stefan-boltzmann-law-24.html" rel="alternate"></link><published>2018-05-25T13:22:00+01:00</published><updated>2018-05-25T13:22:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/radiation-pressure-and-the-stefan-boltzmann-law-24.html</id><summary type="html">&lt;p&gt;In a
-&lt;a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post on Kirchhoff's law (1859) and black bodies&lt;/a&gt;
+&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>Radiation pressure and the Stefan-Boltzmann law (2/4)</title><link href="https://0x7df.github.io/radiation-pressure-and-the-stefan-boltzmann-law-24.html" rel="alternate"></link><published>2018-05-25T13:22:00+01:00</published><updated>2018-05-25T13:22:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/radiation-pressure-and-the-stefan-boltzmann-law-24.html</id><summary type="html">&lt;p&gt;In a
+&lt;a href="https://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post on Kirchhoff's law (1859) and black bodies&lt;/a&gt;
 , we saw
 that the energy density of thermal radiation is a function of
 temperature only. The first measurements of thermal radiation (from hot
 platinum wire) were made by Tyndall, and from his results Stefan
 concluded, in 1879, that the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In a
-&lt;a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post on Kirchhoff's law (1859) and black bodies&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post on Kirchhoff's law (1859) and black bodies&lt;/a&gt;
 , we saw
 that the energy density of thermal radiation is a function of
 temperature only. The first measurements of thermal radiation (from hot
@@ -2375,7 +2375,7 @@ S/\partial V\right)_T - p $$&lt;/div&gt;
 &lt;p&gt;(i.e. the energy density in the cavity), since increasing the size of
 the cavity just adds more radiation at the same density (we proved in
 the
-&lt;a href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post&lt;/a&gt;
+&lt;a href="https://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html"&gt;previous post&lt;/a&gt;
 that the energy density is constant throughout and
 depends only on the temperature of the walls, not on the size or shape
 or material). Hence:&lt;/p&gt;
@@ -2513,7 +2513,7 @@ the enclosure - &lt;span class="math"&gt;\( T_2\)&lt;/span&gt; is constant.))&lt
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Uncategorized"></category><category term="physics"></category><category term="thermodynamics"></category></entry><entry><title>Grep, regex and sed inline replace on multiple files</title><link href="http://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html" rel="alternate"></link><published>2018-05-25T09:53:00+01:00</published><updated>2018-05-25T09:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/grep-regex-and-sed-inline-replace-on-multiple-files.html</id><summary type="html">&lt;p&gt;I'm importing WordPress blog posts into &lt;a href="https://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;, in which I'm using the
+&lt;/script&gt;</content><category term="Uncategorized"></category><category term="physics"></category><category term="thermodynamics"></category></entry><entry><title>Grep, regex and sed inline replace on multiple files</title><link href="https://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html" rel="alternate"></link><published>2018-05-25T09:53:00+01:00</published><updated>2018-05-25T09:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2018-05-25:/grep-regex-and-sed-inline-replace-on-multiple-files.html</id><summary type="html">&lt;p&gt;I'm importing WordPress blog posts into &lt;a href="https://blog.getpelican.com/"&gt;Pelican&lt;/a&gt;, in which I'm using the
 &lt;a href="https://github.com/getpelican/pelican-plugins/tree/master/render_math"&gt;render-math plugin&lt;/a&gt;. This expects in-line equations to be delimited by single
 dollar signs, and displayed equations to be delimited by double dollar signs,
 e.g.:&lt;/p&gt;
@@ -2641,7 +2641,7 @@ in-line equations), with &lt;code&gt;$$&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;The difference here is that we have now had to escape the dollar sign - &lt;code&gt;\$&lt;/code&gt;
 rather than just &lt;code&gt;$&lt;/code&gt; - because we have added a final &lt;code&gt;$&lt;/code&gt; which is the special
-character to match the end of a line.&lt;/p&gt;</content><category term="Uncategorized"></category><category term="bash"></category><category term="computing"></category><category term="linux"></category><category term="programming"></category></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="http://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-08-06T18:55:00+01:00</published><updated>2017-08-06T18:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-08-06:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
+character to match the end of a line.&lt;/p&gt;</content><category term="Uncategorized"></category><category term="bash"></category><category term="computing"></category><category term="linux"></category><category term="programming"></category></entry><entry><title>Scripting Safari's Export to PDF function on a Mac</title><link href="https://0x7df.github.io/scripting-safaris-export-to-pdf-function-on-a-mac.html" rel="alternate"></link><published>2017-08-06T18:55:00+01:00</published><updated>2017-08-06T18:55:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-08-06:/scripting-safaris-export-to-pdf-function-on-a-mac.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Safari has an 'Export to PDF...' item in the 'File' menu which, if you use it a
 lot, is something worth automating.&lt;/p&gt;
 &lt;p&gt;Thanks to &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt; on
 &lt;a href="http://macscripter.net"&gt;MacScripter&lt;/a&gt; this is easy to do using AppleScript.&lt;/p&gt;
@@ -2650,7 +2650,7 @@ lot, is something worth automating.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Open 'Launchpad' and begin typing 'script editor' into the search bar at
    the top to find this app.
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad.png"&gt;&lt;/li&gt;
+   &lt;img alt="Photo" src="https://0x7df.github.io/images/screenshot_launchpad.png"&gt;&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Paste the following script:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;set SaveFolderPath to &amp;quot;~/Documents/Test_PDF_Save_Folder/&amp;quot;&lt;/span&gt;
@@ -2678,7 +2678,7 @@ lot, is something worth automating.&lt;/p&gt;
 
 
 &lt;p&gt;into the Script Editor:
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_scripteditor.png"&gt;
+   &lt;img alt="Photo" src="https://0x7df.github.io/images/screenshot_scripteditor.png"&gt;
    This is slightly different from the script at
    &lt;a href="http://macscripter.net/viewtopic.php?id=41654"&gt;this thread&lt;/a&gt;, in that it
    hard-wires a save folder instead of bringing up a dialogue box each time,
@@ -2701,18 +2701,18 @@ location.&lt;/p&gt;
 This uses the 'Automator' app.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Start typing 'automator' into the Launchpad search bar:
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_launchpad2.png"&gt;&lt;/li&gt;
+   &lt;img alt="Photo" src="https://0x7df.github.io/images/screenshot_launchpad2.png"&gt;&lt;/li&gt;
 &lt;li&gt;Select 'Service'
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator.png"&gt;&lt;/li&gt;
+   &lt;img alt="Photo" src="https://0x7df.github.io/images/screenshot_automator.png"&gt;&lt;/li&gt;
 &lt;li&gt;In the automator app, drag the 'Run shell script' item over to the main
    panel&lt;/li&gt;
 &lt;li&gt;Add the &lt;code&gt;osascript ~/Documents/Test_PDF_Save_Folder/safari_export_PDF.scpt&lt;/code&gt;
    command
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_automator2.png"&gt;&lt;/li&gt;
+   &lt;img alt="Photo" src="https://0x7df.github.io/images/screenshot_automator2.png"&gt;&lt;/li&gt;
 &lt;li&gt;Save the workflow. The default save location is &lt;code&gt;~/Library/Services&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;In the 'System Preferences', go to 'Keyboard', 'Shortcuts', select
    'Services', and select the recently-saved workflow
-   &lt;img alt="Photo" src="http://0x7df.github.io/images/screenshot_keyboard_shortcut.png"&gt;&lt;/li&gt;
+   &lt;img alt="Photo" src="https://0x7df.github.io/images/screenshot_keyboard_shortcut.png"&gt;&lt;/li&gt;
 &lt;li&gt;Choose a shortcut: in this example Shift-Command-E has been chosen&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h1&gt;Summary&lt;/h1&gt;
@@ -2728,7 +2728,7 @@ version of the article in the folder specified, and closes the tab.&lt;/p&gt;
 &lt;p&gt;Solving this required downloading XCode to make available the Accessibility
 Inspector, which allows you to point and click on graphical interfaces to get
 information on the UI elements. It turns out the &lt;code&gt;text field&lt;/code&gt; is now a &lt;code&gt;combo
-box&lt;/code&gt;, and changing that in the script got it working again.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Calling bullshit</title><link href="http://0x7df.github.io/calling-bullshit.html" rel="alternate"></link><published>2017-05-20T23:20:00+01:00</published><updated>2017-05-20T23:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-20:/calling-bullshit.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been watching the really great online lecture series
+box&lt;/code&gt;, and changing that in the script got it working again.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Calling bullshit</title><link href="https://0x7df.github.io/calling-bullshit.html" rel="alternate"></link><published>2017-05-20T23:20:00+01:00</published><updated>2017-05-20T23:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-05-20:/calling-bullshit.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been watching the really great online lecture series
 &lt;a href="http://callingbullshit.org"&gt;Calling Bullshit in the Age of Big Data&lt;/a&gt;
 from the &lt;a href="http://www.washington.edu"&gt;University of Washington&lt;/a&gt;
 &lt;a href="https://ischool.uw.edu"&gt;Information School&lt;/a&gt;:
@@ -2802,7 +2802,7 @@ possible interests and agenda of the originator. Calling Bullshit's guide to
 spotting bullshit urges us always to ask:
 &lt;em&gt;Who is telling me this?&lt;/em&gt; and &lt;em&gt;What's in it for them?&lt;/em&gt;. We need the primary
 source to do this.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Spotting bullshit" src="http://0x7df.github.io/images/calling_bullshit_0x7df.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Spotting bullshit" src="https://0x7df.github.io/images/calling_bullshit_0x7df.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Weasel words&lt;/h2&gt;
 &lt;p&gt;In any case, I refer to the Guardian article as the 'primary source' or
 'original' in only the loosest sense. In fact it simply says:&lt;/p&gt;
@@ -2856,7 +2856,7 @@ for $31 million.&lt;/p&gt;
 &lt;p&gt;So the news article is really reporting, not that we know Trident submarines
 run an obsolete operating system, but that back in 2008, there was a hint that
 Trident ran an operating system, which didn't become obsolete for a further six
-years.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Locking Git worktrees</title><link href="http://0x7df.github.io/locking-git-worktrees.html" rel="alternate"></link><published>2017-03-06T23:08:00+00:00</published><updated>2017-03-06T23:08:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-06:/locking-git-worktrees.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Git worktrees provide a way of separating the worktree for a given branch -
+years.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Locking Git worktrees</title><link href="https://0x7df.github.io/locking-git-worktrees.html" rel="alternate"></link><published>2017-03-06T23:08:00+00:00</published><updated>2017-03-06T23:08:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-06:/locking-git-worktrees.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Git worktrees provide a way of separating the worktree for a given branch -
 i.e. the project working files that are being version controlled - from the
 .git directory containing Git's system files. The worktree can be stored
 anywhere, and Git keeps a reference to it in the .git directory (in
@@ -2880,7 +2880,7 @@ reason for locking the branch.&lt;/p&gt;
 &lt;p&gt;The side effect is of course that worktree metadata doesn't get cleaned up for
 worktrees that have been deleted; it's a good idea to get into the habit of
 deleting the &lt;code&gt;locked&lt;/code&gt; file when deleting a worktree, until a there's a built-in
-&lt;code&gt;git worktree remove&lt;/code&gt; command to look after this automatically.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Diffusion</title><link href="http://0x7df.github.io/diffusion.html" rel="alternate"></link><published>2017-03-05T14:07:00+00:00</published><updated>2017-03-05T14:07:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/diffusion.html</id><summary type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
+&lt;code&gt;git worktree remove&lt;/code&gt; command to look after this automatically.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Diffusion</title><link href="https://0x7df.github.io/diffusion.html" rel="alternate"></link><published>2017-03-05T14:07:00+00:00</published><updated>2017-03-05T14:07:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/diffusion.html</id><summary type="html">&lt;h2&gt;Diffusion Equation&lt;/h2&gt;
 &lt;p&gt;The time-dependent diffusion equation is:&lt;/p&gt;
 &lt;div class="math"&gt;$$  
 \frac{\partial u}{\partial t} = \nabla \cdot \left(
@@ -3138,7 +3138,7 @@ the amount of substance per unit volume, so &lt;span class="math"&gt;\( a = 1\)&
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="physics"></category><category term="diffusion"></category><category term="physics"></category></entry><entry><title>Improving Bash scripts</title><link href="http://0x7df.github.io/improving-bash-scripts.html" rel="alternate"></link><published>2017-03-05T11:44:00+00:00</published><updated>2017-03-05T11:44:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/improving-bash-scripts.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been working on improving my Bash scripting recently, working
+&lt;/script&gt;</content><category term="physics"></category><category term="diffusion"></category><category term="physics"></category></entry><entry><title>Improving Bash scripts</title><link href="https://0x7df.github.io/improving-bash-scripts.html" rel="alternate"></link><published>2017-03-05T11:44:00+00:00</published><updated>2017-03-05T11:44:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-03-05:/improving-bash-scripts.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I've been working on improving my Bash scripting recently, working
 systematically through the &lt;a href="http://www.tldp.org/LDP/abs/abs-guide.pdf"&gt;Advanced Bash-Scripting Guide&lt;/a&gt; for things I didn't know and for
 good practices that I haven't systematically applied.&lt;/p&gt;
 &lt;p&gt;Here are a few of the things it motivated me to apply across all my Bash
@@ -3297,7 +3297,7 @@ reason to use &lt;code&gt;typeset -r&lt;/code&gt; over &lt;code&gt;readonly&lt;/
 variables local by default.&lt;/p&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;This is just scratching the surface of 'advanced' Bash scripting tips for
-defensive programming. More later.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Using the Atlassian Bitbucket API</title><link href="http://0x7df.github.io/using-the-atlassian-bitbucket-api.html" rel="alternate"></link><published>2017-02-27T14:39:00+00:00</published><updated>2017-02-27T14:39:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-27:/using-the-atlassian-bitbucket-api.html</id><summary type="html"></summary><content type="html">&lt;p&gt;A few pointers / examples for using the Bitbucket Server API (the API syntax
+defensive programming. More later.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Using the Atlassian Bitbucket API</title><link href="https://0x7df.github.io/using-the-atlassian-bitbucket-api.html" rel="alternate"></link><published>2017-02-27T14:39:00+00:00</published><updated>2017-02-27T14:39:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-27:/using-the-atlassian-bitbucket-api.html</id><summary type="html"></summary><content type="html">&lt;p&gt;A few pointers / examples for using the Bitbucket Server API (the API syntax
 for Bitbucket Cloud might differ in some cases).&lt;/p&gt;
 &lt;h2&gt;API authentication&lt;/h2&gt;
 &lt;p&gt;Accessing Bitbucket through its API using curl requires username/password
@@ -3412,7 +3412,7 @@ the API specifies that we want to use the 'branch pattern' mode of specifying
 branches, and that we want the branch pattern itself to be '*' - i.e. we want
 to apply the permission to all branches in the repository. The permission
 itself is 'fast-forward-only', which corresponds to 'Prevent rewriting
-history'.&lt;/p&gt;</content><category term="Programming"></category><category term="bitbucket"></category><category term="api"></category><category term="bash"></category><category term="atlassian"></category><category term="curl"></category></entry><entry><title>The shallow water equations</title><link href="http://0x7df.github.io/the-shallow-water-equations.html" rel="alternate"></link><published>2017-02-17T15:29:00+00:00</published><updated>2017-02-17T15:29:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-17:/the-shallow-water-equations.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The governing equations in geophysical fluid dynamics can be simplified somewhat if the
+history'.&lt;/p&gt;</content><category term="Programming"></category><category term="bitbucket"></category><category term="api"></category><category term="bash"></category><category term="atlassian"></category><category term="curl"></category></entry><entry><title>The shallow water equations</title><link href="https://0x7df.github.io/the-shallow-water-equations.html" rel="alternate"></link><published>2017-02-17T15:29:00+00:00</published><updated>2017-02-17T15:29:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-17:/the-shallow-water-equations.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The governing equations in geophysical fluid dynamics can be simplified somewhat if the
 horizontal length and velocity scales are much larger than the vertical length and
 velocity scales, respectively.&lt;/p&gt;
 &lt;p&gt;They are commonly used to describe both the ocean and atmosphere, as well as estuaries,
@@ -3421,7 +3421,7 @@ rivers and channels.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;The fluid is incompressible.&lt;/li&gt;
 &lt;li&gt;Vertical acceleration is small compared with horizontal accelerations, and
-   &lt;a href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html"&gt;hydrostatic balance&lt;/a&gt;
+   &lt;a href="https://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html"&gt;hydrostatic balance&lt;/a&gt;
    can be assumed.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;Making these assumptions results in the 3D shallow water equations (&lt;a href="https://www.utwente.nl/ewi/sacs/teaching/Thesis/aukje-de-boer-comparison-of-two-numerical-schemes-for-solving-the-1d-shallow-water-equations.pdf"&gt;de Boer (2003)&lt;/a&gt;.
@@ -3531,7 +3531,7 @@ velocity at the free surface (at height &lt;span class="math"&gt;\(h\)&lt;/span&
 &lt;p&gt;where &lt;span class="math"&gt;\(h\)&lt;/span&gt; is the height of the free surface. Accelerations in the &lt;span class="math"&gt;\(y\)&lt;/span&gt; direction have
 also been assumed negligible.&lt;/p&gt;
 &lt;p&gt;In both equations the first term on the right
-represents advection and the second term on the right represents &lt;a href="http://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html"&gt;adjustment&lt;/a&gt;. (More
+represents advection and the second term on the right represents &lt;a href="https://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html"&gt;adjustment&lt;/a&gt;. (More
 complex variants are used in river modelling and hydraulics that account for, for example,
 the cross-sectional area of the channel. These are often referred to as the
 &lt;a href="https://en.wikipedia.org/wiki/Shallow_water_equations#One-dimensional_Saint-Venant_equations"&gt;Saint Venant&lt;/a&gt;
@@ -3594,7 +3594,7 @@ study rotational flow under gravity.&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Atmospheric Science"></category></entry><entry><title>Adjustment of meteorological fields in NWP</title><link href="http://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html" rel="alternate"></link><published>2017-02-16T00:32:00+00:00</published><updated>2017-02-16T00:32:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-16:/adjustment-of-meteorological-fields-in-nwp.html</id><summary type="html"></summary><content type="html">&lt;p&gt;According to &lt;a href="http://www.ecmwf.int/sites/default/files/elibrary/2002/16948-numerical-methods.pdf"&gt;Riddaway and Hortal&lt;/a&gt;, the set of coupled non-linear partial differential equations solved in &lt;a href="https://en.wikipedia.org/wiki/Numerical_weather_prediction"&gt;numerical weather prediction&lt;/a&gt; (NWP) describe three important dynamical processses:&lt;/p&gt;
+&lt;/script&gt;</content><category term="Atmospheric Science"></category></entry><entry><title>Adjustment of meteorological fields in NWP</title><link href="https://0x7df.github.io/adjustment-of-meteorological-fields-in-nwp.html" rel="alternate"></link><published>2017-02-16T00:32:00+00:00</published><updated>2017-02-16T00:32:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-16:/adjustment-of-meteorological-fields-in-nwp.html</id><summary type="html"></summary><content type="html">&lt;p&gt;According to &lt;a href="http://www.ecmwf.int/sites/default/files/elibrary/2002/16948-numerical-methods.pdf"&gt;Riddaway and Hortal&lt;/a&gt;, the set of coupled non-linear partial differential equations solved in &lt;a href="https://en.wikipedia.org/wiki/Numerical_weather_prediction"&gt;numerical weather prediction&lt;/a&gt; (NWP) describe three important dynamical processses:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Advection&lt;/li&gt;
 &lt;li&gt;Diffusion&lt;/li&gt;
@@ -3722,7 +3722,7 @@ techniques and inherently nonlocal implicit time stepping techniques.&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Atmospheric science"></category></entry><entry><title>Fredholm integral equations and the resolvent kernel</title><link href="http://0x7df.github.io/fredholm-integral-equations-and-the-resolvent-kernel.html" rel="alternate"></link><published>2017-02-12T12:40:00+00:00</published><updated>2017-02-12T12:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-12:/fredholm-integral-equations-and-the-resolvent-kernel.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Consider the &lt;em&gt;inhomogeneous Fredholm integral equation&lt;/em&gt;:&lt;/p&gt;
+&lt;/script&gt;</content><category term="Atmospheric science"></category></entry><entry><title>Fredholm integral equations and the resolvent kernel</title><link href="https://0x7df.github.io/fredholm-integral-equations-and-the-resolvent-kernel.html" rel="alternate"></link><published>2017-02-12T12:40:00+00:00</published><updated>2017-02-12T12:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-12:/fredholm-integral-equations-and-the-resolvent-kernel.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Consider the &lt;em&gt;inhomogeneous Fredholm integral equation&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="math"&gt;$$ H \psi(\mu) = \lambda \int_a^b \sigma(\mu, \mu') \psi(\mu') d\mu'
                + S(\mu) $$&lt;/div&gt;
 &lt;p&gt;The unknown to be solved for is &lt;span class="math"&gt;\(\psi(\mu)\)&lt;/span&gt; where &lt;span class="math"&gt;\(a \le \mu \le b\)&lt;/span&gt; is the
@@ -3944,7 +3944,7 @@ d\mu' $$&lt;/div&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Maths"></category><category term="mathematics"></category></entry><entry><title>500 hPa geopotential height anomaly correlation</title><link href="http://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html" rel="alternate"></link><published>2017-02-11T20:25:00+00:00</published><updated>2017-02-11T20:25:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-11:/500-hpa-geopotential-height-anomaly-correlation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The 500 hPa &lt;a href="http://0x7df.github.io/geopotential.html"&gt;geopotential&lt;/a&gt; height anomaly
+&lt;/script&gt;</content><category term="Maths"></category><category term="mathematics"></category></entry><entry><title>500 hPa geopotential height anomaly correlation</title><link href="https://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html" rel="alternate"></link><published>2017-02-11T20:25:00+00:00</published><updated>2017-02-11T20:25:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-11:/500-hpa-geopotential-height-anomaly-correlation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The 500 hPa &lt;a href="https://0x7df.github.io/geopotential.html"&gt;geopotential&lt;/a&gt; height anomaly
 correlation is a key indicator of the skill of numerical weather prediction.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://www.e-education.psu.edu/worldofweather/node/2031"&gt;Patterns of 500 hPa heights reveal short- and long-wave troughs and ridges.&lt;/a&gt; Surface low
 pressure tends to develop (or strengthen) to the east of 500 hPa short-wave
@@ -3957,7 +3957,7 @@ to the observed situation.&lt;/p&gt;
 &lt;a href="https://www.ecmwf.int"&gt;ECMWF&lt;/a&gt; model, forecasts fell below 0.6 at about 5.5
 days in 1980, whereas by 2010 they did not fall below 0.6 until about 8.5 days
 - this represents an improvement in skill of one day per decade. The forecast
-for which the value falls to 0.8 is approaching 6.5 days.&lt;/p&gt;</content><category term="atmospheric science"></category><category term="meteorology"></category></entry><entry><title>Setting up Pelican</title><link href="http://0x7df.github.io/setting-up-pelican.html" rel="alternate"></link><published>2016-09-26T17:52:00+01:00</published><updated>2016-09-26T17:52:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2016-09-26:/setting-up-pelican.html</id><summary type="html"></summary><content type="html">&lt;ol&gt;
+for which the value falls to 0.8 is approaching 6.5 days.&lt;/p&gt;</content><category term="atmospheric science"></category><category term="meteorology"></category></entry><entry><title>Setting up Pelican</title><link href="https://0x7df.github.io/setting-up-pelican.html" rel="alternate"></link><published>2016-09-26T17:52:00+01:00</published><updated>2016-09-26T17:52:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2016-09-26:/setting-up-pelican.html</id><summary type="html"></summary><content type="html">&lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;Install pelican and its prerequisites:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;pip install markdown&lt;/span&gt;
@@ -4055,7 +4055,7 @@ for which the value falls to 0.8 is approaching 6.5 days.&lt;/p&gt;</content><ca
 
 
 &lt;/li&gt;
-&lt;/ol&gt;</content><category term="Programming"></category><category term="linux"></category><category term="markdown"></category><category term="pelican"></category><category term="programming"></category><category term="publishing"></category><category term="python"></category></entry><entry><title>Connecting Twitter and Pocket using Python</title><link href="http://0x7df.github.io/connecting-twitter-and-pocket-using-python.html" rel="alternate"></link><published>2015-10-23T10:06:00+01:00</published><updated>2015-10-23T10:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-23:/connecting-twitter-and-pocket-using-python.html</id><summary type="html"></summary><content type="html">&lt;p&gt;&lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;This&lt;/a&gt; blog post gives an intro to connecting to the Twitter Streaming
+&lt;/ol&gt;</content><category term="Programming"></category><category term="linux"></category><category term="markdown"></category><category term="pelican"></category><category term="programming"></category><category term="publishing"></category><category term="python"></category></entry><entry><title>Connecting Twitter and Pocket using Python</title><link href="https://0x7df.github.io/connecting-twitter-and-pocket-using-python.html" rel="alternate"></link><published>2015-10-23T10:06:00+01:00</published><updated>2015-10-23T10:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-23:/connecting-twitter-and-pocket-using-python.html</id><summary type="html"></summary><content type="html">&lt;p&gt;&lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;This&lt;/a&gt; blog post gives an intro to connecting to the Twitter Streaming
 API using the &lt;a href="https://python.org"&gt;Python&lt;/a&gt; library &lt;a href="http://tweepy.readthedocs.org"&gt;Tweepy&lt;/a&gt;. There are two Python routines:
 one to connect to Twitter and download relevant tweets to a file, and a
 second to post-process the file using &lt;a href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt; and create some graphs
@@ -4186,7 +4186,7 @@ and blog posts as a reference corpus, and test the similarity of tweets
 to the text in my corpus; and then only add links that have a similarity score
 above some threshold.&lt;/p&gt;
 &lt;p&gt;The full code is on &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;, at
-&lt;a href="https://github.com/0x7df/twitter2pocket"&gt;https://github.com/0x7df/twitter2pocket&lt;/a&gt;.&lt;/p&gt;</content><category term="programming"></category><category term="python"></category><category term="api"></category><category term="twitter"></category><category term="pocket"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><published>2015-10-03T20:06:00+01:00</published><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:/static-site-generation.html</id><summary type="html">&lt;p&gt;Comparison of static site generators&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
+&lt;a href="https://github.com/0x7df/twitter2pocket"&gt;https://github.com/0x7df/twitter2pocket&lt;/a&gt;.&lt;/p&gt;</content><category term="programming"></category><category term="python"></category><category term="api"></category><category term="twitter"></category><category term="pocket"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="https://0x7df.github.io/static-site-generation.html" rel="alternate"></link><published>2015-10-03T20:06:00+01:00</published><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:/static-site-generation.html</id><summary type="html">&lt;p&gt;Comparison of static site generators&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
 &lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
 &lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
 &lt;p&gt;Many options are available for static site generation, with
@@ -4246,7 +4246,7 @@ delimiters:&lt;/p&gt;
 
 
 &lt;p&gt;for in-line equations), was both annoying and unnecessary in theory (since
-both platforms are using LaTeX, dammit), and is the subject of &lt;a href="http://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html"&gt;a different
+both platforms are using LaTeX, dammit), and is the subject of &lt;a href="https://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html"&gt;a different
 post&lt;/a&gt;. Once
 done, I could move on to themes.&lt;/p&gt;
 &lt;h2&gt;Pelican themes&lt;/h2&gt;
@@ -4309,7 +4309,7 @@ flag is supplied - as &lt;em&gt;totally derivative&lt;/em&gt;. Assume it blows a
 already there and replaces it with the new content. So you never manually
 modify anything on that branch; keep all your content, configuration files,
 tools, and anything else you care about, on a different branch, and keep the
-destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</content><category term="Programming"></category><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Remembering Bayes's formula</title><link href="http://0x7df.github.io/remembering-bayess-formula.html" rel="alternate"></link><published>2015-10-03T00:00:00+01:00</published><updated>2015-10-03T00:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:/remembering-bayess-formula.html</id><summary type="html">&lt;p&gt;An easier way to remember Bayes's formula&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's probably just me, but I could never remember Bayes's formula:&lt;/p&gt;
+destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</content><category term="Programming"></category><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Remembering Bayes's formula</title><link href="https://0x7df.github.io/remembering-bayess-formula.html" rel="alternate"></link><published>2015-10-03T00:00:00+01:00</published><updated>2015-10-03T00:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:/remembering-bayess-formula.html</id><summary type="html">&lt;p&gt;An easier way to remember Bayes's formula&lt;/p&gt;</summary><content type="html">&lt;p&gt;It's probably just me, but I could never remember Bayes's formula:&lt;/p&gt;
 &lt;div class="math"&gt;$$ P(A|B) = \frac{P(B|A) P(A)}{P(B)} $$&lt;/div&gt;
 &lt;p&gt;as-is. I don't use it very often, so I didn't have it at my fingertips.
 However, I found it easy to remember:&lt;/p&gt;
@@ -4450,7 +4450,7 @@ in the test.&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Statistics"></category><category term="bayes"></category><category term="mathematics"></category><category term="probabililty"></category><category term="statistics"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><published>2015-08-31T22:02:00+01:00</published><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:/virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+&lt;/script&gt;</content><category term="Statistics"></category><category term="bayes"></category><category term="mathematics"></category><category term="probabililty"></category><category term="statistics"></category></entry><entry><title>Virtual Temperature</title><link href="https://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><published>2015-08-31T22:02:00+01:00</published><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:/virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
 &lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
 &lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the
@@ -4508,7 +4508,7 @@ moist air:&lt;/p&gt;
 &lt;p&gt;The virtual temperature is always slightly higher, by at most a few
 degrees, than the true temperature of the moist air.&lt;/p&gt;
 &lt;h2&gt;Geopotential in terms of virtual temperature&lt;/h2&gt;
-&lt;p&gt;&lt;a href="http://0x7df.github.io/geopotential.html"&gt;Elsewhere&lt;/a&gt; we have seen that the geopotential is:&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://0x7df.github.io/geopotential.html"&gt;Elsewhere&lt;/a&gt; we have seen that the geopotential is:&lt;/p&gt;
 &lt;div class="math"&gt;$$ d\phi = -\frac{1}{\rho} dp $$&lt;/div&gt;
 &lt;p&gt;Substituting in the equation of state for moist air, involving the
 virtual temperature:&lt;/p&gt;
@@ -4569,7 +4569,7 @@ virtual temperature:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Geopotential</title><link href="http://0x7df.github.io/geopotential.html" rel="alternate"></link><published>2015-08-30T16:58:00+01:00</published><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:/geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
+&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Geopotential</title><link href="https://0x7df.github.io/geopotential.html" rel="alternate"></link><published>2015-08-30T16:58:00+01:00</published><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:/geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
 &lt;p&gt;is the gravitational potential - i.e. the gravitational potential energy
 per unit mass - at a location in the earth's atmosphere. It is often
@@ -4715,7 +4715,7 @@ Since &lt;span class="math"&gt;\( \phi(p_0) = 0\)&lt;/span&gt;:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Thermal radiation, Kirchhoff's law, and black bodies (1/4)</title><link href="http://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html" rel="alternate"></link><published>2015-05-17T14:53:00+01:00</published><updated>2015-05-17T14:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-17:/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html</id><summary type="html">&lt;h2&gt;Thermal radiation&lt;/h2&gt;
+&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Thermal radiation, Kirchhoff's law, and black bodies (1/4)</title><link href="https://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html" rel="alternate"></link><published>2015-05-17T14:53:00+01:00</published><updated>2015-05-17T14:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-17:/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html</id><summary type="html">&lt;h2&gt;Thermal radiation&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="Thermal imaging" src="https://0x7df.files.wordpress.com/2015/05/sts-3_infrared_on_reentry.jpg?w=127"&gt;&lt;/p&gt;
 &lt;p&gt;All matter continuously emits electromagnetic radiation as a consequence
 of its temperature. This radiation is called &lt;strong&gt;thermal radiation&lt;/strong&gt; or
@@ -4919,7 +4919,7 @@ This ratio is also called the &lt;strong&gt;emissivity&lt;/strong&gt;, or &lt;st
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Physics"></category><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="http://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><published>2015-05-10T12:06:00+01:00</published><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:/python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
+&lt;/script&gt;</content><category term="Physics"></category><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="https://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><published>2015-05-10T12:06:00+01:00</published><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:/python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
 &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; for creating a word cloud, created by
 &lt;a href="http://peekaboo-vision.blogspot.co.uk/"&gt;Andreas Mueller&lt;/a&gt;:
 &lt;a href="https://github.com/amueller/word_cloud"&gt;https://github.com/amueller/word_cloud&lt;/a&gt;.&lt;/p&gt;
@@ -5020,7 +5020,7 @@ tweaked a little where necessary.&lt;br&gt;
 The result is:&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"&gt;&lt;img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;The font is called Saucer BB, from
-&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><published>2015-05-02T22:10:00+01:00</published><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:/hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
+&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="https://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><published>2015-05-02T22:10:00+01:00</published><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:/hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
 unit area, of the air column above that altitude. The pressure,
 therefore, decreases with altitude as there is less air above pressing
 down. To find the rate of decrease of pressure with height, consider a
@@ -5202,7 +5202,7 @@ atmospheres](https://plot.ly/~0x7df/11.png)](https://plot.ly/~0x7df/11/ "Pressur
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry><entry><title>Creating a new Ubuntu virtual machine in Oracle VirtualBox</title><link href="http://0x7df.github.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html" rel="alternate"></link><published>2015-04-26T12:29:00+01:00</published><updated>2015-04-26T12:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-26:/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html</id><summary type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
+&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry><entry><title>Creating a new Ubuntu virtual machine in Oracle VirtualBox</title><link href="https://0x7df.github.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html" rel="alternate"></link><published>2015-04-26T12:29:00+01:00</published><updated>2015-04-26T12:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-26:/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html</id><summary type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
 &lt;a href="http://osxdaily.com/2012/03/27/install-run-ubuntu-linux-virtualbox/"&gt;here&lt;/a&gt;gives
 instructions for Mac OS X, but are unlikely to be very different. This
 assumed you've already
@@ -5386,7 +5386,7 @@ Make sure the VM is shut down, select it in the VirtualBox Manager
 window, go to "Settings", "General", "Advanced" and select from the
 "Shared Clipboard" drop-down. Detailed descriptions with screen shots
 are
-&lt;a href="http://www.howtogeek.com/187535/how-to-copy-and-paste-between-a-virtualbox-host-machine-and-a-guest-machine"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="linux"></category><category term="ubuntu"></category><category term="virtual machine"></category><category term="virtualbox"></category><category term="vm"></category></entry><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><published>2015-04-21T20:58:00+01:00</published><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:/cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;a href="http://www.howtogeek.com/187535/how-to-copy-and-paste-between-a-virtualbox-host-machine-and-a-guest-machine"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="linux"></category><category term="ubuntu"></category><category term="virtual machine"></category><category term="virtualbox"></category><category term="vm"></category></entry><entry><title>CUDA basics part 2</title><link href="https://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><published>2015-04-21T20:58:00+01:00</published><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:/cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
 GPUs&lt;/a&gt;,
 which showed how to do a vector addition. This illustrated some of the
@@ -5771,7 +5771,7 @@ deviceC, ...&lt;/code&gt;&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Computer science"></category><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Python code analysis using Prospector</title><link href="http://0x7df.github.io/python-code-analysis-using-prospector.html" rel="alternate"></link><published>2015-04-11T23:32:00+01:00</published><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-11:/python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
+&lt;/script&gt;</content><category term="Computer science"></category><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Python code analysis using Prospector</title><link href="https://0x7df.github.io/python-code-analysis-using-prospector.html" rel="alternate"></link><published>2015-04-11T23:32:00+01:00</published><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-11:/python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
 post&lt;/a&gt;
 I came across introduced me to
 &lt;a href="https://github.com/landscapeio/prospector"&gt;Prospector&lt;/a&gt;, a
@@ -6118,7 +6118,7 @@ adding them to a profile. The useful extra options are:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Programming"></category><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2020-09-03T21:56:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:/cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/script&gt;</content><category term="Programming"></category><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>CUDA basics part 1</title><link href="https://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2020-09-03T21:56:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:/cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device Architecture)&lt;/a&gt;
 is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
@@ -6232,7 +6232,7 @@ memory hierarchy of a GPU. As well as, and separate from, the host CPU's
 memory (and we'll ignore the
 &lt;a href="http://www.bottomupcs.com/memory.html"&gt;hierarchy&lt;/a&gt;there), the GPU device
 has several different levels of memory:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="GPU Layout" src="http://0x7df.github.io/images/gpu_layout.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="GPU Layout" src="https://0x7df.github.io/images/gpu_layout.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The main &lt;em&gt;global memory&lt;/em&gt; or &lt;em&gt;device memory&lt;/em&gt;, which is accessible to
     all the threads on the GPU,&lt;/li&gt;
@@ -6516,7 +6516,7 @@ J. J. Dongarra and A. J. van der Steen (2012).
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Computer science"></category><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><published>2015-03-29T19:27:00+01:00</published><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-29:/converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;/script&gt;</content><category term="Computer science"></category><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="https://0x7df.github.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><published>2015-03-29T19:27:00+01:00</published><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-29:/converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;I write code documentation in &lt;a href="www.doxygen.org/"&gt;Doxygen&lt;/a&gt;, and in some
 cases include a fair amount of information about the mathematical theory
 of the problem that the code is solving. It seemed worthwhile posting
@@ -7180,7 +7180,7 @@ print msg&lt;br&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Programming"></category><category term="doxygen"></category><category term="latex"></category><category term="markdown"></category><category term="python"></category><category term="regular expressions"></category><category term="text processing"></category><category term="wordpress"></category></entry><entry><title>Restarting the LHC</title><link href="http://0x7df.github.io/restarting-the-lhc.html" rel="alternate"></link><published>2015-03-22T18:13:00+00:00</published><updated>2015-03-22T18:13:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-22:/restarting-the-lhc.html</id><summary type="html">&lt;p&gt;&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron Collider/ATLAS at CERN from Flickr via Wylio" src="https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg" title="'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio"&gt;&lt;/a&gt;
+&lt;/script&gt;</content><category term="Programming"></category><category term="doxygen"></category><category term="latex"></category><category term="markdown"></category><category term="python"></category><category term="regular expressions"></category><category term="text processing"></category><category term="wordpress"></category></entry><entry><title>Restarting the LHC</title><link href="https://0x7df.github.io/restarting-the-lhc.html" rel="alternate"></link><published>2015-03-22T18:13:00+00:00</published><updated>2015-03-22T18:13:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-22:/restarting-the-lhc.html</id><summary type="html">&lt;p&gt;&lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/"&gt;&lt;img alt="The Large Hadron Collider/ATLAS at CERN from Flickr via Wylio" src="https://farm3.staticflickr.com/2326/2046228644_05507000b3_z.jpg" title="'The Large Hadron Collider/ATLAS at CERN' by Image Editor, released on Flickr under the Creative Commons Attribution License (https://creativecommons.org/licenses/by/2.0/), found via Wylio"&gt;&lt;/a&gt;
 © 2007 &lt;a href="https://www.flickr.com/people/11304375@N07/" title="'The Large Hadron Collider/ATLAS at CERN' published on Flickr by Image Editor"&gt;Image Editor&lt;/a&gt;, &lt;a href="https://www.flickr.com/photos/11304375@N07/2046228644/" title="from Flickr"&gt;Flickr&lt;/a&gt;
 |
 &lt;a href="https://creativecommons.org/licenses/by/2.0/" title="Creative Commons Attribution License  https://creativecommons.org/licenses/by/2.0/"&gt;CC-BY&lt;/a&gt;
@@ -7635,7 +7635,7 @@ particles that display the same properties&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Physics"></category><category term="particle physics"></category></entry><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2020-09-03T21:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:/combinations-and-permutations.html</id><summary type="html">&lt;p&gt;The mathematics of combinations and permutations&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="abstract-balls-blue-200" src="http://0x7df.github.io/images/abstract-balls-blue-1346.png"&gt;&lt;/p&gt;
+&lt;/script&gt;</content><category term="Physics"></category><category term="particle physics"></category></entry><entry><title>Combinations and permutations</title><link href="https://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2020-09-03T21:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:/combinations-and-permutations.html</id><summary type="html">&lt;p&gt;The mathematics of combinations and permutations&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.github.io/images/abstract-balls-blue-1346.png"&gt;&lt;/p&gt;
 &lt;p&gt;I recently had to teach the formulae for calculating the number of
 combinations and permutations, when selecting &lt;span class="math"&gt;\(r\)&lt;/span&gt;
 items out of a pool of &lt;span class="math"&gt;\(n\)&lt;/span&gt;. In case you're ever
@@ -7917,7 +7917,7 @@ $$&lt;/div&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Maths"></category><category term="combinations"></category><category term="combinatorics"></category><category term="factorial"></category><category term="julia"></category><category term="permutations"></category><category term="python"></category></entry><entry><title>Connecting Wordpress to Twitter with IFTTT</title><link href="http://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html" rel="alternate"></link><published>2015-02-14T20:40:00+00:00</published><updated>2015-02-14T20:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-02-14:/connecting-wordpress-to-twitter-via-ifttt.html</id><summary type="html">&lt;p&gt;It's possible to string together web services - like
+&lt;/script&gt;</content><category term="Maths"></category><category term="combinations"></category><category term="combinatorics"></category><category term="factorial"></category><category term="julia"></category><category term="permutations"></category><category term="python"></category></entry><entry><title>Connecting Wordpress to Twitter with IFTTT</title><link href="https://0x7df.github.io/connecting-wordpress-to-twitter-via-ifttt.html" rel="alternate"></link><published>2015-02-14T20:40:00+00:00</published><updated>2015-02-14T20:40:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-02-14:/connecting-wordpress-to-twitter-via-ifttt.html</id><summary type="html">&lt;p&gt;It's possible to string together web services - like
 &lt;a href="https://wordpress.com"&gt;WordPress&lt;/a&gt;, &lt;a href="http://twitter.com"&gt;Twitter&lt;/a&gt;,
 &lt;a href="https://www.facebook.com"&gt;Facebook&lt;/a&gt;, &lt;a href="https://www.gmail.com"&gt;Gmail&lt;/a&gt;,
 &lt;a href="https://www.tumblr.com"&gt;Tumblr&lt;/a&gt;, &lt;a href="https://evernote.com/"&gt;Evernote&lt;/a&gt;,

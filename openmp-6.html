@@ -6,16 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Work-sharing constructs As we&#39;ve seen in previous posts , in a parallel region, all threads execute the same code. When we parallelised the calculation of the Mandelbrot set , we had to devise...">
         <meta name="keywords" content="">
-        <link rel="icon" href="http://0x7df.github.io/favicon.ico">
+        <link rel="icon" href="https://0x7df.github.io/favicon.ico">
 
         <title>OpenMP 6 - 0x7df</title>
 
         <!-- Stylesheets -->
-        <link href="http://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
-        <link href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <link href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
         <!-- /RSS Feeds -->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -37,12 +37,12 @@
             <div class="container">
                 <div class="header-nav">
                     <div class="header-logo">
-                        <a class="pull-left" href="http://0x7df.github.io/"><img class="mr20" src="http://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                        <a class="pull-left" href="https://0x7df.github.io/"><img class="mr20" src="https://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
                     </div>
                     <div class="nav pull-right">
-                                <a href="http://0x7df.github.io/">Blog Home</a>
+                                <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
-                                <a href="http://0x7df.github.io/categories.html">Categories</a>
+                                <a href="https://0x7df.github.io/categories.html">Categories</a>
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">OpenMP 6</h1>
-                      <p class="header-date">By <a href="http://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 27 July 2019, modified Sat 27 July 2019, in category <a href="http://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 27 July 2019, modified Sat 27 July 2019, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -76,13 +76,13 @@
     <div class="container content">
         <h2>Work-sharing constructs</h2>
 <p>As
-<a href="http://0x7df.github.io/openmp-1.html">we've</a>
-<a href="http://0x7df.github.io/openmp-2.html">seen</a>
-<a href="http://0x7df.github.io/openmp-3.html">in</a>
-<a href="http://0x7df.github.io/openmp-4.html">previous</a>
-<a href="http://0x7df.github.io/openmp-5.html">posts</a>
+<a href="https://0x7df.github.io/openmp-1.html">we've</a>
+<a href="https://0x7df.github.io/openmp-2.html">seen</a>
+<a href="https://0x7df.github.io/openmp-3.html">in</a>
+<a href="https://0x7df.github.io/openmp-4.html">previous</a>
+<a href="https://0x7df.github.io/openmp-5.html">posts</a>
 , in a parallel region, all threads execute the same code.
-<a href="http://0x7df.github.io/openmp-5.html">When we parallelised the calculation of the Mandelbrot set</a>
+<a href="https://0x7df.github.io/openmp-5.html">When we parallelised the calculation of the Mandelbrot set</a>
 , we had to devise manual ways of dividing the work amongst the threads
 ourselves.</p>
 <p>However, OpenMP provides additional directives, called <em>work-sharing
@@ -104,7 +104,7 @@ source of parallelism in many, particularly scientific, applications.</p>
 <li><code>FIRSTPRIVATE</code></li>
 <li><code>REDUCTION</code></li>
 </ul>
-<p>clauses. Recall from <a href="http://0x7df.github.io/openmp-3.html">earlier</a> that loop counters are
+<p>clauses. Recall from <a href="https://0x7df.github.io/openmp-3.html">earlier</a> that loop counters are
 private by default (in Fortran).</p>
 <p>Since the <code>!OMP PARALLEL</code> / <code>$OMP DO</code> combination is so common, there's a
 shorthand version:</p>
@@ -146,12 +146,12 @@ size <code>n</code>, and distributed cyclically to the the threads; this is call
 <em>block cyclic</em> schedule. If a chunk size is not specified, the one chunk per
 thread is created, of approximately equal size; this is a <em>block</em> schedule.</p>
 <p>In the manual work distribution in the
-<a href="http://0x7df.github.io/openmp-5.html">Mandelbrot set exercise</a>
+<a href="https://0x7df.github.io/openmp-5.html">Mandelbrot set exercise</a>
 , the first, poorer way we chose of distributing the threads was equivalent to
 <code>SCHEDULE(STATIC)</code>, and the second more successful attempt was equivalent to
 <code>SCHEDULE(STATIC, 1)</code>.</p>
 <p>Looking at the run times, we can see this:</p>
-<p><img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.001.png"></p>
+<p><img alt="Alt text" src="https://0x7df.github.io/images/mandelbrot_openmp.001.png"></p>
 <p>The figure shows speed-ups (lower is better) compared with the serial version
 as a function of chunk size, for different schedules. The manual block schedule
 is the green curve and the manual cyclic schedule is the green curve. Use of
@@ -167,7 +167,7 @@ finishes its chunk, it is assigned the next chunk in the list. If no chunk size
 is specified, it defaults to one.</p>
 <p>As might be expected, this schedule improves the overall performance slightly.
 Not only this, but the performance is less sensitive to chunk size.</p>
-<p><img alt="Alt text" src="http://0x7df.github.io/images/mandelbrot_openmp.002.png"></p>
+<p><img alt="Alt text" src="https://0x7df.github.io/images/mandelbrot_openmp.002.png"></p>
 <p>Here we've also added single points for both the static and dynamic schedules,
 to indicate the performance when no chunk size is specified.</p>
 <h4><code>GUIDED</code></h4>
@@ -211,13 +211,13 @@ and low overheads.</p>
 <hr/>
 
 <ul>
-<li><a href="http://0x7df.github.io/openmp-1.html">OpenMP 1 (Overview, Implementaion)</a></li>
-<li><a href="http://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
-<li><a href="http://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
-<li><a href="http://0x7df.github.io/openmp-4.html">OpenMP 4 (Reductions)</a></li>
-<li><a href="http://0x7df.github.io/openmp-5.html">OpenMP 5 (Exercise: Madelbrot set)</a></li>
-<li><a href="http://0x7df.github.io/openmp-6.html">OpenMP 6 (Work-sharing constructs)</a></li>
-<li><a href="http://0x7df.github.io/openmp-7.html">OpenMP 7 (Synchronisation)</a></li>
+<li><a href="https://0x7df.github.io/openmp-1.html">OpenMP 1 (Overview, Implementaion)</a></li>
+<li><a href="https://0x7df.github.io/openmp-2.html">OpenMP 2 (Parallel regions, OpenMP functions)</a></li>
+<li><a href="https://0x7df.github.io/openmp-3.html">OpenMP 3 (OpenMP clauses)</a></li>
+<li><a href="https://0x7df.github.io/openmp-4.html">OpenMP 4 (Reductions)</a></li>
+<li><a href="https://0x7df.github.io/openmp-5.html">OpenMP 5 (Exercise: Madelbrot set)</a></li>
+<li><a href="https://0x7df.github.io/openmp-6.html">OpenMP 6 (Work-sharing constructs)</a></li>
+<li><a href="https://0x7df.github.io/openmp-7.html">OpenMP 7 (Synchronisation)</a></li>
 </ul>
 <hr/>
 
@@ -294,10 +294,10 @@ material under the following terms: you must give appropriate credit, provide a 
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
                         <div class="footer-title">Sitemap</div>
                         <ul class="list-unstyled">
-                            <li><a href="http://0x7df.github.io/archives.html">Archives</a></li>
-                            <li><a href="http://0x7df.github.io/tags.html">Tags</a></li>
-                            <li><a href="http://0x7df.github.io/authors.html">Authors</a></li>
-                            <li><a href="http://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                            <li><a href="https://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="https://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="https://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
                         </ul>
                     </div>
                     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
