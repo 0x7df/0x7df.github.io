@@ -1,5 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-03T21:56:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-16T11:40:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Using GitHub Actions to automate development workflows</title><link href="http://0x7df.github.io/using-github-actions-to-automate-development-workflows.html" rel="alternate"></link><published>2020-09-16T11:36:00+01:00</published><updated>2020-09-16T11:40:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/using-github-actions-to-automate-development-workflows.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Learn/test GitHub Actions for running CI/CD.&lt;/p&gt;
+&lt;h2&gt;Setting up GitHub Actions&lt;/h2&gt;
+&lt;p&gt;To start, add a directory in your repo at &lt;code&gt;.github/workflows&lt;/code&gt;. GitHub will
+automatically detect this when it's pushed.&lt;/p&gt;
+&lt;p&gt;This directory is populated with YAML (&lt;code&gt;*.yml&lt;/code&gt;) file that define different
+automated workflows.&lt;/p&gt;
+&lt;h2&gt;Workflow YAML file syntax&lt;/h2&gt;
+&lt;p&gt;A basic workflow definition file example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Build and Test&lt;/span&gt;
+
+&lt;span class="nt"&gt;on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;pull_request&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;branch&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;master&lt;/span&gt;
+  &lt;span class="nt"&gt;push&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;branch&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;master&lt;/span&gt;
+
+&lt;span class="nt"&gt;jobs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;ci&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;runs-on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class="nt"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/checkout@v2&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Set up Python&lt;/span&gt;
+        &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/setup-python@v2&lt;/span&gt;
+        &lt;span class="nt"&gt;with&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="nt"&gt;python-version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;3.x&amp;#39;&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Install dependencies&lt;/span&gt;
+        &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;python -m pip install --upgrade pip&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;pip install black hypothesis pytest&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Run tests&lt;/span&gt;
+        &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;python -m pytest&lt;/span&gt;
+      &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Check syntax&lt;/span&gt;
+        &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+          &lt;span class="l l-Scalar l-Scalar-Plain"&gt;black --check .&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;on&lt;/code&gt; block defines what actions will trigger this workflow. In this
+example the workflow will be triggered by either a push or a pull request to
+the &lt;code&gt;master&lt;/code&gt; branch.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;jobs&lt;/code&gt; block defines the workflow. Here we have one job called &lt;code&gt;ci&lt;/code&gt;, which
+is defined to run on the latest version of Ubuntu, and which consists of four
+steps (which are run sequentially). Each step is given a (human-readable) &lt;code&gt;name&lt;/code&gt;,
+and a sequence of commands to run in the &lt;code&gt;run&lt;/code&gt; block. The first two steps set
+up the Python environment in which to run the tests, and then the latter two
+steps use &lt;a href="https://pytest.org"&gt;PyTest&lt;/a&gt; to run the provided unit tests, and
+&lt;a href="https://black.readthedocs.io/en/stable"&gt;Black&lt;/a&gt; to check the Python
+formatting, respectively.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;uses&lt;/code&gt; lines bring in preset GitHub Actions; first to check out the
+repository, which is defined at a level so that it is applied across all steps;
+and, specifically in the 'Set up Python' step, a pre-defined Action is used to
+make Python available.&lt;/p&gt;
+&lt;h2&gt;CI Matrix&lt;/h2&gt;
+&lt;p&gt;Setting up a matrix allows you to run a job in parallel in multiple different
+environments, e.g. operating systems, dependency versions, etc.&lt;/p&gt;
+&lt;p&gt;For example, rather than specifying a single OS via:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;ci&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;runs-on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ubuntu-latest&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;as above, the 'matrix' Strategy can be defined like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;ci&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;strategy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="nt"&gt;os&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;ubuntu-latest&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;macos-latest&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+  &lt;span class="nt"&gt;runs-on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;${{ matrix.os }}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;so that the &lt;code&gt;ci&lt;/code&gt; job is run on all of the specified operating systems.&lt;/p&gt;
+&lt;p&gt;The "matrix" of environments can have multiple dimensions; e.g. here we test
+over a list of Python versions as well as over the list of operating systems:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;ci&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;strategy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;matrix&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="nt"&gt;os&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;ubuntu-latest&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;macos-latest&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+      &lt;span class="nt"&gt;python-version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;3.6&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;3.7&lt;/span&gt;&lt;span class="p p-Indicator"&gt;,&lt;/span&gt; &lt;span class="nv"&gt;3.8&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+  &lt;span class="nt"&gt;runs-on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;${{ matrix.os }}&lt;/span&gt;
+  &lt;span class="nt"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/checkout@v2&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Set up Python&lt;/span&gt;
+      &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/setup-python@v2&lt;/span&gt;
+      &lt;span class="nt"&gt;with&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="nt"&gt;python-version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;${{ matrix.python-version }}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;GitHub Secrets&lt;/h2&gt;
+&lt;p&gt;GitHub allows you to create 'Secrets' (as long as your are an admin of the
+repository), to supply workflows with confidential info like usernames and
+passwords.&lt;/p&gt;
+&lt;p&gt;GitHub's docs say:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Secrets are environment variables that are encrypted and only exposed to
+selected actions. Anyone with collaborator access to this repository can use
+these secrets in a workflow.&lt;/p&gt;
+&lt;p&gt;Secrets are not passed to workflows that are triggered by a pull request from
+a fork.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Consider the following workflow, to publish a Python package to
+&lt;a href="https://pypi.org"&gt;PyPI&lt;/a&gt; (taken directly from the GitHub examples):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;# This workflows will upload a Python Package using Twine when a release is&lt;/span&gt;
+&lt;span class="c1"&gt;# created&lt;/span&gt;
+
+&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Upload Python Package&lt;/span&gt;
+
+&lt;span class="nt"&gt;on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;release&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;types&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;[&lt;/span&gt;&lt;span class="nv"&gt;created&lt;/span&gt;&lt;span class="p p-Indicator"&gt;]&lt;/span&gt;
+
+&lt;span class="nt"&gt;jobs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;deploy&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;runs-on&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class="nt"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/checkout@v2&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Set up Python&lt;/span&gt;
+      &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;actions/setup-python@v2&lt;/span&gt;
+      &lt;span class="nt"&gt;with&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="nt"&gt;python-version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;3.x&amp;#39;&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Install dependencies&lt;/span&gt;
+      &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;|&lt;/span&gt;
+        &lt;span class="no"&gt;python -m pip install --upgrade pip&lt;/span&gt;
+        &lt;span class="no"&gt;pip install setuptools wheel twine&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;Build and publish&lt;/span&gt;
+      &lt;span class="nt"&gt;env&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="nt"&gt;TWINE_USERNAME&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;${{ secrets.PYPI_USERNAME }}&lt;/span&gt;
+        &lt;span class="nt"&gt;TWINE_PASSWORD&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;${{ secrets.PYPI_PASSWORD }}&lt;/span&gt;
+      &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;|&lt;/span&gt;
+        &lt;span class="no"&gt;python setup.py sdist bdist_wheel&lt;/span&gt;
+        &lt;span class="no"&gt;twine upload dist/*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here it is clear in the 'Build and publish' step that the PyPI username and
+password required for &lt;a href="https://twine.readthedocs.io/en/latest"&gt;Twine&lt;/a&gt; to
+upload the package to PyPI are contained in the &lt;code&gt;secrets&lt;/code&gt; data structure that
+GitHub makes available to the workflow.&lt;/p&gt;
+&lt;p&gt;On the menu bar of the repository, click 'Settings' and then click 'Secrets' in
+the left pane.&lt;/p&gt;
+&lt;h2&gt;Caveats&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;An individual job can be up to 6h long&lt;/li&gt;
+&lt;li&gt;A workflow can be up to 72h long&lt;/li&gt;
+&lt;li&gt;A matrix can contain up to 256 'columns'&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Creating Actions to share&lt;/h2&gt;
+&lt;p&gt;A pre-made GitHub Action is just a Git repo. An example of the pre-defined
+GitHub Actions is the &lt;code&gt;setup-python&lt;/code&gt; action used in the above and found here:
+&lt;a href="https://github.com/actions/setup-python"&gt;https://github.com/actions/setup-python&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can create your own generic GitHub actions and publish them for others to
+use; all you need to do is define an &lt;code&gt;action.yml&lt;/code&gt; file in the root of the
+repository.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nt"&gt;name&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Generic&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;Action&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;to&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;install&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;lt;dependency&amp;gt;&amp;quot;&lt;/span&gt;
+&lt;span class="nt"&gt;description&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;A&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;generic&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;action&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;to&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;be&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;shared&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;on&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;GitHub&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;for&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;other&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;workflows&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;to&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;use&amp;quot;&lt;/span&gt;
+&lt;span class="nt"&gt;branding&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;icon&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;...&lt;/span&gt;
+  &lt;span class="nt"&gt;color&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gray-dark&amp;quot;&lt;/span&gt;
+&lt;span class="nt"&gt;inputs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;&amp;lt;dependency&amp;gt;-version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nt"&gt;description&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;The&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;version&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;of&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;to&lt;/span&gt;&lt;span class="nv"&gt; &lt;/span&gt;&lt;span class="s"&gt;install&amp;quot;&lt;/span&gt;
+    &lt;span class="nt"&gt;required&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;true&lt;/span&gt;
+    &lt;span class="nt"&gt;default&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;1.0&amp;quot;&lt;/span&gt;
+&lt;span class="nt"&gt;runs&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+  &lt;span class="nt"&gt;using&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;...&lt;/span&gt;
+  &lt;span class="nt"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;run&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p p-Indicator"&gt;|&lt;/span&gt;
+        &lt;span class="no"&gt;pip install &amp;lt;dependency&amp;gt;==${{ inputs.&amp;lt;dependency&amp;gt;-version }}&lt;/span&gt;
+      &lt;span class="nt"&gt;shell&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;bash&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To publish the Action, create a Release in the repository.&lt;/p&gt;
+&lt;p&gt;Other people can use this by adding:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="p p-Indicator"&gt;-&lt;/span&gt; &lt;span class="nt"&gt;uses&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="l l-Scalar l-Scalar-Plain"&gt;&amp;lt;GITHUB_USER&amp;gt;/&amp;lt;REPO_NAME&amp;gt;@master&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Links&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;GitHub Actions: &lt;a href="https://github.com/features/actions"&gt;https://github.com/features/actions&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;GitHub Actions docs (with yml definitions):
+  https://docs.github.com/en/actions &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;e.g. on how to create an action:
+  &lt;a href="https://docs.github.com/en/actions/creating-actions"&gt;https://docs.github.com/en/actions/creating-actions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;GitHub Actions Marketplace: &lt;a href="https://github.com/marketplace?type=actions"&gt;https://github.com/marketplace?type=actions&lt;/a&gt; to
+  browse existing solutions&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content><category term="misc"></category><category term="automation"></category><category term="ci"></category><category term="git"></category><category term="github"></category><category term="python"></category><category term="workflows"></category><category term="yaml"></category></entry><entry><title>Creating a Conda env from a requirements.txt file</title><link href="http://0x7df.github.io/creating-a-conda-env-from-a-requirementstxt-file.html" rel="alternate"></link><published>2020-08-26T18:44:00+01:00</published><updated>2020-08-26T18:44:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-08-26:/creating-a-conda-env-from-a-requirementstxt-file.html</id><summary type="html"></summary><content type="html">&lt;p&gt;First create a new environment, including &lt;code&gt;pip&lt;/code&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;conda create --name &amp;lt;new_env&amp;gt; pip
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
