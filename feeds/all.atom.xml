@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-16T11:40:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Using GitHub Actions to automate development workflows</title><link href="http://0x7df.github.io/using-github-actions-to-automate-development-workflows.html" rel="alternate"></link><published>2020-09-16T11:36:00+01:00</published><updated>2020-09-16T11:40:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/using-github-actions-to-automate-development-workflows.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Learn/test GitHub Actions for running CI/CD.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2020-09-16T23:47:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Changing DNS provider to stop ISP blocking websites</title><link href="http://0x7df.github.io/changing-dns-provider-to-stop-isp-blocking-websites.html" rel="alternate"></link><published>2020-09-16T23:47:00+01:00</published><updated>2020-09-16T23:47:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/changing-dns-provider-to-stop-isp-blocking-websites.html</id><summary type="html"></summary><content type="html">&lt;p&gt;ISPs provide their own domain name services (DNSs) - the look-up tables that
+map human-readable URLs to IP addresses. This means that they can
+choose &lt;em&gt;not&lt;/em&gt; to include some entries. While this might be marketed as protection
+against malicious sites, it is also the case that privacy and security websites
+can be blocked, including VPN providers.&lt;/p&gt;
+&lt;p&gt;Some ISPs allow turning off their protection; see
+&lt;a href="https://libertyshield.kayako.com/article/56-how-do-i-stop-or-remove-isp-blocking"&gt;https://libertyshield.kayako.com/article/56-how-do-i-stop-or-remove-isp-blocking&lt;/a&gt;
+for examples. Some sites appear to remain blocked, however, after the ISPs
+content control is turned off.&lt;/p&gt;
+&lt;p&gt;In this case, it's also possible though to use another, public DNS instead,
+such as Google DNS.&lt;/p&gt;
+&lt;p&gt;On macOS, the DNS can be changed in System Preferences; see:
+&lt;a href="https://support.apple.com/en-gb/guide/mac-help/mh14127/mac"&gt;https://support.apple.com/en-gb/guide/mac-help/mh14127/mac&lt;/a&gt;. For Google DNS,
+the DNS server IP addresses are 8.8.8.8 and 8.8.4.4; either address can be used
+as a primary or a secondary DNS server. (See
+&lt;a href="https://developers.google.com/speed/public-dns/docs/using"&gt;https://developers.google.com/speed/public-dns/docs/using&lt;/a&gt;.)&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Using GitHub Actions to automate development workflows</title><link href="http://0x7df.github.io/using-github-actions-to-automate-development-workflows.html" rel="alternate"></link><published>2020-09-16T11:36:00+01:00</published><updated>2020-09-16T11:40:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/using-github-actions-to-automate-development-workflows.html</id><summary type="html"></summary><content type="html">&lt;p&gt;Learn/test GitHub Actions for running CI/CD.&lt;/p&gt;
 &lt;h2&gt;Setting up GitHub Actions&lt;/h2&gt;
 &lt;p&gt;To start, add a directory in your repo at &lt;code&gt;.github/workflows&lt;/code&gt;. GitHub will
 automatically detect this when it's pushed.&lt;/p&gt;
