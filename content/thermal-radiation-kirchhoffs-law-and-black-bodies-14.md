@@ -1,5 +1,6 @@
 Title: Thermal radiation, Kirchhoff's law, and black bodies (1/4)
 Date: 2015-05-17 14:53
+Updated: 2020-09-18 16:29
 Author: 0x7df
 Category: Physics
 Tags: black body, thermal radiation, thermodynamics
