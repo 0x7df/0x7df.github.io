@@ -82,58 +82,43 @@ assumes you've already
 <a href="https://www.virtualbox.org/manual/ch02.html">installed</a> VirtualBox.</p>
 <h2>Create the VM</h2>
 <ol>
-<li>Open the Oracle VM VirtualBox Manager. This brings up the window
-    shown in Figure 1.
-    <p>
-    [caption id="attachment_474" align="alignnone"
-    width="276"]<img alt="Figure 1. Oracle VirtualBox VM Manager
-    window." src="https://0x7df.github.io/images/01_oracle_virtualbox_manager.png?w=276">
-    Figure 1. Oracle VirtualBox VM Manager window.[/caption]</li>
-<li>Click "New" in the top-left corner. This brings up the "Create
-    Virtual Machine" dialogue box, shown in Figure 2.</li>
-<li>Give the system a descriptive name, and select "Linux" from the
-    "Type" drop-down menu, and then "Ubuntu (64 bit)" from the "Version"
-    drop-down menu. (Obviously you can choose whatever you like at this
-    point, I default to Ubuntu.) Click "Next".
-    <p>
-    [caption id="attachment_475" align="alignnone"
-    width="300"]<a href="https://0x7df.files.wordpress.com/2015/04/02_create_vm_dialogue.png"><img alt="Figure 2. Create Virtual Machine dialogue
-    box." src="https://0x7df.files.wordpress.com/2015/04/02_create_vm_dialogue.png?w=300"></a>
-    Figure 2. Create Virtual Machine dialogue box.[/caption]</li>
-<li>The next  few dialogue boxes allow you to select how much memory you
-    want, decide whether or not to create a virtual hard drive or not
-    (or use an existing one), and assuming you do, define its properties
-    (file format, whether or not to dynamically allocate storage, size
-    (or maximum size), and location). Assuming you want to keep the
-    defaults for all these, click "Next" or "Create" until you get to
-    the end.</li>
-<li>You've finished the first phase and have been returned to the
-    VirtualBox Manager window, and you should see the system you've just
-    created in the list of available VMs on the left-hand side. If you
-    click on it once, the details of the system will be shown in the
-    right-hand pane. To launch it, either double-click, or click "Start"
-    up at the top when the VM is selected.</li>
+<li>Open the Oracle VM VirtualBox Manager. This brings up the window shown:
+    <img alt="Figure 1. Oracle VirtualBox VM Manager window." src="https://0x7df.github.io/images/01_oracle_virtualbox_manager.png?w=276"></li>
+<li>Click "New" in the top-left corner. This brings up the "Create Virtual
+    Machine" dialogue box:
+    <img alt="Figure 2. Create Virtual Machine dialogue box." src="https://0x7df.github.io/images/02_create_vm_dialogue.png?w=300"></li>
+<li>Give the system a descriptive name, and select "Linux" from the "Type"
+    drop-down menu, and then "Ubuntu (64 bit)" from the "Version" drop-down
+    menu. (Obviously you can choose whatever you like at this point, I default
+    to Ubuntu.) Click "Next".</li>
+<li>The next few dialogue boxes allow you to select how much memory you want,
+    decide whether or not to create a virtual hard drive or not (or use an
+    existing one), and assuming you do, define its properties (file format,
+    whether or not to dynamically allocate storage, size (or maximum size), and
+    location). Assuming you want to keep the defaults for all these, click
+    "Next" or "Create" until you get to the end.</li>
+<li>You've finished the first phase and have been returned to the VirtualBox
+    Manager window, and you should see the system you've just created in the
+    list of available VMs on the left-hand side. If you click on it once, the
+    details of the system will be shown in the right-hand pane. To launch it,
+    either double-click, or click "Start" up at the top when the VM is selected.</li>
 </ol>
 <h2>Install the OS</h2>
 <ol>
 <li>
-<p>[caption id="attachment_476" align="alignright"
-    width="300"]<a href="https://0x7df.files.wordpress.com/2015/04/03_select_start-up_disk_dialogue.png"><img alt="Figure 3. Select start-up disk dialogue
-    box." src="https://0x7df.files.wordpress.com/2015/04/03_select_start-up_disk_dialogue.png?w=300"></a>
-    Figure 3. Select start-up disk dialogue box.[/caption]</p>
-<p><p>
-The next step is to install the operating system. A "Select start-up
-disk" dialogue box comes up, with a drop-down menu. The default
-selection is "Host drive 'D:'". Rather than use a DVD installation
-disk however, I've previously downloaded an ISO disk image file. I
-can select this directly from the drop-down menu (see Figure 3)
-because I've used it before, so VirtualBox remembers its location.
-If this isn't the case for you, you can click the folder icon to the
-right of the drop-down menu, which opens up a file browser and
-allows you to navigate to wherever you stored the downloaded ISO
-file (look <a href="http://www.ubuntu.com/download/desktop">here</a> for a
-download). Click "Start", and the VM will start to boot from the
-ISO.</p>
+<p><img alt="Figure 3. Select start-up disk dialogue box." src="https://0x7df.github.io/images/03_select_start-up_disk_dialogue.png?w=300">
+    The next step is to install the operating system. A "Select start-up
+    disk" dialogue box comes up, with a drop-down menu. The default
+    selection is "Host drive 'D:'". Rather than use a DVD installation
+    disk however, I've previously downloaded an ISO disk image file. I
+    can select this directly from the drop-down menu (see Figure)
+    because I've used it before, so VirtualBox remembers its location.
+    If this isn't the case for you, you can click the folder icon to the
+    right of the drop-down menu, which opens up a file browser and
+    allows you to navigate to wherever you stored the downloaded ISO
+    file (look <a href="http://www.ubuntu.com/download/desktop">here</a> for a
+    download). Click "Start", and the VM will start to boot from the
+    ISO.</p>
 </li>
 <li>
 <p>From here on the instructions are as to install Ubuntu from disk.
@@ -155,20 +140,20 @@ ISO.</p>
 <li>
 <p>First, the Linux VM needs Dynamic Kernel Module Support (DKMS) to be
     installed. Open a terminal on the VM and run:</p>
-<p>[code lang="bash"]sudo apt-get install dkms[/code]</p>
-<p><p>
-This allows it to build external module kernels.</p>
+<p>:::bash
+sudo apt-get install dkms</p>
+<p>This allows it to build external module kernels.</p>
 </li>
 <li>
 <p>Select, from the VM's "Devices" menu, "Insert Guest Additions CD
     image...". This will open File Manager showing the contents of the
-    CD, and the path, which will be something like
-    "/media/username/VBOXADDITIONS_4.3.26_98988/".</p>
+    CD, and the path, which will be something like:
+    <code>/media/username/VBOXADDITIONS_4.3.26_98988/</code>.</p>
 </li>
 <li>
-<p>Return to the terminal, cd into the Guest Additions directory, then
-    run:</p>
-<p>[code lang="bash"]sudo sh ./VBoxLinuxAdditions.run[/code]</p>
+<p>Return to the terminal, <code>cd</code> into the Guest Additions directory, then run:</p>
+<p>:::bash
+sudo sh ./VBoxLinuxAdditions.run</p>
 </li>
 <li>
 <p>Restart the VM. You're done.</p>
@@ -183,65 +168,68 @@ for me. To use this:</p>
 <ol>
 <li>
 <p>Install git:</p>
-<p>[code lang="bash"] sudo apt-get install git [/code]</p>
+<p>:::bash
+sudo apt-get install git</p>
 </li>
 <li>
 <p>Clone the repository:</p>
-<p>[code lang="bash"] git clone https://github.com/0x7df/mkvm.git
-[/code]</p>
+<p>:::bash
+git clone https://github.com/0x7df/mkvm.git</p>
 </li>
 <li>
 <p>Run the script:</p>
-<p>[code lang="bash"] cd mkvm ; ./mkvm.sh [/code]</p>
+<p>:::bash
+cd mkvm ; ./mkvm.sh</p>
 </li>
 </ol>
 <p>You can see the software that gets installed from the listing below:</p>
-<p>[code lang="bash"]</p>
-<p># mkvm - Make virtual machine<br>
-# This script configures an Ubuntu virtual machine how I like it</p>
-<p>sudo apt-get -y update               # Must be done before upgrade<br>
-sudo apt-get -y dist-upgrade         # Does upgrade with intelligent
-dependency-handling</p>
-<p>sudo apt-get -y install dkms         # For installing VirtualBox Linux
-Guest Additions (https://www.virtualbox.org/manual/ch04.html)</p>
-<p>sudo apt-get -y install git<br>
-sudo apt-get -y install nedit<br>
-sudo apt-get -y install python-numpy # Contains, amongst other things,
-f2py<br>
-sudo apt-get -y install python-dev   # For Python.h; required by f2py<br>
-sudo apt-get -y install gfortran<br>
-sudo apt-get -y install python-pip<br>
-sudo apt-get -y install python-matplotlib<br>
-sudo apt-get -y install okular<br>
-sudo apt-get -y upgrade graphviz<br>
-sudo apt-get -y install texlive<br>
-sudo apt-get -y install doxygen</p>
-<p>sudo pip install robotframework<br>
-sudo pip install prospector[with_frosted]<br>
-sudo pip install prospector[with_pyroma]<br>
-sudo pip install prospector[with_vulture]</p>
-<p>sudo add-apt-repository ppa:staticfloat/juliareleases<br>
-sudo add-apt-repository ppa:staticfloat/julia-deps<br>
-sudo apt-get -y install julia</p>
-<p># python-scipy<br>
-# matplotlib</p>
-<p># If Java JDK is required, determine the path:<br>
-#   &gt; update-alternatives --config java<br>
-# Set JAVA_HOME=/usr/bin/java (or wherever) in /etc/environment,
-which is the preferred location for JAVA_HOME or any system variable.</p>
-<p>echo "<br>
-# Now install the Linux Guest Additions for VirtualBox. Go to the<br>
-# \"Devices\" menu of VirtualBox when the VM is running (make sure
-it is not in<br>
-# stretch mode or the menu bar will not be visible); select \"Insert
-Guest<br>
-# Additions CD image...\"; then run VBoxLinuxAdditions.run with
-administrator<br>
-# privileges. Re-boot the VM; after this the VM desktop should resize
-with the<br>
-# VirtualBox window, rather than being a fixed (small) size.<br>
-"<br>
-[/code]</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># mkvm - Make virtual machine</span>
+<span class="c1"># This script configures an Ubuntu virtual machine how I like it</span>
+
+sudo apt-get -y update               <span class="c1"># Must be done before upgrade</span>
+sudo apt-get -y dist-upgrade         <span class="c1"># Does upgrade with intelligent dependency-handling</span>
+
+sudo apt-get -y install dkms         <span class="c1"># For installing VirtualBox Linux Guest Additions (https://www.virtualbox.org/manual/ch04.html)</span>
+
+sudo apt-get -y install git
+sudo apt-get -y install nedit
+sudo apt-get -y install python-numpy <span class="c1"># Contains, amongst other things, f2py</span>
+sudo apt-get -y install python-dev   <span class="c1"># For Python.h; required by f2py</span>
+sudo apt-get -y install gfortran
+sudo apt-get -y install python-pip
+sudo apt-get -y install python-matplotlib
+sudo apt-get -y install okular
+sudo apt-get -y upgrade graphviz
+sudo apt-get -y install texlive
+sudo apt-get -y install doxygen
+
+sudo pip install robotframework
+sudo pip install prospector<span class="o">[</span>with_frosted<span class="o">]</span>
+sudo pip install prospector<span class="o">[</span>with_pyroma<span class="o">]</span>
+sudo pip install prospector<span class="o">[</span>with_vulture<span class="o">]</span>
+
+sudo add-apt-repository ppa:staticfloat/juliareleases
+sudo add-apt-repository ppa:staticfloat/julia-deps
+sudo apt-get -y install julia
+
+<span class="c1"># python-scipy</span>
+<span class="c1"># matplotlib</span>
+
+<span class="c1"># If Java JDK is required, determine the path:</span>
+<span class="c1">#   &gt; update-alternatives --config java</span>
+<span class="c1"># Set JAVA_HOME=/usr/bin/java (or wherever) in /etc/environment, which is the preferred location for JAVA_HOME or any system variable.</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;</span>
+<span class="s2"># Now install the Linux Guest Additions for VirtualBox. Go to the</span>
+<span class="s2"># \&quot;Devices\&quot; menu of VirtualBox when the VM is running (make sure it is not in</span>
+<span class="s2"># stretch mode or the menu bar will not be visible); select \&quot;Insert Guest</span>
+<span class="s2"># Additions CD image...\&quot;; then run VBoxLinuxAdditions.run with administrator</span>
+<span class="s2"># privileges. Re-boot the VM; after this the VM desktop should resize with the</span>
+<span class="s2"># VirtualBox window, rather than being a fixed (small) size.</span>
+<span class="s2">&quot;</span>
+</code></pre></div>
+
+
 <h2>Shared clipboard</h2>
 <p>One extra useful thing to do is enable the shared clipboard, which
 allows copy-and-paste from the host to the guest, vice versa, or both.
