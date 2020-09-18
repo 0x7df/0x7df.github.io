@@ -5271,28 +5271,28 @@ atmospheres](https://plot.ly/~0x7df/11.png)](https://plot.ly/~0x7df/11/ "Pressur
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="Atmospheric science"></category><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry><entry><title>Creating a new Ubuntu virtual machine in Oracle VirtualBox</title><link href="https://0x7df.github.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html" rel="alternate"></link><published>2015-04-26T12:29:00+01:00</published><updated>2015-04-26T12:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-26:/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html</id><summary type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
-&lt;a href="http://osxdaily.com/2012/03/27/install-run-ubuntu-linux-virtualbox/"&gt;here&lt;/a&gt;gives
-instructions for Mac OS X, but are unlikely to be very different. This
-assumed you've already
+&lt;a href="http://osxdaily.com/2012/03/27/install-run-ubuntu-linux-virtualbox/"&gt;here&lt;/a&gt;
+gives instructions for Mac OS X, but are unlikely to be very different. This
+assumes you've already
 &lt;a href="https://www.virtualbox.org/wiki/Downloads"&gt;downloaded&lt;/a&gt; and
-&lt;a href="https://www.virtualbox.org/manual/ch02.html"&gt;installed&lt;/a&gt;VirtualBox.&lt;/p&gt;
+&lt;a href="https://www.virtualbox.org/manual/ch02.html"&gt;installed&lt;/a&gt; VirtualBox.&lt;/p&gt;
 &lt;h2&gt;Create the VM&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;Open the Oracle VM VirtualBox Manager. This brings up the window
     shown in Figure 1 …&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
-&lt;a href="http://osxdaily.com/2012/03/27/install-run-ubuntu-linux-virtualbox/"&gt;here&lt;/a&gt;gives
-instructions for Mac OS X, but are unlikely to be very different. This
-assumed you've already
+&lt;a href="http://osxdaily.com/2012/03/27/install-run-ubuntu-linux-virtualbox/"&gt;here&lt;/a&gt;
+gives instructions for Mac OS X, but are unlikely to be very different. This
+assumes you've already
 &lt;a href="https://www.virtualbox.org/wiki/Downloads"&gt;downloaded&lt;/a&gt; and
-&lt;a href="https://www.virtualbox.org/manual/ch02.html"&gt;installed&lt;/a&gt;VirtualBox.&lt;/p&gt;
+&lt;a href="https://www.virtualbox.org/manual/ch02.html"&gt;installed&lt;/a&gt; VirtualBox.&lt;/p&gt;
 &lt;h2&gt;Create the VM&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;Open the Oracle VM VirtualBox Manager. This brings up the window
     shown in Figure 1.
     &lt;p&gt;
     [caption id="attachment_474" align="alignnone"
-    width="276"]&lt;a href="https://0x7df.files.wordpress.com/2015/04/01_oracle_virtualbox_manager.png"&gt;&lt;img alt="Figure 1. Oracle VirtualBox VM Manager
-    window." src="https://0x7df.files.wordpress.com/2015/04/01_oracle_virtualbox_manager.png?w=276"&gt;&lt;/a&gt;
+    width="276"]&lt;img alt="Figure 1. Oracle VirtualBox VM Manager
+    window." src="https://0x7df.github.io/images/01_oracle_virtualbox_manager.png?w=276"&gt;
     Figure 1. Oracle VirtualBox VM Manager window.[/caption]&lt;/li&gt;
 &lt;li&gt;Click "New" in the top-left corner. This brings up the "Create
     Virtual Machine" dialogue box, shown in Figure 2.&lt;/li&gt;
