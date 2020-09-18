@@ -5359,9 +5359,11 @@ assumes you've already
     &lt;code&gt;/media/username/VBOXADDITIONS_4.3.26_98988/&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Return to the terminal, &lt;code&gt;cd&lt;/code&gt; into the Guest Additions directory, then run:
-        :::bash
-        sudo sh ./VBoxLinuxAdditions.run&lt;/p&gt;
+&lt;p&gt;Return to the terminal, &lt;code&gt;cd&lt;/code&gt; into the Guest Additions directory, then run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo sh ./VBoxLinuxAdditions.run
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Restart the VM. You're done.&lt;/p&gt;
@@ -5375,14 +5377,18 @@ GitHub&lt;/a&gt; that performs the installation
 for me. To use this:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Install git:
-    :::bash
-    sudo apt-get install git&lt;/p&gt;
+&lt;p&gt;Install git:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Clone the repository:
-    :::bash
-    git clone https://github.com/0x7df/mkvm.git&lt;/p&gt;
+&lt;p&gt;Clone the repository:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;git clone https://github.com/0x7df/mkvm.git&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Run the script:
