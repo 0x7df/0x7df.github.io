@@ -5345,9 +5345,11 @@ assumes you've already
     Additions. The next stage is to install the Guest Additions.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;First, the Linux VM needs Dynamic Kernel Module Support (DKMS) to be
-    installed. Open a terminal on the VM and run:
-    :::bash
-    sudo apt-get install dkms&lt;/p&gt;
+    installed. Open a terminal on the VM and run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;sudo apt-get install dkms
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;This allows it to build external module kernels.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
@@ -5358,8 +5360,8 @@ assumes you've already
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Return to the terminal, &lt;code&gt;cd&lt;/code&gt; into the Guest Additions directory, then run:
-    :::bash
-    sudo sh ./VBoxLinuxAdditions.run&lt;/p&gt;
+        :::bash
+        sudo sh ./VBoxLinuxAdditions.run&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Restart the VM. You're done.&lt;/p&gt;
