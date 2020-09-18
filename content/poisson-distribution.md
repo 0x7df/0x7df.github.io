@@ -1,9 +1,9 @@
 Title: Poisson distribution
-Date: 2015-02-21 20:37
+Date: 2020-09-18 16:20
 Author: 0x7df
 Category: Uncategorized
 Slug:
-Status: draft
+Status: published
 Tags: mathematics, statistics
 
 Consider a radioactive substance with concentration *C*, in atoms per litre,
