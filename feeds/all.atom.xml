@@ -5010,7 +5010,7 @@ Raschka&lt;/a&gt;), make it easy to use the
 timeline&lt;/a&gt;
 (as a &lt;a href="http://en.wikipedia.org/wiki/Comma-separated_values"&gt;CSV&lt;/a&gt; file),
 and then use the word cloud script to produce a word cloud from it.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png"&gt;&lt;img alt="my_twitter_wordcloud_1" src="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png?w=660"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="my_twitter_wordcloud_1" src="https://0x7df.github.io/images/my_twitter_wordcloud_1.png?w=660"&gt;&lt;/p&gt;
 &lt;p&gt;To add something to this, I did the same thing with my
 &lt;a href="https://wordpress.com"&gt;WordPress&lt;/a&gt; blog posts. I didn't want to bother
 fighting with the WordPress API, so I simply exported the blog contents
@@ -5018,53 +5018,60 @@ to an XML file, which WordPress allows you to do through the admin
 interface (so you can archive your blog locally and/or transfer it into
 a different blog). Hence, this really just ends up being about XML
 parsing. Here is the source code:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br&gt;
-#!/usr/bin/python&lt;/p&gt;
-&lt;p&gt;from HTMLParser import HTMLParser&lt;br&gt;
-import xml.etree.ElementTree as ET&lt;br&gt;
-import matplotlib.pyplot as plt&lt;br&gt;
-from wordcloud import WordCloud, STOPWORDS&lt;/p&gt;
-&lt;p&gt;#
-http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python&lt;br&gt;
-class MLStripper(HTMLParser):&lt;br&gt;
-def &lt;strong&gt;init&lt;/strong&gt;(self):&lt;br&gt;
-self.reset()&lt;br&gt;
-self.fed = []&lt;br&gt;
-def handle_data(self, d):&lt;br&gt;
-self.fed.append(d)&lt;br&gt;
-def get_data(self):&lt;br&gt;
-return ''.join(self.fed)&lt;/p&gt;
-&lt;p&gt;tree = ET.parse('0x7df.wordpress.2015-04-25.xml')&lt;/p&gt;
-&lt;p&gt;root = tree.getroot()&lt;/p&gt;
-&lt;p&gt;postwords = []&lt;/p&gt;
-&lt;p&gt;for child in root.iter():&lt;br&gt;
-if child.tag == 'item':&lt;br&gt;
-if child.find('{http://wordpress.org/export/1.2/}status').text ==
-'publish':&lt;br&gt;
-postbody =
-child.find('{http://purl.org/rss/1.0/modules/content/}encoded').text&lt;br&gt;
-s = MLStripper()&lt;br&gt;
-s.feed(postbody)&lt;br&gt;
-postwords += s.get_data().split()&lt;/p&gt;
-&lt;p&gt;keywords = ' '.join([wd for wd in postwords&lt;br&gt;
-if 'http' not in wd and&lt;br&gt;
-'bg=' not in wd and&lt;br&gt;
-not wd.startswith('$') and&lt;br&gt;
-not wd.startswith('[') and&lt;br&gt;
-not wd.startswith('&amp;amp;')&lt;br&gt;
-])&lt;/p&gt;
-&lt;p&gt;wordcloud = WordCloud(&lt;br&gt;
-font_path='./SaucerBB.ttf',&lt;br&gt;
-stopwords=STOPWORDS,&lt;br&gt;
-background_color='black',&lt;br&gt;
-width=1800,&lt;br&gt;
-height=1800&lt;br&gt;
-).generate(keywords)&lt;/p&gt;
-&lt;p&gt;plt.imshow(wordcloud)&lt;br&gt;
-plt.axis('off')&lt;br&gt;
-plt.savefig('./my_wordpress_wordcloud_2.png', dpi=300)&lt;br&gt;
-plt.show()&lt;br&gt;
-[/code]&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="ch"&gt;#!/usr/bin/python&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;HTMLParser&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTMLParser&lt;/span&gt;  
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;xml.etree.ElementTree&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;ET&lt;/span&gt;  
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;  
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;wordcloud&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;WordCloud&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;STOPWORDS&lt;/span&gt;
+
+&lt;span class="c1"&gt;# http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python  &lt;/span&gt;
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MLStripper&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;HTMLParser&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reset&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fed&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;  
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;handle_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fed&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;tree&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ET&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;0x7df.wordpress.2015-04-25.xml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;root&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tree&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getroot&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;postwords&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;child&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;root&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iter&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;  
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;child&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;item&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;child&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{http://wordpress.org/export/1.2/}status&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;publish&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+            &lt;span class="n"&gt;postbody&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;child&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;{http://purl.org/rss/1.0/modules/content/}encoded&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;  
+            &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;MLStripper&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+            &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;feed&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;postbody&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+            &lt;span class="n"&gt;postwords&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get_data&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="n"&gt;keywords&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;wd&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;wd&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;postwords&lt;/span&gt;  
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;wd&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt;  
+    &lt;span class="s1"&gt;&amp;#39;bg=&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;wd&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt;  
+    &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;wd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt;  
+    &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;wd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;[&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt;  
+    &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;wd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;startswith&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;amp;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+    &lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="n"&gt;wordcloud&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;WordCloud&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;  
+    &lt;span class="n"&gt;font_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./SaucerBB.ttf&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="n"&gt;stopwords&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;STOPWORDS&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="n"&gt;background_color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;black&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="n"&gt;width&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1800&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1800&lt;/span&gt;  
+&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;generate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wordcloud&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;off&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;savefig&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./my_wordpress_wordcloud_2.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dpi&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;300&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;I used the standard library light-weight
 &lt;code&gt;&amp;lt;a href="https://docs.python.org/2/library/xml.etree.elementtree.html" target="_blank"&amp;gt;xml.etree.ElementTree&amp;lt;/a&amp;gt;&lt;/code&gt;
 parser. I get the root of the &lt;a href="http://en.wikipedia.org/wiki/XML"&gt;XML&lt;/a&gt;
@@ -5086,7 +5093,7 @@ The rest of the script is essentially the same as &lt;a href="http://sebastianra
 Twitter&lt;/a&gt;,
 tweaked a little where necessary.&lt;br&gt;
 The result is:&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"&gt;&lt;img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="my_wordpress_wordcloud_2" src="https://0x7df.github.io/images/my_wordpress_wordcloud_21.png?w=660"&gt;&lt;/p&gt;
 &lt;p&gt;The font is called Saucer BB, from
 &lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="https://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><published>2015-05-02T22:10:00+01:00</published><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:/hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
 unit area, of the air column above that altitude. The pressure,
@@ -5503,7 +5510,7 @@ we can print.&lt;/p&gt;
     }                                                              \\  
 } while (0)&lt;/code&gt;&lt;/p&gt;
 &lt;h3&gt;Simple matrix multiplication kernel&lt;/h3&gt;
-&lt;h3&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png"&gt;&lt;img alt="tiled_matrix_multiplication_1" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png?w=296"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="tiled_matrix_multiplication_1" src="https://0x7df.github.io/images/tiled_matrix_multiplication_1.png?w=296"&gt;&lt;/p&gt;
 &lt;p&gt;Now for the kernel function. The way we've chosen to divide this problem
 up amongst threads is to have each thread calculate a single element in
 the output vector, &lt;em&gt;C&lt;/em&gt;. Mathematically, for an &lt;em&gt;m&lt;/em&gt;-by-&lt;em&gt;n&lt;/em&gt; matrix &lt;em&gt;A&lt;/em&gt; and
@@ -5515,29 +5522,32 @@ result, matrix &lt;em&gt;C&lt;/em&gt;, in blue; a single element of &lt;em&gt;C&
 red, and the corresponding row and column of &lt;em&gt;A&lt;/em&gt; and &lt;em&gt;B&lt;/em&gt; are also
 highlighted.&lt;/p&gt;
 &lt;p&gt;We implement this in CUDA C as follows:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;__global__ void matrixMultiply(float *A, float *B,  
-float *C, int numACols,  
-int numBRows, int numBCols,  
-    int numCRows, int numCCols)  
-{  
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;__global__&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;matrixMultiply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numACols&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numBRows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numBCols&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numCRows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numCCols&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="p"&gt;{&lt;/span&gt;  
         
-// Get the row and column indices of the single  
-// element of the output matrix that this thread  
-// is dealing with  
-    int col = threadIdx.x + blockDim.x*blockIdx.x;  
-    int row = threadIdx.y + blockDim.y*blockIdx.y;  
+&lt;span class="c1"&gt;// Get the row and column indices of the single  &lt;/span&gt;
+&lt;span class="c1"&gt;// element of the output matrix that this thread  &lt;/span&gt;
+&lt;span class="c1"&gt;// is dealing with  &lt;/span&gt;
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;threadIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;blockDim&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;blockIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+    &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;threadIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;blockDim&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;blockIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
       
-// Calculate the output matrix element  
-    if ((row &amp;lt; numCRows) &amp;amp;&amp;amp; (col &amp;lt; numCCols))  
-{  
-        float Ctmp = 0;  
-        for (int k = 0; k &amp;lt; numACols; ++k)  
-{  
-            Ctmp += A[row*numACols+k]*B[k*numBCols+col];  
-        }  
-        C[row*numCCols + col] = Ctmp;  
-    }  
-}&lt;/code&gt;&lt;/p&gt;
+&lt;span class="c1"&gt;// Calculate the output matrix element  &lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numCRows&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;col&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numCCols&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
+&lt;span class="p"&gt;{&lt;/span&gt;  
+        &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Ctmp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numACols&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="p"&gt;{&lt;/span&gt;  
+            &lt;span class="n"&gt;Ctmp&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;numACols&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;numBCols&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;  
+        &lt;span class="p"&gt;}&lt;/span&gt;  
+        &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;numCCols&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Ctmp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;This is reasonably simple. Each thread figures out which output matrix
 element it is responsible for, simply by checking the thread indices. It
 proceeds only if the element indices are within the correct bounds of
@@ -5549,79 +5559,78 @@ and calculates the corresponding single element of &lt;em&gt;C&lt;/em&gt;.&lt;/p
 &lt;p&gt;For completeness, here is the host code. The new things here that we
 didn't see in the vector multiplication example are:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;The use of the C macro &lt;code&gt;cudaCheck&lt;/code&gt; (defined above) for error
-    checking&lt;/li&gt;
+&lt;li&gt;The use of the C macro &lt;code&gt;cudaCheck&lt;/code&gt; (defined above) for error checking&lt;/li&gt;
 &lt;li&gt;The fact that the grid and the thread blocks are two-dimensional&lt;/li&gt;
-&lt;li&gt;The call to &lt;code&gt;cudaDeviceSynchronize()&lt;/code&gt;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;`&lt;/p&gt;
-&lt;p&gt;int main(int argc, char **argv) {&lt;/p&gt;
+&lt;li&gt;
+&lt;p&gt;The call to &lt;code&gt;cudaDeviceSynchronize()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;:::c
+int main(int argc, char **argv) {&lt;/p&gt;
 &lt;p&gt;float &lt;em&gt;hostA, &lt;/em&gt;hostB, &lt;em&gt;hostC;&lt;br&gt;
   float &lt;/em&gt;deviceA, &lt;em&gt;deviceB, &lt;/em&gt;deviceC;&lt;br&gt;
   int numARows, numACols; // Rows, columns in the matrix A&lt;br&gt;
   int numBRows, numBCols; // Rows, columns in the matrix B&lt;br&gt;
   int numCRows, numCCols; // Rows, columns in the matrix C&lt;br&gt;
-    int sizeA, sizeB, sizeC; // Size in memory of each of A, B and C&lt;br&gt;
-    int gridXSize, gridYSize; // Number of thread blocks in x, y
-dimensions of grid&lt;br&gt;
-    int blockSize; // Number of threads in block&lt;/p&gt;
+  int sizeA, sizeB, sizeC; // Size in memory of each of A, B and C&lt;br&gt;
+  int gridXSize, gridYSize; // Number of thread blocks in x, y dimensions of grid&lt;br&gt;
+  int blockSize; // Number of threads in block&lt;/p&gt;
 &lt;p&gt;// Allocate and populate the A and B matrices&lt;br&gt;
-// hostA and hostB, and get numARows, numACols,&lt;br&gt;
-// numBRows, numBCols&lt;/p&gt;
+  // hostA and hostB, and get numARows, numACols,&lt;br&gt;
+  // numBRows, numBCols&lt;/p&gt;
 &lt;p&gt;// Set numCRows and numCCols&lt;br&gt;
-    numCRows = numARows;&lt;br&gt;
-    numCCols = numBCols;&lt;br&gt;
+  numCRows = numARows;&lt;br&gt;
+  numCCols = numBCols;&lt;br&gt;
 &lt;br&gt;
   // Allocate the C matrix&lt;br&gt;
-    hostC = (float&lt;em&gt;)malloc(numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float));&lt;br&gt;
+  hostC = (float&lt;em&gt;)malloc(numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float));&lt;br&gt;
 &lt;br&gt;
-// Allocate GPU memory&lt;br&gt;
-sizeA = numARows&lt;/em&gt;numACols&lt;em&gt;sizeof(float);&lt;br&gt;
-sizeB = numBRows&lt;/em&gt;numBCols&lt;em&gt;sizeof(float);&lt;br&gt;
-sizeC = numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float);&lt;br&gt;
-cudaCheck(cudaMalloc((void &lt;/em&gt;&lt;em&gt;) &amp;amp;deviceA, sizeA));&lt;br&gt;
-cudaCheck(cudaMalloc((void &lt;/em&gt;&lt;em&gt;) &amp;amp;deviceB, sizeB));&lt;br&gt;
-   cudaCheck(cudaMalloc((void &lt;/em&gt;*) &amp;amp;deviceC, sizeC));&lt;/p&gt;
+  // Allocate GPU memory&lt;br&gt;
+  sizeA = numARows&lt;/em&gt;numACols&lt;em&gt;sizeof(float);&lt;br&gt;
+  sizeB = numBRows&lt;/em&gt;numBCols&lt;em&gt;sizeof(float);&lt;br&gt;
+  sizeC = numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float);&lt;br&gt;
+  cudaCheck(cudaMalloc((void &lt;/em&gt;&lt;em&gt;) &amp;amp;deviceA, sizeA));&lt;br&gt;
+  cudaCheck(cudaMalloc((void &lt;/em&gt;&lt;em&gt;) &amp;amp;deviceB, sizeB));&lt;br&gt;
+  cudaCheck(cudaMalloc((void &lt;/em&gt;*) &amp;amp;deviceC, sizeC));&lt;/p&gt;
 &lt;p&gt;// Copy data to the GPU&lt;br&gt;
-   cudaCheck(cudaMemcpy(deviceA, hostA, sizeA,
-cudaMemcpyHostToDevice));&lt;br&gt;
-   cudaCheck(cudaMemcpy(deviceB, hostB, sizeB,
-cudaMemcpyHostToDevice));&lt;/p&gt;
+  cudaCheck(cudaMemcpy(deviceA, hostA, sizeA,
+  cudaMemcpyHostToDevice));&lt;br&gt;
+  cudaCheck(cudaMemcpy(deviceB, hostB, sizeB,
+  cudaMemcpyHostToDevice));&lt;/p&gt;
 &lt;p&gt;// Initialize the grid and block dimensions&lt;br&gt;
-   blockSize = 16;&lt;br&gt;
-   gridXSize = (numCCols-1)/blockSize + 1;&lt;br&gt;
-   gridYSize = (numCRows-1)/blockSize + 1;&lt;br&gt;
-   dim3 dimGrid(gridXSize, gridYSize, 1);&lt;br&gt;
-   dim3 dimBlock(blockSize, blockSize, 1);&lt;br&gt;
+  blockSize = 16;&lt;br&gt;
+  gridXSize = (numCCols-1)/blockSize + 1;&lt;br&gt;
+  gridYSize = (numCRows-1)/blockSize + 1;&lt;br&gt;
+  dim3 dimGrid(gridXSize, gridYSize, 1);&lt;br&gt;
+  dim3 dimBlock(blockSize, blockSize, 1);&lt;br&gt;
 &lt;br&gt;
-   // Launch the GPU Kernel&lt;br&gt;
-   matrixMultiply&amp;lt;&amp;lt;&lt;dimGrid,dimBlock&gt;&amp;gt;&amp;gt;(deviceA, deviceB,&lt;br&gt;
-deviceC, numACols,&lt;br&gt;
-numBRows, numBCols,&lt;br&gt;
-                               numCRows, numCCols);&lt;br&gt;
+  // Launch the GPU Kernel&lt;br&gt;
+  matrixMultiply&amp;lt;&amp;lt;&lt;dimGrid,dimBlock&gt;&amp;gt;&amp;gt;(deviceA, deviceB,&lt;br&gt;
+    deviceC, numACols,&lt;br&gt;
+    numBRows, numBCols,&lt;br&gt;
+    numCRows, numCCols);&lt;br&gt;
   cudaDeviceSynchronize();&lt;/p&gt;
 &lt;p&gt;// Copy the GPU memory back to the CPU&lt;br&gt;
-   cudaCheck(cudaMemcpy(hostC, deviceC, sizeC,
-cudaMemcpyDeviceToHost));&lt;/p&gt;
+  cudaCheck(cudaMemcpy(hostC, deviceC, sizeC,
+  cudaMemcpyDeviceToHost));&lt;/p&gt;
 &lt;p&gt;// Free the GPU memory&lt;br&gt;
-   cudaCheck(cudaFree(deviceA));&lt;br&gt;
-   cudaCheck(cudaFree(deviceB));&lt;br&gt;
-   cudaCheck(cudaFree(deviceC));&lt;br&gt;
+  cudaCheck(cudaFree(deviceA));&lt;br&gt;
+  cudaCheck(cudaFree(deviceB));&lt;br&gt;
+  cudaCheck(cudaFree(deviceC));&lt;br&gt;
 &lt;br&gt;
   // Do something with the solution, free the host memory, return&lt;/p&gt;
-&lt;p&gt;}&lt;br&gt;
-`&lt;/p&gt;
+&lt;p&gt;}  &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;The call to &lt;code&gt;cudaDeviceSynchronize()&lt;/code&gt; ensures that all threads have
 finished before the host code proceeds any further.&lt;/p&gt;
 &lt;h3&gt;Performance analysis of the naive implementation&lt;/h3&gt;
-&lt;p&gt;Clearly, each of the &lt;em&gt;mp&lt;/em&gt; elements of &lt;em&gt;C&lt;/em&gt; requires a full row of &lt;em&gt;A&lt;/em&gt; and
-a full column of &lt;em&gt;B&lt;/em&gt; - both of length &lt;em&gt;n&lt;/em&gt; - to be read from memory, and
-one value to be written back. Hence there are &lt;em&gt;(2n + 1)mp&lt;/em&gt; memory
+&lt;p&gt;Clearly, each of the &lt;span class="math"&gt;\(mp\)&lt;/span&gt; elements of &lt;span class="math"&gt;\(C\)&lt;/span&gt; requires a full row of &lt;span class="math"&gt;\(A\)&lt;/span&gt; and
+a full column of &lt;span class="math"&gt;\(B\)&lt;/span&gt; - both of length &lt;span class="math"&gt;\(n\)&lt;/span&gt; - to be read from memory, and
+one value to be written back. Hence there are &lt;span class="math"&gt;\((2n + 1)mp\)&lt;/span&gt; memory
 accesses. Re-examining the kernel, we see that there are two floating
 point operations per iteration of the inner loop (one multiply and one
-add), and &lt;em&gt;n&lt;/em&gt; iterations of that loop, which is completed for each of
-the &lt;em&gt;mp&lt;/em&gt; elements in the product matrix. Hence, there are 2&lt;em&gt;nmp&lt;/em&gt; FLOP,
-and the CGMA is 2&lt;em&gt;n&lt;/em&gt;/(2&lt;em&gt;n&lt;/em&gt; + 1); which is effectively 1, except when the
+add), and &lt;span class="math"&gt;\(n\)&lt;/span&gt; iterations of that loop, which is completed for each of
+the &lt;span class="math"&gt;\(mp\)&lt;/span&gt; elements in the product matrix. Hence, there are &lt;span class="math"&gt;\(2nmp\)&lt;/span&gt; FLOP,
+and the CGMA is &lt;span class="math"&gt;\(2n/(2n + 1)\)&lt;/span&gt;; which is effectively 1, except when the
 matrices are very small. With a memory bandwidth of 150 GB/s, the
 algorithm is limited to just under 150/8 = 20 GFLOP/s (assuming double
 precision), which is still less than 2% of the available compute of our
@@ -5632,12 +5641,12 @@ storage has been in global memory, because that's the only permissible
 location for CUDA memory allocations in the host code, and that's where
 the data stays unless we explicitly move it, once inside the kernel
 function (we'll see how later). It's also clear that in this algorithm
-data gets re-used frequently. Every row of matrix &lt;em&gt;A&lt;/em&gt; is used &lt;em&gt;p&lt;/em&gt; times
-and every column of matrix &lt;em&gt;B&lt;/em&gt; is used &lt;em&gt;m&lt;/em&gt; times. If we contrive an
+data gets re-used frequently. Every row of matrix &lt;span class="math"&gt;\(A\)&lt;/span&gt; is used &lt;span class="math"&gt;\(p\)&lt;/span&gt; times
+and every column of matrix &lt;span class="math"&gt;\(B\)&lt;/span&gt; is used &lt;span class="math"&gt;\(m\)&lt;/span&gt; times. If we contrive an
 algorithm that gets the necessary data into shared memory before it is
 needed, and keeps it there while it is being re-used, then we can
 clearly reduce the global memory accesses.&lt;/p&gt;
-&lt;p&gt;However, it's not as though we can read &lt;em&gt;A&lt;/em&gt; and &lt;em&gt;B&lt;/em&gt; into shared memory
+&lt;p&gt;However, it's not as though we can read &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt; into shared memory
 and have them accessible to all the threads working on the computation;
 shared memory isn't globally accessible, despite the name, but is
 instead local to a single streaming multiprocessor, and only 'shared'
@@ -5647,132 +5656,145 @@ block have the subset of input data they need available in their SM's
 shared memory, under the general assumption that because of the small
 size of the shared memory, not all of the needed data will fit in at
 once.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png"&gt;&lt;img alt="tiled_matrix_multiplication_2" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png?w=285"&gt;&lt;/a&gt;Consider
-a thread block covering an area of the product matrix &lt;em&gt;C&lt;/em&gt;, which is &lt;em&gt;a&lt;/em&gt;
-rows high by &lt;em&gt;a&lt;/em&gt; columns wide, with the top-left element being &lt;em&gt;i&lt;/em&gt;,&lt;em&gt;j&lt;/em&gt;
-and the bottom-right therefore being &lt;em&gt;i+a,j+a&lt;/em&gt;. This is shown in the
-figure. To compute these values, the rows &lt;em&gt;i, i+1, ..., i+a&lt;/em&gt; of matrix
-&lt;em&gt;A&lt;/em&gt; and columns &lt;em&gt;j, j+1, ..., j+a&lt;/em&gt; of matrix &lt;em&gt;B&lt;/em&gt; are required,
-comprising horizontal and vertical strips, respectively, of dimension &lt;em&gt;a
-× n&lt;/em&gt; elements. We assume in general these strips comprise too much data
+&lt;p&gt;&lt;img alt="tiled_matrix_multiplication_2" src="https://0x7df.github.io/images/tiled_matrix_multiplication_2.png?w=285"&gt;&lt;/p&gt;
+&lt;p&gt;Consider a thread block covering an area of the product matrix &lt;span class="math"&gt;\(C\)&lt;/span&gt;, which is &lt;span class="math"&gt;\(a\)&lt;/span&gt;
+rows high by &lt;span class="math"&gt;\(a\)&lt;/span&gt; columns wide, with the top-left element being &lt;span class="math"&gt;\(i\)&lt;/span&gt;, &lt;span class="math"&gt;\(j\)&lt;/span&gt;
+and the bottom-right therefore being &lt;span class="math"&gt;\(i+a, j+a\)&lt;/span&gt;. This is shown in the
+figure. To compute these values, the rows &lt;span class="math"&gt;\(i, i+1, ..., i+a\)&lt;/span&gt; of matrix
+&lt;span class="math"&gt;\(A\)&lt;/span&gt; and columns &lt;span class="math"&gt;\(j, j+1, ..., j+a\)&lt;/span&gt; of matrix &lt;span class="math"&gt;\(B\)&lt;/span&gt; are required,
+comprising horizontal and vertical strips, respectively, of dimension &lt;span class="math"&gt;\(a
+\times n\)&lt;/span&gt; elements. We assume in general these strips comprise too much data
 to move all together to shared memory. Instead, we move a block of
-elements from the strip of &lt;em&gt;A&lt;/em&gt;, and a block of elements from the strip
-of &lt;em&gt;B&lt;/em&gt; - i.e. two blocks of size &lt;em&gt;a&lt;/em&gt; × &lt;em&gt;a&lt;/em&gt;, one from each matrix; we
+elements from the strip of &lt;span class="math"&gt;\(A\)&lt;/span&gt;, and a block of elements from the strip
+of &lt;span class="math"&gt;\(B\)&lt;/span&gt; - i.e. two blocks of size &lt;span class="math"&gt;\(a \times a\)&lt;/span&gt;, one from each matrix; we
 will refer to these as &lt;em&gt;tiles&lt;/em&gt;. Performing matrix multiplication on
-these two tiles creates a tile of partial sums in the &lt;em&gt;C&lt;/em&gt; elements. When
-the next pair of tiles from &lt;em&gt;A&lt;/em&gt; and &lt;em&gt;B&lt;/em&gt; are retrieved, the partial sums
+these two tiles creates a tile of partial sums in the &lt;span class="math"&gt;\(C\)&lt;/span&gt; elements. When
+the next pair of tiles from &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt; are retrieved, the partial sums
 are further incremented, until eventually the full strips have been
 processed and the final answers are available.&lt;/p&gt;
 &lt;p&gt;There is still some duplication of global memory accesses, because any
-given strip of &lt;em&gt;A&lt;/em&gt; will be required by all the thread blocks of the &lt;em&gt;C&lt;/em&gt;
-matrix that share the same row indices; and any given strip of &lt;em&gt;B&lt;/em&gt; will
-be required by all the thread blocks of the &lt;em&gt;C&lt;/em&gt; matrix that share the
+given strip of &lt;span class="math"&gt;\(A\)&lt;/span&gt; will be required by all the thread blocks of the &lt;span class="math"&gt;\(C\)&lt;/span&gt;
+matrix that share the same row indices; and any given strip of &lt;span class="math"&gt;\(B\)&lt;/span&gt; will
+be required by all the thread blocks of the &lt;span class="math"&gt;\(C\)&lt;/span&gt; matrix that share the
 same column indices. However, we can see that there is at least &lt;em&gt;some&lt;/em&gt;
-re-use of data in shared memory; each sub-row of the tile from &lt;em&gt;A&lt;/em&gt; gets
-re-used &lt;em&gt;a&lt;/em&gt; times (for the &lt;em&gt;a&lt;/em&gt; elements of the output matrix that have
-the same row index), as does each sub-column of the tile from &lt;em&gt;B&lt;/em&gt;. This
+re-use of data in shared memory; each sub-row of the tile from &lt;span class="math"&gt;\(A\)&lt;/span&gt; gets
+re-used &lt;span class="math"&gt;\(a\)&lt;/span&gt; times (for the &lt;span class="math"&gt;\(a\)&lt;/span&gt; elements of the output matrix that have
+the same row index), as does each sub-column of the tile from &lt;span class="math"&gt;\(B\)&lt;/span&gt;. This
 data re-use reduces the retrievals from global memory by a factor of
-&lt;em&gt;a&lt;/em&gt;.&lt;/p&gt;
+&lt;span class="math"&gt;\(a\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;Here is the kernel for tiled matrix multiplication.&lt;/p&gt;
-&lt;p&gt;`&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;global&lt;/strong&gt; void matrixMultiply(float &lt;em&gt;A, float &lt;/em&gt;B, float *C,&lt;br&gt;
-int numARows, int numACols,&lt;br&gt;
-int numBRows, int numBCols,&lt;br&gt;
-int numCRows, int numCCols) {&lt;/p&gt;
-&lt;p&gt;// Define device shared-memory storage for&lt;br&gt;
-// tiles of the matrices&lt;br&gt;
-// Scope: each tile is accessible by a single&lt;br&gt;
-// block of threads&lt;br&gt;
-&lt;strong&gt;shared&lt;/strong&gt; float tileA[TILE_WIDTH][TILE_WIDTH];&lt;br&gt;
-&lt;strong&gt;shared&lt;/strong&gt; float tileB[TILE_WIDTH][TILE_WIDTH];&lt;/p&gt;
-&lt;p&gt;// Define abbreviated variables for the&lt;br&gt;
-// block and thread IDs&lt;br&gt;
-// Scope: stored in registers and therefore&lt;br&gt;
-// accessible by single threads&lt;br&gt;
-int bx =  blockIdx.x;&lt;br&gt;
-int by =  blockIdx.y;&lt;br&gt;
-int tx =  threadIdx.x;&lt;br&gt;
-int ty =  threadIdx.y;&lt;/p&gt;
-&lt;p&gt;// Each thread is responsible for a single&lt;br&gt;
-// element of the product matrix C.&lt;br&gt;
-// Determine which element, from the block&lt;br&gt;
-// and thread indices&lt;br&gt;
-int row = by&lt;em&gt;TILE_WIDTH + ty;&lt;br&gt;
-int col = bx&lt;/em&gt;TILE_WIDTH + tx;&lt;/p&gt;
-&lt;p&gt;// Initialise a temp variable for the solution&lt;br&gt;
-// for this matrix element&lt;br&gt;
-// Scope: in register, private to individual thread&lt;br&gt;
-float Ctemp = 0;&lt;/p&gt;
-&lt;p&gt;// Loop over the tiles in the A and B matrices&lt;br&gt;
-// that will contribute to the calculation of&lt;br&gt;
-// this element in the product matrix. We are&lt;br&gt;
-// looping over columns of A for a given row&lt;br&gt;
-// (equal to the row index of the C element),&lt;br&gt;
-// and over rows of the B matrix for a given&lt;br&gt;
-// column index (equal to the column index of&lt;br&gt;
-// the C element)&lt;br&gt;
-int numTiles = (numACols-1)/TILE_WIDTH + 1;&lt;/p&gt;
-&lt;p&gt;for (int tl = 0; tl &amp;lt; numTiles; ++tl) {&lt;/p&gt;
-&lt;p&gt;// Load the tiles into shared memory, so all&lt;br&gt;
-// threads in the block have access to the&lt;br&gt;
-// whole tiles. Each thread needs to load only&lt;br&gt;
-// a single value of each of the A and B tiles.&lt;br&gt;
-if ((row &amp;lt; numARows) &amp;amp;&amp;amp; (tl&lt;em&gt;TILE_WIDTH + tx &amp;lt; numACols)) {&lt;br&gt;
-tileA[ty][tx] = A[row&lt;/em&gt;numACols + tl&lt;em&gt;TILE_WIDTH + tx];&lt;br&gt;
-} else {&lt;br&gt;
-tileA[ty][tx] = 0.;&lt;br&gt;
-}&lt;br&gt;
-if ((tl&lt;/em&gt;TILE_WIDTH + ty &amp;lt; numBRows) &amp;amp;&amp;amp; (col &amp;lt; numBCols)) {&lt;br&gt;
-tileB[ty][tx] = B[(tl&lt;em&gt;TILE_WIDTH + ty)&lt;/em&gt;numBCols + col];&lt;br&gt;
-} else {&lt;br&gt;
-tileB[ty][tx] = 0.;&lt;br&gt;
-}&lt;br&gt;
-__syncthreads();&lt;/p&gt;
-&lt;p&gt;// Loop over the elements within the A and B&lt;br&gt;
-// tiles that contribute to this element of C&lt;br&gt;
-for (int k = 0; k &amp;lt; TILE_WIDTH; ++k) {&lt;br&gt;
-Ctemp += tileA[ty][k] * tileB[k][tx];&lt;br&gt;
-}&lt;br&gt;
-__syncthreads();&lt;br&gt;
-}&lt;/p&gt;
-&lt;p&gt;// Write the final value into the output array&lt;br&gt;
-if ((row &amp;lt; numARows) &amp;amp;&amp;amp; (col &amp;lt; numBCols)) {&lt;br&gt;
-C[row*numBCols + col] = Ctemp;&lt;br&gt;
-}&lt;br&gt;
-}&lt;br&gt;
-`&lt;/p&gt;
-&lt;p&gt;In each thread block, the &lt;em&gt;a&lt;/em&gt;^2^ threads load two float values each and
-perform 2&lt;em&gt;a&lt;/em&gt; floating-point operations to compute the dot product of the
-row and column sub-sections (both of length &lt;em&gt;a&lt;/em&gt;) required for the single
-output matrix element it holds. Hence there are 2&lt;em&gt;a&lt;/em&gt; computations for
-two memory loads, which gives a CGMA ratio of &lt;em&gt;a&lt;/em&gt;. For the naive
-implementation it was 1, so we have improved the CGMA by a factor of &lt;em&gt;a&lt;/em&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;__global__&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;matrixMultiply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numARows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numACols&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numBRows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numBCols&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numCRows&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numCCols&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Define device shared-memory storage for  &lt;/span&gt;
+  &lt;span class="c1"&gt;// tiles of the matrices  &lt;/span&gt;
+  &lt;span class="c1"&gt;// Scope: each tile is accessible by a single  &lt;/span&gt;
+  &lt;span class="c1"&gt;// block of threads  &lt;/span&gt;
+  &lt;span class="n"&gt;__shared__&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;tileA&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;  
+  &lt;span class="n"&gt;__shared__&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;tileB&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Define abbreviated variables for the  &lt;/span&gt;
+  &lt;span class="c1"&gt;// block and thread IDs  &lt;/span&gt;
+  &lt;span class="c1"&gt;// Scope: stored in registers and therefore  &lt;/span&gt;
+  &lt;span class="c1"&gt;// accessible by single threads  &lt;/span&gt;
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;bx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;blockIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;blockIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;tx&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;threadIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;ty&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;threadIdx&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Each thread is responsible for a single  &lt;/span&gt;
+  &lt;span class="c1"&gt;// element of the product matrix C.  &lt;/span&gt;
+  &lt;span class="c1"&gt;// Determine which element, from the block  &lt;/span&gt;
+  &lt;span class="c1"&gt;// and thread indices  &lt;/span&gt;
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;row&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;by&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ty&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;bx&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;tx&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Initialise a temp variable for the solution  &lt;/span&gt;
+  &lt;span class="c1"&gt;// for this matrix element  &lt;/span&gt;
+  &lt;span class="c1"&gt;// Scope: in register, private to individual thread  &lt;/span&gt;
+  &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;Ctemp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Loop over the tiles in the A and B matrices  &lt;/span&gt;
+  &lt;span class="c1"&gt;// that will contribute to the calculation of  &lt;/span&gt;
+  &lt;span class="c1"&gt;// this element in the product matrix. We are  &lt;/span&gt;
+  &lt;span class="c1"&gt;// looping over columns of A for a given row  &lt;/span&gt;
+  &lt;span class="c1"&gt;// (equal to the row index of the C element),  &lt;/span&gt;
+  &lt;span class="c1"&gt;// and over rows of the B matrix for a given  &lt;/span&gt;
+  &lt;span class="c1"&gt;// column index (equal to the column index of  &lt;/span&gt;
+  &lt;span class="c1"&gt;// the C element)  &lt;/span&gt;
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;numTiles&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numACols&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;tl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;tl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numTiles&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;tl&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Load the tiles into shared memory, so all  &lt;/span&gt;
+    &lt;span class="c1"&gt;// threads in the block have access to the  &lt;/span&gt;
+    &lt;span class="c1"&gt;// whole tiles. Each thread needs to load only  &lt;/span&gt;
+    &lt;span class="c1"&gt;// a single value of each of the A and B tiles.  &lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numARows&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tl&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;tx&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numACols&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+      &lt;span class="n"&gt;tileA&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ty&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;tx&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;numACols&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;tl&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;tx&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+      &lt;span class="n"&gt;tileA&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ty&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;tx&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt;  
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;tl&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ty&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numBRows&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;col&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numBCols&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+      &lt;span class="n"&gt;tileB&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ty&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;tx&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;tl&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;ty&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;numBCols&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+      &lt;span class="n"&gt;tileB&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ty&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;tx&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt;  
+    &lt;span class="n"&gt;__syncthreads&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Loop over the elements within the A and B  &lt;/span&gt;
+    &lt;span class="c1"&gt;// tiles that contribute to this element of C  &lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+      &lt;span class="n"&gt;Ctemp&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;tileA&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;ty&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;tileB&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;tx&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;  
+    &lt;span class="p"&gt;}&lt;/span&gt;  
+    &lt;span class="n"&gt;__syncthreads&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;  
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Write the final value into the output array  &lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numARows&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;col&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;numBCols&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;  
+    &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;row&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;numBCols&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Ctemp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+  &lt;span class="p"&gt;}&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In each thread block, the &lt;span class="math"&gt;\(a^2\)&lt;/span&gt; threads load two float values each and
+perform &lt;span class="math"&gt;\(2a\)&lt;/span&gt; floating-point operations to compute the dot product of the
+row and column sub-sections (both of length &lt;span class="math"&gt;\(a\)&lt;/span&gt;) required for the single
+output matrix element it holds. Hence there are &lt;span class="math"&gt;\(2a\)&lt;/span&gt; computations for
+two memory loads, which gives a CGMA ratio of &lt;span class="math"&gt;\(a\)&lt;/span&gt;. For the naive
+implementation it was 1, so we have improved the CGMA by a factor of &lt;span class="math"&gt;\(a\)&lt;/span&gt;
 by tiling the data.&lt;/p&gt;
 &lt;p&gt;There are a few other things to note in the kernel.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;The use of the &lt;code&gt;__shared__&lt;/code&gt; identifier in the allocations statements
     for &lt;code&gt;tileA&lt;/code&gt; and &lt;code&gt;tileB&lt;/code&gt; (which are the temporary storage arrays for
-    the tiles of &lt;em&gt;A&lt;/em&gt; and &lt;em&gt;B&lt;/em&gt;). This keyword is how we cause the storage
+    the tiles of &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt;). This keyword is how we cause the storage
     to be allocated in shared memory (and therefore it can be used only
     in &lt;code&gt;__device__&lt;/code&gt; functions, not &lt;code&gt;__host__&lt;/code&gt; functions).&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;TILE_WIDTH&lt;/code&gt; is a C macro that we assume has been defined elsewhere.&lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Calculation of the &lt;em&gt;C&lt;/em&gt; element indices &lt;code&gt;row&lt;/code&gt; and &lt;code&gt;col&lt;/code&gt; is done using
+&lt;p&gt;Calculation of the &lt;span class="math"&gt;\(C\)&lt;/span&gt; element indices &lt;code&gt;row&lt;/code&gt; and &lt;code&gt;col&lt;/code&gt; is done using
     &lt;code&gt;TILE_WIDTH&lt;/code&gt;, where previously &lt;code&gt;blockDim.x&lt;/code&gt; and &lt;code&gt;blockDim.y&lt;/code&gt;
     appeared. This works because we have &lt;em&gt;defined&lt;/em&gt; the tile to be the
     same size as the thread block. In theory it could be different, but
     doing so gives us the very convenient consequence that each thread
-    needs only to load a single element from each of &lt;em&gt;A&lt;/em&gt; and &lt;em&gt;B&lt;/em&gt; into
+    needs only to load a single element from each of &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(B\)&lt;/span&gt; into
     shared memory to construct the tiles. This means the host code that
     calls the kernel needs to use &lt;code&gt;TILE_WIDTH&lt;/code&gt; to define the block size:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;gridXSize = (numCCols-1)/TILE_WIDTH + 1;  
-gridYSize = (numCRows-1)/TILE_WIDTH + 1;  
-dim3 DimGrid(gridXSize, gridYSize, 1);  // gridSize blocks in the
-grid  
-dim3 DimBlock(TILE_WIDTH, TILE_WIDTH, 1); // blockSize threads in
-each block  
-matrixMultiply&amp;lt;&amp;lt;&amp;lt;DimGrid,DimBlock&amp;gt;&amp;gt;&amp;gt;(deviceA, deviceB,
-deviceC, ...&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;gridXSize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numCCols&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+&lt;span class="n"&gt;gridYSize&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;numCRows&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  
+&lt;span class="n"&gt;dim3&lt;/span&gt; &lt;span class="nf"&gt;DimGrid&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gridXSize&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gridYSize&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;  &lt;span class="c1"&gt;// gridSize blocks in the&lt;/span&gt;
+&lt;span class="n"&gt;grid&lt;/span&gt;  
+&lt;span class="n"&gt;dim3&lt;/span&gt; &lt;span class="nf"&gt;DimBlock&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TILE_WIDTH&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// blockSize threads in&lt;/span&gt;
+&lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="n"&gt;block&lt;/span&gt;  
+&lt;span class="n"&gt;matrixMultiply&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;DimGrid&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;DimBlock&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deviceA&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;deviceB&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="n"&gt;deviceC&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;We have put some logic around the statements that transfer data to

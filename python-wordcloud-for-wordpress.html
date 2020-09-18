@@ -88,7 +88,7 @@ Raschka</a>), make it easy to use the
 timeline</a>
 (as a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> file),
 and then use the word cloud script to produce a word cloud from it.</p>
-<p><a href="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png"><img alt="my_twitter_wordcloud_1" src="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png?w=660"></a></p>
+<p><img alt="my_twitter_wordcloud_1" src="https://0x7df.github.io/images/my_twitter_wordcloud_1.png?w=660"></p>
 <p>To add something to this, I did the same thing with my
 <a href="https://wordpress.com">WordPress</a> blog posts. I didn't want to bother
 fighting with the WordPress API, so I simply exported the blog contents
@@ -96,53 +96,60 @@ to an XML file, which WordPress allows you to do through the admin
 interface (so you can archive your blog locally and/or transfer it into
 a different blog). Hence, this really just ends up being about XML
 parsing. Here is the source code:</p>
-<p>[code lang="python"]<br>
-#!/usr/bin/python</p>
-<p>from HTMLParser import HTMLParser<br>
-import xml.etree.ElementTree as ET<br>
-import matplotlib.pyplot as plt<br>
-from wordcloud import WordCloud, STOPWORDS</p>
-<p>#
-http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python<br>
-class MLStripper(HTMLParser):<br>
-def <strong>init</strong>(self):<br>
-self.reset()<br>
-self.fed = []<br>
-def handle_data(self, d):<br>
-self.fed.append(d)<br>
-def get_data(self):<br>
-return ''.join(self.fed)</p>
-<p>tree = ET.parse('0x7df.wordpress.2015-04-25.xml')</p>
-<p>root = tree.getroot()</p>
-<p>postwords = []</p>
-<p>for child in root.iter():<br>
-if child.tag == 'item':<br>
-if child.find('{http://wordpress.org/export/1.2/}status').text ==
-'publish':<br>
-postbody =
-child.find('{http://purl.org/rss/1.0/modules/content/}encoded').text<br>
-s = MLStripper()<br>
-s.feed(postbody)<br>
-postwords += s.get_data().split()</p>
-<p>keywords = ' '.join([wd for wd in postwords<br>
-if 'http' not in wd and<br>
-'bg=' not in wd and<br>
-not wd.startswith('$') and<br>
-not wd.startswith('[') and<br>
-not wd.startswith('&amp;')<br>
-])</p>
-<p>wordcloud = WordCloud(<br>
-font_path='./SaucerBB.ttf',<br>
-stopwords=STOPWORDS,<br>
-background_color='black',<br>
-width=1800,<br>
-height=1800<br>
-).generate(keywords)</p>
-<p>plt.imshow(wordcloud)<br>
-plt.axis('off')<br>
-plt.savefig('./my_wordpress_wordcloud_2.png', dpi=300)<br>
-plt.show()<br>
-[/code]</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python</span>
+
+<span class="kn">from</span> <span class="nn">HTMLParser</span> <span class="kn">import</span> <span class="n">HTMLParser</span>  
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>  
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  
+<span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span><span class="p">,</span> <span class="n">STOPWORDS</span>
+
+<span class="c1"># http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python  </span>
+<span class="k">class</span> <span class="nc">MLStripper</span><span class="p">(</span><span class="n">HTMLParser</span><span class="p">):</span>  
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">fed</span> <span class="o">=</span> <span class="p">[]</span>  
+    <span class="k">def</span> <span class="nf">handle_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">fed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>  
+    <span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fed</span><span class="p">)</span>
+
+<span class="n">tree</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;0x7df.wordpress.2015-04-25.xml&#39;</span><span class="p">)</span>
+
+<span class="n">root</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">getroot</span><span class="p">()</span>
+
+<span class="n">postwords</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">iter</span><span class="p">():</span>  
+    <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s1">&#39;item&#39;</span><span class="p">:</span>  
+        <span class="k">if</span> <span class="n">child</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;{http://wordpress.org/export/1.2/}status&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;publish&#39;</span><span class="p">:</span>  
+            <span class="n">postbody</span> <span class="o">=</span> <span class="n">child</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;{http://purl.org/rss/1.0/modules/content/}encoded&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>  
+            <span class="n">s</span> <span class="o">=</span> <span class="n">MLStripper</span><span class="p">()</span>  
+            <span class="n">s</span><span class="o">.</span><span class="n">feed</span><span class="p">(</span><span class="n">postbody</span><span class="p">)</span>  
+            <span class="n">postwords</span> <span class="o">+=</span> <span class="n">s</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="n">keywords</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">wd</span> <span class="k">for</span> <span class="n">wd</span> <span class="ow">in</span> <span class="n">postwords</span>  
+    <span class="k">if</span> <span class="s1">&#39;http&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wd</span> <span class="ow">and</span>  
+    <span class="s1">&#39;bg=&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">wd</span> <span class="ow">and</span>  
+    <span class="ow">not</span> <span class="n">wd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="ow">and</span>  
+    <span class="ow">not</span> <span class="n">wd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span> <span class="ow">and</span>  
+    <span class="ow">not</span> <span class="n">wd</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">)</span>  
+    <span class="p">])</span>
+
+<span class="n">wordcloud</span> <span class="o">=</span> <span class="n">WordCloud</span><span class="p">(</span>  
+    <span class="n">font_path</span><span class="o">=</span><span class="s1">&#39;./SaucerBB.ttf&#39;</span><span class="p">,</span>  
+    <span class="n">stopwords</span><span class="o">=</span><span class="n">STOPWORDS</span><span class="p">,</span>  
+    <span class="n">background_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span>  
+    <span class="n">width</span><span class="o">=</span><span class="mi">1800</span><span class="p">,</span>  
+    <span class="n">height</span><span class="o">=</span><span class="mi">1800</span>  
+<span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">keywords</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">wordcloud</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;./my_wordpress_wordcloud_2.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+
 <p>I used the standard library light-weight
 <code>&lt;a href="https://docs.python.org/2/library/xml.etree.elementtree.html" target="_blank"&gt;xml.etree.ElementTree&lt;/a&gt;</code>
 parser. I get the root of the <a href="http://en.wikipedia.org/wiki/XML">XML</a>
@@ -164,7 +171,7 @@ The rest of the script is essentially the same as <a href="http://sebastianrasch
 Twitter</a>,
 tweaked a little where necessary.<br>
 The result is:</p>
-<p><a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"><img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660"></a></p>
+<p><img alt="my_wordpress_wordcloud_2" src="https://0x7df.github.io/images/my_wordpress_wordcloud_21.png?w=660"></p>
 <p>The font is called Saucer BB, from
 <a href="http://www.1001fonts.com/saucer-bb-font.html">here</a>.</p>
 
