@@ -9,7 +9,7 @@ Status: published
 Thermal radiation
 -----------------
 
-![Thermal imaging](https://0x7df.files.wordpress.com/2015/05/sts-3_infrared_on_reentry.jpg?w=127)
+![Thermal imaging]({static}images/STS-3_infrared_on_reentry.jpg?w=127)
 
 All matter continuously emits electromagnetic radiation as a consequence
 of its temperature. This radiation is called **thermal radiation** or
@@ -37,7 +37,7 @@ First, imagine two such containers, $ A$ and $ B$,
 with the same wall temperatures, but in which, for some
 reason (e.g. the material of the walls perhaps) the energy density is
 different. It is higher in $ B$.
-[![two_cavities](https://0x7df.files.wordpress.com/2015/05/two_cavities.png?w=300)](https://0x7df.files.wordpress.com/2015/05/two_cavities.png)
+![two_cavities]({static}images/two_cavities.png?w=300)
 
 Then imagine we can bring the two enclosures together to form a single
 enclosure - perhaps they each have at least one flat face of a given
