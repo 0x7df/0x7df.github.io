@@ -179,15 +179,17 @@ for me. To use this:</p>
 </li>
 <li>
 <p>Clone the repository:</p>
-<div class="highlight"><pre><span></span><code><span class="err">git clone https://github.com/0x7df/mkvm.git</span>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/0x7df/mkvm.git
 </code></pre></div>
 
 
 </li>
 <li>
-<p>Run the script:
-    :::bash
-    cd mkvm ; ./mkvm.sh</p>
+<p>Run the script:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> mkvm <span class="p">;</span> ./mkvm.sh
+</code></pre></div>
+
+
 </li>
 </ol>
 <p>You can see the software that gets installed from the listing below:</p>
@@ -195,9 +197,12 @@ for me. To use this:</p>
 <span class="c1"># This script configures an Ubuntu virtual machine how I like it</span>
 
 sudo apt-get -y update               <span class="c1"># Must be done before upgrade</span>
-sudo apt-get -y dist-upgrade         <span class="c1"># Does upgrade with intelligent dependency-handling</span>
+sudo apt-get -y dist-upgrade         <span class="c1"># Does upgrade with intelligent dependency-</span>
+                                     <span class="c1"># handling</span>
 
-sudo apt-get -y install dkms         <span class="c1"># For installing VirtualBox Linux Guest Additions (https://www.virtualbox.org/manual/ch04.html)</span>
+sudo apt-get -y install dkms         <span class="c1"># For installing VirtualBox Linux Guest</span>
+                                     <span class="c1"># Additions (https://www.virtualbox.org/</span>
+                                     <span class="c1"># manual/ch04.html)</span>
 
 sudo apt-get -y install git
 sudo apt-get -y install nedit
@@ -225,7 +230,8 @@ sudo apt-get -y install julia
 
 <span class="c1"># If Java JDK is required, determine the path:</span>
 <span class="c1">#   &gt; update-alternatives --config java</span>
-<span class="c1"># Set JAVA_HOME=/usr/bin/java (or wherever) in /etc/environment, which is the preferred location for JAVA_HOME or any system variable.</span>
+<span class="c1"># Set JAVA_HOME=/usr/bin/java (or wherever) in /etc/environment, which is the</span>
+<span class="c1"># preferred location for JAVA_HOME or any system variable.</span>
 
 <span class="nb">echo</span> <span class="s2">&quot;</span>
 <span class="s2"># Now install the Linux Guest Additions for VirtualBox. Go to the</span>

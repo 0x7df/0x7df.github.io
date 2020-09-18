@@ -5385,15 +5385,17 @@ for me. To use this:&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Clone the repository:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;git clone https://github.com/0x7df/mkvm.git&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git clone https://github.com/0x7df/mkvm.git
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Run the script:
-    :::bash
-    cd mkvm ; ./mkvm.sh&lt;/p&gt;
+&lt;p&gt;Run the script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; mkvm &lt;span class="p"&gt;;&lt;/span&gt; ./mkvm.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;You can see the software that gets installed from the listing below:&lt;/p&gt;
@@ -5401,9 +5403,12 @@ for me. To use this:&lt;/p&gt;
 &lt;span class="c1"&gt;# This script configures an Ubuntu virtual machine how I like it&lt;/span&gt;
 
 sudo apt-get -y update               &lt;span class="c1"&gt;# Must be done before upgrade&lt;/span&gt;
-sudo apt-get -y dist-upgrade         &lt;span class="c1"&gt;# Does upgrade with intelligent dependency-handling&lt;/span&gt;
+sudo apt-get -y dist-upgrade         &lt;span class="c1"&gt;# Does upgrade with intelligent dependency-&lt;/span&gt;
+                                     &lt;span class="c1"&gt;# handling&lt;/span&gt;
 
-sudo apt-get -y install dkms         &lt;span class="c1"&gt;# For installing VirtualBox Linux Guest Additions (https://www.virtualbox.org/manual/ch04.html)&lt;/span&gt;
+sudo apt-get -y install dkms         &lt;span class="c1"&gt;# For installing VirtualBox Linux Guest&lt;/span&gt;
+                                     &lt;span class="c1"&gt;# Additions (https://www.virtualbox.org/&lt;/span&gt;
+                                     &lt;span class="c1"&gt;# manual/ch04.html)&lt;/span&gt;
 
 sudo apt-get -y install git
 sudo apt-get -y install nedit
@@ -5431,7 +5436,8 @@ sudo apt-get -y install julia
 
 &lt;span class="c1"&gt;# If Java JDK is required, determine the path:&lt;/span&gt;
 &lt;span class="c1"&gt;#   &amp;gt; update-alternatives --config java&lt;/span&gt;
-&lt;span class="c1"&gt;# Set JAVA_HOME=/usr/bin/java (or wherever) in /etc/environment, which is the preferred location for JAVA_HOME or any system variable.&lt;/span&gt;
+&lt;span class="c1"&gt;# Set JAVA_HOME=/usr/bin/java (or wherever) in /etc/environment, which is the&lt;/span&gt;
+&lt;span class="c1"&gt;# preferred location for JAVA_HOME or any system variable.&lt;/span&gt;
 
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
 &lt;span class="s2"&gt;# Now install the Linux Guest Additions for VirtualBox. Go to the&lt;/span&gt;
@@ -5452,12 +5458,12 @@ window, go to "Settings", "General", "Advanced" and select from the
 "Shared Clipboard" drop-down. Detailed descriptions with screen shots
 are
 &lt;a href="http://www.howtogeek.com/187535/how-to-copy-and-paste-between-a-virtualbox-host-machine-and-a-guest-machine"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming"></category><category term="linux"></category><category term="ubuntu"></category><category term="virtual machine"></category><category term="virtualbox"></category><category term="vm"></category></entry><entry><title>CUDA basics part 2</title><link href="https://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><published>2015-04-21T20:58:00+01:00</published><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:/cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
+&lt;p&gt;Recently, I posted &lt;a href="https://0x7df.github.io/cuda-basics-part-1.html" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
 GPUs&lt;/a&gt;,
 which showed how to do a vector addition. This illustrated some of the
 CUDA basic syntax, but it wasn't a complex- enough example to bring to
 light some of the trickier issues to do with designing algorithms …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
+&lt;p&gt;Recently, I posted &lt;a href="https://0x7df.github.io/cuda-basics-part-1.html" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
 GPUs&lt;/a&gt;,
 which showed how to do a vector addition. This illustrated some of the
 CUDA basic syntax, but it wasn't a complex- enough example to bring to
