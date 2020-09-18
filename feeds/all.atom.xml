@@ -1,5 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-09-16T23:47:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Changing DNS provider to stop ISP blocking websites</title><link href="https://0x7df.github.io/changing-dns-provider-to-stop-isp-blocking-websites.html" rel="alternate"></link><published>2020-09-16T23:47:00+01:00</published><updated>2020-09-16T23:47:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/changing-dns-provider-to-stop-isp-blocking-websites.html</id><summary type="html"></summary><content type="html">&lt;p&gt;ISPs provide their own domain name services (DNSs) - the look-up tables that
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-09-18T16:20:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Poisson distribution</title><link href="https://0x7df.github.io/poisson-distribution.html" rel="alternate"></link><published>2020-09-18T16:20:00+01:00</published><updated>2020-09-18T16:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-18:/poisson-distribution.html</id><summary type="html">&lt;p&gt;Consider a radioactive substance with concentration &lt;em&gt;C&lt;/em&gt;, in atoms per litre,
+which is constant in space and time. The measured half-life is &lt;span class="math"&gt;\(\tau\)&lt;/span&gt;, in
+seconds, and the decay constant is &lt;span class="math"&gt;\(\lambda = \ln(2)/\tau\)&lt;/span&gt;. The number of
+decays per second per litre – the decay rate – is &lt;span class="math"&gt;\(\lambda C\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;However, this …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Consider a radioactive substance with concentration &lt;em&gt;C&lt;/em&gt;, in atoms per litre,
+which is constant in space and time. The measured half-life is &lt;span class="math"&gt;\(\tau\)&lt;/span&gt;, in
+seconds, and the decay constant is &lt;span class="math"&gt;\(\lambda = \ln(2)/\tau\)&lt;/span&gt;. The number of
+decays per second per litre – the decay rate – is &lt;span class="math"&gt;\(\lambda C\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;However, this is an average value, and the decay is a Poissonian process. The
+probability of &lt;span class="math"&gt;\(k\)&lt;/span&gt; decays per litre in any given second-long period is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p(k) = \frac{\left[\lambda k\right]^k e^{-\left[\lambda C\right]}}{k!} $$&lt;/div&gt;
+&lt;p&gt;The figure shows example Poisson distributions for &lt;span class="math"&gt;\(\lambda C\)&lt;/span&gt; = 10, 50, 90 and
+130.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="poisson_distributions" src="https://0x7df.github.io/images/poisson_distributions.png"&gt;&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Uncategorized"></category><category term="mathematics"></category><category term="statistics"></category></entry><entry><title>Changing DNS provider to stop ISP blocking websites</title><link href="https://0x7df.github.io/changing-dns-provider-to-stop-isp-blocking-websites.html" rel="alternate"></link><published>2020-09-16T23:47:00+01:00</published><updated>2020-09-16T23:47:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-16:/changing-dns-provider-to-stop-isp-blocking-websites.html</id><summary type="html"></summary><content type="html">&lt;p&gt;ISPs provide their own domain name services (DNSs) - the look-up tables that
 map human-readable URLs to IP addresses. This means that they can
 choose &lt;em&gt;not&lt;/em&gt; to include some entries. While this might be marketed as protection
 against malicious sites, it is also the case that privacy and security websites
