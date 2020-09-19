@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/maths.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-03-13T05:01:00+00:00</updated><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:combinations-and-permutations.html</id><summary type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png" /&gt;&lt;/a&gt;I
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - Maths</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/maths.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-03-13T05:01:00+00:00</updated><entry><title>Combinations and permutations</title><link href="http://0x7df.github.io/combinations-and-permutations.html" rel="alternate"></link><published>2015-03-13T05:01:00+00:00</published><updated>2015-03-13T05:01:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-13:/combinations-and-permutations.html</id><summary type="html">&lt;p&gt;The mathematics of combinations and permutations&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;img alt="abstract-balls-blue-200" src="https://0x7df.files.wordpress.com/2015/02/abstract-balls-blue-200.png"&gt;&lt;/a&gt;I
 recently had to explain the formulae for calculating the number of
 combinations and permutations, when selecting &lt;span class="math"&gt;\( r $\)&lt;/span&gt;
 items out of a pool of &lt;span class="math"&gt;\( n\)&lt;/span&gt;. In case you're ever
@@ -78,8 +78,8 @@ $$&lt;/div&gt;
 
 &lt;p&gt;In &lt;a href="http://julialang.org/"&gt;Julia&lt;/a&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ julia
-julia&amp;gt; factorial&lt;span class="o"&gt;(&lt;/span&gt;7&lt;span class="o"&gt;)&lt;/span&gt;
-5040
+julia&amp;gt; factorial&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="m"&gt;7&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="m"&gt;5040&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -292,4 +292,4 @@ $$&lt;/div&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="combinations"></category><category term="combinatorics"></category><category term="factorial"></category><category term="julia"></category><category term="permutations"></category><category term="python"></category></entry></feed>
+&lt;/script&gt;</content><category term="combinations"></category><category term="combinatorics"></category><category term="factorial"></category><category term="julia"></category><category term="permutations"></category><category term="python"></category></entry></feed>

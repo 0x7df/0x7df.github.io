@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Overview I write code documentation in Doxygen, and in some cases include a fair amount of information about the mathematical theory of the problem that the code is solving. It seemed worthwhile ...">
+        <meta name="description" content="Overview I write code documentation in Doxygen, and in some cases include a fair amount of information about the mathematical theory of the problem that the code is solving. It seemed worthwhile...">
         <meta name="keywords" content="doxygen, latex, markdown, python, regular expressions, text processing, wordpress">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -44,8 +44,6 @@
                                 <a href="http://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="http://0x7df.github.io/categories.html">Categories</a>
-                            <a  href="http://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
-                            <a  href="http://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -89,9 +87,9 @@ commands</a>,
 which begin with a <code>/</code> or a <code>@</code>.</p>
 <p>The bulk of the changes that need to be made are to the equations.
 Doxygen and WordPress both allow 
-<a href="http://www.latex.org"><img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX" /></a>
+<a href="http://www.latex.org"><img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX"></a>
 equations; Doxygen by actually
-calling <img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX" />
+calling <img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX">
 to generate
 <a href="en.wikipedia.org/wiki/Portable_Network_Graphics">PNG</a>-format images
 which it embeds in the <a href="www.w3schools.com/html/">HTML</a>files that it
@@ -101,12 +99,12 @@ documentation <a href="https://en.support.wordpress.com/latex/">here</a>). Howev
 while the code for the actual equation is identical in both, being
 standard
 <a href="http://www.ams.org/publications/authors/tex/amsmath">amsmath</a>-style
-<a href="http://www.latex.org"><img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX" /></a>,
+<a href="http://www.latex.org"><img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;fg=000" title="\LaTeX"></a>,
 the delimiters that identify it as maths and separate it from the body
 of the text are different. References also need to be handled
 differently.</p>
 <p>[caption id="" align="alignright" width="404"]<img alt="xkcd:
-Automation" src="http://imgs.xkcd.com/comics/automation.png" /> xkcd: Automation
+Automation" src="http://imgs.xkcd.com/comics/automation.png"> xkcd: Automation
 - http://imgs.xkcd.com/comics/automation.png[/caption]</p>
 <p>Rather than do the conversion by hand, I knocked up a simple
 <a href="http://python.org">Python</a> script to do it (and in doing so risked
@@ -127,14 +125,14 @@ Doxygen Markdown file called <code>example.md</code> as an argument to the Pytho
 script.</p>
 <h2>Main script</h2>
 <p>The first part of the script looks like this:</p>
-<p>[code lang="python"]<br />
+<p>[code lang="python"]<br>
 if <strong>name</strong> == "<strong>main</strong>":</p>
 <p>args = sys.argv[1:]</p>
 <p>reffile = '/default/path/to/references.md'</p>
-<p>for arg in args:<br />
-errmsg = processdox(arg,reffile)<br />
-for msg in errmsg:<br />
-print msg<br />
+<p>for arg in args:<br>
+errmsg = processdox(arg,reffile)<br>
+for msg in errmsg:<br>
+print msg<br>
 [/code]</p>
 <p>The first line - <code>if __name__ == "__main__":</code> - is a fairly standard
 Python construct that checks that the module being executed has been
@@ -162,12 +160,12 @@ over the error messages returned by the processing function, and print
 them to the screen.</p>
 <h2>Function `processdox`</h2>
 <p>The body of the <code>processdox</code> function is given below:</p>
-<p>[code lang="python"]<br />
+<p>[code lang="python"]<br>
 def processdox(filename,reffile):</p>
 <p>errmsg = checkfile(filename)</p>
-<p>if len(errmsg) == 0:<br />
+<p>if len(errmsg) == 0:<br>
 processfile(filename,reffile=reffile)</p>
-<p>return errmsg<br />
+<p>return errmsg<br>
 [/code]</p>
 <p>The first line is the function definition, which also specifies the
 arguments that function accepts: <code>filename</code> and <code>reffile</code>. Then, two
@@ -177,16 +175,16 @@ length of the list <code>errmsg</code> is zero (i.e. it contains no data, which 
 a way of checking that <code>checkfile</code> didn't return any error messages).</p>
 <h2>Error checking</h2>
 <p>Let's see the file-checking function <code>checkfile</code> next:</p>
-<p>[code lang="python"]<br />
+<p>[code lang="python"]<br>
 def checkfile(filename):</p>
 <p>errmsg = []</p>
 <p>filebase, fileext = os.path.splitext(filename)</p>
-<p>if fileext != '.md':<br />
+<p>if fileext != '.md':<br>
 errmsg.append(filename+' is not Markdown')</p>
-<p>if not os.path.isfile(filename):<br />
-errmsg.append(filename+' does not exist or is<br />
+<p>if not os.path.isfile(filename):<br>
+errmsg.append(filename+' does not exist or is<br>
 not a file')</p>
-<p>return errmsg<br />
+<p>return errmsg<br>
 [/code]</p>
 <p>This first declares the <code>errmsg</code> variable as an empty list, and then
 uses the standard <code>os.path</code> module's <code>splitext</code> function, which returns
@@ -212,15 +210,15 @@ iterations the user will have to go through to fix everything.</p>
 <p>For example, if we call:</p>
 <p>[code lang="bash"]  </p>
 <blockquote>
-<p>python dox2wp.py isnotmarkdown.txt doesnotexist.md \<br />
-existsbutisafolder.md realmarkdown.md<br />
+<p>python dox2wp.py isnotmarkdown.txt doesnotexist.md \<br>
+existsbutisafolder.md realmarkdown.md<br>
 [/code]</p>
 </blockquote>
 <p>then we get:</p>
-<p>[code]<br />
-isnotmarkdown.txt is not Markdown<br />
-doesnotexist.md does not exist or is not a file<br />
-existsbutisafolder.md does not exist or is not a file<br />
+<p>[code]<br>
+isnotmarkdown.txt is not Markdown<br>
+doesnotexist.md does not exist or is not a file<br>
+existsbutisafolder.md does not exist or is not a file<br>
 [/code]</p>
 <p>Note there's no error message referring to <code>realmarkdown.md</code>, which
 meets the criteria and so is processed successfully.</p>
@@ -242,11 +240,11 @@ is useful to illustrate the principles in a simple application.</p>
 <h3>Preamble</h3>
 <p>Function <code>processfile</code> executes the real work. This is somewhat longer
 so we'll deal with it in sections. It starts with:</p>
-<p>[code lang="python"]<br />
+<p>[code lang="python"]<br>
 def processfile(filename,reffile='references.md'):</p>
-<p>fi = open(filename,'r')<br />
-fo = open(filename+'.txt','w')<br />
-fr = open(reffile,'r')<br />
+<p>fi = open(filename,'r')<br>
+fo = open(filename+'.txt','w')<br>
+fr = open(reffile,'r')<br>
 [/code]</p>
 <p>After the function definition, which like the previous one we saw
 defines the input arguments <code>filename</code> and <code>reffile</code> (but with the
@@ -262,17 +260,17 @@ later; we define them here rather than nearer to where they get used
 because their use will be inside a loop, and there's no point
 re-defining them every time the loop is executed, because they're always
 the same.</p>
-<p>[code lang="python"]<br />
-p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br />
-p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br />
+<p>[code lang="python"]<br>
+p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br>
+p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br>
 [/code]</p>
 <p>We'll come back to these when they're needed.</p>
 <p>The final part of the pre-amble involved setting up a counter and an
 empty list for the references, again which we'll come to when we need
 them.</p>
-<p>[code lang="python"]<br />
-refnum = 1<br />
-footnotes = []<br />
+<p>[code lang="python"]<br>
+refnum = 1<br>
+footnotes = []<br>
 [/code]</p>
 <p>In the next stage we enter the loop over individual lines in the input
 file, which Python implements very simply as <code>for line in fi:</code>, with
@@ -280,12 +278,12 @@ file, which Python implements very simply as <code>for line in fi:</code>, with
 placed, and <code>fi</code> just being the pointer to the opened text file.</p>
 <p>The first text-processing operation is to replace &lt; and &gt; with their
 HTML equivalents: <code>&amp;lt;</code> and <code>&amp;gt;</code>, respectively.</p>
-<p>[code lang="python"]<br />
+<p>[code lang="python"]<br>
 for line in fi:</p>
-<p># Some of the later changes insert "&lt;" and "&gt;" so do<br />
-# these as early as possible<br />
-line = line.replace('&lt;','&lt;')<br />
-line = line.replace('&gt;','&gt;')<br />
+<p># Some of the later changes insert "&lt;" and "&gt;" so do<br>
+# these as early as possible<br>
+line = line.replace('&lt;','&lt;')<br>
+line = line.replace('&gt;','&gt;')<br>
 [/code]</p>
 <p>The reason for this is that, for this to work overall, the final output
 needs to be copied and pasted into WordPress's HTML editor, rather than
@@ -304,20 +302,20 @@ as maths - but it happened, which seems like a flaw in the WordPress
 parsing.</p>
 <h3>Special commands</h3>
 <p>Subsequently, we remove some of the Doxygen special commands:</p>
-<p>[code lang="python"]<br />
-# Remove the table of contents special command<br />
+<p>[code lang="python"]<br>
+# Remove the table of contents special command<br>
 line = line.replace('\\tableofcontents','')</p>
-<p># Replace the Doxygen special commands for sections<br />
-# with Markdown<br />
-if '\section' in line:<br />
-fields = line.split()<br />
-line = '# ' + ' '.join(fields[2:])<br />
-if '\subsection' in line:<br />
-fields = line.split()<br />
-line = '## ' + ' '.join(fields[2:])<br />
-if '\subsubsection' in line:<br />
-fields = line.split()<br />
-line = '### ' + ' '.join(fields[2:])<br />
+<p># Replace the Doxygen special commands for sections<br>
+# with Markdown<br>
+if '\section' in line:<br>
+fields = line.split()<br>
+line = '# ' + ' '.join(fields[2:])<br>
+if '\subsection' in line:<br>
+fields = line.split()<br>
+line = '## ' + ' '.join(fields[2:])<br>
+if '\subsubsection' in line:<br>
+fields = line.split()<br>
+line = '### ' + ' '.join(fields[2:])<br>
 [/code]</p>
 <p>The first special command is <code>\tableofcontents</code>, which appears on its
 own and causes Doxygen to automatically insert a contents table into the
@@ -327,21 +325,21 @@ an empty string, using the <code>replace</code> string method.</p>
 special commands is followed by two arguments: first an identifying tag,
 which can then be used elsewhere in the Doxygen pages to create a link
 to this section, followed by the actual title of the section, e.g.:</p>
-<p>[code]<br />
-\subsection introdoxy Introduction to Doxygen<br />
+<p>[code]<br>
+\subsection introdoxy Introduction to Doxygen<br>
 [/code]</p>
 <p>We don't care about the ID tag, but we want to keep the title and retain
 it at the same location as the section title in the WordPress post. To
 do this we split the line into a list of tokens, separated by
 whitespace, using <code>line.split()</code>. The resulting list, in <code>fields</code>, would
 look like this for the example above if we printed it out:</p>
-<p>[code lang="python"]<br />
-['\\subsection', 'introdoxy', 'Introduction', 'to', 'Doxygen']<br />
+<p>[code lang="python"]<br>
+['\\subsection', 'introdoxy', 'Introduction', 'to', 'Doxygen']<br>
 [/code]</p>
 <p>The idea is to discard the first two elements and keep the rest, joining
 them back together into a string, and stripping out the quotation marks.</p>
-<p>[code]<br />
-line = '## ' + ' '.join(fields[2:])<br />
+<p>[code]<br>
+line = '## ' + ' '.join(fields[2:])<br>
 [/code]</p>
 <p>Here the <code>string.join(list)</code> syntax in Python joins all the elements of
 <code>list</code> together into a single string, using <code>string</code> as the delimiter.
@@ -375,32 +373,32 @@ remainder is the text that appears in the references section.</p>
 <p>What we want to do is replace the in-line reference with a link to a
 footnote, and use the long reference text as the footnote.</p>
 <p>For an individual references, the code that does this looks like this:</p>
-<p>[code lang="python"]<br />
+<p>[code lang="python"]<br>
 # References</p>
-<p>refidstr = 'fn'+str(refnum)<br />
+<p>refidstr = 'fn'+str(refnum)<br>
 refnum += 1</p>
-<p>fields = istr.split()<br />
+<p>fields = istr.split()<br>
 reftxt = " ".join(fields[2:]).strip('"')</p>
-<p>ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
+<p>ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br>
 line = line.replace(istr,ostr)</p>
-<p>doxref = fields[1]<br />
-for refline in fr:<br />
-if doxref in refline:<br />
-reffull = ' '.join(refline.strip().split()[3:])<br />
-break<br />
-footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+<p>doxref = fields[1]<br>
+for refline in fr:<br>
+if doxref in refline:<br>
+reffull = ' '.join(refline.strip().split()[3:])<br>
+break<br>
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br>
 [/code]</p>
 <p>Although you don't see it here, the Doxygen text containing the in-line
 reference is contained in <code>istr</code> - we'll explain how it got there
 shortly. The first thing we do is create a unique string for the anchor
 that will be used as the ID for the footnote; i.e. if the anchor is
 <code>fn1</code>, then the inline reference will be:</p>
-<p>[code lang="html"]<br />
-<a href="fn1">Fick (1855)</a><br />
+<p>[code lang="html"]<br>
+<a href="fn1">Fick (1855)</a><br>
 [/code]</p>
 <p>and the footnote would be:</p>
-<p>[code lang="html"]<br />
-<a name="fn1">Fick, A, 1855. On liquid diffusion...</a><br />
+<p>[code lang="html"]<br>
+<a name="fn1">Fick, A, 1855. On liquid diffusion...</a><br>
 [/code]</p>
 <p>We have previously set up a counter for the references we discover,
 which was <code>refnum</code>, so the code <code>refidstr = 'fn'+str(refnum)</code> will
@@ -413,25 +411,25 @@ did for the section headings. The only difference here is that we have
 to add the <code>strip('"')</code> function to strip off the quotation marks.</p>
 <p>At this point we have enough information to construct the new text for
 the in-line reference:</p>
-<p>[code lang="python"]<br />
-ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
+<p>[code lang="python"]<br>
+ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br>
 [/code]</p>
 <p>and replace the original string with the new one:</p>
-<p>[code lang="python"]<br />
-line = line.replace(istr,ostr)<br />
+<p>[code lang="python"]<br>
+line = line.replace(istr,ostr)<br>
 [/code]</p>
 <p>There's one final job; we have to create the footnote and put it at the
 bottom of the page. We'll store it in a list called <code>footnotes</code> in the
 interim, and then write the list out after all the other processing has
 been finished, so it appears in its proper place at the bottom of the
 page.</p>
-<p>[code lang="python"]<br />
-doxref = fields[1]<br />
-for refline in fr:<br />
-if doxref in refline:<br />
-reffull = ' '.join(refline.strip().split()[3:])<br />
-break<br />
-footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+<p>[code lang="python"]<br>
+doxref = fields[1]<br>
+for refline in fr:<br>
+if doxref in refline:<br>
+reffull = ' '.join(refline.strip().split()[3:])<br>
+break<br>
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br>
 [/code]</p>
 <p>So what is this doing? We know the text that Doxygen is using - <code>ref01</code>
 - in our example, because we can extract it from the second token of the
@@ -452,8 +450,8 @@ first requires that the Python <code>re</code> module is imported (documented
 <a href="https://docs.python.org/2/library/re.html">here</a>). Once it is, we can
 compile a regular expression using the code we saw earlier but didn't
 explain:</p>
-<p>[code lang="python"]<br />
-p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br />
+<p>[code lang="python"]<br>
+p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br>
 [/code]</p>
 <p>The regular expression is the bit inside the single quotes:</p>
 <div class="highlight"><pre><span></span>@ref [^&quot;]* &quot;[^&quot;]*&quot;
@@ -479,9 +477,9 @@ wouldn't matter; but we can't.</p>
 understand the rest of the line. Compiling the regular expression
 creates a special regular expression object, which we've bound to <code>p2</code>,
 and which can be used later. We do this by writing:</p>
-<p>[code lang="python"]<br />
-for item in p2.finditer(line):<br />
-istr = item.group()<br />
+<p>[code lang="python"]<br>
+for item in p2.finditer(line):<br>
+istr = item.group()<br>
 [/code]</p>
 <p>This calls the <code>finditer</code> method of the <code>p2</code> regular expression object
 on the text string <code>line</code>, which returns an iterator of all the
@@ -490,30 +488,30 @@ do this because there could be more than one match in any given <code>line</code
 The second line returns the actual matched text string from <code>item</code>,
 using the <code>group</code> method, and puts it into <code>istr</code>. We now have the full
 thing:</p>
-<p>[code lang="python"]<br />
-# Loop over all matches against p2 in line<br />
+<p>[code lang="python"]<br>
+# Loop over all matches against p2 in line<br>
 for item in p2.finditer(line):</p>
-<p># Extract the matched text<br />
+<p># Extract the matched text<br>
 istr = item.group()</p>
 <p># Create the unique reference (and increment the counter for next
-time)<br />
-refidstr = 'fn'+str(refnum)<br />
+time)<br>
+refidstr = 'fn'+str(refnum)<br>
 refnum += 1</p>
-<p># Get the in-line reference text<br />
-fields = istr.split()<br />
+<p># Get the in-line reference text<br>
+fields = istr.split()<br>
 reftxt = " ".join(fields[2:]).strip('"')</p>
-<p># Construct the WordPress-format inline reference and<br />
-# replace the old Doxygen-format one<br />
-ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
+<p># Construct the WordPress-format inline reference and<br>
+# replace the old Doxygen-format one<br>
+ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br>
 line = line.replace(istr,ostr)</p>
-<p># Get the full reference text to use as the footnote<br />
-doxref = fields[1]<br />
-fr.seek(0)<br />
-for refline in fr:<br />
-if doxref in refline:<br />
-reffull = ' '.join(refline.strip().split()[3:])<br />
-break<br />
-footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+<p># Get the full reference text to use as the footnote<br>
+doxref = fields[1]<br>
+fr.seek(0)<br>
+for refline in fr:<br>
+if doxref in refline:<br>
+reffull = ' '.join(refline.strip().split()[3:])<br>
+break<br>
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br>
 [/code]</p>
 <p>The only additonal thing here that you haven't already seen is the
 <code>fr.seek(0)</code> line, which rewinds the references file to the beginning
@@ -530,17 +528,17 @@ equations can be included by surrounding them with <code>\f$</code> tags; e.g.:<
 <p>Alternatively, we can create a numbered equation on its own line by
 using the opening delimiter <code>\f{equation}</code> and the closing delimiter
 <code>\f}</code>. For example:</p>
-<p>[code]<br />
-\f{equation}<br />
-F = ma<br />
-\f}<br />
+<p>[code]<br>
+\f{equation}<br>
+F = ma<br>
+\f}<br>
 [/code]</p>
 <p>Then finally, a non-numbered equation can be created on its own line by
 using:</p>
-<p>[code]<br />
-\f[<br />
-a^2 + b^2 = c^2<br />
-\f]<br />
+<p>[code]<br>
+\f[<br>
+a^2 + b^2 = c^2<br>
+\f]<br>
 [/code]</p>
 <p>In WordPress, there is only one way to embed mathematics, which is to
 use the opening delimiter <code>$latex</code> followed by the closing delimiter
@@ -548,12 +546,12 @@ use the opening delimiter <code>$latex</code> followed by the closing delimiter
 there's no support for equation numbering.</p>
 <p>Replacing the second two types is trivial, because the opening and
 closing delimiters are different, as they are for WordPress. Hence:</p>
-<p>[code lang="python"]<br />
-# Replace the maths delimiters<br />
+<p>[code lang="python"]<br>
+# Replace the maths delimiters<br>
 line = line.replace('\\f{equation}','<span class="math">\(')  
-line = line.replace('\\\\f[','\)</span>')<br />
+line = line.replace('\\\\f[','\)</span>')<br>
 line = line.replace('\\f}','<span class="math">\(')  
-line = line.replace('\\\\f]','\)</span>')<br />
+line = line.replace('\\\\f]','\)</span>')<br>
 [/code]</p>
 <p>does the trick nicely. Note we add an extra <code>\</code> to protect the <code>\</code> that
 appears in the string we want to match. Without this, the <code>\f</code> would be
@@ -562,16 +560,16 @@ interpreted as the form-feed escape sequence.</p>
 and end delimiter in Doxygen are the same, but we need to replace them
 with different start and end delimiters for WordPress to understand. We
 go back to regular expressions:</p>
-<p>[code lang="python"]<br />
-# Replace the inline maths delimiters<br />
-for item in p1.finditer(line):<br />
-istr = item.group()<br />
-ostr = '<span class="math">\('+istr.strip('@f\)</span>')+'$'<br />
-line = line.replace(istr,ostr)<br />
+<p>[code lang="python"]<br>
+# Replace the inline maths delimiters<br>
+for item in p1.finditer(line):<br>
+istr = item.group()<br>
+ostr = '<span class="math">\('+istr.strip('@f\)</span>')+'$'<br>
+line = line.replace(istr,ostr)<br>
 [/code]</p>
 <p>We saw <code>p1</code> defined earlier as:</p>
-<p>[code lang="python"]<br />
-p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br />
+<p>[code lang="python"]<br>
+p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br>
 [/code]</p>
 <p>Here we are trying to match something that begins and ends with a
 literal <code>@f$</code>, which we have to write as <code>@f$</code> because <code>$</code> is also a
@@ -584,102 +582,102 @@ by <code>[^@]*</code>. The rest should be self-explanatory.</p>
 certainly took a lot longer to write...). It's also a fairly esoteric
 use case I should think, so will probably be of use to all of 3 other
 people if I'm lucky! The final, full script is reproduced below.</p>
-<hr />
-<p>[code lang="python"]<br />
-import sys<br />
-import os<br />
+<hr>
+<p>[code lang="python"]<br>
+import sys<br>
+import os<br>
 import re</p>
 <h2>#</h2>
 <p>def checkfile(filename):</p>
 <p>errmsg = []</p>
 <p>filebase, fileext = os.path.splitext(filename)</p>
-<p>if fileext != '.md':<br />
+<p>if fileext != '.md':<br>
 errmsg.append(filename+' is not Markdown')</p>
-<p>if not os.path.isfile(filename):<br />
-errmsg.append(filename+' does not exist or is not<br />
+<p>if not os.path.isfile(filename):<br>
+errmsg.append(filename+' does not exist or is not<br>
 a file')</p>
 <p>return errmsg</p>
 <h2>#</h2>
 <p>def processfile(filename,reffile='references.md'):</p>
-<p>fi = open(filename,'r')<br />
-fo = open(filename+'.txt','w')<br />
+<p>fi = open(filename,'r')<br>
+fo = open(filename+'.txt','w')<br>
 fr = open(reffile,'r')</p>
-<p>p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br />
+<p>p1 = re.compile('@f\<span class="math">\([^@]*@f\\\)</span>')<br>
 p2 = re.compile('@ref [^"]<em> "[^"]</em>"')</p>
-<p>refnum = 1<br />
+<p>refnum = 1<br>
 footnotes = []</p>
 <p>for line in fi:</p>
-<p># Some of the later changes insert "&lt;" and "&gt;" so do these<br />
-# as early as possible<br />
-line = line.replace('&lt;','&lt;')<br />
+<p># Some of the later changes insert "&lt;" and "&gt;" so do these<br>
+# as early as possible<br>
+line = line.replace('&lt;','&lt;')<br>
 line = line.replace('&gt;','&gt;')</p>
-<p># Remove the table of contents special command<br />
+<p># Remove the table of contents special command<br>
 line = line.replace('\\tableofcontents','')</p>
-<p># Replace the Doxygen special commands for sections with<br />
-# Markdown<br />
-if '\section' in line:<br />
-fields = line.split()<br />
-line = '# ' + ' '.join(fields[2:])<br />
-if '\subsection' in line:<br />
-fields = line.split()<br />
-line = '## ' + ' '.join(fields[2:])<br />
-if '\subsubsection' in line:<br />
-fields = line.split()<br />
+<p># Replace the Doxygen special commands for sections with<br>
+# Markdown<br>
+if '\section' in line:<br>
+fields = line.split()<br>
+line = '# ' + ' '.join(fields[2:])<br>
+if '\subsection' in line:<br>
+fields = line.split()<br>
+line = '## ' + ' '.join(fields[2:])<br>
+if '\subsubsection' in line:<br>
+fields = line.split()<br>
 line = '### ' + ' '.join(fields[2:])</p>
-<p># References<br />
-# Doxygen format is '@ref doxref "reference text"'<br />
+<p># References<br>
+# Doxygen format is '@ref doxref "reference text"'<br>
 # Replace with an HTML link to a footnote '<a href="fn1">reference
-text</a>'<br />
-for item in p2.finditer(line):<br />
-istr = item.group()<br />
-refidstr = 'fn'+str(refnum)<br />
-fields = istr.split()<br />
-reftxt = " ".join(fields[2:]).strip('"')<br />
-doxref = fields[1]<br />
-fr.seek(0)<br />
-for refline in fr:<br />
-if doxref in refline:<br />
-reffull = ' '.join(refline.strip().split()[3:])<br />
-break<br />
-ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br />
-line = line.replace(istr,ostr)<br />
-footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br />
+text</a>'<br>
+for item in p2.finditer(line):<br>
+istr = item.group()<br>
+refidstr = 'fn'+str(refnum)<br>
+fields = istr.split()<br>
+reftxt = " ".join(fields[2:]).strip('"')<br>
+doxref = fields[1]<br>
+fr.seek(0)<br>
+for refline in fr:<br>
+if doxref in refline:<br>
+reffull = ' '.join(refline.strip().split()[3:])<br>
+break<br>
+ostr = '<a href="\#'+refidstr+'">'+reftxt+'</a>'<br>
+line = line.replace(istr,ostr)<br>
+footnotes.append('<a name="'+refidstr+'">'+reffull+'</a>')<br>
 refnum += 1</p>
-<p># Replace the maths delimiters<br />
+<p># Replace the maths delimiters<br>
 line = line.replace('\\f{equation}','<span class="math">\(')  
-line = line.replace('\\\\f[','\)</span>')<br />
+line = line.replace('\\\\f[','\)</span>')<br>
 line = line.replace('\\f}','<span class="math">\(')  
 line = line.replace('\\\\f]','\)</span>')</p>
-<p># Replace the inline maths delimiters<br />
-for item in p1.finditer(line):<br />
-istr = item.group()<br />
-ostr = '<span class="math">\('+istr.strip('@f\)</span>')+'$'<br />
+<p># Replace the inline maths delimiters<br>
+for item in p1.finditer(line):<br>
+istr = item.group()<br>
+ostr = '<span class="math">\('+istr.strip('@f\)</span>')+'$'<br>
 line = line.replace(istr,ostr)</p>
 <p>fo.write(line+'\n')</p>
-<p># Write out the footnotes generated by processing the references<br />
-fo.write('<hr>\n')<br />
-fo.write('<ol>\n')<br />
-for fn in footnotes:<br />
-fo.write('<li>'+fn+'\n')<br />
+<p># Write out the footnotes generated by processing the references<br>
+fo.write('<hr>\n')<br>
+fo.write('<ol>\n')<br>
+for fn in footnotes:<br>
+fo.write('<li>'+fn+'\n')<br>
 fo.write('</ol>\n')</p>
-<p>fi.close()<br />
-fo.close()<br />
+<p>fi.close()<br>
+fo.close()<br>
 fr.close()</p>
 <p>return</p>
 <h2>#</h2>
 <p>def processdox(filename,reffile):</p>
 <p>errmsg = checkfile(filename)</p>
-<p>if len(errmsg) == 0:<br />
+<p>if len(errmsg) == 0:<br>
 processfile(filename,reffile=reffile)</p>
 <p>return errmsg</p>
 <h2>#</h2>
 <p>if <strong>name</strong> == "<strong>main</strong>":</p>
 <p>args = sys.argv[1:]</p>
 <p>reffile = '/default/path/to/references.md'</p>
-<p>for arg in args:<br />
-errmsg = processdox(arg,reffile)<br />
-for msg in errmsg:<br />
-print msg<br />
+<p>for arg in args:<br>
+errmsg = processdox(arg,reffile)<br>
+for msg in errmsg:<br>
+print msg<br>
 [/code]</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",

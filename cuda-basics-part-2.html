@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Introduction Recently, I posted a basic introduction to CUDA C for programming GPUs, which showed how to do a vector addition. This illustrated some of the CUDA basic syntax, but it wasn&#39;t a ...">
+        <meta name="description" content="Introduction Recently, I posted a basic introduction to CUDA C for programming GPUs, which showed how to do a vector addition. This illustrated some of the CUDA basic syntax, but it wasn&#39;t a...">
         <meta name="keywords" content="c, cuda, gpu, hpc, massively parallel, parallel computing, parallel programming">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -44,8 +44,6 @@
                                 <a href="http://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="http://0x7df.github.io/categories.html">Categories</a>
-                            <a  href="http://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
-                            <a  href="http://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -118,7 +116,7 @@ we can print.</p>
     }                                                              \\  
 } while (0)</code></p>
 <h3>Simple matrix multiplication kernel</h3>
-<h3><a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png"><img alt="tiled_matrix_multiplication_1" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png?w=296" /></a></h3>
+<h3><a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png"><img alt="tiled_matrix_multiplication_1" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png?w=296"></a></h3>
 <p>Now for the kernel function. The way we've chosen to divide this problem
 up amongst threads is to have each thread calculate a single element in
 the output vector, <em>C</em>. Mathematically, for an <em>m</em>-by-<em>n</em> matrix <em>A</em> and
@@ -171,60 +169,60 @@ didn't see in the vector multiplication example are:</p>
 </ol>
 <p>`</p>
 <p>int main(int argc, char **argv) {</p>
-<p>float <em>hostA, </em>hostB, <em>hostC;<br />
-  float </em>deviceA, <em>deviceB, </em>deviceC;<br />
-  int numARows, numACols; // Rows, columns in the matrix A<br />
-  int numBRows, numBCols; // Rows, columns in the matrix B<br />
-  int numCRows, numCCols; // Rows, columns in the matrix C<br />
-    int sizeA, sizeB, sizeC; // Size in memory of each of A, B and C<br />
+<p>float <em>hostA, </em>hostB, <em>hostC;<br>
+  float </em>deviceA, <em>deviceB, </em>deviceC;<br>
+  int numARows, numACols; // Rows, columns in the matrix A<br>
+  int numBRows, numBCols; // Rows, columns in the matrix B<br>
+  int numCRows, numCCols; // Rows, columns in the matrix C<br>
+    int sizeA, sizeB, sizeC; // Size in memory of each of A, B and C<br>
     int gridXSize, gridYSize; // Number of thread blocks in x, y
-dimensions of grid<br />
+dimensions of grid<br>
     int blockSize; // Number of threads in block</p>
-<p>// Allocate and populate the A and B matrices<br />
-// hostA and hostB, and get numARows, numACols,<br />
+<p>// Allocate and populate the A and B matrices<br>
+// hostA and hostB, and get numARows, numACols,<br>
 // numBRows, numBCols</p>
-<p>// Set numCRows and numCCols<br />
-    numCRows = numARows;<br />
-    numCCols = numBCols;<br />
-<br />
-  // Allocate the C matrix<br />
-    hostC = (float<em>)malloc(numCRows</em>numCCols<em>sizeof(float));<br />
-<br />
-// Allocate GPU memory<br />
-sizeA = numARows</em>numACols<em>sizeof(float);<br />
-sizeB = numBRows</em>numBCols<em>sizeof(float);<br />
-sizeC = numCRows</em>numCCols<em>sizeof(float);<br />
-cudaCheck(cudaMalloc((void <strong>) &amp;deviceA, sizeA));<br />
-cudaCheck(cudaMalloc((void </strong>) &amp;deviceB, sizeB));<br />
+<p>// Set numCRows and numCCols<br>
+    numCRows = numARows;<br>
+    numCCols = numBCols;<br>
+<br>
+  // Allocate the C matrix<br>
+    hostC = (float<em>)malloc(numCRows</em>numCCols<em>sizeof(float));<br>
+<br>
+// Allocate GPU memory<br>
+sizeA = numARows</em>numACols<em>sizeof(float);<br>
+sizeB = numBRows</em>numBCols<em>sizeof(float);<br>
+sizeC = numCRows</em>numCCols<em>sizeof(float);<br>
+cudaCheck(cudaMalloc((void <strong>) &amp;deviceA, sizeA));<br>
+cudaCheck(cudaMalloc((void </strong>) &amp;deviceB, sizeB));<br>
    cudaCheck(cudaMalloc((void </em>*) &amp;deviceC, sizeC));</p>
-<p>// Copy data to the GPU<br />
+<p>// Copy data to the GPU<br>
    cudaCheck(cudaMemcpy(deviceA, hostA, sizeA,
-cudaMemcpyHostToDevice));<br />
+cudaMemcpyHostToDevice));<br>
    cudaCheck(cudaMemcpy(deviceB, hostB, sizeB,
 cudaMemcpyHostToDevice));</p>
-<p>// Initialize the grid and block dimensions<br />
-   blockSize = 16;<br />
-   gridXSize = (numCCols-1)/blockSize + 1;<br />
-   gridYSize = (numCRows-1)/blockSize + 1;<br />
-   dim3 dimGrid(gridXSize, gridYSize, 1);<br />
-   dim3 dimBlock(blockSize, blockSize, 1);<br />
-<br />
-   // Launch the GPU Kernel<br />
-   matrixMultiply&lt;&lt;<dimGrid,dimBlock>&gt;&gt;(deviceA, deviceB,<br />
-deviceC, numACols,<br />
-numBRows, numBCols,<br />
-                               numCRows, numCCols);<br />
+<p>// Initialize the grid and block dimensions<br>
+   blockSize = 16;<br>
+   gridXSize = (numCCols-1)/blockSize + 1;<br>
+   gridYSize = (numCRows-1)/blockSize + 1;<br>
+   dim3 dimGrid(gridXSize, gridYSize, 1);<br>
+   dim3 dimBlock(blockSize, blockSize, 1);<br>
+<br>
+   // Launch the GPU Kernel<br>
+   matrixMultiply&lt;&lt;<dimGrid,dimBlock>&gt;&gt;(deviceA, deviceB,<br>
+deviceC, numACols,<br>
+numBRows, numBCols,<br>
+                               numCRows, numCCols);<br>
   cudaDeviceSynchronize();</p>
-<p>// Copy the GPU memory back to the CPU<br />
+<p>// Copy the GPU memory back to the CPU<br>
    cudaCheck(cudaMemcpy(hostC, deviceC, sizeC,
 cudaMemcpyDeviceToHost));</p>
-<p>// Free the GPU memory<br />
-   cudaCheck(cudaFree(deviceA));<br />
-   cudaCheck(cudaFree(deviceB));<br />
-   cudaCheck(cudaFree(deviceC));<br />
-<br />
+<p>// Free the GPU memory<br>
+   cudaCheck(cudaFree(deviceA));<br>
+   cudaCheck(cudaFree(deviceB));<br>
+   cudaCheck(cudaFree(deviceC));<br>
+<br>
   // Do something with the solution, free the host memory, return</p>
-<p>}<br />
+<p>}<br>
 `</p>
 <p>The call to <code>cudaDeviceSynchronize()</code> ensures that all threads have
 finished before the host code proceeds any further.</p>
@@ -262,7 +260,7 @@ block have the subset of input data they need available in their SM's
 shared memory, under the general assumption that because of the small
 size of the shared memory, not all of the needed data will fit in at
 once.</p>
-<p><a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png"><img alt="tiled_matrix_multiplication_2" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png?w=285" /></a>Consider
+<p><a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png"><img alt="tiled_matrix_multiplication_2" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png?w=285"></a>Consider
 a thread block covering an area of the product matrix <em>C</em>, which is <em>a</em>
 rows high by <em>a</em> columns wide, with the top-left element being <em>i</em>,<em>j</em>
 and the bottom-right therefore being <em>i+a,j+a</em>. This is shown in the
@@ -290,71 +288,71 @@ data re-use reduces the retrievals from global memory by a factor of
 <em>a</em>.</p>
 <p>Here is the kernel for tiled matrix multiplication.</p>
 <p>`</p>
-<p><strong>global</strong> void matrixMultiply(float <em>A, float </em>B, float *C,<br />
-int numARows, int numACols,<br />
-int numBRows, int numBCols,<br />
+<p><strong>global</strong> void matrixMultiply(float <em>A, float </em>B, float *C,<br>
+int numARows, int numACols,<br>
+int numBRows, int numBCols,<br>
 int numCRows, int numCCols) {</p>
-<p>// Define device shared-memory storage for<br />
-// tiles of the matrices<br />
-// Scope: each tile is accessible by a single<br />
-// block of threads<br />
-<strong>shared</strong> float tileA[TILE_WIDTH][TILE_WIDTH];<br />
+<p>// Define device shared-memory storage for<br>
+// tiles of the matrices<br>
+// Scope: each tile is accessible by a single<br>
+// block of threads<br>
+<strong>shared</strong> float tileA[TILE_WIDTH][TILE_WIDTH];<br>
 <strong>shared</strong> float tileB[TILE_WIDTH][TILE_WIDTH];</p>
-<p>// Define abbreviated variables for the<br />
-// block and thread IDs<br />
-// Scope: stored in registers and therefore<br />
-// accessible by single threads<br />
-int bx =  blockIdx.x;<br />
-int by =  blockIdx.y;<br />
-int tx =  threadIdx.x;<br />
+<p>// Define abbreviated variables for the<br>
+// block and thread IDs<br>
+// Scope: stored in registers and therefore<br>
+// accessible by single threads<br>
+int bx =  blockIdx.x;<br>
+int by =  blockIdx.y;<br>
+int tx =  threadIdx.x;<br>
 int ty =  threadIdx.y;</p>
-<p>// Each thread is responsible for a single<br />
-// element of the product matrix C.<br />
-// Determine which element, from the block<br />
-// and thread indices<br />
-int row = by<em>TILE_WIDTH + ty;<br />
+<p>// Each thread is responsible for a single<br>
+// element of the product matrix C.<br>
+// Determine which element, from the block<br>
+// and thread indices<br>
+int row = by<em>TILE_WIDTH + ty;<br>
 int col = bx</em>TILE_WIDTH + tx;</p>
-<p>// Initialise a temp variable for the solution<br />
-// for this matrix element<br />
-// Scope: in register, private to individual thread<br />
+<p>// Initialise a temp variable for the solution<br>
+// for this matrix element<br>
+// Scope: in register, private to individual thread<br>
 float Ctemp = 0;</p>
-<p>// Loop over the tiles in the A and B matrices<br />
-// that will contribute to the calculation of<br />
-// this element in the product matrix. We are<br />
-// looping over columns of A for a given row<br />
-// (equal to the row index of the C element),<br />
-// and over rows of the B matrix for a given<br />
-// column index (equal to the column index of<br />
-// the C element)<br />
+<p>// Loop over the tiles in the A and B matrices<br>
+// that will contribute to the calculation of<br>
+// this element in the product matrix. We are<br>
+// looping over columns of A for a given row<br>
+// (equal to the row index of the C element),<br>
+// and over rows of the B matrix for a given<br>
+// column index (equal to the column index of<br>
+// the C element)<br>
 int numTiles = (numACols-1)/TILE_WIDTH + 1;</p>
 <p>for (int tl = 0; tl &lt; numTiles; ++tl) {</p>
-<p>// Load the tiles into shared memory, so all<br />
-// threads in the block have access to the<br />
-// whole tiles. Each thread needs to load only<br />
-// a single value of each of the A and B tiles.<br />
-if ((row &lt; numARows) &amp;&amp; (tl<em>TILE_WIDTH + tx &lt; numACols)) {<br />
-tileA[ty][tx] = A[row</em>numACols + tl<em>TILE_WIDTH + tx];<br />
-} else {<br />
-tileA[ty][tx] = 0.;<br />
-}<br />
-if ((tl</em>TILE_WIDTH + ty &lt; numBRows) &amp;&amp; (col &lt; numBCols)) {<br />
-tileB[ty][tx] = B[(tl<em>TILE_WIDTH + ty)</em>numBCols + col];<br />
-} else {<br />
-tileB[ty][tx] = 0.;<br />
-}<br />
+<p>// Load the tiles into shared memory, so all<br>
+// threads in the block have access to the<br>
+// whole tiles. Each thread needs to load only<br>
+// a single value of each of the A and B tiles.<br>
+if ((row &lt; numARows) &amp;&amp; (tl<em>TILE_WIDTH + tx &lt; numACols)) {<br>
+tileA[ty][tx] = A[row</em>numACols + tl<em>TILE_WIDTH + tx];<br>
+} else {<br>
+tileA[ty][tx] = 0.;<br>
+}<br>
+if ((tl</em>TILE_WIDTH + ty &lt; numBRows) &amp;&amp; (col &lt; numBCols)) {<br>
+tileB[ty][tx] = B[(tl<em>TILE_WIDTH + ty)</em>numBCols + col];<br>
+} else {<br>
+tileB[ty][tx] = 0.;<br>
+}<br>
 __syncthreads();</p>
-<p>// Loop over the elements within the A and B<br />
-// tiles that contribute to this element of C<br />
-for (int k = 0; k &lt; TILE_WIDTH; ++k) {<br />
-Ctemp += tileA[ty][k] * tileB[k][tx];<br />
-}<br />
-__syncthreads();<br />
+<p>// Loop over the elements within the A and B<br>
+// tiles that contribute to this element of C<br>
+for (int k = 0; k &lt; TILE_WIDTH; ++k) {<br>
+Ctemp += tileA[ty][k] * tileB[k][tx];<br>
+}<br>
+__syncthreads();<br>
 }</p>
-<p>// Write the final value into the output array<br />
-if ((row &lt; numARows) &amp;&amp; (col &lt; numBCols)) {<br />
-C[row*numBCols + col] = Ctemp;<br />
-}<br />
-}<br />
+<p>// Write the final value into the output array<br>
+if ((row &lt; numARows) &amp;&amp; (col &lt; numBCols)) {<br>
+C[row*numBCols + col] = Ctemp;<br>
+}<br>
+}<br>
 `</p>
 <p>In each thread block, the <em>a</em>^2^ threads load two float values each and
 perform 2<em>a</em> floating-point operations to compute the dot product of the

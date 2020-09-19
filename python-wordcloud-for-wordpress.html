@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="There is a Python routine available on Github for creating a word cloud, created by Andreas Mueller: https://github.com/amueller/word_cloud. A blog post here, and the Github repo that it goes with ...">
+        <meta name="description" content="There is a Python routine available on Github for creating a word cloud, created by Andreas Mueller: https://github.com/amueller/word_cloud. A blog post here, and the Github repo that it goes with...">
         <meta name="keywords" content="api, html, python, twitter, wordcloud, wordpress, xml">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -44,8 +44,6 @@
                                 <a href="http://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="http://0x7df.github.io/categories.html">Categories</a>
-                            <a  href="http://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
-                            <a  href="http://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -91,7 +89,7 @@ Raschka</a>), make it easy to use the
 timeline</a>
 (as a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> file),
 and then use the word cloud script to produce a word cloud from it.</p>
-<p><a href="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png"><img alt="my_twitter_wordcloud_1" src="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png?w=660" /></a></p>
+<p><a href="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png"><img alt="my_twitter_wordcloud_1" src="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png?w=660"></a></p>
 <p>To add something to this, I did the same thing with my
 <a href="https://wordpress.com">WordPress</a> blog posts. I didn't want to bother
 fighting with the WordPress API, so I simply exported the blog contents
@@ -99,52 +97,52 @@ to an XML file, which WordPress allows you to do through the admin
 interface (so you can archive your blog locally and/or transfer it into
 a different blog). Hence, this really just ends up being about XML
 parsing. Here is the source code:</p>
-<p>[code lang="python"]<br />
+<p>[code lang="python"]<br>
 #!/usr/bin/python</p>
-<p>from HTMLParser import HTMLParser<br />
-import xml.etree.ElementTree as ET<br />
-import matplotlib.pyplot as plt<br />
+<p>from HTMLParser import HTMLParser<br>
+import xml.etree.ElementTree as ET<br>
+import matplotlib.pyplot as plt<br>
 from wordcloud import WordCloud, STOPWORDS</p>
 <p>#
-http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python<br />
-class MLStripper(HTMLParser):<br />
-def <strong>init</strong>(self):<br />
-self.reset()<br />
-self.fed = []<br />
-def handle_data(self, d):<br />
-self.fed.append(d)<br />
-def get_data(self):<br />
+http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python<br>
+class MLStripper(HTMLParser):<br>
+def <strong>init</strong>(self):<br>
+self.reset()<br>
+self.fed = []<br>
+def handle_data(self, d):<br>
+self.fed.append(d)<br>
+def get_data(self):<br>
 return ''.join(self.fed)</p>
 <p>tree = ET.parse('0x7df.wordpress.2015-04-25.xml')</p>
 <p>root = tree.getroot()</p>
 <p>postwords = []</p>
-<p>for child in root.iter():<br />
-if child.tag == 'item':<br />
+<p>for child in root.iter():<br>
+if child.tag == 'item':<br>
 if child.find('{http://wordpress.org/export/1.2/}status').text ==
-'publish':<br />
+'publish':<br>
 postbody =
-child.find('{http://purl.org/rss/1.0/modules/content/}encoded').text<br />
-s = MLStripper()<br />
-s.feed(postbody)<br />
+child.find('{http://purl.org/rss/1.0/modules/content/}encoded').text<br>
+s = MLStripper()<br>
+s.feed(postbody)<br>
 postwords += s.get_data().split()</p>
-<p>keywords = ' '.join([wd for wd in postwords<br />
-if 'http' not in wd and<br />
-'bg=' not in wd and<br />
-not wd.startswith('$') and<br />
-not wd.startswith('[') and<br />
-not wd.startswith('&amp;')<br />
+<p>keywords = ' '.join([wd for wd in postwords<br>
+if 'http' not in wd and<br>
+'bg=' not in wd and<br>
+not wd.startswith('$') and<br>
+not wd.startswith('[') and<br>
+not wd.startswith('&amp;')<br>
 ])</p>
-<p>wordcloud = WordCloud(<br />
-font_path='./SaucerBB.ttf',<br />
-stopwords=STOPWORDS,<br />
-background_color='black',<br />
-width=1800,<br />
-height=1800<br />
+<p>wordcloud = WordCloud(<br>
+font_path='./SaucerBB.ttf',<br>
+stopwords=STOPWORDS,<br>
+background_color='black',<br>
+width=1800,<br>
+height=1800<br>
 ).generate(keywords)</p>
-<p>plt.imshow(wordcloud)<br />
-plt.axis('off')<br />
-plt.savefig('./my_wordpress_wordcloud_2.png', dpi=300)<br />
-plt.show()<br />
+<p>plt.imshow(wordcloud)<br>
+plt.axis('off')<br>
+plt.savefig('./my_wordpress_wordcloud_2.png', dpi=300)<br>
+plt.show()<br>
 [/code]</p>
 <p>I used the standard library light-weight
 <code>&lt;a href="https://docs.python.org/2/library/xml.etree.elementtree.html" target="_blank"&gt;xml.etree.ElementTree&lt;/a&gt;</code>
@@ -165,9 +163,9 @@ tags from the blog post. (This came from
 <a href="//stackoverflow.com/questions/753052/strip-html-from-strings-in-python">StackOverflow</a>.)
 The rest of the script is essentially the same as <a href="http://sebastianraschka.com/Articles/2014_twitter_wordcloud.html">Raschka's code for
 Twitter</a>,
-tweaked a little where necessary.<br />
+tweaked a little where necessary.<br>
 The result is:</p>
-<p><a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"><img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660" /></a></p>
+<p><a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"><img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660"></a></p>
 <p>The font is called Saucer BB, from
 <a href="http://www.1001fonts.com/saucer-bb-font.html">here</a>.</p>
 

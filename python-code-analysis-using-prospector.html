@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="A recent blog post I came across introduced me to Prospector, a Pythonstatic analysis tool developed by Landscape. From the documentation: Prospector is a tool to analyse Python code and output ...">
+        <meta name="description" content="A recent blog post I came across introduced me to Prospector, a Pythonstatic analysis tool developed by Landscape. From the documentation: Prospector is a tool to analyse Python code and output...">
         <meta name="keywords" content="cyclomatic complexity, graph theory, mccabe, pep8, prospector, pylint, python, static analysis, yaml">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -44,8 +44,6 @@
                                 <a href="http://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="http://0x7df.github.io/categories.html">Categories</a>
-                            <a  href="http://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
-                            <a  href="http://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -109,32 +107,32 @@ straight-away, without much user intervention. I won't repeat the sales
 pitch and the basic how-to that <a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html">that
 post</a>
 contains, but will go on from there to give a bit more information.</p>
-<hr />
+<hr>
 <h2>Cyclomatic complexity</h2>
 <p>The first thing you might come across that might not be self-evident is
 the complexity rating given by the
 <a href="https://github.com/flintwork/mccabe"><code>mccabe</code></a> package. E.g.:</p>
 <p>[code lang="bash"]</p>
 <blockquote>
-<p>prospector --strictness low<br />
-Messages<br />
+<p>prospector --strictness low<br>
+Messages<br>
 ========</p>
 </blockquote>
-<p>main.py<br />
-  Line: 13<br />
+<p>main.py<br>
+  Line: 13<br>
     mccabe: MC0001 / run is too complex (17)</p>
 <h1>Check Information</h1>
-<p>Started: 2015-04-11 15:59:47.759944<br />
-       Finished: 2015-04-11 15:59:51.598176<br />
-     Time Taken: 3.84 seconds<br />
-      Formatter: grouped<br />
+<p>Started: 2015-04-11 15:59:47.759944<br>
+       Finished: 2015-04-11 15:59:51.598176<br>
+     Time Taken: 3.84 seconds<br>
+      Formatter: grouped<br>
        Profiles: default, strictness_low, strictness_medium,
 strictness_high, strictness_veryhigh, no_doc_warnings,
-no_test_warnings, no_member_warnings<br />
-     Strictness: low<br />
- Libraries Used:<br />
+no_test_warnings, no_member_warnings<br>
+     Strictness: low<br>
+ Libraries Used:<br>
       Tools Run: dodgy, mccabe, pep8, profile-validator, pyflakes,
-pylint<br />
+pylint<br>
  Messages Found: 1</p>
 <p>[/code]</p>
 <p>The <em>cyclomatic complexity</em> metric was defined by <a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1702388&amp;filter%3DAND%28p_IS_Number%3A35895%29">Thomas J. McCabe in a
@@ -162,7 +160,7 @@ graph... and it is assumed that each node can be reached by the entry
 node and each node can reach the exit node. For example the following
 is a program control graph with entry node <span class="math">\( a\)</span> and
 exit node <span class="math">\( f\)</span>:</p>
-<p><img alt="Reproduced from McCabe (1976)" src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA3&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&amp;ci=642%2C968%2C254%2C220&amp;edge=0" /></p>
+<p><img alt="Reproduced from McCabe (1976)" src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA3&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&amp;ci=642%2C968%2C254%2C220&amp;edge=0"></p>
 <p>The following mathematical preliminaries will be needed...</p>
 <p><em>Definition 1</em>: The cyclomatic number <span class="math">\( V(G)\)</span> of a
 graph <span class="math">\( G\)</span> with <span class="math">\( n\)</span> vertices,
@@ -197,10 +195,10 @@ can be expressed as a linear combination of circuits from
 is expressible as <span class="math">\( (abea) + 2(beb) + (abefa)\)</span>.</p>
 <p>To see how this works it's necessary to number the edges on <span class="math">\( G\)</span>
 as in:</p>
-<p><img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;ci=165%2C387%2C235%2C207&amp;edge=0" /></p>
+<p><img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;ci=165%2C387%2C235%2C207&amp;edge=0"></p>
 <p>Now for each member of the basis <span class="math">\( B1\)</span> associate a
 vector as follows:</p>
-<p><img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;ci=66%2C638%2C279%2C134&amp;edge=0" /></p>
+<p><img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;pg=PA4&amp;img=1&amp;zoom=3&amp;hl=en&amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;ci=66%2C638%2C279%2C134&amp;edge=0"></p>
 <p>The path <span class="math">\( (abea(be)^3fa)\)</span> corresponds to the
 vector <span class="math">\( 2004200111\)</span> and the vector addition of
 <span class="math">\( (abefa)\)</span>, <span class="math">\( 2(beb)\)</span> and
@@ -229,15 +227,15 @@ methodology.</p>
 </blockquote>
 <p>[caption id="attachment_450" align="alignleft" width="178"]<a href="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png"><img alt="Example
 mccabe graph
-output" src="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png?w=178" /></a>
+output" src="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png?w=178"></a>
 Example mccabe graph output[/caption]</p>
 <p>If you want to run <code>mccabe</code> separately from <code>prospector</code> you can do,
 using:</p>
 <p>[code lang="bash"]  </p>
 <blockquote>
-<p>python -m mccabe mysourcefile.py<br />
-('If 209', 2)<br />
-("13:1: 'run'", 8)<br />
+<p>python -m mccabe mysourcefile.py<br>
+('If 209', 2)<br>
+("13:1: 'run'", 8)<br>
 [/code]</p>
 </blockquote>
 <p>You can add the <code>-d</code> option (documented
@@ -248,8 +246,8 @@ to produce output that can be passed to the
 graph. I.e.:</p>
 <p>[code lang="bash"]  </p>
 <blockquote>
-<p>python -m mccabe -d example.py | \<br />
-dot -Tpng -o example.png<br />
+<p>python -m mccabe -d example.py | \<br>
+dot -Tpng -o example.png<br>
 [/code]</p>
 </blockquote>
 <p>produces something like the graph shown to the left.</p>
@@ -269,17 +267,17 @@ paths; but it seems like a good start.</p>
 fine-tune the warnings that are issued. For instance, once the
 strictness level is up to medium or above, you might start to get a lot
 of warnings from Pylint about invalid constant names:</p>
-<p>[code]<br />
-example.py<br />
-Line: 1<br />
-pylint: invalid-name / Invalid constant name "nmats"<br />
-Line: 17<br />
-pylint: invalid-name / Invalid constant name "dcoeff"<br />
-Line: 21<br />
-pylint: invalid-name / Invalid constant name "tpower"<br />
-Line: 23<br />
-pylint: invalid-name / Invalid constant name "tmp0"<br />
-...<br />
+<p>[code]<br>
+example.py<br>
+Line: 1<br>
+pylint: invalid-name / Invalid constant name "nmats"<br>
+Line: 17<br>
+pylint: invalid-name / Invalid constant name "dcoeff"<br>
+Line: 21<br>
+pylint: invalid-name / Invalid constant name "tpower"<br>
+Line: 23<br>
+pylint: invalid-name / Invalid constant name "tmp0"<br>
+...<br>
 [/code]</p>
 <p>The <a href="https://www.python.org/dev/peps/pep-0008">PEP8 style guide</a>
 suggests constants should be in upper case; I'm happy with this rule but
@@ -309,14 +307,14 @@ for the moment at least.</p>
 <a href="http://yaml.org/">YAML</a>file with some configuration information, so you
 can give different projects different rule sets by giving them their own
 configuration file. An example is:</p>
-<p>[code]<br />
-strictness: veryhigh<br />
-ignore-paths: QA<br />
-pylint:<br />
-disable:<br />
-- invalid-name<br />
-- trailing-whitespace<br />
-- too-few-public-methods<br />
+<p>[code]<br>
+strictness: veryhigh<br>
+ignore-paths: QA<br>
+pylint:<br>
+disable:<br>
+- invalid-name<br>
+- trailing-whitespace<br>
+- too-few-public-methods<br>
 [/code]</p>
 <p>The really nice part is that configurations can inherit from other
 configurations. For example, Prospector's different <code>--strictness</code>

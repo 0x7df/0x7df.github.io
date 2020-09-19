@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/computer-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-04-21T20:58:00+01:00</updated><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><published>2015-04-21T20:58:00+01:00</published><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - Computer science</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/computer-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-04-21T20:58:00+01:00</updated><entry><title>CUDA basics part 2</title><link href="http://0x7df.github.io/cuda-basics-part-2.html" rel="alternate"></link><published>2015-04-21T20:58:00+01:00</published><updated>2015-04-21T20:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-21:/cuda-basics-part-2.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
+GPUs&lt;/a&gt;,
+which showed how to do a vector addition. This illustrated some of the
+CUDA basic syntax, but it wasn't a complex- enough example to bring to
+light some of the trickier issues to do with designing algorithms …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Recently, I posted &lt;a href="https://0x7df.wordpress.com/2015/04/05/cuda-basics-part-1/" title="CUDA basics part 1"&gt;a basic introduction to CUDA C for programming
 GPUs&lt;/a&gt;,
 which showed how to do a vector addition. This illustrated some of the
@@ -40,7 +45,7 @@ we can print.&lt;/p&gt;
     }                                                              \\  
 } while (0)&lt;/code&gt;&lt;/p&gt;
 &lt;h3&gt;Simple matrix multiplication kernel&lt;/h3&gt;
-&lt;h3&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png"&gt;&lt;img alt="tiled_matrix_multiplication_1" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png?w=296" /&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;h3&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png"&gt;&lt;img alt="tiled_matrix_multiplication_1" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_1.png?w=296"&gt;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;Now for the kernel function. The way we've chosen to divide this problem
 up amongst threads is to have each thread calculate a single element in
 the output vector, &lt;em&gt;C&lt;/em&gt;. Mathematically, for an &lt;em&gt;m&lt;/em&gt;-by-&lt;em&gt;n&lt;/em&gt; matrix &lt;em&gt;A&lt;/em&gt; and
@@ -93,60 +98,60 @@ didn't see in the vector multiplication example are:&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;`&lt;/p&gt;
 &lt;p&gt;int main(int argc, char **argv) {&lt;/p&gt;
-&lt;p&gt;float &lt;em&gt;hostA, &lt;/em&gt;hostB, &lt;em&gt;hostC;&lt;br /&gt;
-  float &lt;/em&gt;deviceA, &lt;em&gt;deviceB, &lt;/em&gt;deviceC;&lt;br /&gt;
-  int numARows, numACols; // Rows, columns in the matrix A&lt;br /&gt;
-  int numBRows, numBCols; // Rows, columns in the matrix B&lt;br /&gt;
-  int numCRows, numCCols; // Rows, columns in the matrix C&lt;br /&gt;
-    int sizeA, sizeB, sizeC; // Size in memory of each of A, B and C&lt;br /&gt;
+&lt;p&gt;float &lt;em&gt;hostA, &lt;/em&gt;hostB, &lt;em&gt;hostC;&lt;br&gt;
+  float &lt;/em&gt;deviceA, &lt;em&gt;deviceB, &lt;/em&gt;deviceC;&lt;br&gt;
+  int numARows, numACols; // Rows, columns in the matrix A&lt;br&gt;
+  int numBRows, numBCols; // Rows, columns in the matrix B&lt;br&gt;
+  int numCRows, numCCols; // Rows, columns in the matrix C&lt;br&gt;
+    int sizeA, sizeB, sizeC; // Size in memory of each of A, B and C&lt;br&gt;
     int gridXSize, gridYSize; // Number of thread blocks in x, y
-dimensions of grid&lt;br /&gt;
+dimensions of grid&lt;br&gt;
     int blockSize; // Number of threads in block&lt;/p&gt;
-&lt;p&gt;// Allocate and populate the A and B matrices&lt;br /&gt;
-// hostA and hostB, and get numARows, numACols,&lt;br /&gt;
+&lt;p&gt;// Allocate and populate the A and B matrices&lt;br&gt;
+// hostA and hostB, and get numARows, numACols,&lt;br&gt;
 // numBRows, numBCols&lt;/p&gt;
-&lt;p&gt;// Set numCRows and numCCols&lt;br /&gt;
-    numCRows = numARows;&lt;br /&gt;
-    numCCols = numBCols;&lt;br /&gt;
-&lt;br /&gt;
-  // Allocate the C matrix&lt;br /&gt;
-    hostC = (float&lt;em&gt;)malloc(numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float));&lt;br /&gt;
-&lt;br /&gt;
-// Allocate GPU memory&lt;br /&gt;
-sizeA = numARows&lt;/em&gt;numACols&lt;em&gt;sizeof(float);&lt;br /&gt;
-sizeB = numBRows&lt;/em&gt;numBCols&lt;em&gt;sizeof(float);&lt;br /&gt;
-sizeC = numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float);&lt;br /&gt;
-cudaCheck(cudaMalloc((void &lt;strong&gt;) &amp;amp;deviceA, sizeA));&lt;br /&gt;
-cudaCheck(cudaMalloc((void &lt;/strong&gt;) &amp;amp;deviceB, sizeB));&lt;br /&gt;
+&lt;p&gt;// Set numCRows and numCCols&lt;br&gt;
+    numCRows = numARows;&lt;br&gt;
+    numCCols = numBCols;&lt;br&gt;
+&lt;br&gt;
+  // Allocate the C matrix&lt;br&gt;
+    hostC = (float&lt;em&gt;)malloc(numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float));&lt;br&gt;
+&lt;br&gt;
+// Allocate GPU memory&lt;br&gt;
+sizeA = numARows&lt;/em&gt;numACols&lt;em&gt;sizeof(float);&lt;br&gt;
+sizeB = numBRows&lt;/em&gt;numBCols&lt;em&gt;sizeof(float);&lt;br&gt;
+sizeC = numCRows&lt;/em&gt;numCCols&lt;em&gt;sizeof(float);&lt;br&gt;
+cudaCheck(cudaMalloc((void &lt;strong&gt;) &amp;amp;deviceA, sizeA));&lt;br&gt;
+cudaCheck(cudaMalloc((void &lt;/strong&gt;) &amp;amp;deviceB, sizeB));&lt;br&gt;
    cudaCheck(cudaMalloc((void &lt;/em&gt;*) &amp;amp;deviceC, sizeC));&lt;/p&gt;
-&lt;p&gt;// Copy data to the GPU&lt;br /&gt;
+&lt;p&gt;// Copy data to the GPU&lt;br&gt;
    cudaCheck(cudaMemcpy(deviceA, hostA, sizeA,
-cudaMemcpyHostToDevice));&lt;br /&gt;
+cudaMemcpyHostToDevice));&lt;br&gt;
    cudaCheck(cudaMemcpy(deviceB, hostB, sizeB,
 cudaMemcpyHostToDevice));&lt;/p&gt;
-&lt;p&gt;// Initialize the grid and block dimensions&lt;br /&gt;
-   blockSize = 16;&lt;br /&gt;
-   gridXSize = (numCCols-1)/blockSize + 1;&lt;br /&gt;
-   gridYSize = (numCRows-1)/blockSize + 1;&lt;br /&gt;
-   dim3 dimGrid(gridXSize, gridYSize, 1);&lt;br /&gt;
-   dim3 dimBlock(blockSize, blockSize, 1);&lt;br /&gt;
-&lt;br /&gt;
-   // Launch the GPU Kernel&lt;br /&gt;
-   matrixMultiply&amp;lt;&amp;lt;&lt;dimGrid,dimBlock&gt;&amp;gt;&amp;gt;(deviceA, deviceB,&lt;br /&gt;
-deviceC, numACols,&lt;br /&gt;
-numBRows, numBCols,&lt;br /&gt;
-                               numCRows, numCCols);&lt;br /&gt;
+&lt;p&gt;// Initialize the grid and block dimensions&lt;br&gt;
+   blockSize = 16;&lt;br&gt;
+   gridXSize = (numCCols-1)/blockSize + 1;&lt;br&gt;
+   gridYSize = (numCRows-1)/blockSize + 1;&lt;br&gt;
+   dim3 dimGrid(gridXSize, gridYSize, 1);&lt;br&gt;
+   dim3 dimBlock(blockSize, blockSize, 1);&lt;br&gt;
+&lt;br&gt;
+   // Launch the GPU Kernel&lt;br&gt;
+   matrixMultiply&amp;lt;&amp;lt;&lt;dimGrid,dimBlock&gt;&amp;gt;&amp;gt;(deviceA, deviceB,&lt;br&gt;
+deviceC, numACols,&lt;br&gt;
+numBRows, numBCols,&lt;br&gt;
+                               numCRows, numCCols);&lt;br&gt;
   cudaDeviceSynchronize();&lt;/p&gt;
-&lt;p&gt;// Copy the GPU memory back to the CPU&lt;br /&gt;
+&lt;p&gt;// Copy the GPU memory back to the CPU&lt;br&gt;
    cudaCheck(cudaMemcpy(hostC, deviceC, sizeC,
 cudaMemcpyDeviceToHost));&lt;/p&gt;
-&lt;p&gt;// Free the GPU memory&lt;br /&gt;
-   cudaCheck(cudaFree(deviceA));&lt;br /&gt;
-   cudaCheck(cudaFree(deviceB));&lt;br /&gt;
-   cudaCheck(cudaFree(deviceC));&lt;br /&gt;
-&lt;br /&gt;
+&lt;p&gt;// Free the GPU memory&lt;br&gt;
+   cudaCheck(cudaFree(deviceA));&lt;br&gt;
+   cudaCheck(cudaFree(deviceB));&lt;br&gt;
+   cudaCheck(cudaFree(deviceC));&lt;br&gt;
+&lt;br&gt;
   // Do something with the solution, free the host memory, return&lt;/p&gt;
-&lt;p&gt;}&lt;br /&gt;
+&lt;p&gt;}&lt;br&gt;
 `&lt;/p&gt;
 &lt;p&gt;The call to &lt;code&gt;cudaDeviceSynchronize()&lt;/code&gt; ensures that all threads have
 finished before the host code proceeds any further.&lt;/p&gt;
@@ -184,7 +189,7 @@ block have the subset of input data they need available in their SM's
 shared memory, under the general assumption that because of the small
 size of the shared memory, not all of the needed data will fit in at
 once.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png"&gt;&lt;img alt="tiled_matrix_multiplication_2" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png?w=285" /&gt;&lt;/a&gt;Consider
+&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png"&gt;&lt;img alt="tiled_matrix_multiplication_2" src="https://0x7df.files.wordpress.com/2015/03/tiled_matrix_multiplication_2.png?w=285"&gt;&lt;/a&gt;Consider
 a thread block covering an area of the product matrix &lt;em&gt;C&lt;/em&gt;, which is &lt;em&gt;a&lt;/em&gt;
 rows high by &lt;em&gt;a&lt;/em&gt; columns wide, with the top-left element being &lt;em&gt;i&lt;/em&gt;,&lt;em&gt;j&lt;/em&gt;
 and the bottom-right therefore being &lt;em&gt;i+a,j+a&lt;/em&gt;. This is shown in the
@@ -212,71 +217,71 @@ data re-use reduces the retrievals from global memory by a factor of
 &lt;em&gt;a&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Here is the kernel for tiled matrix multiplication.&lt;/p&gt;
 &lt;p&gt;`&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;global&lt;/strong&gt; void matrixMultiply(float &lt;em&gt;A, float &lt;/em&gt;B, float *C,&lt;br /&gt;
-int numARows, int numACols,&lt;br /&gt;
-int numBRows, int numBCols,&lt;br /&gt;
+&lt;p&gt;&lt;strong&gt;global&lt;/strong&gt; void matrixMultiply(float &lt;em&gt;A, float &lt;/em&gt;B, float *C,&lt;br&gt;
+int numARows, int numACols,&lt;br&gt;
+int numBRows, int numBCols,&lt;br&gt;
 int numCRows, int numCCols) {&lt;/p&gt;
-&lt;p&gt;// Define device shared-memory storage for&lt;br /&gt;
-// tiles of the matrices&lt;br /&gt;
-// Scope: each tile is accessible by a single&lt;br /&gt;
-// block of threads&lt;br /&gt;
-&lt;strong&gt;shared&lt;/strong&gt; float tileA[TILE_WIDTH][TILE_WIDTH];&lt;br /&gt;
+&lt;p&gt;// Define device shared-memory storage for&lt;br&gt;
+// tiles of the matrices&lt;br&gt;
+// Scope: each tile is accessible by a single&lt;br&gt;
+// block of threads&lt;br&gt;
+&lt;strong&gt;shared&lt;/strong&gt; float tileA[TILE_WIDTH][TILE_WIDTH];&lt;br&gt;
 &lt;strong&gt;shared&lt;/strong&gt; float tileB[TILE_WIDTH][TILE_WIDTH];&lt;/p&gt;
-&lt;p&gt;// Define abbreviated variables for the&lt;br /&gt;
-// block and thread IDs&lt;br /&gt;
-// Scope: stored in registers and therefore&lt;br /&gt;
-// accessible by single threads&lt;br /&gt;
-int bx =  blockIdx.x;&lt;br /&gt;
-int by =  blockIdx.y;&lt;br /&gt;
-int tx =  threadIdx.x;&lt;br /&gt;
+&lt;p&gt;// Define abbreviated variables for the&lt;br&gt;
+// block and thread IDs&lt;br&gt;
+// Scope: stored in registers and therefore&lt;br&gt;
+// accessible by single threads&lt;br&gt;
+int bx =  blockIdx.x;&lt;br&gt;
+int by =  blockIdx.y;&lt;br&gt;
+int tx =  threadIdx.x;&lt;br&gt;
 int ty =  threadIdx.y;&lt;/p&gt;
-&lt;p&gt;// Each thread is responsible for a single&lt;br /&gt;
-// element of the product matrix C.&lt;br /&gt;
-// Determine which element, from the block&lt;br /&gt;
-// and thread indices&lt;br /&gt;
-int row = by&lt;em&gt;TILE_WIDTH + ty;&lt;br /&gt;
+&lt;p&gt;// Each thread is responsible for a single&lt;br&gt;
+// element of the product matrix C.&lt;br&gt;
+// Determine which element, from the block&lt;br&gt;
+// and thread indices&lt;br&gt;
+int row = by&lt;em&gt;TILE_WIDTH + ty;&lt;br&gt;
 int col = bx&lt;/em&gt;TILE_WIDTH + tx;&lt;/p&gt;
-&lt;p&gt;// Initialise a temp variable for the solution&lt;br /&gt;
-// for this matrix element&lt;br /&gt;
-// Scope: in register, private to individual thread&lt;br /&gt;
+&lt;p&gt;// Initialise a temp variable for the solution&lt;br&gt;
+// for this matrix element&lt;br&gt;
+// Scope: in register, private to individual thread&lt;br&gt;
 float Ctemp = 0;&lt;/p&gt;
-&lt;p&gt;// Loop over the tiles in the A and B matrices&lt;br /&gt;
-// that will contribute to the calculation of&lt;br /&gt;
-// this element in the product matrix. We are&lt;br /&gt;
-// looping over columns of A for a given row&lt;br /&gt;
-// (equal to the row index of the C element),&lt;br /&gt;
-// and over rows of the B matrix for a given&lt;br /&gt;
-// column index (equal to the column index of&lt;br /&gt;
-// the C element)&lt;br /&gt;
+&lt;p&gt;// Loop over the tiles in the A and B matrices&lt;br&gt;
+// that will contribute to the calculation of&lt;br&gt;
+// this element in the product matrix. We are&lt;br&gt;
+// looping over columns of A for a given row&lt;br&gt;
+// (equal to the row index of the C element),&lt;br&gt;
+// and over rows of the B matrix for a given&lt;br&gt;
+// column index (equal to the column index of&lt;br&gt;
+// the C element)&lt;br&gt;
 int numTiles = (numACols-1)/TILE_WIDTH + 1;&lt;/p&gt;
 &lt;p&gt;for (int tl = 0; tl &amp;lt; numTiles; ++tl) {&lt;/p&gt;
-&lt;p&gt;// Load the tiles into shared memory, so all&lt;br /&gt;
-// threads in the block have access to the&lt;br /&gt;
-// whole tiles. Each thread needs to load only&lt;br /&gt;
-// a single value of each of the A and B tiles.&lt;br /&gt;
-if ((row &amp;lt; numARows) &amp;amp;&amp;amp; (tl&lt;em&gt;TILE_WIDTH + tx &amp;lt; numACols)) {&lt;br /&gt;
-tileA[ty][tx] = A[row&lt;/em&gt;numACols + tl&lt;em&gt;TILE_WIDTH + tx];&lt;br /&gt;
-} else {&lt;br /&gt;
-tileA[ty][tx] = 0.;&lt;br /&gt;
-}&lt;br /&gt;
-if ((tl&lt;/em&gt;TILE_WIDTH + ty &amp;lt; numBRows) &amp;amp;&amp;amp; (col &amp;lt; numBCols)) {&lt;br /&gt;
-tileB[ty][tx] = B[(tl&lt;em&gt;TILE_WIDTH + ty)&lt;/em&gt;numBCols + col];&lt;br /&gt;
-} else {&lt;br /&gt;
-tileB[ty][tx] = 0.;&lt;br /&gt;
-}&lt;br /&gt;
+&lt;p&gt;// Load the tiles into shared memory, so all&lt;br&gt;
+// threads in the block have access to the&lt;br&gt;
+// whole tiles. Each thread needs to load only&lt;br&gt;
+// a single value of each of the A and B tiles.&lt;br&gt;
+if ((row &amp;lt; numARows) &amp;amp;&amp;amp; (tl&lt;em&gt;TILE_WIDTH + tx &amp;lt; numACols)) {&lt;br&gt;
+tileA[ty][tx] = A[row&lt;/em&gt;numACols + tl&lt;em&gt;TILE_WIDTH + tx];&lt;br&gt;
+} else {&lt;br&gt;
+tileA[ty][tx] = 0.;&lt;br&gt;
+}&lt;br&gt;
+if ((tl&lt;/em&gt;TILE_WIDTH + ty &amp;lt; numBRows) &amp;amp;&amp;amp; (col &amp;lt; numBCols)) {&lt;br&gt;
+tileB[ty][tx] = B[(tl&lt;em&gt;TILE_WIDTH + ty)&lt;/em&gt;numBCols + col];&lt;br&gt;
+} else {&lt;br&gt;
+tileB[ty][tx] = 0.;&lt;br&gt;
+}&lt;br&gt;
 __syncthreads();&lt;/p&gt;
-&lt;p&gt;// Loop over the elements within the A and B&lt;br /&gt;
-// tiles that contribute to this element of C&lt;br /&gt;
-for (int k = 0; k &amp;lt; TILE_WIDTH; ++k) {&lt;br /&gt;
-Ctemp += tileA[ty][k] * tileB[k][tx];&lt;br /&gt;
-}&lt;br /&gt;
-__syncthreads();&lt;br /&gt;
+&lt;p&gt;// Loop over the elements within the A and B&lt;br&gt;
+// tiles that contribute to this element of C&lt;br&gt;
+for (int k = 0; k &amp;lt; TILE_WIDTH; ++k) {&lt;br&gt;
+Ctemp += tileA[ty][k] * tileB[k][tx];&lt;br&gt;
+}&lt;br&gt;
+__syncthreads();&lt;br&gt;
 }&lt;/p&gt;
-&lt;p&gt;// Write the final value into the output array&lt;br /&gt;
-if ((row &amp;lt; numARows) &amp;amp;&amp;amp; (col &amp;lt; numBCols)) {&lt;br /&gt;
-C[row*numBCols + col] = Ctemp;&lt;br /&gt;
-}&lt;br /&gt;
-}&lt;br /&gt;
+&lt;p&gt;// Write the final value into the output array&lt;br&gt;
+if ((row &amp;lt; numARows) &amp;amp;&amp;amp; (col &amp;lt; numBCols)) {&lt;br&gt;
+C[row*numBCols + col] = Ctemp;&lt;br&gt;
+}&lt;br&gt;
+}&lt;br&gt;
 `&lt;/p&gt;
 &lt;p&gt;In each thread block, the &lt;em&gt;a&lt;/em&gt;^2^ threads load two float values each and
 perform 2&lt;em&gt;a&lt;/em&gt; floating-point operations to compute the dot product of the
@@ -381,7 +386,17 @@ deviceC, ...&lt;/code&gt;&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;/script&gt;</content><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry><entry><title>CUDA basics part 1</title><link href="http://0x7df.github.io/cuda-basics-part-1.html" rel="alternate"></link><published>2015-04-05T20:59:00+01:00</published><updated>2015-04-05T20:59:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-05:/cuda-basics-part-1.html</id><summary type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
+Architecture)&lt;/a&gt;is an extension of
+&lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
+developed by &lt;a href="http://www.nvidia.com/page/home.html"&gt;NVIDIA&lt;/a&gt;, the
+&lt;a href="http://www.webopedia.com/TERM/G/GPU.html"&gt;GPU&lt;/a&gt;manufacturer, for
+programming their devices. (There is also a &lt;a href="https://www.pgroup.com/resources/cudafortran.htm"&gt;Fortran
+version&lt;/a&gt;, developed by
+&lt;a href="http://www.pgroup.com/"&gt;PGI&lt;/a&gt;.) The purpose of CUDA is to allow
+developers to program GPUs much more easily than previously, and since
+its …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/CUDA"&gt;CUDA (Compute Unified Device
 Architecture)&lt;/a&gt;is an extension of
 &lt;a href="http://www.tutorialspoint.com/cprogramming/c_overview.htm"&gt;C/C++&lt;/a&gt;,
@@ -482,7 +497,7 @@ memory hierarchy of a GPU. As well as, and separate from, the host CPU's
 memory (and we'll ignore the
 &lt;a href="http://www.bottomupcs.com/memory.html"&gt;hierarchy&lt;/a&gt;there), the GPU device
 has several different levels of memory:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="gpu_layout" src="https://0x7df.files.wordpress.com/2015/02/gpu_layout.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="gpu_layout" src="https://0x7df.files.wordpress.com/2015/02/gpu_layout.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The main &lt;em&gt;global memory&lt;/em&gt; or &lt;em&gt;device memory&lt;/em&gt;, which is accessible to
     all the threads on the GPU,&lt;/li&gt;
@@ -693,7 +708,7 @@ a typical CPU, then this
 &lt;a href="cs.stanford.edu/people/eroberts/courses/soco/projects/risc/pipelining/"&gt;pipelining&lt;/a&gt;
 is the sort of thing modern processors try to do for you anyway, without
 you having to worry about it.&lt;/p&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;div style="background:#FFFFFF;margin:0 10px 10px 0;padding:0 10px 0 0;text-align:left;font-family:Arial, Helvetica, sans-serif;line-height:1em;"&gt;
 &lt;div style="font-size:11px;padding:0 0 10px;font-weight:bold;color:#045989;"&gt;
 
@@ -768,4 +783,4 @@ J. J. Dongarra and A. J. van der Steen (2012).
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry></feed>
+&lt;/script&gt;</content><category term="c"></category><category term="cuda"></category><category term="gpu"></category><category term="hpc"></category><category term="massively parallel"></category><category term="parallel computing"></category><category term="parallel programming"></category></entry></feed>

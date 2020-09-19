@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/atmospheric-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-08-31T22:02:00+01:00</updated><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><published>2015-08-31T22:02:00+01:00</published><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - atmospheric science</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/atmospheric-science.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2017-02-11T20:25:00+00:00</updated><entry><title>500 hPa geopotential height anomaly correlation</title><link href="http://0x7df.github.io/500-hpa-geopotential-height-anomaly-correlation.html" rel="alternate"></link><published>2017-02-11T20:25:00+00:00</published><updated>2017-02-11T20:25:00+00:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2017-02-11:/500-hpa-geopotential-height-anomaly-correlation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;The 500 hPa &lt;a href="http://0x7df.github.io/geopotential.html"&gt;geopotential&lt;/a&gt; height anomaly
+correlation is a key indicator of the skill of numerical weather prediction.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.e-education.psu.edu/worldofweather/node/2031"&gt;Patterns of 500 hPa heights reveal short- and long-wave troughs and ridges.&lt;/a&gt; Surface low
+pressure tends to develop (or strengthen) to the east of 500 hPa short-wave
+troughs, while surface high pressure tends to form (or strengthen) to the
+east of 500 hPa short-wave ridges. &lt;/p&gt;
+&lt;p&gt;The correlation is between the &lt;em&gt;observed&lt;/em&gt; and &lt;em&gt;forecast&lt;/em&gt; 500 hPa geopotential
+height anomaly. A higher value is better, indicating a forecast that was closer
+to the observed situation.&lt;/p&gt;
+&lt;p&gt;A correlation of 0.6 is considered to represent a useful forecast. For the
+&lt;a href="https://www.ecmwf.int"&gt;ECMWF&lt;/a&gt; model, forecasts fell below 0.6 at about 5.5
+days in 1980, whereas by 2010 they did not fall below 0.6 until about 8.5 days
+- this represents an improvement in skill of one day per decade. The forecast
+for which the value falls to 0.8 is approaching 6.5 days.&lt;/p&gt;</content><category term="meteorology"></category></entry><entry><title>Virtual Temperature</title><link href="http://0x7df.github.io/virtual-temperature.html" rel="alternate"></link><published>2015-08-31T22:02:00+01:00</published><updated>2015-08-31T22:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-31:/virtual-temperature.html</id><summary type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
+&lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the
+gas in question, and:&lt;/p&gt;
+&lt;div class="math"&gt;$$ R = \frac{nR^*}{m} = \frac{R^*}{M} $$&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\( R^*\)&lt;/span&gt; is the universal gas constant (&lt;span class="math"&gt;\( 8.31~
+\mathrm{J/mol.K}\)&lt;/span&gt;) and …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Equation of state for dry air&lt;/h2&gt;
 &lt;p&gt;The ideal-gas equation of state is:&lt;/p&gt;
 &lt;div class="math"&gt;$$ p = \rho R T $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( R\)&lt;/span&gt; is the individual gas constant for the
@@ -113,7 +133,14 @@ virtual temperature:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Geopotential</title><link href="http://0x7df.github.io/geopotential.html" rel="alternate"></link><published>2015-08-30T16:58:00+01:00</published><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
+&lt;/script&gt;</content><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Geopotential</title><link href="http://0x7df.github.io/geopotential.html" rel="alternate"></link><published>2015-08-30T16:58:00+01:00</published><updated>2015-08-30T16:58:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-08-30:/geopotential.html</id><summary type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
+&lt;p&gt;is the gravitational potential - i.e. the gravitational potential energy
+per unit mass - at a location in the earth's atmosphere. It is often
+used as a vertical coordinate instead of height above sea level,
+&lt;span class="math"&gt;\( z\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The geopotential at height &lt;span class="math"&gt;\( z\)&lt;/span&gt; is the difference
+between the gravitational …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The &lt;em&gt;geopotential&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="math"&gt;$$ \phi = gz $$&lt;/div&gt;
 &lt;p&gt;is the gravitational potential - i.e. the gravitational potential energy
 per unit mass - at a location in the earth's atmosphere. It is often
@@ -131,7 +158,7 @@ to &lt;span class="math"&gt;\( z\)&lt;/span&gt;:&lt;/p&gt;
 &lt;p&gt;assumes that &lt;span class="math"&gt;\( g\)&lt;/span&gt; is constant with height. If the
 variation is to be taken into account, a suitable profile for
 &lt;span class="math"&gt;\( g(z)\)&lt;/span&gt; is:&lt;/p&gt;
-&lt;div class="math"&gt;$$ \phi(z) = \frac{g_0}{\left[ 1 + \left(
+&lt;div class="math"&gt;$$ g(z) = \frac{g_0}{\left[ 1 + \left(
 z/E\right)\right]^2} $$&lt;/div&gt;
 &lt;p&gt;where &lt;span class="math"&gt;\( g_0\)&lt;/span&gt; is the value at sea level and
 &lt;span class="math"&gt;\( E\)&lt;/span&gt; is the earth's mean radius. Substituting into
@@ -254,7 +281,11 @@ Since &lt;span class="math"&gt;\( \phi(p_0) = 0\)&lt;/span&gt;:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><published>2015-05-02T22:10:00+01:00</published><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
+&lt;/script&gt;</content><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Hydrostatic balance in the atmosphere</title><link href="http://0x7df.github.io/hydrostatic-balance-in-the-atmosphere.html" rel="alternate"></link><published>2015-05-02T22:10:00+01:00</published><updated>2015-05-02T22:10:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-02:/hydrostatic-balance-in-the-atmosphere.html</id><summary type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
+unit area, of the air column above that altitude. The pressure,
+therefore, decreases with altitude as there is less air above pressing
+down. To find the rate of decrease of pressure with height, consider a
+vertical column of air with …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Atmospheric pressure at any altitude represents the total weight, per
 unit area, of the air column above that altitude. The pressure,
 therefore, decreases with altitude as there is less air above pressing
 down. To find the rate of decrease of pressure with height, consider a
@@ -434,4 +465,4 @@ atmospheres](https://plot.ly/~0x7df/11.png)](https://plot.ly/~0x7df/11/ "Pressur
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry></feed>
+&lt;/script&gt;</content><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry></feed>

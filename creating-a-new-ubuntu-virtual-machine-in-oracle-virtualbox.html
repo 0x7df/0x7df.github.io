@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="These instructions are for a Windows host machine. An article heregives instructions for Mac OS X, but are unlikely to be very different. This assumed you&#39;ve already downloaded and ...">
+        <meta name="description" content="These instructions are for a Windows host machine. An article heregives instructions for Mac OS X, but are unlikely to be very different. This assumed you&#39;ve already downloaded and...">
         <meta name="keywords" content="linux, ubuntu, virtual machine, virtualbox, vm">
         <link rel="icon" href="http://0x7df.github.io/favicon.ico">
 
@@ -44,8 +44,6 @@
                                 <a href="http://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="http://0x7df.github.io/categories.html">Categories</a>
-                            <a  href="http://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
-                            <a  href="http://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -90,7 +88,7 @@ assumed you've already
     <p>
     [caption id="attachment_474" align="alignnone"
     width="276"]<a href="https://0x7df.files.wordpress.com/2015/04/01_oracle_virtualbox_manager.png"><img alt="Figure 1. Oracle VirtualBox VM Manager
-    window." src="https://0x7df.files.wordpress.com/2015/04/01_oracle_virtualbox_manager.png?w=276" /></a>
+    window." src="https://0x7df.files.wordpress.com/2015/04/01_oracle_virtualbox_manager.png?w=276"></a>
     Figure 1. Oracle VirtualBox VM Manager window.[/caption]</li>
 <li>Click "New" in the top-left corner. This brings up the "Create
     Virtual Machine" dialogue box, shown in Figure 2.</li>
@@ -101,7 +99,7 @@ assumed you've already
     <p>
     [caption id="attachment_475" align="alignnone"
     width="300"]<a href="https://0x7df.files.wordpress.com/2015/04/02_create_vm_dialogue.png"><img alt="Figure 2. Create Virtual Machine dialogue
-    box." src="https://0x7df.files.wordpress.com/2015/04/02_create_vm_dialogue.png?w=300" /></a>
+    box." src="https://0x7df.files.wordpress.com/2015/04/02_create_vm_dialogue.png?w=300"></a>
     Figure 2. Create Virtual Machine dialogue box.[/caption]</li>
 <li>The next  few dialogue boxes allow you to select how much memory you
     want, decide whether or not to create a virtual hard drive or not
@@ -122,7 +120,7 @@ assumed you've already
 <li>
 <p>[caption id="attachment_476" align="alignright"
     width="300"]<a href="https://0x7df.files.wordpress.com/2015/04/03_select_start-up_disk_dialogue.png"><img alt="Figure 3. Select start-up disk dialogue
-    box." src="https://0x7df.files.wordpress.com/2015/04/03_select_start-up_disk_dialogue.png?w=300" /></a>
+    box." src="https://0x7df.files.wordpress.com/2015/04/03_select_start-up_disk_dialogue.png?w=300"></a>
     Figure 3. Select start-up disk dialogue box.[/caption]</p>
 <p><p>
 The next step is to install the operating system. A "Select start-up
@@ -200,50 +198,50 @@ for me. To use this:</p>
 </ol>
 <p>You can see the software that gets installed from the listing below:</p>
 <p>[code lang="bash"]</p>
-<p># mkvm - Make virtual machine<br />
+<p># mkvm - Make virtual machine<br>
 # This script configures an Ubuntu virtual machine how I like it</p>
-<p>sudo apt-get -y update               # Must be done before upgrade<br />
+<p>sudo apt-get -y update               # Must be done before upgrade<br>
 sudo apt-get -y dist-upgrade         # Does upgrade with intelligent
 dependency-handling</p>
 <p>sudo apt-get -y install dkms         # For installing VirtualBox Linux
 Guest Additions (https://www.virtualbox.org/manual/ch04.html)</p>
-<p>sudo apt-get -y install git<br />
-sudo apt-get -y install nedit<br />
+<p>sudo apt-get -y install git<br>
+sudo apt-get -y install nedit<br>
 sudo apt-get -y install python-numpy # Contains, amongst other things,
-f2py<br />
-sudo apt-get -y install python-dev   # For Python.h; required by f2py<br />
-sudo apt-get -y install gfortran<br />
-sudo apt-get -y install python-pip<br />
-sudo apt-get -y install python-matplotlib<br />
-sudo apt-get -y install okular<br />
-sudo apt-get -y upgrade graphviz<br />
-sudo apt-get -y install texlive<br />
+f2py<br>
+sudo apt-get -y install python-dev   # For Python.h; required by f2py<br>
+sudo apt-get -y install gfortran<br>
+sudo apt-get -y install python-pip<br>
+sudo apt-get -y install python-matplotlib<br>
+sudo apt-get -y install okular<br>
+sudo apt-get -y upgrade graphviz<br>
+sudo apt-get -y install texlive<br>
 sudo apt-get -y install doxygen</p>
-<p>sudo pip install robotframework<br />
-sudo pip install prospector[with_frosted]<br />
-sudo pip install prospector[with_pyroma]<br />
+<p>sudo pip install robotframework<br>
+sudo pip install prospector[with_frosted]<br>
+sudo pip install prospector[with_pyroma]<br>
 sudo pip install prospector[with_vulture]</p>
-<p>sudo add-apt-repository ppa:staticfloat/juliareleases<br />
-sudo add-apt-repository ppa:staticfloat/julia-deps<br />
+<p>sudo add-apt-repository ppa:staticfloat/juliareleases<br>
+sudo add-apt-repository ppa:staticfloat/julia-deps<br>
 sudo apt-get -y install julia</p>
-<p># python-scipy<br />
+<p># python-scipy<br>
 # matplotlib</p>
-<p># If Java JDK is required, determine the path:<br />
-#   &gt; update-alternatives --config java<br />
+<p># If Java JDK is required, determine the path:<br>
+#   &gt; update-alternatives --config java<br>
 # Set JAVA_HOME=/usr/bin/java (or wherever) in /etc/environment,
 which is the preferred location for JAVA_HOME or any system variable.</p>
-<p>echo "<br />
-# Now install the Linux Guest Additions for VirtualBox. Go to the<br />
+<p>echo "<br>
+# Now install the Linux Guest Additions for VirtualBox. Go to the<br>
 # \"Devices\" menu of VirtualBox when the VM is running (make sure
-it is not in<br />
+it is not in<br>
 # stretch mode or the menu bar will not be visible); select \"Insert
-Guest<br />
+Guest<br>
 # Additions CD image...\"; then run VBoxLinuxAdditions.run with
-administrator<br />
+administrator<br>
 # privileges. Re-boot the VM; after this the VM desktop should resize
-with the<br />
-# VirtualBox window, rather than being a fixed (small) size.<br />
-"<br />
+with the<br>
+# VirtualBox window, rather than being a fixed (small) size.<br>
+"<br>
 [/code]</p>
 <h2>Shared clipboard</h2>
 <p>One extra useful thing to do is enable the shared clipboard, which

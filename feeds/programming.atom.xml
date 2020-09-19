@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/programming.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-10-23T10:06:00+01:00</updated><entry><title>Connecting Twitter and Pocket using Python</title><link href="http://0x7df.github.io/connecting-twitter-and-pocket-using-python.html" rel="alternate"></link><published>2015-10-23T10:06:00+01:00</published><updated>2015-10-23T10:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-23:connecting-twitter-and-pocket-using-python.html</id><summary type="html">&lt;p&gt;&lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;This&lt;/a&gt; blog post gives an intro to connecting to the Twitter Streaming
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df - programming</title><link href="http://0x7df.github.io/" rel="alternate"></link><link href="http://0x7df.github.io/feeds/programming.atom.xml" rel="self"></link><id>http://0x7df.github.io/</id><updated>2015-10-23T10:06:00+01:00</updated><entry><title>Connecting Twitter and Pocket using Python</title><link href="http://0x7df.github.io/connecting-twitter-and-pocket-using-python.html" rel="alternate"></link><published>2015-10-23T10:06:00+01:00</published><updated>2015-10-23T10:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-23:/connecting-twitter-and-pocket-using-python.html</id><summary type="html"></summary><content type="html">&lt;p&gt;&lt;a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/"&gt;This&lt;/a&gt; blog post gives an intro to connecting to the Twitter Streaming
 API using the &lt;a href="https://python.org"&gt;Python&lt;/a&gt; library &lt;a href="http://tweepy.readthedocs.org"&gt;Tweepy&lt;/a&gt;. There are two Python routines:
 one to connect to Twitter and download relevant tweets to a file, and a
 second to post-process the file using &lt;a href="http://pandas.pydata.org/"&gt;Pandas&lt;/a&gt; and create some graphs
@@ -23,7 +23,7 @@ My code for connecting to Pocket looks like this:&lt;/p&gt;
     &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;redirect_uri&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; \
         &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fileHandle&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="c1"&gt;# Pocket authentication&lt;/span&gt;
     &lt;span class="n"&gt;pocket_instance&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pocket&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Pocket&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pckt_consumer_key&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pckt_access_token&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -63,7 +63,7 @@ keywords. This is straight from &lt;a href="http://adilmoujahid.com/posts/2014/0
             &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;False&lt;/span&gt;
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
 
         &lt;span class="c1"&gt;# Handle Twitter authentication and connection to Twitter Streaming API&lt;/span&gt;
         &lt;span class="n"&gt;listener&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;StdOutListener&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -98,7 +98,7 @@ contain the word 'tutorial', and extracts the link if there is one.&lt;/p&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;extract_link&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;Extract link from tweet or return null string.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class="n"&gt;regex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;r&amp;#39;https?:..[^\s&amp;lt;&amp;gt;&amp;quot;]+|www\.[^\s&amp;lt;&amp;gt;&amp;quot;]+&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;regex&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;https?:..[^\s&amp;lt;&amp;gt;&amp;quot;]+|www\.[^\s&amp;lt;&amp;gt;&amp;quot;]+&amp;#39;&lt;/span&gt;
     &lt;span class="n"&gt;match&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;regex&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;text&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;group&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
@@ -130,7 +130,7 @@ and blog posts as a reference corpus, and test the similarity of tweets
 to the text in my corpus; and then only add links that have a similarity score
 above some threshold.&lt;/p&gt;
 &lt;p&gt;The full code is on &lt;a href="https://github.com"&gt;GitHub&lt;/a&gt;, at
-&lt;a href="https://github.com/0x7df/twitter2pocket"&gt;https://github.com/0x7df/twitter2pocket&lt;/a&gt;.&lt;/p&gt;</summary><category term="python"></category><category term="api"></category><category term="twitter"></category><category term="pocket"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><published>2015-10-03T20:06:00+01:00</published><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:static-site-generation.html</id><summary type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
+&lt;a href="https://github.com/0x7df/twitter2pocket"&gt;https://github.com/0x7df/twitter2pocket&lt;/a&gt;.&lt;/p&gt;</content><category term="python"></category><category term="api"></category><category term="twitter"></category><category term="pocket"></category></entry><entry><title>Static site generation, Pelican, and GitHub hosting</title><link href="http://0x7df.github.io/static-site-generation.html" rel="alternate"></link><published>2015-10-03T20:06:00+01:00</published><updated>2015-10-03T20:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-10-03:/static-site-generation.html</id><summary type="html">&lt;p&gt;Comparison of static site generators&lt;/p&gt;</summary><content type="html">&lt;p&gt;This post discusses moving setting up and using a static site generator,
 &lt;a href="http://blog.getpelican.com"&gt;Pelican&lt;/a&gt;, and moving existing posts from &lt;a href="http://www.wordpress.com"&gt;Wordpress&lt;/a&gt; to Pelican.&lt;/p&gt;
 &lt;h2&gt;Comparing and choosing a generator&lt;/h2&gt;
 &lt;p&gt;Many options are available for static site generation, with
@@ -175,7 +175,7 @@ PLUGINS = [&amp;quot;pelican_plugin-render_math&amp;quot;]
 &lt;p&gt;to point Pelican at the location where I cloned the plugin.&lt;/p&gt;
 &lt;p&gt;The text wrangling that was required to convert the Wordpress-syntax maths
 delimiters:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;\&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt; ...maths... \&lt;/span&gt;&lt;span class="p"&gt;$&lt;/span&gt;&lt;span class="nv"&gt;latex&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;\$latex ...maths... \$latex
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -253,7 +253,16 @@ flag is supplied - as &lt;em&gt;totally derivative&lt;/em&gt;. Assume it blows a
 already there and replaces it with the new content. So you never manually
 modify anything on that branch; keep all your content, configuration files,
 tools, and anything else you care about, on a different branch, and keep the
-destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</summary><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="http://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><published>2015-05-10T12:06:00+01:00</published><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
+destination branch for &lt;code&gt;ghp-import&lt;/code&gt; clean.&lt;/p&gt;</content><category term="pelican"></category><category term="publishing"></category><category term="blog"></category><category term="python"></category><category term="github"></category><category term="latex"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="http://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><published>2015-05-10T12:06:00+01:00</published><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:/python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
+&lt;a href="https://github.com/"&gt;Github&lt;/a&gt; for creating a word cloud, created by
+&lt;a href="http://peekaboo-vision.blogspot.co.uk/"&gt;Andreas Mueller&lt;/a&gt;:
+&lt;a href="https://github.com/amueller/word_cloud"&gt;https://github.com/amueller/word_cloud&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://sebastianraschka.com/Articles/2014_twitter_wordcloud.html"&gt;A blog post
+here&lt;/a&gt;,
+and &lt;a href="https://github.com/rasbt/datacollect"&gt;the Github repo that it goes
+with&lt;/a&gt; (both due to &lt;a href="http://sebastianraschka.com/"&gt;Sebastien
+Raschka&lt;/a&gt;), make it easy to use the
+&lt;a href="https://dev.twitter.com/rest/public"&gt;Twitter API&lt;/a&gt; to download your …&lt;/p&gt;</summary><content type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
 &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; for creating a word cloud, created by
 &lt;a href="http://peekaboo-vision.blogspot.co.uk/"&gt;Andreas Mueller&lt;/a&gt;:
 &lt;a href="https://github.com/amueller/word_cloud"&gt;https://github.com/amueller/word_cloud&lt;/a&gt;.&lt;/p&gt;
@@ -267,7 +276,7 @@ Raschka&lt;/a&gt;), make it easy to use the
 timeline&lt;/a&gt;
 (as a &lt;a href="http://en.wikipedia.org/wiki/Comma-separated_values"&gt;CSV&lt;/a&gt; file),
 and then use the word cloud script to produce a word cloud from it.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png"&gt;&lt;img alt="my_twitter_wordcloud_1" src="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png?w=660" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png"&gt;&lt;img alt="my_twitter_wordcloud_1" src="https://0x7df.files.wordpress.com/2015/04/my_twitter_wordcloud_1.png?w=660"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;To add something to this, I did the same thing with my
 &lt;a href="https://wordpress.com"&gt;WordPress&lt;/a&gt; blog posts. I didn't want to bother
 fighting with the WordPress API, so I simply exported the blog contents
@@ -275,52 +284,52 @@ to an XML file, which WordPress allows you to do through the admin
 interface (so you can archive your blog locally and/or transfer it into
 a different blog). Hence, this really just ends up being about XML
 parsing. Here is the source code:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
 #!/usr/bin/python&lt;/p&gt;
-&lt;p&gt;from HTMLParser import HTMLParser&lt;br /&gt;
-import xml.etree.ElementTree as ET&lt;br /&gt;
-import matplotlib.pyplot as plt&lt;br /&gt;
+&lt;p&gt;from HTMLParser import HTMLParser&lt;br&gt;
+import xml.etree.ElementTree as ET&lt;br&gt;
+import matplotlib.pyplot as plt&lt;br&gt;
 from wordcloud import WordCloud, STOPWORDS&lt;/p&gt;
 &lt;p&gt;#
-http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python&lt;br /&gt;
-class MLStripper(HTMLParser):&lt;br /&gt;
-def &lt;strong&gt;init&lt;/strong&gt;(self):&lt;br /&gt;
-self.reset()&lt;br /&gt;
-self.fed = []&lt;br /&gt;
-def handle_data(self, d):&lt;br /&gt;
-self.fed.append(d)&lt;br /&gt;
-def get_data(self):&lt;br /&gt;
+http://stackoverflow.com/questions/753052/strip-html-from-strings-in-python&lt;br&gt;
+class MLStripper(HTMLParser):&lt;br&gt;
+def &lt;strong&gt;init&lt;/strong&gt;(self):&lt;br&gt;
+self.reset()&lt;br&gt;
+self.fed = []&lt;br&gt;
+def handle_data(self, d):&lt;br&gt;
+self.fed.append(d)&lt;br&gt;
+def get_data(self):&lt;br&gt;
 return ''.join(self.fed)&lt;/p&gt;
 &lt;p&gt;tree = ET.parse('0x7df.wordpress.2015-04-25.xml')&lt;/p&gt;
 &lt;p&gt;root = tree.getroot()&lt;/p&gt;
 &lt;p&gt;postwords = []&lt;/p&gt;
-&lt;p&gt;for child in root.iter():&lt;br /&gt;
-if child.tag == 'item':&lt;br /&gt;
+&lt;p&gt;for child in root.iter():&lt;br&gt;
+if child.tag == 'item':&lt;br&gt;
 if child.find('{http://wordpress.org/export/1.2/}status').text ==
-'publish':&lt;br /&gt;
+'publish':&lt;br&gt;
 postbody =
-child.find('{http://purl.org/rss/1.0/modules/content/}encoded').text&lt;br /&gt;
-s = MLStripper()&lt;br /&gt;
-s.feed(postbody)&lt;br /&gt;
+child.find('{http://purl.org/rss/1.0/modules/content/}encoded').text&lt;br&gt;
+s = MLStripper()&lt;br&gt;
+s.feed(postbody)&lt;br&gt;
 postwords += s.get_data().split()&lt;/p&gt;
-&lt;p&gt;keywords = ' '.join([wd for wd in postwords&lt;br /&gt;
-if 'http' not in wd and&lt;br /&gt;
-'bg=' not in wd and&lt;br /&gt;
-not wd.startswith('$') and&lt;br /&gt;
-not wd.startswith('[') and&lt;br /&gt;
-not wd.startswith('&amp;amp;')&lt;br /&gt;
+&lt;p&gt;keywords = ' '.join([wd for wd in postwords&lt;br&gt;
+if 'http' not in wd and&lt;br&gt;
+'bg=' not in wd and&lt;br&gt;
+not wd.startswith('$') and&lt;br&gt;
+not wd.startswith('[') and&lt;br&gt;
+not wd.startswith('&amp;amp;')&lt;br&gt;
 ])&lt;/p&gt;
-&lt;p&gt;wordcloud = WordCloud(&lt;br /&gt;
-font_path='./SaucerBB.ttf',&lt;br /&gt;
-stopwords=STOPWORDS,&lt;br /&gt;
-background_color='black',&lt;br /&gt;
-width=1800,&lt;br /&gt;
-height=1800&lt;br /&gt;
+&lt;p&gt;wordcloud = WordCloud(&lt;br&gt;
+font_path='./SaucerBB.ttf',&lt;br&gt;
+stopwords=STOPWORDS,&lt;br&gt;
+background_color='black',&lt;br&gt;
+width=1800,&lt;br&gt;
+height=1800&lt;br&gt;
 ).generate(keywords)&lt;/p&gt;
-&lt;p&gt;plt.imshow(wordcloud)&lt;br /&gt;
-plt.axis('off')&lt;br /&gt;
-plt.savefig('./my_wordpress_wordcloud_2.png', dpi=300)&lt;br /&gt;
-plt.show()&lt;br /&gt;
+&lt;p&gt;plt.imshow(wordcloud)&lt;br&gt;
+plt.axis('off')&lt;br&gt;
+plt.savefig('./my_wordpress_wordcloud_2.png', dpi=300)&lt;br&gt;
+plt.show()&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;I used the standard library light-weight
 &lt;code&gt;&amp;lt;a href="https://docs.python.org/2/library/xml.etree.elementtree.html" target="_blank"&amp;gt;xml.etree.ElementTree&amp;lt;/a&amp;gt;&lt;/code&gt;
@@ -341,11 +350,23 @@ tags from the blog post. (This came from
 &lt;a href="//stackoverflow.com/questions/753052/strip-html-from-strings-in-python"&gt;StackOverflow&lt;/a&gt;.)
 The rest of the script is essentially the same as &lt;a href="http://sebastianraschka.com/Articles/2014_twitter_wordcloud.html"&gt;Raschka's code for
 Twitter&lt;/a&gt;,
-tweaked a little where necessary.&lt;br /&gt;
+tweaked a little where necessary.&lt;br&gt;
 The result is:&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"&gt;&lt;img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660" /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png"&gt;&lt;img alt="my_wordpress_wordcloud_2" src="https://0x7df.files.wordpress.com/2015/04/my_wordpress_wordcloud_21.png?w=660"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;The font is called Saucer BB, from
-&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</summary><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Python code analysis using Prospector</title><link href="http://0x7df.github.io/python-code-analysis-using-prospector.html" rel="alternate"></link><published>2015-04-11T23:32:00+01:00</published><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-11:python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
+&lt;a href="http://www.1001fonts.com/saucer-bb-font.html"&gt;here&lt;/a&gt;.&lt;/p&gt;</content><category term="api"></category><category term="html"></category><category term="python"></category><category term="twitter"></category><category term="wordcloud"></category><category term="wordpress"></category><category term="xml"></category></entry><entry><title>Python code analysis using Prospector</title><link href="http://0x7df.github.io/python-code-analysis-using-prospector.html" rel="alternate"></link><published>2015-04-11T23:32:00+01:00</published><updated>2015-04-11T23:32:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-11:/python-code-analysis-using-prospector.html</id><summary type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
+post&lt;/a&gt;
+I came across introduced me to
+&lt;a href="https://github.com/landscapeio/prospector"&gt;Prospector&lt;/a&gt;, a
+&lt;a href="https://www.python.org/"&gt;Python&lt;/a&gt;&lt;a href="http://en.wikipedia.org/wiki/Static_program_analysis"&gt;static
+analysis&lt;/a&gt; tool
+developed by &lt;a href="https://landscape.io/"&gt;Landscape&lt;/a&gt;. From the
+&lt;a href="https://prospector.readthedocs.org"&gt;documentation&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Prospector is a tool to analyse Python code and output information
+about errors, potential problems, convention violations and
+complexity.&lt;/p&gt;
+&lt;p&gt;It brings together the functionality of other Python analysis …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;p&gt;A &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;recent blog
 post&lt;/a&gt;
 I came across introduced me to
 &lt;a href="https://github.com/landscapeio/prospector"&gt;Prospector&lt;/a&gt;, a
@@ -377,32 +398,32 @@ straight-away, without much user intervention. I won't repeat the sales
 pitch and the basic how-to that &lt;a href="https://blog.landscape.io/prospector-python-static-analysis-for-humans.html"&gt;that
 post&lt;/a&gt;
 contains, but will go on from there to give a bit more information.&lt;/p&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;h2&gt;Cyclomatic complexity&lt;/h2&gt;
 &lt;p&gt;The first thing you might come across that might not be self-evident is
 the complexity rating given by the
 &lt;a href="https://github.com/flintwork/mccabe"&gt;&lt;code&gt;mccabe&lt;/code&gt;&lt;/a&gt; package. E.g.:&lt;/p&gt;
 &lt;p&gt;[code lang="bash"]&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;prospector --strictness low&lt;br /&gt;
-Messages&lt;br /&gt;
+&lt;p&gt;prospector --strictness low&lt;br&gt;
+Messages&lt;br&gt;
 ========&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;main.py&lt;br /&gt;
-  Line: 13&lt;br /&gt;
+&lt;p&gt;main.py&lt;br&gt;
+  Line: 13&lt;br&gt;
     mccabe: MC0001 / run is too complex (17)&lt;/p&gt;
 &lt;h1&gt;Check Information&lt;/h1&gt;
-&lt;p&gt;Started: 2015-04-11 15:59:47.759944&lt;br /&gt;
-       Finished: 2015-04-11 15:59:51.598176&lt;br /&gt;
-     Time Taken: 3.84 seconds&lt;br /&gt;
-      Formatter: grouped&lt;br /&gt;
+&lt;p&gt;Started: 2015-04-11 15:59:47.759944&lt;br&gt;
+       Finished: 2015-04-11 15:59:51.598176&lt;br&gt;
+     Time Taken: 3.84 seconds&lt;br&gt;
+      Formatter: grouped&lt;br&gt;
        Profiles: default, strictness_low, strictness_medium,
 strictness_high, strictness_veryhigh, no_doc_warnings,
-no_test_warnings, no_member_warnings&lt;br /&gt;
-     Strictness: low&lt;br /&gt;
- Libraries Used:&lt;br /&gt;
+no_test_warnings, no_member_warnings&lt;br&gt;
+     Strictness: low&lt;br&gt;
+ Libraries Used:&lt;br&gt;
       Tools Run: dodgy, mccabe, pep8, profile-validator, pyflakes,
-pylint&lt;br /&gt;
+pylint&lt;br&gt;
  Messages Found: 1&lt;/p&gt;
 &lt;p&gt;[/code]&lt;/p&gt;
 &lt;p&gt;The &lt;em&gt;cyclomatic complexity&lt;/em&gt; metric was defined by &lt;a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1702388&amp;amp;filter%3DAND%28p_IS_Number%3A35895%29"&gt;Thomas J. McCabe in a
@@ -430,7 +451,7 @@ graph... and it is assumed that each node can be reached by the entry
 node and each node can reach the exit node. For example the following
 is a program control graph with entry node &lt;span class="math"&gt;\( a\)&lt;/span&gt; and
 exit node &lt;span class="math"&gt;\( f\)&lt;/span&gt;:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Reproduced from McCabe (1976)" src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA3&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&amp;amp;ci=642%2C968%2C254%2C220&amp;amp;edge=0" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Reproduced from McCabe (1976)" src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA3&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LbN62dSqC_xZCFeoYcb-COKZ7IA&amp;amp;ci=642%2C968%2C254%2C220&amp;amp;edge=0"&gt;&lt;/p&gt;
 &lt;p&gt;The following mathematical preliminaries will be needed...&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Definition 1&lt;/em&gt;: The cyclomatic number &lt;span class="math"&gt;\( V(G)\)&lt;/span&gt; of a
 graph &lt;span class="math"&gt;\( G\)&lt;/span&gt; with &lt;span class="math"&gt;\( n\)&lt;/span&gt; vertices,
@@ -465,10 +486,10 @@ can be expressed as a linear combination of circuits from
 is expressible as &lt;span class="math"&gt;\( (abea) + 2(beb) + (abefa)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;To see how this works it's necessary to number the edges on &lt;span class="math"&gt;\( G\)&lt;/span&gt;
 as in:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA4&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;amp;ci=165%2C387%2C235%2C207&amp;amp;edge=0" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA4&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;amp;ci=165%2C387%2C235%2C207&amp;amp;edge=0"&gt;&lt;/p&gt;
 &lt;p&gt;Now for each member of the basis &lt;span class="math"&gt;\( B1\)&lt;/span&gt; associate a
 vector as follows:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA4&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;amp;ci=66%2C638%2C279%2C134&amp;amp;edge=0" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Reproduced from McCabe, 1976." src="https://books.google.co.uk/books?id=vtNWAAAAMAAJ&amp;amp;pg=PA4&amp;amp;img=1&amp;amp;zoom=3&amp;amp;hl=en&amp;amp;sig=ACfU3U2LMlgVCsIny0X682Rs8LVIkP0WqA&amp;amp;ci=66%2C638%2C279%2C134&amp;amp;edge=0"&gt;&lt;/p&gt;
 &lt;p&gt;The path &lt;span class="math"&gt;\( (abea(be)^3fa)\)&lt;/span&gt; corresponds to the
 vector &lt;span class="math"&gt;\( 2004200111\)&lt;/span&gt; and the vector addition of
 &lt;span class="math"&gt;\( (abefa)\)&lt;/span&gt;, &lt;span class="math"&gt;\( 2(beb)\)&lt;/span&gt; and
@@ -497,15 +518,15 @@ methodology.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;[caption id="attachment_450" align="alignleft" width="178"]&lt;a href="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png"&gt;&lt;img alt="Example
 mccabe graph
-output" src="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png?w=178" /&gt;&lt;/a&gt;
+output" src="https://0x7df.files.wordpress.com/2015/04/example_mccabe_graph.png?w=178"&gt;&lt;/a&gt;
 Example mccabe graph output[/caption]&lt;/p&gt;
 &lt;p&gt;If you want to run &lt;code&gt;mccabe&lt;/code&gt; separately from &lt;code&gt;prospector&lt;/code&gt; you can do,
 using:&lt;/p&gt;
 &lt;p&gt;[code lang="bash"]  &lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;python -m mccabe mysourcefile.py&lt;br /&gt;
-('If 209', 2)&lt;br /&gt;
-("13:1: 'run'", 8)&lt;br /&gt;
+&lt;p&gt;python -m mccabe mysourcefile.py&lt;br&gt;
+('If 209', 2)&lt;br&gt;
+("13:1: 'run'", 8)&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;You can add the &lt;code&gt;-d&lt;/code&gt; option (documented
@@ -516,8 +537,8 @@ to produce output that can be passed to the
 graph. I.e.:&lt;/p&gt;
 &lt;p&gt;[code lang="bash"]  &lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;python -m mccabe -d example.py | \&lt;br /&gt;
-dot -Tpng -o example.png&lt;br /&gt;
+&lt;p&gt;python -m mccabe -d example.py | \&lt;br&gt;
+dot -Tpng -o example.png&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;produces something like the graph shown to the left.&lt;/p&gt;
@@ -537,17 +558,17 @@ paths; but it seems like a good start.&lt;/p&gt;
 fine-tune the warnings that are issued. For instance, once the
 strictness level is up to medium or above, you might start to get a lot
 of warnings from Pylint about invalid constant names:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br /&gt;
-example.py&lt;br /&gt;
-Line: 1&lt;br /&gt;
-pylint: invalid-name / Invalid constant name "nmats"&lt;br /&gt;
-Line: 17&lt;br /&gt;
-pylint: invalid-name / Invalid constant name "dcoeff"&lt;br /&gt;
-Line: 21&lt;br /&gt;
-pylint: invalid-name / Invalid constant name "tpower"&lt;br /&gt;
-Line: 23&lt;br /&gt;
-pylint: invalid-name / Invalid constant name "tmp0"&lt;br /&gt;
-...&lt;br /&gt;
+&lt;p&gt;[code]&lt;br&gt;
+example.py&lt;br&gt;
+Line: 1&lt;br&gt;
+pylint: invalid-name / Invalid constant name "nmats"&lt;br&gt;
+Line: 17&lt;br&gt;
+pylint: invalid-name / Invalid constant name "dcoeff"&lt;br&gt;
+Line: 21&lt;br&gt;
+pylint: invalid-name / Invalid constant name "tpower"&lt;br&gt;
+Line: 23&lt;br&gt;
+pylint: invalid-name / Invalid constant name "tmp0"&lt;br&gt;
+...&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The &lt;a href="https://www.python.org/dev/peps/pep-0008"&gt;PEP8 style guide&lt;/a&gt;
 suggests constants should be in upper case; I'm happy with this rule but
@@ -577,14 +598,14 @@ for the moment at least.&lt;/p&gt;
 &lt;a href="http://yaml.org/"&gt;YAML&lt;/a&gt;file with some configuration information, so you
 can give different projects different rule sets by giving them their own
 configuration file. An example is:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br /&gt;
-strictness: veryhigh&lt;br /&gt;
-ignore-paths: QA&lt;br /&gt;
-pylint:&lt;br /&gt;
-disable:&lt;br /&gt;
-- invalid-name&lt;br /&gt;
-- trailing-whitespace&lt;br /&gt;
-- too-few-public-methods&lt;br /&gt;
+&lt;p&gt;[code]&lt;br&gt;
+strictness: veryhigh&lt;br&gt;
+ignore-paths: QA&lt;br&gt;
+pylint:&lt;br&gt;
+disable:&lt;br&gt;
+- invalid-name&lt;br&gt;
+- trailing-whitespace&lt;br&gt;
+- too-few-public-methods&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The really nice part is that configurations can inherit from other
 configurations. For example, Prospector's different &lt;code&gt;--strictness&lt;/code&gt;
@@ -678,7 +699,13 @@ adding them to a profile. The useful extra options are:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><published>2015-03-29T19:27:00+01:00</published><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-29:converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;/script&gt;</content><category term="cyclomatic complexity"></category><category term="graph theory"></category><category term="mccabe"></category><category term="pep8"></category><category term="prospector"></category><category term="pylint"></category><category term="python"></category><category term="static analysis"></category><category term="yaml"></category></entry><entry><title>Converting from Doxygen to WordPress</title><link href="http://0x7df.github.io/converting-from-doxygen-to-wordpress.html" rel="alternate"></link><published>2015-03-29T19:27:00+01:00</published><updated>2015-03-29T19:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-03-29:/converting-from-doxygen-to-wordpress.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;p&gt;I write code documentation in &lt;a href="www.doxygen.org/"&gt;Doxygen&lt;/a&gt;, and in some
+cases include a fair amount of information about the mathematical theory
+of the problem that the code is solving. It seemed worthwhile posting
+the same content on &lt;a href="https://wordpress.com"&gt;Wordpress&lt;/a&gt;. However, the
+syntax isn't 100% interchangeable, despite both applications supporting
+&lt;a href="http://daringfireball.net/projects/markdown/"&gt;Markdown&lt;/a&gt;. This …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;I write code documentation in &lt;a href="www.doxygen.org/"&gt;Doxygen&lt;/a&gt;, and in some
 cases include a fair amount of information about the mathematical theory
 of the problem that the code is solving. It seemed worthwhile posting
@@ -690,9 +717,9 @@ commands&lt;/a&gt;,
 which begin with a &lt;code&gt;/&lt;/code&gt; or a &lt;code&gt;@&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The bulk of the changes that need to be made are to the equations.
 Doxygen and WordPress both allow 
-&lt;a href="http://www.latex.org"&gt;&lt;img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;amp;fg=000" title="\LaTeX" /&gt;&lt;/a&gt;
+&lt;a href="http://www.latex.org"&gt;&lt;img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;amp;fg=000" title="\LaTeX"&gt;&lt;/a&gt;
 equations; Doxygen by actually
-calling &lt;img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;amp;fg=000" title="\LaTeX" /&gt;
+calling &lt;img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;amp;fg=000" title="\LaTeX"&gt;
 to generate
 &lt;a href="en.wikipedia.org/wiki/Portable_Network_Graphics"&gt;PNG&lt;/a&gt;-format images
 which it embeds in the &lt;a href="www.w3schools.com/html/"&gt;HTML&lt;/a&gt;files that it
@@ -702,12 +729,12 @@ documentation &lt;a href="https://en.support.wordpress.com/latex/"&gt;here&lt;/a
 while the code for the actual equation is identical in both, being
 standard
 &lt;a href="http://www.ams.org/publications/authors/tex/amsmath"&gt;amsmath&lt;/a&gt;-style
-&lt;a href="http://www.latex.org"&gt;&lt;img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;amp;fg=000" title="\LaTeX" /&gt;&lt;/a&gt;,
+&lt;a href="http://www.latex.org"&gt;&lt;img alt="\LaTeX" src="https://s0.wp.com/latex.php?latex=%5CLaTeX&amp;amp;fg=000" title="\LaTeX"&gt;&lt;/a&gt;,
 the delimiters that identify it as maths and separate it from the body
 of the text are different. References also need to be handled
 differently.&lt;/p&gt;
 &lt;p&gt;[caption id="" align="alignright" width="404"]&lt;img alt="xkcd:
-Automation" src="http://imgs.xkcd.com/comics/automation.png" /&gt; xkcd: Automation
+Automation" src="http://imgs.xkcd.com/comics/automation.png"&gt; xkcd: Automation
 - http://imgs.xkcd.com/comics/automation.png[/caption]&lt;/p&gt;
 &lt;p&gt;Rather than do the conversion by hand, I knocked up a simple
 &lt;a href="http://python.org"&gt;Python&lt;/a&gt; script to do it (and in doing so risked
@@ -728,14 +755,14 @@ Doxygen Markdown file called &lt;code&gt;example.md&lt;/code&gt; as an argument 
 script.&lt;/p&gt;
 &lt;h2&gt;Main script&lt;/h2&gt;
 &lt;p&gt;The first part of the script looks like this:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
 if &lt;strong&gt;name&lt;/strong&gt; == "&lt;strong&gt;main&lt;/strong&gt;":&lt;/p&gt;
 &lt;p&gt;args = sys.argv[1:]&lt;/p&gt;
 &lt;p&gt;reffile = '/default/path/to/references.md'&lt;/p&gt;
-&lt;p&gt;for arg in args:&lt;br /&gt;
-errmsg = processdox(arg,reffile)&lt;br /&gt;
-for msg in errmsg:&lt;br /&gt;
-print msg&lt;br /&gt;
+&lt;p&gt;for arg in args:&lt;br&gt;
+errmsg = processdox(arg,reffile)&lt;br&gt;
+for msg in errmsg:&lt;br&gt;
+print msg&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The first line - &lt;code&gt;if __name__ == "__main__":&lt;/code&gt; - is a fairly standard
 Python construct that checks that the module being executed has been
@@ -763,12 +790,12 @@ over the error messages returned by the processing function, and print
 them to the screen.&lt;/p&gt;
 &lt;h2&gt;Function `processdox`&lt;/h2&gt;
 &lt;p&gt;The body of the &lt;code&gt;processdox&lt;/code&gt; function is given below:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
 def processdox(filename,reffile):&lt;/p&gt;
 &lt;p&gt;errmsg = checkfile(filename)&lt;/p&gt;
-&lt;p&gt;if len(errmsg) == 0:&lt;br /&gt;
+&lt;p&gt;if len(errmsg) == 0:&lt;br&gt;
 processfile(filename,reffile=reffile)&lt;/p&gt;
-&lt;p&gt;return errmsg&lt;br /&gt;
+&lt;p&gt;return errmsg&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The first line is the function definition, which also specifies the
 arguments that function accepts: &lt;code&gt;filename&lt;/code&gt; and &lt;code&gt;reffile&lt;/code&gt;. Then, two
@@ -778,16 +805,16 @@ length of the list &lt;code&gt;errmsg&lt;/code&gt; is zero (i.e. it contains no 
 a way of checking that &lt;code&gt;checkfile&lt;/code&gt; didn't return any error messages).&lt;/p&gt;
 &lt;h2&gt;Error checking&lt;/h2&gt;
 &lt;p&gt;Let's see the file-checking function &lt;code&gt;checkfile&lt;/code&gt; next:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
 def checkfile(filename):&lt;/p&gt;
 &lt;p&gt;errmsg = []&lt;/p&gt;
 &lt;p&gt;filebase, fileext = os.path.splitext(filename)&lt;/p&gt;
-&lt;p&gt;if fileext != '.md':&lt;br /&gt;
+&lt;p&gt;if fileext != '.md':&lt;br&gt;
 errmsg.append(filename+' is not Markdown')&lt;/p&gt;
-&lt;p&gt;if not os.path.isfile(filename):&lt;br /&gt;
-errmsg.append(filename+' does not exist or is&lt;br /&gt;
+&lt;p&gt;if not os.path.isfile(filename):&lt;br&gt;
+errmsg.append(filename+' does not exist or is&lt;br&gt;
 not a file')&lt;/p&gt;
-&lt;p&gt;return errmsg&lt;br /&gt;
+&lt;p&gt;return errmsg&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;This first declares the &lt;code&gt;errmsg&lt;/code&gt; variable as an empty list, and then
 uses the standard &lt;code&gt;os.path&lt;/code&gt; module's &lt;code&gt;splitext&lt;/code&gt; function, which returns
@@ -813,15 +840,15 @@ iterations the user will have to go through to fix everything.&lt;/p&gt;
 &lt;p&gt;For example, if we call:&lt;/p&gt;
 &lt;p&gt;[code lang="bash"]  &lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;python dox2wp.py isnotmarkdown.txt doesnotexist.md \&lt;br /&gt;
-existsbutisafolder.md realmarkdown.md&lt;br /&gt;
+&lt;p&gt;python dox2wp.py isnotmarkdown.txt doesnotexist.md \&lt;br&gt;
+existsbutisafolder.md realmarkdown.md&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;then we get:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br /&gt;
-isnotmarkdown.txt is not Markdown&lt;br /&gt;
-doesnotexist.md does not exist or is not a file&lt;br /&gt;
-existsbutisafolder.md does not exist or is not a file&lt;br /&gt;
+&lt;p&gt;[code]&lt;br&gt;
+isnotmarkdown.txt is not Markdown&lt;br&gt;
+doesnotexist.md does not exist or is not a file&lt;br&gt;
+existsbutisafolder.md does not exist or is not a file&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;Note there's no error message referring to &lt;code&gt;realmarkdown.md&lt;/code&gt;, which
 meets the criteria and so is processed successfully.&lt;/p&gt;
@@ -843,11 +870,11 @@ is useful to illustrate the principles in a simple application.&lt;/p&gt;
 &lt;h3&gt;Preamble&lt;/h3&gt;
 &lt;p&gt;Function &lt;code&gt;processfile&lt;/code&gt; executes the real work. This is somewhat longer
 so we'll deal with it in sections. It starts with:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
 def processfile(filename,reffile='references.md'):&lt;/p&gt;
-&lt;p&gt;fi = open(filename,'r')&lt;br /&gt;
-fo = open(filename+'.txt','w')&lt;br /&gt;
-fr = open(reffile,'r')&lt;br /&gt;
+&lt;p&gt;fi = open(filename,'r')&lt;br&gt;
+fo = open(filename+'.txt','w')&lt;br&gt;
+fr = open(reffile,'r')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;After the function definition, which like the previous one we saw
 defines the input arguments &lt;code&gt;filename&lt;/code&gt; and &lt;code&gt;reffile&lt;/code&gt; (but with the
@@ -863,17 +890,17 @@ later; we define them here rather than nearer to where they get used
 because their use will be inside a loop, and there's no point
 re-defining them every time the loop is executed, because they're always
 the same.&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-p1 = re.compile('@f\&lt;span class="math"&gt;\([^@]*@f\\\)&lt;/span&gt;')&lt;br /&gt;
-p2 = re.compile('@ref [^"]&lt;em&gt; "[^"]&lt;/em&gt;"')&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+p1 = re.compile('@f\&lt;span class="math"&gt;\([^@]*@f\\\)&lt;/span&gt;')&lt;br&gt;
+p2 = re.compile('@ref [^"]&lt;em&gt; "[^"]&lt;/em&gt;"')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;We'll come back to these when they're needed.&lt;/p&gt;
 &lt;p&gt;The final part of the pre-amble involved setting up a counter and an
 empty list for the references, again which we'll come to when we need
 them.&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-refnum = 1&lt;br /&gt;
-footnotes = []&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+refnum = 1&lt;br&gt;
+footnotes = []&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;In the next stage we enter the loop over individual lines in the input
 file, which Python implements very simply as &lt;code&gt;for line in fi:&lt;/code&gt;, with
@@ -881,12 +908,12 @@ file, which Python implements very simply as &lt;code&gt;for line in fi:&lt;/cod
 placed, and &lt;code&gt;fi&lt;/code&gt; just being the pointer to the opened text file.&lt;/p&gt;
 &lt;p&gt;The first text-processing operation is to replace &amp;lt; and &amp;gt; with their
 HTML equivalents: &lt;code&gt;&amp;amp;lt;&lt;/code&gt; and &lt;code&gt;&amp;amp;gt;&lt;/code&gt;, respectively.&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
 for line in fi:&lt;/p&gt;
-&lt;p&gt;# Some of the later changes insert "&amp;lt;" and "&amp;gt;" so do&lt;br /&gt;
-# these as early as possible&lt;br /&gt;
-line = line.replace('&amp;lt;','&amp;lt;')&lt;br /&gt;
-line = line.replace('&amp;gt;','&amp;gt;')&lt;br /&gt;
+&lt;p&gt;# Some of the later changes insert "&amp;lt;" and "&amp;gt;" so do&lt;br&gt;
+# these as early as possible&lt;br&gt;
+line = line.replace('&amp;lt;','&amp;lt;')&lt;br&gt;
+line = line.replace('&amp;gt;','&amp;gt;')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The reason for this is that, for this to work overall, the final output
 needs to be copied and pasted into WordPress's HTML editor, rather than
@@ -905,20 +932,20 @@ as maths - but it happened, which seems like a flaw in the WordPress
 parsing.&lt;/p&gt;
 &lt;h3&gt;Special commands&lt;/h3&gt;
 &lt;p&gt;Subsequently, we remove some of the Doxygen special commands:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-# Remove the table of contents special command&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+# Remove the table of contents special command&lt;br&gt;
 line = line.replace('\\tableofcontents','')&lt;/p&gt;
-&lt;p&gt;# Replace the Doxygen special commands for sections&lt;br /&gt;
-# with Markdown&lt;br /&gt;
-if '\section' in line:&lt;br /&gt;
-fields = line.split()&lt;br /&gt;
-line = '# ' + ' '.join(fields[2:])&lt;br /&gt;
-if '\subsection' in line:&lt;br /&gt;
-fields = line.split()&lt;br /&gt;
-line = '## ' + ' '.join(fields[2:])&lt;br /&gt;
-if '\subsubsection' in line:&lt;br /&gt;
-fields = line.split()&lt;br /&gt;
-line = '### ' + ' '.join(fields[2:])&lt;br /&gt;
+&lt;p&gt;# Replace the Doxygen special commands for sections&lt;br&gt;
+# with Markdown&lt;br&gt;
+if '\section' in line:&lt;br&gt;
+fields = line.split()&lt;br&gt;
+line = '# ' + ' '.join(fields[2:])&lt;br&gt;
+if '\subsection' in line:&lt;br&gt;
+fields = line.split()&lt;br&gt;
+line = '## ' + ' '.join(fields[2:])&lt;br&gt;
+if '\subsubsection' in line:&lt;br&gt;
+fields = line.split()&lt;br&gt;
+line = '### ' + ' '.join(fields[2:])&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The first special command is &lt;code&gt;\tableofcontents&lt;/code&gt;, which appears on its
 own and causes Doxygen to automatically insert a contents table into the
@@ -928,21 +955,21 @@ an empty string, using the &lt;code&gt;replace&lt;/code&gt; string method.&lt;/p
 special commands is followed by two arguments: first an identifying tag,
 which can then be used elsewhere in the Doxygen pages to create a link
 to this section, followed by the actual title of the section, e.g.:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br /&gt;
-\subsection introdoxy Introduction to Doxygen&lt;br /&gt;
+&lt;p&gt;[code]&lt;br&gt;
+\subsection introdoxy Introduction to Doxygen&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;We don't care about the ID tag, but we want to keep the title and retain
 it at the same location as the section title in the WordPress post. To
 do this we split the line into a list of tokens, separated by
 whitespace, using &lt;code&gt;line.split()&lt;/code&gt;. The resulting list, in &lt;code&gt;fields&lt;/code&gt;, would
 look like this for the example above if we printed it out:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-['\\subsection', 'introdoxy', 'Introduction', 'to', 'Doxygen']&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+['\\subsection', 'introdoxy', 'Introduction', 'to', 'Doxygen']&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The idea is to discard the first two elements and keep the rest, joining
 them back together into a string, and stripping out the quotation marks.&lt;/p&gt;
-&lt;p&gt;[code]&lt;br /&gt;
-line = '## ' + ' '.join(fields[2:])&lt;br /&gt;
+&lt;p&gt;[code]&lt;br&gt;
+line = '## ' + ' '.join(fields[2:])&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;Here the &lt;code&gt;string.join(list)&lt;/code&gt; syntax in Python joins all the elements of
 &lt;code&gt;list&lt;/code&gt; together into a single string, using &lt;code&gt;string&lt;/code&gt; as the delimiter.
@@ -976,32 +1003,32 @@ remainder is the text that appears in the references section.&lt;/p&gt;
 &lt;p&gt;What we want to do is replace the in-line reference with a link to a
 footnote, and use the long reference text as the footnote.&lt;/p&gt;
 &lt;p&gt;For an individual references, the code that does this looks like this:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
 # References&lt;/p&gt;
-&lt;p&gt;refidstr = 'fn'+str(refnum)&lt;br /&gt;
+&lt;p&gt;refidstr = 'fn'+str(refnum)&lt;br&gt;
 refnum += 1&lt;/p&gt;
-&lt;p&gt;fields = istr.split()&lt;br /&gt;
+&lt;p&gt;fields = istr.split()&lt;br&gt;
 reftxt = " ".join(fields[2:]).strip('"')&lt;/p&gt;
-&lt;p&gt;ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br /&gt;
+&lt;p&gt;ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br&gt;
 line = line.replace(istr,ostr)&lt;/p&gt;
-&lt;p&gt;doxref = fields[1]&lt;br /&gt;
-for refline in fr:&lt;br /&gt;
-if doxref in refline:&lt;br /&gt;
-reffull = ' '.join(refline.strip().split()[3:])&lt;br /&gt;
-break&lt;br /&gt;
-footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br /&gt;
+&lt;p&gt;doxref = fields[1]&lt;br&gt;
+for refline in fr:&lt;br&gt;
+if doxref in refline:&lt;br&gt;
+reffull = ' '.join(refline.strip().split()[3:])&lt;br&gt;
+break&lt;br&gt;
+footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;Although you don't see it here, the Doxygen text containing the in-line
 reference is contained in &lt;code&gt;istr&lt;/code&gt; - we'll explain how it got there
 shortly. The first thing we do is create a unique string for the anchor
 that will be used as the ID for the footnote; i.e. if the anchor is
 &lt;code&gt;fn1&lt;/code&gt;, then the inline reference will be:&lt;/p&gt;
-&lt;p&gt;[code lang="html"]&lt;br /&gt;
-&lt;a href="fn1"&gt;Fick (1855)&lt;/a&gt;&lt;br /&gt;
+&lt;p&gt;[code lang="html"]&lt;br&gt;
+&lt;a href="fn1"&gt;Fick (1855)&lt;/a&gt;&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;and the footnote would be:&lt;/p&gt;
-&lt;p&gt;[code lang="html"]&lt;br /&gt;
-&lt;a name="fn1"&gt;Fick, A, 1855. On liquid diffusion...&lt;/a&gt;&lt;br /&gt;
+&lt;p&gt;[code lang="html"]&lt;br&gt;
+&lt;a name="fn1"&gt;Fick, A, 1855. On liquid diffusion...&lt;/a&gt;&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;We have previously set up a counter for the references we discover,
 which was &lt;code&gt;refnum&lt;/code&gt;, so the code &lt;code&gt;refidstr = 'fn'+str(refnum)&lt;/code&gt; will
@@ -1014,25 +1041,25 @@ did for the section headings. The only difference here is that we have
 to add the &lt;code&gt;strip('"')&lt;/code&gt; function to strip off the quotation marks.&lt;/p&gt;
 &lt;p&gt;At this point we have enough information to construct the new text for
 the in-line reference:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;and replace the original string with the new one:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-line = line.replace(istr,ostr)&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+line = line.replace(istr,ostr)&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;There's one final job; we have to create the footnote and put it at the
 bottom of the page. We'll store it in a list called &lt;code&gt;footnotes&lt;/code&gt; in the
 interim, and then write the list out after all the other processing has
 been finished, so it appears in its proper place at the bottom of the
 page.&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-doxref = fields[1]&lt;br /&gt;
-for refline in fr:&lt;br /&gt;
-if doxref in refline:&lt;br /&gt;
-reffull = ' '.join(refline.strip().split()[3:])&lt;br /&gt;
-break&lt;br /&gt;
-footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+doxref = fields[1]&lt;br&gt;
+for refline in fr:&lt;br&gt;
+if doxref in refline:&lt;br&gt;
+reffull = ' '.join(refline.strip().split()[3:])&lt;br&gt;
+break&lt;br&gt;
+footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;So what is this doing? We know the text that Doxygen is using - &lt;code&gt;ref01&lt;/code&gt;
 - in our example, because we can extract it from the second token of the
@@ -1053,8 +1080,8 @@ first requires that the Python &lt;code&gt;re&lt;/code&gt; module is imported (d
 &lt;a href="https://docs.python.org/2/library/re.html"&gt;here&lt;/a&gt;). Once it is, we can
 compile a regular expression using the code we saw earlier but didn't
 explain:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-p2 = re.compile('@ref [^"]&lt;em&gt; "[^"]&lt;/em&gt;"')&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+p2 = re.compile('@ref [^"]&lt;em&gt; "[^"]&lt;/em&gt;"')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The regular expression is the bit inside the single quotes:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;@ref [^&amp;quot;]* &amp;quot;[^&amp;quot;]*&amp;quot;
@@ -1080,9 +1107,9 @@ wouldn't matter; but we can't.&lt;/p&gt;
 understand the rest of the line. Compiling the regular expression
 creates a special regular expression object, which we've bound to &lt;code&gt;p2&lt;/code&gt;,
 and which can be used later. We do this by writing:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-for item in p2.finditer(line):&lt;br /&gt;
-istr = item.group()&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+for item in p2.finditer(line):&lt;br&gt;
+istr = item.group()&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;This calls the &lt;code&gt;finditer&lt;/code&gt; method of the &lt;code&gt;p2&lt;/code&gt; regular expression object
 on the text string &lt;code&gt;line&lt;/code&gt;, which returns an iterator of all the
@@ -1091,30 +1118,30 @@ do this because there could be more than one match in any given &lt;code&gt;line
 The second line returns the actual matched text string from &lt;code&gt;item&lt;/code&gt;,
 using the &lt;code&gt;group&lt;/code&gt; method, and puts it into &lt;code&gt;istr&lt;/code&gt;. We now have the full
 thing:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-# Loop over all matches against p2 in line&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+# Loop over all matches against p2 in line&lt;br&gt;
 for item in p2.finditer(line):&lt;/p&gt;
-&lt;p&gt;# Extract the matched text&lt;br /&gt;
+&lt;p&gt;# Extract the matched text&lt;br&gt;
 istr = item.group()&lt;/p&gt;
 &lt;p&gt;# Create the unique reference (and increment the counter for next
-time)&lt;br /&gt;
-refidstr = 'fn'+str(refnum)&lt;br /&gt;
+time)&lt;br&gt;
+refidstr = 'fn'+str(refnum)&lt;br&gt;
 refnum += 1&lt;/p&gt;
-&lt;p&gt;# Get the in-line reference text&lt;br /&gt;
-fields = istr.split()&lt;br /&gt;
+&lt;p&gt;# Get the in-line reference text&lt;br&gt;
+fields = istr.split()&lt;br&gt;
 reftxt = " ".join(fields[2:]).strip('"')&lt;/p&gt;
-&lt;p&gt;# Construct the WordPress-format inline reference and&lt;br /&gt;
-# replace the old Doxygen-format one&lt;br /&gt;
-ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br /&gt;
+&lt;p&gt;# Construct the WordPress-format inline reference and&lt;br&gt;
+# replace the old Doxygen-format one&lt;br&gt;
+ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br&gt;
 line = line.replace(istr,ostr)&lt;/p&gt;
-&lt;p&gt;# Get the full reference text to use as the footnote&lt;br /&gt;
-doxref = fields[1]&lt;br /&gt;
-fr.seek(0)&lt;br /&gt;
-for refline in fr:&lt;br /&gt;
-if doxref in refline:&lt;br /&gt;
-reffull = ' '.join(refline.strip().split()[3:])&lt;br /&gt;
-break&lt;br /&gt;
-footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br /&gt;
+&lt;p&gt;# Get the full reference text to use as the footnote&lt;br&gt;
+doxref = fields[1]&lt;br&gt;
+fr.seek(0)&lt;br&gt;
+for refline in fr:&lt;br&gt;
+if doxref in refline:&lt;br&gt;
+reffull = ' '.join(refline.strip().split()[3:])&lt;br&gt;
+break&lt;br&gt;
+footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;The only additonal thing here that you haven't already seen is the
 &lt;code&gt;fr.seek(0)&lt;/code&gt; line, which rewinds the references file to the beginning
@@ -1131,17 +1158,17 @@ equations can be included by surrounding them with &lt;code&gt;\f$&lt;/code&gt; 
 &lt;p&gt;Alternatively, we can create a numbered equation on its own line by
 using the opening delimiter &lt;code&gt;\f{equation}&lt;/code&gt; and the closing delimiter
 &lt;code&gt;\f}&lt;/code&gt;. For example:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br /&gt;
-\f{equation}&lt;br /&gt;
-F = ma&lt;br /&gt;
-\f}&lt;br /&gt;
+&lt;p&gt;[code]&lt;br&gt;
+\f{equation}&lt;br&gt;
+F = ma&lt;br&gt;
+\f}&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;Then finally, a non-numbered equation can be created on its own line by
 using:&lt;/p&gt;
-&lt;p&gt;[code]&lt;br /&gt;
-\f[&lt;br /&gt;
-a^2 + b^2 = c^2&lt;br /&gt;
-\f]&lt;br /&gt;
+&lt;p&gt;[code]&lt;br&gt;
+\f[&lt;br&gt;
+a^2 + b^2 = c^2&lt;br&gt;
+\f]&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;In WordPress, there is only one way to embed mathematics, which is to
 use the opening delimiter &lt;code&gt;$latex&lt;/code&gt; followed by the closing delimiter
@@ -1149,12 +1176,12 @@ use the opening delimiter &lt;code&gt;$latex&lt;/code&gt; followed by the closin
 there's no support for equation numbering.&lt;/p&gt;
 &lt;p&gt;Replacing the second two types is trivial, because the opening and
 closing delimiters are different, as they are for WordPress. Hence:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-# Replace the maths delimiters&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+# Replace the maths delimiters&lt;br&gt;
 line = line.replace('\\f{equation}','&lt;span class="math"&gt;\(')  
-line = line.replace('\\\\f[','\)&lt;/span&gt;')&lt;br /&gt;
+line = line.replace('\\\\f[','\)&lt;/span&gt;')&lt;br&gt;
 line = line.replace('\\f}','&lt;span class="math"&gt;\(')  
-line = line.replace('\\\\f]','\)&lt;/span&gt;')&lt;br /&gt;
+line = line.replace('\\\\f]','\)&lt;/span&gt;')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;does the trick nicely. Note we add an extra &lt;code&gt;\&lt;/code&gt; to protect the &lt;code&gt;\&lt;/code&gt; that
 appears in the string we want to match. Without this, the &lt;code&gt;\f&lt;/code&gt; would be
@@ -1163,16 +1190,16 @@ interpreted as the form-feed escape sequence.&lt;/p&gt;
 and end delimiter in Doxygen are the same, but we need to replace them
 with different start and end delimiters for WordPress to understand. We
 go back to regular expressions:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-# Replace the inline maths delimiters&lt;br /&gt;
-for item in p1.finditer(line):&lt;br /&gt;
-istr = item.group()&lt;br /&gt;
-ostr = '&lt;span class="math"&gt;\('+istr.strip('@f\)&lt;/span&gt;')+'$'&lt;br /&gt;
-line = line.replace(istr,ostr)&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+# Replace the inline maths delimiters&lt;br&gt;
+for item in p1.finditer(line):&lt;br&gt;
+istr = item.group()&lt;br&gt;
+ostr = '&lt;span class="math"&gt;\('+istr.strip('@f\)&lt;/span&gt;')+'$'&lt;br&gt;
+line = line.replace(istr,ostr)&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;We saw &lt;code&gt;p1&lt;/code&gt; defined earlier as:&lt;/p&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-p1 = re.compile('@f\&lt;span class="math"&gt;\([^@]*@f\\\)&lt;/span&gt;')&lt;br /&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+p1 = re.compile('@f\&lt;span class="math"&gt;\([^@]*@f\\\)&lt;/span&gt;')&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;p&gt;Here we are trying to match something that begins and ends with a
 literal &lt;code&gt;@f$&lt;/code&gt;, which we have to write as &lt;code&gt;@f$&lt;/code&gt; because &lt;code&gt;$&lt;/code&gt; is also a
@@ -1185,102 +1212,102 @@ by &lt;code&gt;[^@]*&lt;/code&gt;. The rest should be self-explanatory.&lt;/p&gt
 certainly took a lot longer to write...). It's also a fairly esoteric
 use case I should think, so will probably be of use to all of 3 other
 people if I'm lucky! The final, full script is reproduced below.&lt;/p&gt;
-&lt;hr /&gt;
-&lt;p&gt;[code lang="python"]&lt;br /&gt;
-import sys&lt;br /&gt;
-import os&lt;br /&gt;
+&lt;hr&gt;
+&lt;p&gt;[code lang="python"]&lt;br&gt;
+import sys&lt;br&gt;
+import os&lt;br&gt;
 import re&lt;/p&gt;
 &lt;h2&gt;#&lt;/h2&gt;
 &lt;p&gt;def checkfile(filename):&lt;/p&gt;
 &lt;p&gt;errmsg = []&lt;/p&gt;
 &lt;p&gt;filebase, fileext = os.path.splitext(filename)&lt;/p&gt;
-&lt;p&gt;if fileext != '.md':&lt;br /&gt;
+&lt;p&gt;if fileext != '.md':&lt;br&gt;
 errmsg.append(filename+' is not Markdown')&lt;/p&gt;
-&lt;p&gt;if not os.path.isfile(filename):&lt;br /&gt;
-errmsg.append(filename+' does not exist or is not&lt;br /&gt;
+&lt;p&gt;if not os.path.isfile(filename):&lt;br&gt;
+errmsg.append(filename+' does not exist or is not&lt;br&gt;
 a file')&lt;/p&gt;
 &lt;p&gt;return errmsg&lt;/p&gt;
 &lt;h2&gt;#&lt;/h2&gt;
 &lt;p&gt;def processfile(filename,reffile='references.md'):&lt;/p&gt;
-&lt;p&gt;fi = open(filename,'r')&lt;br /&gt;
-fo = open(filename+'.txt','w')&lt;br /&gt;
+&lt;p&gt;fi = open(filename,'r')&lt;br&gt;
+fo = open(filename+'.txt','w')&lt;br&gt;
 fr = open(reffile,'r')&lt;/p&gt;
-&lt;p&gt;p1 = re.compile('@f\&lt;span class="math"&gt;\([^@]*@f\\\)&lt;/span&gt;')&lt;br /&gt;
+&lt;p&gt;p1 = re.compile('@f\&lt;span class="math"&gt;\([^@]*@f\\\)&lt;/span&gt;')&lt;br&gt;
 p2 = re.compile('@ref [^"]&lt;em&gt; "[^"]&lt;/em&gt;"')&lt;/p&gt;
-&lt;p&gt;refnum = 1&lt;br /&gt;
+&lt;p&gt;refnum = 1&lt;br&gt;
 footnotes = []&lt;/p&gt;
 &lt;p&gt;for line in fi:&lt;/p&gt;
-&lt;p&gt;# Some of the later changes insert "&amp;lt;" and "&amp;gt;" so do these&lt;br /&gt;
-# as early as possible&lt;br /&gt;
-line = line.replace('&amp;lt;','&amp;lt;')&lt;br /&gt;
+&lt;p&gt;# Some of the later changes insert "&amp;lt;" and "&amp;gt;" so do these&lt;br&gt;
+# as early as possible&lt;br&gt;
+line = line.replace('&amp;lt;','&amp;lt;')&lt;br&gt;
 line = line.replace('&amp;gt;','&amp;gt;')&lt;/p&gt;
-&lt;p&gt;# Remove the table of contents special command&lt;br /&gt;
+&lt;p&gt;# Remove the table of contents special command&lt;br&gt;
 line = line.replace('\\tableofcontents','')&lt;/p&gt;
-&lt;p&gt;# Replace the Doxygen special commands for sections with&lt;br /&gt;
-# Markdown&lt;br /&gt;
-if '\section' in line:&lt;br /&gt;
-fields = line.split()&lt;br /&gt;
-line = '# ' + ' '.join(fields[2:])&lt;br /&gt;
-if '\subsection' in line:&lt;br /&gt;
-fields = line.split()&lt;br /&gt;
-line = '## ' + ' '.join(fields[2:])&lt;br /&gt;
-if '\subsubsection' in line:&lt;br /&gt;
-fields = line.split()&lt;br /&gt;
+&lt;p&gt;# Replace the Doxygen special commands for sections with&lt;br&gt;
+# Markdown&lt;br&gt;
+if '\section' in line:&lt;br&gt;
+fields = line.split()&lt;br&gt;
+line = '# ' + ' '.join(fields[2:])&lt;br&gt;
+if '\subsection' in line:&lt;br&gt;
+fields = line.split()&lt;br&gt;
+line = '## ' + ' '.join(fields[2:])&lt;br&gt;
+if '\subsubsection' in line:&lt;br&gt;
+fields = line.split()&lt;br&gt;
 line = '### ' + ' '.join(fields[2:])&lt;/p&gt;
-&lt;p&gt;# References&lt;br /&gt;
-# Doxygen format is '@ref doxref "reference text"'&lt;br /&gt;
+&lt;p&gt;# References&lt;br&gt;
+# Doxygen format is '@ref doxref "reference text"'&lt;br&gt;
 # Replace with an HTML link to a footnote '&lt;a href="fn1"&gt;reference
-text&lt;/a&gt;'&lt;br /&gt;
-for item in p2.finditer(line):&lt;br /&gt;
-istr = item.group()&lt;br /&gt;
-refidstr = 'fn'+str(refnum)&lt;br /&gt;
-fields = istr.split()&lt;br /&gt;
-reftxt = " ".join(fields[2:]).strip('"')&lt;br /&gt;
-doxref = fields[1]&lt;br /&gt;
-fr.seek(0)&lt;br /&gt;
-for refline in fr:&lt;br /&gt;
-if doxref in refline:&lt;br /&gt;
-reffull = ' '.join(refline.strip().split()[3:])&lt;br /&gt;
-break&lt;br /&gt;
-ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br /&gt;
-line = line.replace(istr,ostr)&lt;br /&gt;
-footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br /&gt;
+text&lt;/a&gt;'&lt;br&gt;
+for item in p2.finditer(line):&lt;br&gt;
+istr = item.group()&lt;br&gt;
+refidstr = 'fn'+str(refnum)&lt;br&gt;
+fields = istr.split()&lt;br&gt;
+reftxt = " ".join(fields[2:]).strip('"')&lt;br&gt;
+doxref = fields[1]&lt;br&gt;
+fr.seek(0)&lt;br&gt;
+for refline in fr:&lt;br&gt;
+if doxref in refline:&lt;br&gt;
+reffull = ' '.join(refline.strip().split()[3:])&lt;br&gt;
+break&lt;br&gt;
+ostr = '&lt;a href="\#'+refidstr+'"&gt;'+reftxt+'&lt;/a&gt;'&lt;br&gt;
+line = line.replace(istr,ostr)&lt;br&gt;
+footnotes.append('&lt;a name="'+refidstr+'"&gt;'+reffull+'&lt;/a&gt;')&lt;br&gt;
 refnum += 1&lt;/p&gt;
-&lt;p&gt;# Replace the maths delimiters&lt;br /&gt;
+&lt;p&gt;# Replace the maths delimiters&lt;br&gt;
 line = line.replace('\\f{equation}','&lt;span class="math"&gt;\(')  
-line = line.replace('\\\\f[','\)&lt;/span&gt;')&lt;br /&gt;
+line = line.replace('\\\\f[','\)&lt;/span&gt;')&lt;br&gt;
 line = line.replace('\\f}','&lt;span class="math"&gt;\(')  
 line = line.replace('\\\\f]','\)&lt;/span&gt;')&lt;/p&gt;
-&lt;p&gt;# Replace the inline maths delimiters&lt;br /&gt;
-for item in p1.finditer(line):&lt;br /&gt;
-istr = item.group()&lt;br /&gt;
-ostr = '&lt;span class="math"&gt;\('+istr.strip('@f\)&lt;/span&gt;')+'$'&lt;br /&gt;
+&lt;p&gt;# Replace the inline maths delimiters&lt;br&gt;
+for item in p1.finditer(line):&lt;br&gt;
+istr = item.group()&lt;br&gt;
+ostr = '&lt;span class="math"&gt;\('+istr.strip('@f\)&lt;/span&gt;')+'$'&lt;br&gt;
 line = line.replace(istr,ostr)&lt;/p&gt;
 &lt;p&gt;fo.write(line+'\n')&lt;/p&gt;
-&lt;p&gt;# Write out the footnotes generated by processing the references&lt;br /&gt;
-fo.write('&lt;hr&gt;\n')&lt;br /&gt;
-fo.write('&lt;ol&gt;\n')&lt;br /&gt;
-for fn in footnotes:&lt;br /&gt;
-fo.write('&lt;li&gt;'+fn+'\n')&lt;br /&gt;
+&lt;p&gt;# Write out the footnotes generated by processing the references&lt;br&gt;
+fo.write('&lt;hr&gt;\n')&lt;br&gt;
+fo.write('&lt;ol&gt;\n')&lt;br&gt;
+for fn in footnotes:&lt;br&gt;
+fo.write('&lt;li&gt;'+fn+'\n')&lt;br&gt;
 fo.write('&lt;/ol&gt;\n')&lt;/p&gt;
-&lt;p&gt;fi.close()&lt;br /&gt;
-fo.close()&lt;br /&gt;
+&lt;p&gt;fi.close()&lt;br&gt;
+fo.close()&lt;br&gt;
 fr.close()&lt;/p&gt;
 &lt;p&gt;return&lt;/p&gt;
 &lt;h2&gt;#&lt;/h2&gt;
 &lt;p&gt;def processdox(filename,reffile):&lt;/p&gt;
 &lt;p&gt;errmsg = checkfile(filename)&lt;/p&gt;
-&lt;p&gt;if len(errmsg) == 0:&lt;br /&gt;
+&lt;p&gt;if len(errmsg) == 0:&lt;br&gt;
 processfile(filename,reffile=reffile)&lt;/p&gt;
 &lt;p&gt;return errmsg&lt;/p&gt;
 &lt;h2&gt;#&lt;/h2&gt;
 &lt;p&gt;if &lt;strong&gt;name&lt;/strong&gt; == "&lt;strong&gt;main&lt;/strong&gt;":&lt;/p&gt;
 &lt;p&gt;args = sys.argv[1:]&lt;/p&gt;
 &lt;p&gt;reffile = '/default/path/to/references.md'&lt;/p&gt;
-&lt;p&gt;for arg in args:&lt;br /&gt;
-errmsg = processdox(arg,reffile)&lt;br /&gt;
-for msg in errmsg:&lt;br /&gt;
-print msg&lt;br /&gt;
+&lt;p&gt;for arg in args:&lt;br&gt;
+errmsg = processdox(arg,reffile)&lt;br&gt;
+for msg in errmsg:&lt;br&gt;
+print msg&lt;br&gt;
 [/code]&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -1338,4 +1365,4 @@ print msg&lt;br /&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</summary><category term="doxygen"></category><category term="latex"></category><category term="markdown"></category><category term="python"></category><category term="regular expressions"></category><category term="text processing"></category><category term="wordpress"></category></entry></feed>
+&lt;/script&gt;</content><category term="doxygen"></category><category term="latex"></category><category term="markdown"></category><category term="python"></category><category term="regular expressions"></category><category term="text processing"></category><category term="wordpress"></category></entry></feed>
