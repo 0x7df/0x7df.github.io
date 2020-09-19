@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="To re-write the history of a Git repository in a significant way, the filter-branch command is available (NB for more minor modifications, the manual rebase -i command might be a better approach)....">
+        <meta name="keywords" content="">
+        <link rel="icon" href="https://0x7df.github.io/favicon.ico">
+
+        <title>Resetting Git commit authors with filter-repo (instead of filter-branch) - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="https://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="https://0x7df.github.io/"><img class="mr20" src="https://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="https://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="https://0x7df.github.io/categories.html">Categories</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Resetting Git commit authors with filter-repo (instead of filter-branch)</h1>
+                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 19 September 2020, modified Sat 19 September 2020, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>To re-write the history of a Git repository in a significant way, the
+<code>filter-branch</code> command is available (NB for more minor modifications, the
+manual <code>rebase -i</code> command might be a better approach).</p>
+<p>For example, to change an email address in the Git history, this command can be
+run:</p>
+<div class="highlight"><pre><span></span><code>git filter-branch --env-filter <span class="s1">&#39;</span>
+<span class="s1">CORRECT_NAME=&quot;&quot;</span>
+<span class="s1">CORRECT_EMAIL=&quot;&quot;</span>
+<span class="s1">OLD_EMAIL=&quot;&quot;</span>
+<span class="s1">if [[ &quot;${GIT_COMMITTER_EMAIL}&quot; == &quot;${OLD_EMAIL}&quot; ]] ; then</span>
+<span class="s1">  export GIT_COMMITTER_NAME=&quot;${CORRECT_NAME}&quot;</span>
+<span class="s1">  export GIT_COMMITTER_EMAIL=&quot;${CORRECT_EMAIL}&quot;</span>
+<span class="s1">fi</span>
+<span class="s1">if [[ &quot;${GIT_AUTHOR_EMAIL}&quot; == &quot;${OLD_EMAIL}&quot; ]] ; then</span>
+<span class="s1">  export GIT_AUTHOR_NAME=&quot;${CORRECT_NAME}&quot;</span>
+<span class="s1">  export GIT_AUTHOR_EMAIL=&quot;${CORRECT_EMAIL}&quot;</span>
+<span class="s1">fi</span>
+<span class="s1">&#39;</span> -f --tag-name-filter cat -- --branches --tag
+</code></pre></div>
+
+
+<p>where the values assigned to <code>CORRECT_NAME</code>, <code>CORRECT_EMAIL</code>, AND <code>OLD_EMAIL</code>
+need to be filled in. Thanks to this
+<a href="https://stackoverflow.com/questions/4981126/how-to-amend-several-commits-in-git-to-change-author">SO Q</a>.</p>
+<p>However, on running this with recent versions of Git, the following warning is
+issued:</p>
+<div class="highlight"><pre><span></span><code>WARNING: git-filter-branch has a glut of gotchas generating mangled history
+     rewrites.  Hit Ctrl-C before proceeding to abort, then use an
+     alternative filtering tool such as &#39;git filter-repo&#39;
+     (https://github.com/newren/git-filter-repo/) instead.  See the
+     filter-branch manual page for more details; to squelch this warning,
+     set FILTER_BRANCH_SQUELCH_WARNING=1.
+Proceeding with filter-branch...
+</code></pre></div>
+
+
+<p>The command still works as expected (in this specific case), but
+<a href="https://git-scm.com/docs/git-filter-branch#_warning">the recommendation now from the Git project is to use an alternative</a>, such as <a href="https://github.com/newren/git-filter-repo"><code>git
+filter-repo</code></a> (note that this is
+third-party software, not part of Git).</p>
+<h2>Installing git-filter-branch</h2>
+<p>As third-party software, this needs to be installed; there are various ways to
+do this (see <a href="https://github.com/newren/git-filter-repo/blob/main/INSTALL.md">INSTALL.md</a>),
+but for basic usage all that is required is to have the single Python script
+<code>git-filter-branch</code> somewhere on the <code>$PATH</code>. E.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ~/Projects
+git clone https://github.com/newren/git-filter-repo.git
+<span class="nb">cd</span> git-filter-repo
+git checkout v2.28.0 <span class="c1"># Or the latest release at the time, see output of</span>
+                     <span class="c1"># `git tag -n`</span>
+
+<span class="nb">cd</span> ~/bin
+ln -s ~/Projects/git-filter-repo ./
+</code></pre></div>
+
+
+<h2>Alternative to the above <code>filter-branch</code> command:</h2>
+<p>According to the
+<a href="https://github.com/newren/git-filter-repo/blob/main/Documentation/converting-from-filter-branch.md#cheat-sheet-conversion-of-examples-from-the-filter-branch-manpage">documentation's cheat sheet</a>,
+the replacement for the particular <code>filter-branch</code> command above is to run:</p>
+<div class="highlight"><pre><span></span><code>git filter-repo --use-mailmap
+</code></pre></div>
+
+
+<p>after creating a file <code>.mailmap</code> that contains a line:</p>
+<div class="highlight"><pre><span></span><code>&lt;new-email-address@new.com&gt; &lt;old-email-address@old.com&gt;
+</code></pre></div>
+
+
+<p>where <em>the angled brackets must be included</em>.</p>
+<h2>Problem</h2>
+<p>This did the resetting of commit authors when I tested it, but in my case left
+the repository in a state where running any Git command gave the error:</p>
+<div class="highlight"><pre><span></span><code>fatal: replace depth too high for object 07f50764b2a36db6e825879872c736959b061df7
+</code></pre></div>
+
+
+<p>According to
+<a href="https://stackoverflow.com/questions/47839542/failed-git-replace-replace-depth-too-high-for-object">this SO Q/A</a>,
+replacement objects can be deleted, like so:</p>
+<div class="highlight"><pre><span></span><code>git replace -d 07f50764b2a36db6e825879872c736959b061df7
+</code></pre></div>
+
+
+<p>which didn't seem to have any side-effects. There were many replacements (as
+listed by):</p>
+<div class="highlight"><pre><span></span><code>git replace -l
+</code></pre></div>
+
+
+<p>so I deleted them all using:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> HASHID in <span class="k">$(</span>git replace -l<span class="k">)</span> <span class="p">;</span> <span class="k">do</span>
+    git replace -d <span class="s2">&quot;</span><span class="si">${</span><span class="nv">HASHID</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+</code></pre></div>
+
+
+<p>which had the desired effect.</p>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="https://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="https://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

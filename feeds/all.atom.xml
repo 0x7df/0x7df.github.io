@@ -1,5 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-09-18T16:20:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Poisson distribution</title><link href="https://0x7df.github.io/poisson-distribution.html" rel="alternate"></link><published>2020-09-18T16:20:00+01:00</published><updated>2020-09-18T16:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-18:/poisson-distribution.html</id><summary type="html">&lt;p&gt;Consider a radioactive substance with concentration &lt;em&gt;C&lt;/em&gt;, in atoms per litre,
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-09-19T12:02:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Resetting Git commit authors with filter-repo (instead of filter-branch)</title><link href="https://0x7df.github.io/resetting-git-commit-authors-with-filter-repo-instead-of-filter-branch.html" rel="alternate"></link><published>2020-09-19T12:02:00+01:00</published><updated>2020-09-19T12:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-19:/resetting-git-commit-authors-with-filter-repo-instead-of-filter-branch.html</id><summary type="html"></summary><content type="html">&lt;p&gt;To re-write the history of a Git repository in a significant way, the
+&lt;code&gt;filter-branch&lt;/code&gt; command is available (NB for more minor modifications, the
+manual &lt;code&gt;rebase -i&lt;/code&gt; command might be a better approach).&lt;/p&gt;
+&lt;p&gt;For example, to change an email address in the Git history, this command can be
+run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git filter-branch --env-filter &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="s1"&gt;CORRECT_NAME=&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;CORRECT_EMAIL=&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;OLD_EMAIL=&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;if [[ &amp;quot;${GIT_COMMITTER_EMAIL}&amp;quot; == &amp;quot;${OLD_EMAIL}&amp;quot; ]] ; then&lt;/span&gt;
+&lt;span class="s1"&gt;  export GIT_COMMITTER_NAME=&amp;quot;${CORRECT_NAME}&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;  export GIT_COMMITTER_EMAIL=&amp;quot;${CORRECT_EMAIL}&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;fi&lt;/span&gt;
+&lt;span class="s1"&gt;if [[ &amp;quot;${GIT_AUTHOR_EMAIL}&amp;quot; == &amp;quot;${OLD_EMAIL}&amp;quot; ]] ; then&lt;/span&gt;
+&lt;span class="s1"&gt;  export GIT_AUTHOR_NAME=&amp;quot;${CORRECT_NAME}&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;  export GIT_AUTHOR_EMAIL=&amp;quot;${CORRECT_EMAIL}&amp;quot;&lt;/span&gt;
+&lt;span class="s1"&gt;fi&lt;/span&gt;
+&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; -f --tag-name-filter cat -- --branches --tag
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;where the values assigned to &lt;code&gt;CORRECT_NAME&lt;/code&gt;, &lt;code&gt;CORRECT_EMAIL&lt;/code&gt;, AND &lt;code&gt;OLD_EMAIL&lt;/code&gt;
+need to be filled in. Thanks to this
+&lt;a href="https://stackoverflow.com/questions/4981126/how-to-amend-several-commits-in-git-to-change-author"&gt;SO Q&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;However, on running this with recent versions of Git, the following warning is
+issued:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;WARNING: git-filter-branch has a glut of gotchas generating mangled history
+     rewrites.  Hit Ctrl-C before proceeding to abort, then use an
+     alternative filtering tool such as &amp;#39;git filter-repo&amp;#39;
+     (https://github.com/newren/git-filter-repo/) instead.  See the
+     filter-branch manual page for more details; to squelch this warning,
+     set FILTER_BRANCH_SQUELCH_WARNING=1.
+Proceeding with filter-branch...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The command still works as expected (in this specific case), but
+&lt;a href="https://git-scm.com/docs/git-filter-branch#_warning"&gt;the recommendation now from the Git project is to use an alternative&lt;/a&gt;, such as &lt;a href="https://github.com/newren/git-filter-repo"&gt;&lt;code&gt;git
+filter-repo&lt;/code&gt;&lt;/a&gt; (note that this is
+third-party software, not part of Git).&lt;/p&gt;
+&lt;h2&gt;Installing git-filter-branch&lt;/h2&gt;
+&lt;p&gt;As third-party software, this needs to be installed; there are various ways to
+do this (see &lt;a href="https://github.com/newren/git-filter-repo/blob/main/INSTALL.md"&gt;INSTALL.md&lt;/a&gt;),
+but for basic usage all that is required is to have the single Python script
+&lt;code&gt;git-filter-branch&lt;/code&gt; somewhere on the &lt;code&gt;$PATH&lt;/code&gt;. E.g.:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ~/Projects
+git clone https://github.com/newren/git-filter-repo.git
+&lt;span class="nb"&gt;cd&lt;/span&gt; git-filter-repo
+git checkout v2.28.0 &lt;span class="c1"&gt;# Or the latest release at the time, see output of&lt;/span&gt;
+                     &lt;span class="c1"&gt;# `git tag -n`&lt;/span&gt;
+
+&lt;span class="nb"&gt;cd&lt;/span&gt; ~/bin
+ln -s ~/Projects/git-filter-repo ./
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Alternative to the above &lt;code&gt;filter-branch&lt;/code&gt; command:&lt;/h2&gt;
+&lt;p&gt;According to the
+&lt;a href="https://github.com/newren/git-filter-repo/blob/main/Documentation/converting-from-filter-branch.md#cheat-sheet-conversion-of-examples-from-the-filter-branch-manpage"&gt;documentation's cheat sheet&lt;/a&gt;,
+the replacement for the particular &lt;code&gt;filter-branch&lt;/code&gt; command above is to run:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git filter-repo --use-mailmap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;after creating a file &lt;code&gt;.mailmap&lt;/code&gt; that contains a line:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;lt;new-email-address@new.com&amp;gt; &amp;lt;old-email-address@old.com&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;where &lt;em&gt;the angled brackets must be included&lt;/em&gt;.&lt;/p&gt;
+&lt;h2&gt;Problem&lt;/h2&gt;
+&lt;p&gt;This did the resetting of commit authors when I tested it, but in my case left
+the repository in a state where running any Git command gave the error:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;fatal: replace depth too high for object 07f50764b2a36db6e825879872c736959b061df7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;According to
+&lt;a href="https://stackoverflow.com/questions/47839542/failed-git-replace-replace-depth-too-high-for-object"&gt;this SO Q/A&lt;/a&gt;,
+replacement objects can be deleted, like so:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git replace -d 07f50764b2a36db6e825879872c736959b061df7
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which didn't seem to have any side-effects. There were many replacements (as
+listed by):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;git replace -l
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;so I deleted them all using:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;for&lt;/span&gt; HASHID in &lt;span class="k"&gt;$(&lt;/span&gt;git replace -l&lt;span class="k"&gt;)&lt;/span&gt; &lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+    git replace -d &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HASHID&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;which had the desired effect.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Poisson distribution</title><link href="https://0x7df.github.io/poisson-distribution.html" rel="alternate"></link><published>2020-09-18T16:20:00+01:00</published><updated>2020-09-18T16:20:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-09-18:/poisson-distribution.html</id><summary type="html">&lt;p&gt;Consider a radioactive substance with concentration &lt;em&gt;C&lt;/em&gt;, in atoms per litre,
 which is constant in space and time. The measured half-life is &lt;span class="math"&gt;\(\tau\)&lt;/span&gt;, in
 seconds, and the decay constant is &lt;span class="math"&gt;\(\lambda = \ln(2)/\tau\)&lt;/span&gt;. The number of
 decays per second per litre – the decay rate – is &lt;span class="math"&gt;\(\lambda C\)&lt;/span&gt;.&lt;/p&gt;
@@ -4783,7 +4880,7 @@ Since &lt;span class="math"&gt;\( \phi(p_0) = 0\)&lt;/span&gt;:&lt;/p&gt;
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Thermal radiation, Kirchhoff's law, and black bodies (1/4)</title><link href="https://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html" rel="alternate"></link><published>2015-05-17T14:53:00+01:00</published><updated>2015-05-17T14:53:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-17:/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html</id><summary type="html">&lt;h2&gt;Thermal radiation&lt;/h2&gt;
+&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="atmospheric science"></category><category term="meteorology"></category><category term="physics"></category></entry><entry><title>Thermal radiation, Kirchhoff's law, and black bodies (1/4)</title><link href="https://0x7df.github.io/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html" rel="alternate"></link><published>2015-05-17T14:53:00+01:00</published><updated>2020-09-18T16:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-17:/thermal-radiation-kirchhoffs-law-and-black-bodies-14.html</id><summary type="html">&lt;h2&gt;Thermal radiation&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="Thermal imaging" src="https://0x7df.github.io/images/STS-3_infrared_on_reentry.jpg?w=127"&gt;&lt;/p&gt;
 &lt;p&gt;All matter continuously emits electromagnetic radiation as a consequence
 of its temperature. This radiation is called &lt;strong&gt;thermal radiation&lt;/strong&gt; or
@@ -4987,7 +5084,7 @@ This ratio is also called the &lt;strong&gt;emissivity&lt;/strong&gt;, or &lt;st
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Physics"></category><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="https://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><published>2015-05-10T12:06:00+01:00</published><updated>2015-05-10T12:06:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:/python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
+&lt;/script&gt;</content><category term="Physics"></category><category term="black body"></category><category term="thermal radiation"></category><category term="thermodynamics"></category></entry><entry><title>Python wordcloud for WordPress</title><link href="https://0x7df.github.io/python-wordcloud-for-wordpress.html" rel="alternate"></link><published>2015-05-10T12:06:00+01:00</published><updated>2020-09-18T20:00:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-05-10:/python-wordcloud-for-wordpress.html</id><summary type="html">&lt;p&gt;There is a &lt;a href="http://www.python.org"&gt;Python&lt;/a&gt; routine available on
 &lt;a href="https://github.com/"&gt;Github&lt;/a&gt; for creating a word cloud, created by
 &lt;a href="http://peekaboo-vision.blogspot.co.uk/"&gt;Andreas Mueller&lt;/a&gt;:
 &lt;a href="https://github.com/amueller/word_cloud"&gt;https://github.com/amueller/word_cloud&lt;/a&gt;.&lt;/p&gt;
@@ -5277,7 +5374,7 @@ atmospheres](https://plot.ly/~0x7df/11.png)](https://plot.ly/~0x7df/11/ "Pressur
         "}";
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry><entry><title>Creating a new Ubuntu virtual machine in Oracle VirtualBox</title><link href="https://0x7df.github.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html" rel="alternate"></link><published>2015-04-26T12:29:00+01:00</published><updated>2015-04-26T12:29:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-26:/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html</id><summary type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
+&lt;/script&gt;</content><category term="Atmospheric science"></category><category term="exponential atmosphere"></category><category term="fluid dynamics"></category><category term="homogeneous atmosphere"></category><category term="hydrostatic balance"></category><category term="hydrostatic equilibrium"></category><category term="meteorology"></category></entry><entry><title>Creating a new Ubuntu virtual machine in Oracle VirtualBox</title><link href="https://0x7df.github.io/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html" rel="alternate"></link><published>2015-04-26T12:29:00+01:00</published><updated>2020-09-18T17:02:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2015-04-26:/creating-a-new-ubuntu-virtual-machine-in-oracle-virtualbox.html</id><summary type="html">&lt;p&gt;These instructions are for a Windows host machine. An article
 &lt;a href="http://osxdaily.com/2012/03/27/install-run-ubuntu-linux-virtualbox/"&gt;here&lt;/a&gt;
 gives instructions for Mac OS X, but are unlikely to be very different. This
 assumes you've already
