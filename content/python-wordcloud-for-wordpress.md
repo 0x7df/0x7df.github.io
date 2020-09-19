@@ -1,6 +1,6 @@
 Title: Python wordcloud for WordPress
 Date: 2015-05-10 12:06
-Updated:
+Modified: 2020-09-18 20:00
 Author: 0x7df
 Category: Programming
 Tags: api, html, python, twitter, wordcloud, wordpress, xml

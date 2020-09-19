@@ -1,6 +1,6 @@
 Title: Creating a new Ubuntu virtual machine in Oracle VirtualBox
 Date: 2015-04-26 12:29
-Updated: 2020-09-18 17:02
+Modified: 2020-09-18 17:02
 Author: 0x7df
 Category: Programming
 Tags: linux, ubuntu, virtual machine, virtualbox, vm
