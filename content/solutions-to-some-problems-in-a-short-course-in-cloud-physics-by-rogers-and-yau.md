@@ -6,7 +6,7 @@ Slug:
 Status: draft
 Tags: atmospheric science, meteorology, physics
 
-CHAPTER 1 - Thermodynamics of Dry Air
+CHAPTER 1 - Thermodynamics of dry air
 -------------------------------------
 
 The effective molecular weight, $ M_{eff}$ of dry
@@ -23,7 +23,7 @@ table, the effective molecular weight of dry air is:
 $$ M_{\mathrm{eff}} = (0.7557 \times 28.016) + (0.2315 \times
 32.000) + (0.0128 \times 39.944) $$
 
-CHAPTER 3 - Parcel Buoyancy and Atmospheric Stability
+CHAPTER 3 - Parcel buoyancy and atmospheric stability
 -----------------------------------------------------
 
 *Two model atmospheres often used in theoretical work are the
