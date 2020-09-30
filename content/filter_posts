@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+#set -x
+function list() {
+    MAXLEN=0
+    LIST=""
+    [[ $SHOWDRAFTS == 1 ]] && LIST=${LIST}$(grep -l '^Status: draft' ${LOWR_INPUT}*.md || true)
+    [[ $SHOWPUBLIC == 1 ]] && LIST=${LIST}$(grep -l '^Status: publi' ${LOWR_INPUT}*.md || true)
+
+    while IFS= read -r FILE ; do
+        STATUS="$(grep '^Status: ' "${FILE}" | cut -d " " -f2-)"
+        LEN="${#FILE}"
+        [[ ${LEN} -gt ${MAXLEN} ]] && MAXLEN="${LEN}"
+    done < <(ls ${LIST} 2>/dev/null || true)
+    while IFS= read -r FILE ; do
+        STATUS="$(grep '^Status: ' "${FILE}" | cut -d " " -f2-)"
+        printf "%-${MAXLEN}s  %-11s %${WIDTH}s\n" "${FILE}" "[${STATUS}]" "$(${EXTRA_FIELD} ${FILE} | cut -d' ' -f${FIELDS})${UNIT}"
+    done < <(ls ${ORDER_BY} ${LIST} 2>/dev/null || true)
+}
+
+SHOWDRAFTS=0
+SHOWPUBLIC=0
+ORDER_BY=""
+UNIT=""
+EXTRA_FIELD="stat --format="
+WIDTH=0
+FIELDS=1
+while getopts ":dpstw" opt; do
+  case ${opt} in
+    d ) SHOWDRAFTS=1
+      ;;
+    p ) SHOWPUBLIC=1
+      ;;
+    s ) ORDER_BY="-rS"
+        EXTRA_FIELD="stat --format=%s"
+        UNIT="b"
+        WIDTH=8
+      ;;
+    t ) ORDER_BY="-rt --time=creation"
+        EXTRA_FIELD="stat --format=%w"
+        WIDTH=36
+        FIELDS="1-"
+      ;;
+    w ) ORDER_BY="-rS"
+        EXTRA_FIELD="wc -w"
+        WIDTH=36
+      ;;
+    \? ) echo "Usage: filter_posts [-d] [-p] [-s] [-t]"
+      ;;
+  esac
+done
+
+if [[ "${SHOWDRAFTS}" -eq 0 && "${SHOWPUBLIC}" -eq 0 ]] ; then
+    SHOWDRAFTS=1
+    SHOWPUBLIC=1
+fi
+
+# Change to the directory containing this script
+SOURCE="${BASH_SOURCE[0]}"
+while [[ -h "$SOURCE" ]] ; do
+    DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="${DIR}/${SOURCE}"
+done
+cd -P "$(dirname "$SOURCE")"
+
+BSP=$'\177' # Backspace character
+RET=$'\0'   # Return character
+
+SENT_INPUT=""
+LOWR_INPUT=""
+
+list
+
+while IFS= read -n 1 -p "> ${SENT_INPUT}" -r ; do
+
+    if [[ "${REPLY}" == "${BSP}" ]] ; then
+        SENT_INPUT="${SENT_INPUT%?}"
+    else
+        SENT_INPUT="${SENT_INPUT}${REPLY}"
+    fi
+
+    # Append to full input string
+    LOWR_INPUT="$(echo "$SENT_INPUT" | tr [:upper:] [:lower:] | tr ' ' _)"
+
+    # If user pressed return, finish
+    if [[ "${REPLY}" == "${RET}" ]] ; then
+
+        # No match to any files - new post
+        if ! ls -1  ${LOWR_INPUT}*.md 2>/dev/null ; then
+            startNew "${SENT_INPUT}"
+            break
+        fi
+
+        # Error if we haven't got down to a single file from the input provided
+        NFILES=$(ls -1 ${LOWR_INPUT}*.md | wc -l)
+        if [[ "${NFILES}" == 1 ]] ; then
+            LOWR_INPUT=$(ls -1 ${LOWR_INPUT}*.md)
+            editPost "${LOWR_INPUT}"
+            make -C .. regenerate &
+            make -C .. serve &
+            open http://127.0.0.1:8000/drafts/${LOWR_INPUT%md}html
+            break
+        else
+            exit 1
+        fi
+
+    fi
+
+    # Clear the screen and write the updated list
+    tput clear
+    list
+
+done
+
+exit 0
