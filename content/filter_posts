@@ -3,11 +3,14 @@
 set -eu
 set -o pipefail
 #set -x
+
 function list() {
     MAXLEN=0
     LIST=""
-    [[ $SHOWDRAFTS == 1 ]] && LIST=${LIST}$(grep -l '^Status: draft' ${LOWR_INPUT}*.md || true)
-    [[ $SHOWPUBLIC == 1 ]] && LIST=${LIST}$(grep -l '^Status: publi' ${LOWR_INPUT}*.md || true)
+    [[ $SHOWDRAFTS == 1 ]] && LIST=${LIST}$(grep -l '^Status: draft' ${LOWR_INPUT}*.md 2>/dev/null || true)
+    [[ $SHOWPUBLIC == 1 ]] && LIST=${LIST}$(grep -l '^Status: publi' ${LOWR_INPUT}*.md 2>/dev/null || true)
+
+    [[ -z ${LIST} ]] && return
 
     while IFS= read -r FILE ; do
         STATUS="$(grep '^Status: ' "${FILE}" | cut -d " " -f2-)"
@@ -90,7 +93,7 @@ while IFS= read -n 1 -p "> ${SENT_INPUT}" -r ; do
 
         # No match to any files - new post
         if ! ls -1  ${LOWR_INPUT}*.md 2>/dev/null ; then
-            startNew "${SENT_INPUT}"
+            ./startNew "${SENT_INPUT}"
             break
         fi
 
@@ -98,7 +101,7 @@ while IFS= read -n 1 -p "> ${SENT_INPUT}" -r ; do
         NFILES=$(ls -1 ${LOWR_INPUT}*.md | wc -l)
         if [[ "${NFILES}" == 1 ]] ; then
             LOWR_INPUT=$(ls -1 ${LOWR_INPUT}*.md)
-            editPost "${LOWR_INPUT}"
+            ./editPost "${LOWR_INPUT}"
             make -C .. regenerate &
             make -C .. serve &
             open http://127.0.0.1:8000/drafts/${LOWR_INPUT%md}html

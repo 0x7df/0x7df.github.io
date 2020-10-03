@@ -22,15 +22,15 @@ typeset -r DATE=$(date "+%Y-%m-%d %H:%M")
 
 echo "Title: ${1}
 Date: ${DATE}
-Category: ${2:-""} 
+Category: ${2:-""}
 Modified: ${DATE}
-Tags: 
-Slug: 
+Tags:
+Slug:
 Author: 0x7df
-Summary: 
+Summary:
 Status: draft
 
 " > ${TITLE}.md
 
-mvim ${TITLE}.md
+vim ${TITLE}.md
 

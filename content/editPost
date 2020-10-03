@@ -18,5 +18,5 @@ done
 cd -P "$(dirname "$SOURCE")"
 
 typeset -r TITLE="$1"
-mvim ${TITLE}
+vim ${TITLE}
 
