@@ -7,6 +7,7 @@ git pull origin;
 function doIt() {
     ln -fs ${PWD}/content/blog        ${HOME}/bin/
     ln -fs ${PWD}/content/publishPost ${HOME}/bin/
+    conda env create -f environment.yml
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
