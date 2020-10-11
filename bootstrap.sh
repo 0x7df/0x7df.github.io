@@ -2,10 +2,11 @@
 
 cd "$(dirname "${BASH_SOURCE}")";
 
-#git pull origin;
+git pull origin;
 
 function doIt() {
-    ln -s ${PWD}/content/filter_posts ${HOME}/bin/
+    ln -fs ${PWD}/content/blog        ${HOME}/bin/
+    ln -fs ${PWD}/content/publishPost ${HOME}/bin/
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then

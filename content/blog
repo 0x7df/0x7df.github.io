@@ -5,21 +5,28 @@ set -o pipefail
 #set -x
 
 function list() {
-    MAXLEN=0
     LIST=""
     [[ $SHOWDRAFTS == 1 ]] && LIST=${LIST}$(grep -l '^Status: draft' ${LOWR_INPUT}*.md 2>/dev/null || true)
     [[ $SHOWPUBLIC == 1 ]] && LIST=${LIST}$(grep -l '^Status: publi' ${LOWR_INPUT}*.md 2>/dev/null || true)
+    echo "${LIST}"
+}
+
+function printlist() {
+    MAXLEN=0
+    LIST="$(list)"
 
     [[ -z ${LIST} ]] && return
 
+    # Get max len of filenames for print formatting
     while IFS= read -r FILE ; do
-        STATUS="$(grep '^Status: ' "${FILE}" | cut -d " " -f2-)"
-        LEN="${#FILE}"
-        [[ ${LEN} -gt ${MAXLEN} ]] && MAXLEN="${LEN}"
+        [[ ${#FILE} -gt ${MAXLEN} ]] && MAXLEN="${#FILE}"
     done < <(ls ${LIST} 2>/dev/null || true)
     while IFS= read -r FILE ; do
         STATUS="$(grep '^Status: ' "${FILE}" | cut -d " " -f2-)"
-        printf "%-${MAXLEN}s  %-11s %${WIDTH}s\n" "${FILE}" "[${STATUS}]" "$(${EXTRA_FIELD} ${FILE} | cut -d' ' -f${FIELDS})${UNIT}"
+        printf "%-${MAXLEN}s  %-11s %${WIDTH}s\n" \
+            "${FILE}" \
+            "[${STATUS}]" \
+            "$(${EXTRA_FIELD} ${FILE} | cut -d' ' -f${FIELDS})${UNIT}"
     done < <(ls ${ORDER_BY} ${LIST} 2>/dev/null || true)
 }
 
@@ -55,11 +62,6 @@ while getopts ":dpstw" opt; do
   esac
 done
 
-if [[ "${SHOWDRAFTS}" -eq 0 && "${SHOWPUBLIC}" -eq 0 ]] ; then
-    SHOWDRAFTS=1
-    SHOWPUBLIC=1
-fi
-
 # Change to the directory containing this script
 SOURCE="${BASH_SOURCE[0]}"
 while [[ -h "$SOURCE" ]] ; do
@@ -69,17 +71,43 @@ while [[ -h "$SOURCE" ]] ; do
 done
 cd -P "$(dirname "$SOURCE")"
 
-BSP=$'\177' # Backspace character
-RET=$'\0'   # Return character
+# Process options
+if [[ "${SHOWDRAFTS}" -eq 0 && "${SHOWPUBLIC}" -eq 0 ]] ; then
+    SHOWDRAFTS=1
+    SHOWPUBLIC=1
+fi
+
+BACKSPACE=$'\177' # Backspace character
+RETURN=$'\0'      # Return character
 
 SENT_INPUT=""
 LOWR_INPUT=""
 
-list
+printlist
 
 while IFS= read -n 1 -p "> ${SENT_INPUT}" -r ; do
 
-    if [[ "${REPLY}" == "${BSP}" ]] ; then
+    # If user pressed return, finish
+    if [[ "${REPLY}" == "${RETURN}" ]] ; then
+        # No match to any files - new post
+        if ! ls -1  ${LOWR_INPUT}*.md 2>/dev/null ; then
+            ./startNew "${SENT_INPUT}"
+            break
+        fi
+        # Error if we haven't got down to a single file from the input provided
+        if [[ "$(list | wc -l)" == 1 ]] ; then
+            LOWR_INPUT=$(list)
+            make -C .. regenerate >/dev/null 2>&1 &
+            make -C .. serve >/dev/null 2>&1 &
+            open http://127.0.0.1:8000/drafts/${LOWR_INPUT%md}html
+            ./editPost "${LOWR_INPUT}"
+            break
+        else
+            exit 1
+        fi
+    fi
+
+    if [[ "${REPLY}" == "${BACKSPACE}" ]] ; then
         SENT_INPUT="${SENT_INPUT%?}"
     else
         SENT_INPUT="${SENT_INPUT}${REPLY}"
@@ -88,33 +116,9 @@ while IFS= read -n 1 -p "> ${SENT_INPUT}" -r ; do
     # Append to full input string
     LOWR_INPUT="$(echo "$SENT_INPUT" | tr [:upper:] [:lower:] | tr ' ' _)"
 
-    # If user pressed return, finish
-    if [[ "${REPLY}" == "${RET}" ]] ; then
-
-        # No match to any files - new post
-        if ! ls -1  ${LOWR_INPUT}*.md 2>/dev/null ; then
-            ./startNew "${SENT_INPUT}"
-            break
-        fi
-
-        # Error if we haven't got down to a single file from the input provided
-        NFILES=$(ls -1 ${LOWR_INPUT}*.md | wc -l)
-        if [[ "${NFILES}" == 1 ]] ; then
-            LOWR_INPUT=$(ls -1 ${LOWR_INPUT}*.md)
-            ./editPost "${LOWR_INPUT}"
-            make -C .. regenerate &
-            make -C .. serve &
-            open http://127.0.0.1:8000/drafts/${LOWR_INPUT%md}html
-            break
-        else
-            exit 1
-        fi
-
-    fi
-
     # Clear the screen and write the updated list
     tput clear
-    list
+    printlist
 
 done
 
