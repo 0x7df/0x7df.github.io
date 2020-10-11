@@ -1,7 +1,7 @@
 Title: Changing the default shell to Bash on macOS Catalina
 Date: 2020-10-11 14:15
 Category:
-Modified: 2020-10-11 14:15
+Modified: 2020-10-11 14:17
 Tags:
 Slug:
 Author: 0x7df
