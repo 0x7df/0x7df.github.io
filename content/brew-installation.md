@@ -1,33 +1,29 @@
-Title: Changing the default shell to Bash on macOS Catalina
-Date: 2020-10-03 23:20
+Title: Brew installation
+Date: 2020-10-11 14:40
 Category:
-Modified: 2020-10-03 23:20
+Modified: 2020-10-11 14:40
 Tags:
 Slug:
 Author: 0x7df
 Summary:
-Status: draft
+Status: published
 
 On a fresh Mac out of the box, `git` is apparently available:
 
     :::bash
     > which git
-
-    :::text
     /usr/bin/git
 
 but not actually:
 
     :::bash
-    git --version
-
-    :::text
+    > git --version
     xcode-select: note: no developer tools were found at
     '/Applications/Xcode.app', requesting install. Choose an option in the
     dialog to download the command line developer tools.
 
 I would prefer to have as much as possible managed by `brew`, so a prerequisite
-task is to install `brew`. This is done by:
+task is to installing anything is to install `brew`. This is done by:
 
     :::bash
     /bin/bash -c"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/master.install.sh)"
@@ -37,10 +33,10 @@ previously empty.)
 
 In the process of installing `brew`, the very same Command Line Tools as were
 required above for Git to start working were downloaded anyway. Homebrew
-requires either the Command Line Tools for Xcode, or the full Xcode application
-(or both), for some formulae (because these give access to a compiler, Make,
-etc.). So, if not already available, the Command Line Tools for Xcode are
-automatically downloaded and installed by the Homebrew installer.
+itself requires either the Command Line Tools for Xcode, or the full Xcode
+application (or both), for some formulae (because these give access to a
+compiler, Make, etc.). So, if not already available, the Command Line Tools
+for Xcode are automatically downloaded and installed by the Homebrew installer.
 
 These are located in `/Library/Developer/CommandLineTools`.
 
@@ -53,7 +49,7 @@ Homebrew-specific folders:
     /usr/local/Frameworks
     /usr/local/Homebrew
 
-as well as various general standard Unix places (that were created by
+as well as various general standard Unix names (that were created by
 Homebrew):
 
     :::text
@@ -74,10 +70,10 @@ The exceptions are:
 - `/usr/local/Homebrew` - this contains the cloned Git repository of Homebrew
   itself, cloned from `https://github.com/Homebrew/brew`.
 - `/usr/local/bin` - contains a symlink `brew` linking back to
-  `/usr/local/Homebrew/bin/brew`; this is the primary executable run when you
+  `/usr/local/Homebrew/bin/brew`. rhis is the primary executable run when you
   type `brew` (because as standard `/usr/local/bin` is on the `$PATH`.
 
-Inside `usr/local/Homebrew` is also `Library`, which (according to its README)
+Inside `usr/local/Homebrew` is also `Library`, which (according to its README):
 
 > contains all the code run by the official `brew` and `brew cask` commands in
 > `Homebrew` and all formulae (package descriptions) in taps (repositories
@@ -92,7 +88,7 @@ repository of formulae. This is a separate Git repo cloned from
 <https://github.com/Homebrew/homebrew-core>,
 which contans inside its `Formula` directory many Ruby
 scripts - these are the formulae that describe how a package should
-be installed. For exampe, in here is `git.rb`, which begins:
+be installed. For example, in here is `git.rb`, which begins:
 
     :::ruby
     class Git < Formula
@@ -114,17 +110,13 @@ After the Homebrew installation has completed, we can verify that the Xcode
 Command Line Tools have been installed with:
 
     :::bash
-    xcode-select -p
-
-    :::text
+    > xcode-select -p
     /Library/Developer/CommandLineTools
 
 and that Homebrew recognises them:
 
     :::bash
-    brew config
-
-    :::text
+    > brew config
     ...
     CLT: 12.0.0.0.1.1599194153
     Xcode: N/A
@@ -132,11 +124,8 @@ and that Homebrew recognises them:
 Now, as a side-effect of this, Git works:
 
     :::bash
-    git --version
-
-    :::text
+    > git --version
     git version 2.24.3 (Apple Git-128)
-
 
 Note however, that it's the Apple version of Git that has come with the Xcode
 CLT, not Homebrew's version.
@@ -146,7 +135,7 @@ Now, when I do:
     :::bash
     brew install git
 
-I get reports of an updated tap (`homebrew/core`), indicating that the Git
+Homebrew reports an updated tap (`homebrew/core`), indicating that the Git
 repository at `/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core` has
 been updated; and one Formula having been updated; then, the two dependencies
 we saw above (`gettext` and `pcre2`) are installed, before `git` itself is
@@ -157,16 +146,12 @@ to them.
 Now - after opening a new terminal at least - I get the following:
 
     :::bash
-    which git
-
-    :::text
+    > which git
     /usr/local/bin/git
 
+and:
 
     :::bash
-    git --version
-
-    :::text
+    > git --version
     git version 2.28.0
-
 
