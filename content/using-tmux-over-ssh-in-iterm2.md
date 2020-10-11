@@ -1,21 +1,22 @@
 Title: Using tmux over ssh in iTerm2
-Date: 2020-10-09 15:49
+Date: 2020-10-11 14:50
 Category:
-Modified: 2020-10-09 15:49
+Modified: 2020-10-11 14:50
 Tags:
 Slug:
 Author: 0x7df
 Summary:
-Status: draft
+Status: published
 
 I want to be able to open multiple terminal windows on my laptop with an
-SSH connection to a remote machine. This setup combining [iTerm2](iterm2.com)
-and [tmux](tmuxguide.readthedocs.io) seems to work. Note that iTerms2 has
+SSH connection to a remote machine. This setup combining [iTerm2](https://iterm2.com)
+and [tmux](https://tmuxguide.readthedocs.io) seems to work. Note that iTerms2 has
 built-in tmux integration, which is what allows this to work (i.e. it isn't
 possible in the native Terminal app on macOS).
 
 Both need to be installed:
 
+    :::bash
     brew install tmux
     brew cask install iterm2
 
@@ -24,6 +25,7 @@ knows to add it to Launchpad.)
 
 Then in iTerm2, `ssh` to the remote machine using the following:
 
+    :::bash
     ssh -t <user>@<remote> 'tmux -CC new -A -s <name>'
 
 (documented
@@ -53,8 +55,8 @@ of the remote. The you can re-attach after logging back in again. This means
 you can continue where you left off if you move from one local client to
 another, or just if your SSH connection is lost.
 
-With the tmux integrgation in iTerm2, if you have opened multiple windows,
-then after when reattaching to a session, the original windows re-open.
+With the tmux integration in iTerm2, if you've opened multiple windows,
+then after re-attaching to a session, the original windows re-open.
 (In ordinary tmux, re-attaching to a session restores the _tmux_ windows and
 panes, and picks up where you left off, but as before, all this will be in the
 same single desktop window.)
@@ -81,12 +83,13 @@ Pressing `Esc` here will detach the tmux session and give the following:
 
 The SSH connection will be closed. Now run the command:
 
+    :::text
     ssh -t <user>@<remote> 'tmux -CC new -A -s <name>'
 
 again, and the connection will be re-established, with the original windows
 re-opened, so you can carry on where you left off.
 
-You don't need to manually detach the session; if the SSH connection is lost,
+You don't have to manually detach the session; if the SSH connection is lost,
 you lose your network connection, or whatever, you can still re-run the
 command and re-attach to the tmux session.
 
@@ -95,7 +98,7 @@ command and re-attach to the tmux session.
 Once your remote session is established, the original iTerm2 session where you
 ran the `ssh ...` command is fairly redundant; above we showed that you can
 return to that session to access the tmux menu that allows you to detach.
-However, you can also detach from the iTerm2 menu bar )'Shell -> tmux ->
+However, you can also detach from the iTerm2 menu bar ('Shell -> tmux ->
 Detach') or the keyboard shortcut `^`+`Shift`+`Cmd`+`D`. iTerm2 allows you
 therefore to 'bury' that session so it's not cluttering up your desktop. Go to
 'Session -> Bury Session' in that session's menu bar, or use the keyboard
