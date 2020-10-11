@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -94,7 +96,6 @@ run:</p>
 <span class="s1">&#39;</span> -f --tag-name-filter cat -- --branches --tag
 </code></pre></div>
 
-
 <p>where the values assigned to <code>CORRECT_NAME</code>, <code>CORRECT_EMAIL</code>, AND <code>OLD_EMAIL</code>
 need to be filled in. Thanks to this
 <a href="https://stackoverflow.com/questions/4981126/how-to-amend-several-commits-in-git-to-change-author">SO Q</a>.</p>
@@ -108,7 +109,6 @@ issued:</p>
      set FILTER_BRANCH_SQUELCH_WARNING=1.
 Proceeding with filter-branch...
 </code></pre></div>
-
 
 <p>The command still works as expected (in this specific case), but
 <a href="https://git-scm.com/docs/git-filter-branch#_warning">the recommendation now from the Git project is to use an alternative</a>, such as <a href="https://github.com/newren/git-filter-repo"><code>git
@@ -129,7 +129,6 @@ git checkout v2.28.0 <span class="c1"># Or the latest release at the time, see o
 ln -s ~/Projects/git-filter-repo ./
 </code></pre></div>
 
-
 <h2>Alternative to the above <code>filter-branch</code> command:</h2>
 <p>According to the
 <a href="https://github.com/newren/git-filter-repo/blob/main/Documentation/converting-from-filter-branch.md#cheat-sheet-conversion-of-examples-from-the-filter-branch-manpage">documentation's cheat sheet</a>,
@@ -137,11 +136,9 @@ the replacement for the particular <code>filter-branch</code> command above is t
 <div class="highlight"><pre><span></span><code>git filter-repo --use-mailmap
 </code></pre></div>
 
-
 <p>after creating a file <code>.mailmap</code> that contains a line:</p>
 <div class="highlight"><pre><span></span><code>&lt;new-email-address@new.com&gt; &lt;old-email-address@old.com&gt;
 </code></pre></div>
-
 
 <p>where <em>the angled brackets must be included</em>.</p>
 <h2>Problem</h2>
@@ -150,26 +147,22 @@ the repository in a state where running any Git command gave the error:</p>
 <div class="highlight"><pre><span></span><code>fatal: replace depth too high for object 07f50764b2a36db6e825879872c736959b061df7
 </code></pre></div>
 
-
 <p>According to
 <a href="https://stackoverflow.com/questions/47839542/failed-git-replace-replace-depth-too-high-for-object">this SO Q/A</a>,
 replacement objects can be deleted, like so:</p>
 <div class="highlight"><pre><span></span><code>git replace -d 07f50764b2a36db6e825879872c736959b061df7
 </code></pre></div>
 
-
 <p>which didn't seem to have any side-effects. There were many replacements (as
 listed by):</p>
 <div class="highlight"><pre><span></span><code>git replace -l
 </code></pre></div>
-
 
 <p>so I deleted them all using:</p>
 <div class="highlight"><pre><span></span><code><span class="k">for</span> HASHID in <span class="k">$(</span>git replace -l<span class="k">)</span> <span class="p">;</span> <span class="k">do</span>
     git replace -d <span class="s2">&quot;</span><span class="si">${</span><span class="nv">HASHID</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="k">done</span>
 </code></pre></div>
-
 
 <p>which had the desired effect.</p>
 

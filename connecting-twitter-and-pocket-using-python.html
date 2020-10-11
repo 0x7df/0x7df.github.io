@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -103,7 +105,6 @@ My code for connecting to Pocket looks like this:</p>
     <span class="n">pocket_instance</span> <span class="o">=</span> <span class="n">pocket</span><span class="o">.</span><span class="n">Pocket</span><span class="p">(</span><span class="n">pckt_consumer_key</span><span class="p">,</span> <span class="n">pckt_access_token</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>Next, I connect to the Twitter Streaming API using 
 the <code>filter</code> method, which returns only tweets that contain certain pre-defined
 keywords. This is straight from <a href="http://adilmoujahid.com/posts/2014/07/twitter-analytics/">the original post</a>.</p>
@@ -150,7 +151,6 @@ keywords. This is straight from <a href="http://adilmoujahid.com/posts/2014/07/t
         <span class="n">stream</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">track</span><span class="o">=</span><span class="n">keywords</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>(Clearly the error-handling needs finishing.) Each tweet is processed by the
 function <code>myrespond()</code>, which looks for tweets that also
 contain the word 'tutorial', and extracts the link if there is one.</p>
@@ -192,7 +192,6 @@ contain the word 'tutorial', and extracts the link if there is one.</p>
             <span class="k">print</span> <span class="n">pocket_instance</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">link</span><span class="p">)</span>
             <span class="k">print</span> <span class="s2">&quot;-----------------------------------------------------------&quot;</span>
 </code></pre></div>
-
 
 <p>The <code>myrespond()</code> function uses the <code>json</code> library to turn the JSON-format data
 containing the tweet into a Python dictionary, then another function <code>getdata</code>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="On a fresh Mac out of the box, git is apparently available: &gt; which git :::text /usr/bin/git but not actually: git --version :::text xcode-select: note: no developer tools were found at...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="https://0x7df.github.io/favicon.ico">
+
+        <title>Brew installation - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="https://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="https://0x7df.github.io/"><img class="mr20" src="https://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="https://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Brew installation</h1>
+                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 03 October 2020, modified Sat 03 October 2020, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <p>On a fresh Mac out of the box, <code>git</code> is apparently available:</p>
+<div class="highlight"><pre><span></span><code>&gt; which git
+
+:::text
+/usr/bin/git
+</code></pre></div>
+
+<p>but not actually:</p>
+<div class="highlight"><pre><span></span><code>git --version
+
+:::text
+xcode-select: note: no developer tools were found at
+<span class="s1">&#39;/Applications/Xcode.app&#39;</span>, requesting install. Choose an option in the
+dialog to download the <span class="nb">command</span> line developer tools.
+</code></pre></div>
+
+<p>I would prefer to have as much as possible managed by <code>brew</code>, so a prerequisite
+task is to install <code>brew</code>. This is done by:</p>
+<div class="highlight"><pre><span></span><code>/bin/bash -c<span class="s2">&quot;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/master.install.sh<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>which installs a bunch of stuff in <code>/usr/local/</code>. (NB <code>/usr/local/</code> was
+previously empty.)</p>
+<p>In the process of installing <code>brew</code>, the very same Command Line Tools as were
+required above for Git to start working were downloaded anyway. Homebrew
+requires either the Command Line Tools for Xcode, or the full Xcode application
+(or both), for some formulae (because these give access to a compiler, Make,
+etc.). So, if not already available, the Command Line Tools for Xcode are
+automatically downloaded and installed by the Homebrew installer.</p>
+<p>These are located in <code>/Library/Developer/CommandLineTools</code>.</p>
+<p>After this process, <code>/usr/local/</code> is populated with a bunch of
+Homebrew-specific folders:</p>
+<div class="highlight"><pre><span></span><code>/usr/local/Caskroom
+/usr/local/Cellar
+/usr/local/Frameworks
+/usr/local/Homebrew
+</code></pre></div>
+
+<p>as well as various general standard Unix places (that were created by
+Homebrew):</p>
+<div class="highlight"><pre><span></span><code>/usr/local/bin
+/usr/local/etc
+/usr/local/include
+/usr/local/lib
+/usr/local/opt
+/usr/local/sbin
+/usr/local/share
+/usr/local/var
+</code></pre></div>
+
+<p>Most are empty to start with and will be popoulated by Homebrew when packages
+are installed.</p>
+<p>The exceptions are:</p>
+<ul>
+<li><code>/usr/local/Homebrew</code> - this contains the cloned Git repository of Homebrew
+  itself, cloned from <code>https://github.com/Homebrew/brew</code>.</li>
+<li><code>/usr/local/bin</code> - contains a symlink <code>brew</code> linking back to
+  <code>/usr/local/Homebrew/bin/brew</code>; this is the primary executable run when you
+  type <code>brew</code> (because as standard <code>/usr/local/bin</code> is on the <code>$PATH</code>.</li>
+</ul>
+<p>Inside <code>usr/local/Homebrew</code> is also <code>Library</code>, which (according to its README)</p>
+<blockquote>
+<p>contains all the code run by the official <code>brew</code> and <code>brew cask</code> commands in
+<code>Homebrew</code> and all formulae (package descriptions) in taps (repositories
+containing formulae) in <code>Taps</code> subdirectories.</p>
+</blockquote>
+<p>and within this are folders <code>Homebrew</code>, which contains what is presumably the
+main source code of Homebrew, and <code>Taps</code>, which will contain repositories of
+formulae.</p>
+<p>Under this <code>Taps</code> folder, we initially have only a <code>homebrew/homebrew-core</code>
+repository of formulae. This is a separate Git repo cloned from
+<a href="https://github.com/Homebrew/homebrew-core">https://github.com/Homebrew/homebrew-core</a>,
+which contans inside its <code>Formula</code> directory many Ruby
+scripts - these are the formulae that describe how a package should
+be installed. For exampe, in here is <code>git.rb</code>, which begins:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Git</span> <span class="o">&lt;</span> <span class="no">Formula</span>
+  <span class="n">desc</span> <span class="s2">&quot;Distributed revision control system&quot;</span>
+  <span class="n">homepage</span> <span class="s2">&quot;https://git-scm.com&quot;</span>
+  <span class="n">url</span> <span class="o">...</span>
+  <span class="n">sha256</span> <span class="o">...</span>
+  <span class="n">license</span> <span class="o">...</span>
+  <span class="n">head</span> <span class="o">...</span>
+
+  <span class="o">...</span>
+
+  <span class="n">depends_on</span> <span class="s2">&quot;gettext&quot;</span>
+  <span class="n">depends_on</span> <span class="s2">&quot;pcre2&quot;</span>
+
+  <span class="o">...</span>
+</code></pre></div>
+
+<p>After the Homebrew installation has completed, we can verify that the Xcode
+Command Line Tools have been installed with:</p>
+<div class="highlight"><pre><span></span><code>xcode-select -p
+
+:::text
+/Library/Developer/CommandLineTools
+</code></pre></div>
+
+<p>and that Homebrew recognises them:</p>
+<div class="highlight"><pre><span></span><code>brew config
+
+:::text
+...
+CLT: <span class="m">12</span>.0.0.0.1.1599194153
+Xcode: N/A
+</code></pre></div>
+
+<p>Now, as a side-effect of this, Git works:</p>
+<div class="highlight"><pre><span></span><code>git --version
+
+:::text
+git version <span class="m">2</span>.24.3 <span class="o">(</span>Apple Git-128<span class="o">)</span>
+</code></pre></div>
+
+<p>Note however, that it's the Apple version of Git that has come with the Xcode
+CLT, not Homebrew's version.</p>
+<p>Now, when I do:</p>
+<div class="highlight"><pre><span></span><code>brew install git
+</code></pre></div>
+
+<p>I get reports of an updated tap (<code>homebrew/core</code>), indicating that the Git
+repository at <code>/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core</code> has
+been updated; and one Formula having been updated; then, the two dependencies
+we saw above (<code>gettext</code> and <code>pcre2</code>) are installed, before <code>git</code> itself is
+installed. As a result, there are new folders for each of these dependencies in
+<code>/usr/local/Cellar</code>, and a number of symlinks in <code>/usr/local/bin</code> pointing back
+to them.</p>
+<p>Now - after opening a new terminal at least - I get the following:</p>
+<div class="highlight"><pre><span></span><code>which git
+
+:::text
+/usr/local/bin/git
+
+
+:::bash
+git --version
+
+:::text
+git version <span class="m">2</span>.28.0
+</code></pre></div>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="https://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="https://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>

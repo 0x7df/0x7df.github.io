@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -356,7 +358,6 @@ references into the main body of the text like this:</p>
 <div class="highlight"><pre><span></span><code><span class="err">@ref ref01 &quot;Fick (1855)&quot;</span>
 </code></pre></div>
 
-
 <p>(or we could use <code>\ref</code> instead of <code>@ref</code>). Elsewhere, there would be a
 references section - in this case in a separate file called
 <code>references.md</code>, which is why we've previously seen that file being
@@ -364,7 +365,6 @@ hard-wired in the main script and then passed in to this function as an
 argument. In the references section, there would be an entry like:</p>
 <div class="highlight"><pre><span></span><code><span class="err">-# \anchor ref01 Fick, A, 1855. On liquid diffusion. The London, Edinburgh, and Dublin Philosophical Magazine and Journal of Science, X, 30-39.</span>
 </code></pre></div>
-
 
 <p>The initial <code>-#</code> is to create a numbered list, and the <code>\anchor ref01</code>
 creates an anchor that the earlier <code>@ref ref01</code> syntax can link to. The
@@ -455,7 +455,6 @@ p2 = re.compile('@ref [^"]<em> "[^"]</em>"')<br>
 <p>The regular expression is the bit inside the single quotes:</p>
 <div class="highlight"><pre><span></span><code><span class="err">@ref [^&quot;]* &quot;[^&quot;]*&quot;</span>
 </code></pre></div>
-
 
 <p>and the <code>[</code>, <code>]</code>, <code>^</code> and <code>*</code> characters are special characters that
 have particular meanings in the regular expression language. The caret,
@@ -693,10 +692,13 @@ print msg<br>
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -710,6 +712,8 @@ print msg<br>
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -730,6 +734,8 @@ print msg<br>
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>

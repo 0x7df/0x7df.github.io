@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -83,7 +85,6 @@
 <span class="k">end program </span><span class="n">hello_world</span>
 </code></pre></div>
 
-
 <p>the pair of directives, <code>!$OMP PARALLEL</code> and <code>!$OMP END PARALLEL</code>,
 define a <em>parallel region</em>, which is a block of code that will be executed by
 all the threads. The rest of the code is executed by a single thread. E.g.:</p>
@@ -97,7 +98,6 @@ all the threads. The rest of the code is executed by a single thread. E.g.:</p>
 <span class="k">end program </span><span class="n">parallel_region</span>
 </code></pre></div>
 
-
 <p>which gives:</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o parallel_region parallel_region.f95 
 $ ./parallel_region 
@@ -108,7 +108,6 @@ $ ./parallel_region
  Parallel region
  Serial again
 </code></pre></div>
-
 
 <p>When the thread executing a serial region encounters a parallel directive, it
 creates a team of threads and it becomes the <em>master thread</em> of the team. Each
@@ -141,7 +140,6 @@ directive is therefore an implicit <em>synchronisation</em>.</p>
 <span class="k">end program </span><span class="n">nested</span>
 </code></pre></div>
 
-
 <p>Nesting is controlled by the <code>OMP_NESTED</code> environment variable:</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o nested.x nested.f95
 $ <span class="nb">export</span> <span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">2</span>
@@ -161,7 +159,6 @@ $ ./nested.x
  Parallel inner
 </code></pre></div>
 
-
 <p>There are good use cases for using nested routines; the danger is ensuring you
 don't create too many threads - having many more threads than cores will
 negatively affect performance.</p>
@@ -178,7 +175,6 @@ and the number of the executing thread: </p>
 <span class="k">end program </span><span class="n">thread_number</span>
 </code></pre></div>
 
-
 <p>Note the use of the Fortran <code>use</code> statement to make available the OpenMP library
 routines.</p>
 <p>Compiling and running gives:</p>
@@ -189,7 +185,6 @@ $ ./thread_number
  Thread           <span class="m">0</span> of           <span class="m">4</span> threads
  Thread           <span class="m">3</span> of           <span class="m">4</span> threads
 </code></pre></div>
-
 
 <p>Unlike the sentinel-protected directives, the use of <code>OMP_GET_THREAD_NUM()</code> and
 <code>OMP_GET_NUM_THREADS()</code> will cause an error if compiled without OpenMP support:</p>
@@ -202,7 +197,6 @@ Undefined symbols <span class="k">for</span> architecture x86_64:
 ld: symbol<span class="o">(</span>s<span class="o">)</span> not found <span class="k">for</span> architecture x86_64
 collect2: error: ld returned <span class="m">1</span> <span class="nb">exit</span> status
 </code></pre></div>
-
 
 <p>To prevent this problem, a second type of sentinel is available, in addition to
 <code>!$OMP</code>. This is simply <code>!$</code>, and is prepended to ordinary Fortran lines (as opposed to OpenMP directives) that should be
@@ -217,7 +211,6 @@ conditionally compiled only when the compiler is OpenMP-compliant. Hence:</p>
 <span class="k">end program </span><span class="n">thread_number</span>
 </code></pre></div>
 
-
 <p><br/></p>
 <div class="highlight"><pre><span></span><code>$ gfortran -o thread_number thread_number.f95 
 $ ./thread_number 
@@ -228,7 +221,6 @@ $ ./thread_number
  Thread           <span class="m">1</span> of           <span class="m">4</span> threads
  Thread           <span class="m">2</span> of           <span class="m">4</span> threads
 </code></pre></div>
-
 
 <p>Note that it's possible to extend a source code line that is protected in
 this way over several lines, by using the standard Fortran line continuation
@@ -246,14 +238,12 @@ threads.)</p>
 <span class="k">end program </span><span class="n">serial_thread_number</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o serial_thread_number serial_thread_number.f95
 $ <span class="nb">export</span> <span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
 $ ./serial_thread_number 
  I am thread           <span class="m">0</span> of           <span class="m">1</span> threads
 </code></pre></div>
-
 
 <hr/>
 
@@ -288,10 +278,13 @@ material under the following terms: you must give appropriate credit, provide a 
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -305,6 +298,8 @@ material under the following terms: you must give appropriate credit, provide a 
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -325,6 +320,8 @@ material under the following terms: you must give appropriate credit, provide a 
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>

@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -104,13 +106,11 @@ iterations of the loop are independent of each other.</p>
 <span class="k">end do</span>
 </code></pre></div>
 
-
 <p>the loop iterations are independent of each other and the loop can be parallelised, whereas:</p>
 <div class="highlight"><pre><span></span><code><span class="k">do </span><span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">imax</span>
     <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> 
 <span class="k">end do</span>
 </code></pre></div>
-
 
 <p>has a <em>loop-carried dependency</em>. The loop iterations must be done in the
 correct order to obtain the correct result.</p>
@@ -126,7 +126,6 @@ sum, product, maximum, minimum, etc. For example, consider the loop: </p>
     <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 <span class="n">enddo</span>
 </code></pre></div>
-
 
 <p>For correctness we would need to ensure only one thread at a time incremented
 <code>x</code>, which would destroy all the parallelism. It's better if each thread performs
@@ -151,19 +150,16 @@ compiler if the compiler is not OpenMP-compliant, or if OpenMP is not requested.
 <span class="k">end program </span><span class="n">hello_world</span>
 </code></pre></div>
 
-
 <p>To compile an OpenMP program, the addition of a (compiler-dependent) flag at
 the compile and link steps makes OpenMP available. E.g. using GCC:</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o hello_world hello_world.f95
 </code></pre></div>
-
 
 <p>OpenMP is built into most compilers. The flag for Intel compilers is <code>-openmp</code>.
 OpenMP is on by default in the Cray compiler.</p>
 <p>The number of threads at run-time is determined from an environment variable:</p>
 <div class="highlight"><pre><span></span><code>$ <span class="nb">export</span> <span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">4</span>
 </code></pre></div>
-
 
 <p>(The default number of threads is implementation-dependent. It might be 1,
 or it might be equal to the number of cores in the system.)</p>
@@ -174,7 +170,6 @@ or it might be equal to the number of cores in the system.)</p>
  Hello world!
  Hello world!
 </code></pre></div>
-
 
 <hr/>
 

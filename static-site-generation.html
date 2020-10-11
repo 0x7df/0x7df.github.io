@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -97,7 +99,6 @@ provides a command for importing from this file:</p>
 <div class="highlight"><pre><span></span><code><span class="n">pelican</span><span class="o">-</span><span class="kn">import</span> <span class="o">--</span><span class="n">wpfile</span> <span class="o">-</span><span class="n">m</span> <span class="n">markdown</span> <span class="o">--</span><span class="nb">dir</span><span class="o">-</span><span class="n">page</span> <span class="p">[</span><span class="n">wordpress</span><span class="o">-</span><span class="n">filename</span><span class="p">]</span><span class="o">.</span><span class="n">xml</span>
 </code></pre></div>
 
-
 <p>The <code>--wpfile</code> flag specifies that the source is Wordpress (various
 alternatives are available), the <code>-m</code> option specified that the output should
 be Markdown (as opposed to reStructured Text), and <code>--dir-page</code> tells Pelican
@@ -115,23 +116,19 @@ settings file:</p>
 <span class="err">PLUGINS = [&quot;pelican_plugin-render_math&quot;]</span>
 </code></pre></div>
 
-
 <p>to point Pelican at the location where I cloned the plugin.</p>
 <p>The text wrangling that was required to convert the Wordpress-syntax maths
 delimiters:</p>
 <div class="highlight"><pre><span></span><code><span class="err">\$latex ...maths... \$latex</span>
 </code></pre></div>
 
-
 <p>to those required for Pelican (i.e.:</p>
 <div class="highlight"><pre><span></span><code><span class="err">$$ ...maths... $$</span>
 </code></pre></div>
 
-
 <p>for displayed equations and:</p>
 <div class="highlight"><pre><span></span><code>$ ...math...$
 </code></pre></div>
-
 
 <p>for in-line equations), was both annoying and unnecessary in theory (since
 both platforms are using LaTeX, dammit), and is the subject of <a href="https://0x7df.github.io/grep-regex-and-sed-inline-replace-on-multiple-files.html">a different
@@ -144,7 +141,6 @@ install directory:</p>
 <div class="highlight"><pre><span></span><code><span class="err">cd /usr/local/lib/python2.7/dist-packages/pelican/themes/</span>
 <span class="err">sudo git clone https://github.com/molivier/nest.git</span>
 </code></pre></div>
-
 
 <p>(The <code>pelican-themes -lv</code> command can be used to determine the path to the
 Pelican installation directory.)</p>
@@ -171,7 +167,6 @@ Pelican <code>Makefile</code> and is recommended <a href="http://martinbrochhaus
 with:</p>
 <div class="highlight"><pre><span></span><code><span class="err">sudo apt-get install ghp-import</span>
 </code></pre></div>
-
 
 <p>even though this isn't documented. As suggested <a href="http://martinbrochhaus.com/pelican2.html#comment-1819417669">here</a>, I added all
 the content and tools to a

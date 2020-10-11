@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -124,7 +126,6 @@ addition) or "DAXBY" loop (<span class="math">\(Ax \times y\)</span>), implement
     <span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-
 
 <p>Note that the element indices are all <code>i</code>; there's no use of data from
 previous iterations of the loop. It's this absence of <em>loop-carried
@@ -214,7 +215,6 @@ the host code by the special CUDA statements:</p>
 <span class="n">myKernel</span><span class="o">&lt;&lt;&lt;</span><span class="n">gridDims</span><span class="p">,</span><span class="n">blockDims</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
 </code></pre></div>
 
-
 <p>The third statement launches the kernel function called <code>myKernel</code>, and
 is a standard C function call statement - i.e. <code>myKernel(args)</code> - but
 with the special CUDA notation - <code>&lt;&lt;&lt;gridDims, blockDims&gt;&gt;&gt;</code> - rather
@@ -266,7 +266,6 @@ the SM can switch to another in the meantime.</p>
 <span class="p">}</span>
 </code></pre></div>
 
-
 <p>In the definition of the grid and block dimensions, we've chosen to have
 256 threads per block, and therefore <span class="math">\(n/256\)</span> blocks (and we've used the
 ceiling function to make sure the number of blocks is rounded <em>up</em> to
@@ -277,12 +276,11 @@ blocks are one-dimensional, for simplicity.</p>
 documented</a>.</p>
 <h2>Vector addition - kernel code</h2>
 <p>The CUDA kernel function that is called looks like this:</p>
-<div class="highlight"><pre><span></span><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">vecAdd</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>  
+<div class="highlight"><pre><span></span><code><span class="n">__global__</span> <span class="kt">void</span> <span class="n">vecAdd</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">y</span><span class="p">)</span> <span class="p">{</span>  
     <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">threadIdx</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">blockDim</span><span class="p">.</span><span class="n">x</span><span class="o">*</span><span class="n">blockIdx</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>  
     <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>  
 <span class="p">}</span>
 </code></pre></div>
-
 
 <p>The first difference from an ordinary C function is the <code>__global__</code>
 keyword at the beginning of the function declaration. The compiler needs
@@ -422,10 +420,13 @@ J. J. Dongarra and A. J. van der Steen (2012).
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -439,6 +440,8 @@ J. J. Dongarra and A. J. van der Steen (2012).
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -459,6 +462,8 @@ J. J. Dongarra and A. J. van der Steen (2012).
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>

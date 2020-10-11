@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +84,6 @@
 <span class="err">!$OMP END PARALLEL</span>
 </code></pre></div>
 
-
 <p>These define certain
 aspects of the way in which the parallel region will be handled, such as the
 scope of certain variables, the number of threads, etc.</p>
@@ -91,7 +92,6 @@ clauses can define whether variables in the parallel region are <em>shared</em> 
 <em>private</em>. In general:</p>
 <div class="highlight"><pre><span></span><code><span class="err">!$OMP PARALLEL DEFAULT(SHARED|PRIVATE|NONE) PRIVATE(list...) SHARED(list...)</span>
 </code></pre></div>
-
 
 <p>The first clause specifies whether variables by default should be shared or
 private (or no default), and the following two over-ride the default in certain
@@ -115,7 +115,6 @@ of the values other threads hold. E.g.:</p>
 <span class="k">end program </span><span class="n">private_shared</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o private1 private1.f95 
 $ ./private1 
@@ -124,7 +123,6 @@ $ ./private1
  <span class="nv">a</span> <span class="o">=</span>           <span class="m">2</span>
  <span class="nv">a</span> <span class="o">=</span>           <span class="m">1</span>
 </code></pre></div>
-
 
 <p>Private variables are <em>uninitialised</em> at the beginning of the parallel
 block, even if they were defined previously. They do not inherit the value from
@@ -139,7 +137,6 @@ any preceding part of the code:</p>
 <span class="k">end program </span><span class="n">private2</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o private2 private2.f95 
 $ ./private2
@@ -153,7 +150,6 @@ $ ./private2
  a, <span class="nv">b</span> <span class="o">=</span>       <span class="m">32766</span>  -310876344
  a, <span class="nv">b</span> <span class="o">=</span>       <span class="m">32766</span>  -310876240
 </code></pre></div>
-
 
 <p>Also, private data is destroyed at the end of the parallel region; any original
 value that was set prior to the parallel region is unaffected:</p>
@@ -171,7 +167,6 @@ value that was set prior to the parallel region is unaffected:</p>
 <span class="k">end program </span><span class="n">private3</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o private3 private3.f95 
 $ ./private3
@@ -182,7 +177,6 @@ $ ./private3
  During: <span class="nv">a</span> <span class="o">=</span>           <span class="m">0</span>
  After:  <span class="nv">a</span> <span class="o">=</span>           <span class="m">9</span>
 </code></pre></div>
-
 
 <p>In Fortran, loop iterators are private by default.</p>
 <h2>Shared data</h2>
@@ -200,13 +194,11 @@ needs to be shared.</p>
 <span class="k">end program </span><span class="n">shared1</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o shared1 shared1.f95 
 $ ./shared1 
            <span class="m">4</span>
 </code></pre></div>
-
 
 <p>Or:</p>
 <div class="highlight"><pre><span></span><code><span class="k">program </span><span class="n">shared2</span>
@@ -220,7 +212,6 @@ $ ./shared1
 <span class="k">end program </span><span class="n">shared2</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o shared2 shared2.f95 
 $ ./shared2 
@@ -229,7 +220,6 @@ $ ./shared2
           <span class="m">12</span>
           <span class="m">11</span>
 </code></pre></div>
-
 
 <p>A common idiom is for different threads to work on different portion of the
 same shared array:</p>
@@ -260,7 +250,6 @@ same shared array:</p>
 <span class="k">end program </span><span class="n">shared3</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o shared3 shared3.f95 
 $ ./shared3
@@ -276,13 +265,11 @@ $ ./shared3
    <span class="m">1</span>.00000000       <span class="m">2</span>.00000000       <span class="m">3</span>.00000000       <span class="m">4</span>.00000000
 </code></pre></div>
 
-
 <p>Long OpenMP directives can be broken across multiple lines using the standard
 Fortran line continuation character, e.g.:</p>
 <div class="highlight"><pre><span></span><code><span class="err">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(irow, icol) &amp;</span>
 <span class="err">!$OMP     SHARED(my_array, nrows)</span>
 </code></pre></div>
-
 
 <h2><code>FIRSTPRIVATE</code></h2>
 <p>Although by default private variables are uninitialised at the beginning of a
@@ -299,7 +286,6 @@ parallel region, they can be made to inherit an existing value by using the
 <span class="k">end program </span><span class="n">first_private</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o first_private first_private.f95 
 $ ./first_private 
@@ -308,7 +294,6 @@ $ ./first_private
  a, <span class="nv">b</span> <span class="o">=</span>  -510674576           <span class="m">9</span>
  a, <span class="nv">b</span> <span class="o">=</span>  -510675056           <span class="m">9</span>
 </code></pre></div>
-
 
 <h2>Other clauses</h2>
 <p>In addition to the <code>DEFAULT</code>, <code>FIRSTPRIVATE</code>, <code>PRIVATE</code> and <code>SHARED</code> clauses,

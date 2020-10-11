@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -91,14 +93,12 @@ and Ksh.</p>
 <span class="w">            </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">last</span><span class="w"> </span><span class="n">command</span><span class="w"> </span><span class="n">executed</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">body</span><span class="p">.</span><span class="w"></span>
 </code></pre></div>
 
-
 <p>and in ksh:</p>
-<div class="highlight"><pre><span></span><code><span class="err">    function varname { list ;}</span>
-<span class="err">    varname () { list ;}</span>
-<span class="err">            Define  a  function  which  is referenced by varname.</span>
-<span class="err">            ... The body of the function is the list of commands between { and }.</span>
+<div class="highlight"><pre><span></span><code>    <span class="n">function</span> <span class="n">varname</span> <span class="p">{</span> <span class="n">list</span> <span class="p">;}</span>
+    <span class="n">varname</span> <span class="p">()</span> <span class="p">{</span> <span class="n">list</span> <span class="p">;}</span>
+            <span class="n">Define</span>  <span class="n">a</span>  <span class="n">function</span>  <span class="n">which</span>  <span class="k">is</span> <span class="n">referenced</span> <span class="n">by</span> <span class="n">varname</span><span class="o">.</span>
+            <span class="o">...</span> <span class="n">The</span> <span class="n">body</span> <span class="n">of</span> <span class="n">the</span> <span class="n">function</span> <span class="k">is</span> <span class="n">the</span> <span class="n">list</span> <span class="n">of</span> <span class="n">commands</span> <span class="n">between</span> <span class="p">{</span> <span class="ow">and</span> <span class="p">}</span><span class="o">.</span>
 </code></pre></div>
-
 
 <p>In Bash, the <code>function</code> reserved word is optional, and if used, the <code>()</code>
 brackets are optional; so it is possible to use either, or both.</p>
@@ -115,16 +115,15 @@ different behaviours. I'm interested in particular in handling errors.</p>
 <p>With the bracket style in Ksh, the function inherits its environment
 from the caller, and causes the calling script to abort on an error
 in the function.</p>
-<div class="highlight"><pre><span></span><code><span class="err">    Functions defined with the name() syntax ... are executed in the caller&#39;s</span>
-<span class="err">    environment and share all variables and traps with the caller.  Errors within</span>
-<span class="err">    these function executions cause the script that contains them to abort.</span>
+<div class="highlight"><pre><span></span><code>    <span class="n">Functions</span> <span class="n">defined</span> <span class="n">with</span> <span class="n">the</span> <span class="n">name</span><span class="p">()</span> <span class="n">syntax</span> <span class="o">...</span> <span class="n">are</span> <span class="n">executed</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">caller</span><span class="s1">&#39;s</span>
+    <span class="n">environment</span> <span class="ow">and</span> <span class="n">share</span> <span class="n">all</span> <span class="n">variables</span> <span class="ow">and</span> <span class="n">traps</span> <span class="n">with</span> <span class="n">the</span> <span class="n">caller</span><span class="o">.</span>  <span class="n">Errors</span> <span class="n">within</span>
+    <span class="n">these</span> <span class="n">function</span> <span class="n">executions</span> <span class="n">cause</span> <span class="n">the</span> <span class="n">script</span> <span class="n">that</span> <span class="n">contains</span> <span class="n">them</span> <span class="n">to</span> <span class="n">abort</span><span class="o">.</span>
 </code></pre></div>
-
 
 <p>I don't see the advertised behaviour in the case where there is an error in the
 function execution; the calling script doesn't seem to abort by default.
 Consider:</p>
-<div class="highlight"><pre><span></span><code>$ cat ksh_brackets
+<div class="bash highlight"><pre><span></span><code>$ cat ksh_brackets
 <span class="c1">#!/bin/ksh</span>
 
 func1 <span class="o">()</span> <span class="o">{</span>
@@ -136,17 +135,15 @@ func1
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
 <p>which gives:</p>
 <div class="highlight"><pre><span></span><code>$ ./ksh_brackets
 grep: bar: No such file or directory
 Return code from <span class="k">function</span> <span class="o">=</span> <span class="m">2</span>
 </code></pre></div>
-
 
 <p>However, if you introduce <code>set -e</code> into the calling script, of course then the
 calling script aborts on the failure of the function:</p>
-<div class="highlight"><pre><span></span><code>$ cat ksh_brackets
+<div class="bash highlight"><pre><span></span><code>$ cat ksh_brackets
 <span class="c1">#!/bin/ksh</span>
 
 <span class="nb">set</span> -e <span class="c1"># Added</span>
@@ -160,16 +157,14 @@ func1
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
 <p>which gives:</p>
 <div class="highlight"><pre><span></span><code>$ ./ksh_brackets
 grep: bar: No such file or directory
 </code></pre></div>
 
-
 <p>So far the behaviour will be the same if we switch to the alternative
 <code>function ...</code> declaration style. As before, without <code>set -e</code>:</p>
-<div class="highlight"><pre><span></span><code>$ cat ksh_function
+<div class="bash highlight"><pre><span></span><code>$ cat ksh_function
 <span class="c1">#!/bin/ksh</span>
 
 <span class="k">function</span> func1 <span class="o">{</span>
@@ -181,15 +176,13 @@ func1
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
 <div class="highlight"><pre><span></span><code>$ ./ksh_function
 grep: bar: No such file or directory
 Return code from <span class="k">function</span> <span class="o">=</span> <span class="m">2</span>
 </code></pre></div>
 
-
 <p>and similarly with <code>set -e</code>:</p>
-<div class="highlight"><pre><span></span><code>$ cat ksh_function
+<div class="bash highlight"><pre><span></span><code>$ cat ksh_function
 <span class="c1">#!/bin/ksh</span>
 
 <span class="nb">set</span> -e <span class="c1"># Added</span>
@@ -203,16 +196,14 @@ func1
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
 <div class="highlight"><pre><span></span><code>$ ./ksh_function
 grep: bar: No such file or directory
 </code></pre></div>
-
 
 <p>The distinction arises in the way the functions behave. Let's add a line to
 the function's body, so we can see at what point control returns from the
 function to the caller. Now, in the first bracket-style form:</p>
-<div class="highlight"><pre><span></span><code>$ cat ksh_brackets
+<div class="bash highlight"><pre><span></span><code>$ cat ksh_brackets
 <span class="c1">#!/bin/ksh</span>
 
 <span class="nb">set</span> -e
@@ -227,17 +218,15 @@ func1
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
 <div class="highlight"><pre><span></span><code>$ ./ksh_brackets
 grep: bar: No such file or directory
 </code></pre></div>
-
 
 <p>The function aborts immediately on the error, returns control to the calling
 script, which in turn also aborts immediately. The function has inherited the
 <code>set -e</code> behaviour from the caller.</p>
 <p>In the alternative form:</p>
-<div class="highlight"><pre><span></span><code>cat ksh_function
+<div class="bash highlight"><pre><span></span><code>cat ksh_function
 <span class="c1">#!/bin/ksh</span>
 
 <span class="nb">set</span> -e
@@ -251,14 +240,12 @@ func1
 
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
-
 
 <div class="highlight"><pre><span></span><code>$ ./ksh_function
 grep: bar: No such file or directory
 Return code from <span class="nv">grep</span> <span class="o">=</span> <span class="m">2</span>
 Return code from <span class="k">function</span> <span class="o">=</span> <span class="m">0</span>
 </code></pre></div>
-
 
 <p>The function has not inherited the <code>set -e</code> behaviour of the calling script,
 and therefore doesn't abort on the error from <code>grep</code>; instead it completes
@@ -269,7 +256,7 @@ calling script therefore also completes normally.</p>
 <p>In Bash, both function-declaration types are the same, and both behave the way
 the bracket-style declaration works in Ksh; that is, they inherit the <code>set -e</code>
 behaviour from the caller.</p>
-<div class="highlight"><pre><span></span><code>$ cat bash_function
+<div class="bash highlight"><pre><span></span><code>$ cat bash_function
 <span class="c1">#!/bin/bash</span>
 
 <span class="nb">set</span> -e
@@ -284,13 +271,11 @@ func1
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
-<div class="highlight"><pre><span></span><code>$ ./bash_function
+<div class="bash highlight"><pre><span></span><code>$ ./bash_function
 grep: bar: No such file or directory
 </code></pre></div>
 
-
-<div class="highlight"><pre><span></span><code>$ cat bash_brackets 
+<div class="bash highlight"><pre><span></span><code>$ cat bash_brackets 
 <span class="c1">#!/bin/bash</span>
 
 <span class="nb">set</span> -e
@@ -305,19 +290,16 @@ func1
 <span class="nb">echo</span> <span class="s2">&quot;Return code from function = </span><span class="nv">$?</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
-<div class="highlight"><pre><span></span><code>$ ./bash_brackets
+<div class="bash highlight"><pre><span></span><code>$ ./bash_brackets
 grep: bar: No such file or directory
 </code></pre></div>
 
-
 <p>So the way to get equivalence between Bash and Ksh (in this respect, there
 may still be other differences) is to use the bracket-style declaration:</p>
-<div class="highlight"><pre><span></span><code>name <span class="o">()</span> <span class="o">{</span>
+<div class="bash highlight"><pre><span></span><code>name <span class="o">()</span> <span class="o">{</span>
     function_body
 <span class="o">}</span>
 </code></pre></div>
-
 
 <p>for functions.</p>
 

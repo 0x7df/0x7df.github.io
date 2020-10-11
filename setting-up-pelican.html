@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -81,7 +83,6 @@
 <span class="err">pip install pelican</span>
 </code></pre></div>
 
-
 </li>
 <li>
 <p>Clone the "nest" theme somewhere:</p>
@@ -89,13 +90,11 @@
 <span class="err">git clone https://github.com/molivier/nest.git</span>
 </code></pre></div>
 
-
 </li>
 <li>
 <p>Install the "nest" theme:</p>
 <div class="highlight"><pre><span></span><code><span class="err">pelican-themes --install ~/Perm/Pelican/nest --verbose</span>
 </code></pre></div>
-
 
 </li>
 <li>
@@ -106,7 +105,6 @@
 <span class="err">git clone --recursive https://github.com/getpelican/pelican-plugins</span>
 </code></pre></div>
 
-
 </li>
 <li>
 <p>Add the location of the "render_math" plugin to the settings file. Ensure the
@@ -114,7 +112,6 @@
 <div class="highlight"><pre><span></span><code><span class="err">PLUGIN_PATHS = [&quot;/full/path/to/Perm/Pelican/pelican-plugins&quot;]</span>
 <span class="err">PLUGINS = [&quot;render_math&quot;]</span>
 </code></pre></div>
-
 
 <p>(Note that on a Mac OS X system, "~/Perm/Pelican..." didn't work.)</p>
 </li>
@@ -124,13 +121,11 @@
 <span class="err">git clone https://github.com/0x7df/0x7df.github.io.git</span>
 </code></pre></div>
 
-
 </li>
 <li>
 <p>Enter the repository:</p>
 <div class="highlight"><pre><span></span><code><span class="err">cd 0x7df.github.io</span>
 </code></pre></div>
-
 
 </li>
 <li>
@@ -140,13 +135,11 @@
 <div class="highlight"><pre><span></span><code><span class="err">git checkout source</span>
 </code></pre></div>
 
-
 </li>
 <li>
 <p>Build locally:</p>
 <div class="highlight"><pre><span></span><code><span class="err">make html</span>
 </code></pre></div>
-
 
 </li>
 <li>
@@ -155,7 +148,6 @@
 <span class="err">python -m SimpleHTTPServer</span>
 </code></pre></div>
 
-
 <p>and go to <a href="http://localhost:8000">http://localhost:8000</a>.</p>
 </li>
 <li>
@@ -163,13 +155,11 @@
 <div class="highlight"><pre><span></span><code><span class="err">git clone https://github.com/davisp/ghp-import.git</span>
 </code></pre></div>
 
-
 </li>
 <li>
 <p>Publish to GitHub:</p>
 <div class="highlight"><pre><span></span><code><span class="err">make github</span>
 </code></pre></div>
-
 
 </li>
 </ol>

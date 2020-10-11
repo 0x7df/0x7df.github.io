@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +84,7 @@ automatically detect this when it's pushed.</p>
 automated workflows.</p>
 <h2>Workflow YAML file syntax</h2>
 <p>A basic workflow definition file example:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build and Test</span>
+<div class="yaml highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build and Test</span>
 
 <span class="nt">on</span><span class="p">:</span>
   <span class="nt">pull_request</span><span class="p">:</span>
@@ -113,7 +115,6 @@ automated workflows.</p>
           <span class="l l-Scalar l-Scalar-Plain">black --check .</span>
 </code></pre></div>
 
-
 <p>The <code>on</code> block defines what actions will trigger this workflow. In this
 example the workflow will be triggered by either a push or a pull request to
 the <code>master</code> branch.</p>
@@ -133,24 +134,22 @@ make Python available.</p>
 <p>Setting up a matrix allows you to run a job in parallel in multiple different
 environments, e.g. operating systems, dependency versions, etc.</p>
 <p>For example, rather than specifying a single OS via:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">ci</span><span class="p">:</span>
+<div class="yaml highlight"><pre><span></span><code><span class="nt">ci</span><span class="p">:</span>
   <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
 </code></pre></div>
 
-
 <p>as above, the 'matrix' Strategy can be defined like so:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">ci</span><span class="p">:</span>
+<div class="yaml highlight"><pre><span></span><code><span class="nt">ci</span><span class="p">:</span>
   <span class="nt">strategy</span><span class="p">:</span>
     <span class="nt">matrix</span><span class="p">:</span>
       <span class="nt">os</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">,</span> <span class="nv">macos-latest</span><span class="p p-Indicator">]</span>
   <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.os }}</span>
 </code></pre></div>
 
-
 <p>so that the <code>ci</code> job is run on all of the specified operating systems.</p>
 <p>The "matrix" of environments can have multiple dimensions; e.g. here we test
 over a list of Python versions as well as over the list of operating systems:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">ci</span><span class="p">:</span>
+<div class="yaml highlight"><pre><span></span><code><span class="nt">ci</span><span class="p">:</span>
   <span class="nt">strategy</span><span class="p">:</span>
     <span class="nt">matrix</span><span class="p">:</span>
       <span class="nt">os</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">ubuntu-latest</span><span class="p p-Indicator">,</span> <span class="nv">macos-latest</span><span class="p p-Indicator">]</span>
@@ -163,7 +162,6 @@ over a list of Python versions as well as over the list of operating systems:</p
       <span class="nt">with</span><span class="p">:</span>
         <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ matrix.python-version }}</span>
 </code></pre></div>
-
 
 <h2>GitHub Secrets</h2>
 <p>GitHub allows you to create 'Secrets' (as long as your are an admin of the
@@ -179,7 +177,7 @@ a fork.</p>
 </blockquote>
 <p>Consider the following workflow, to publish a Python package to
 <a href="https://pypi.org">PyPI</a> (taken directly from the GitHub examples):</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># This workflows will upload a Python Package using Twine when a release is</span>
+<div class="yaml highlight"><pre><span></span><code><span class="c1"># This workflows will upload a Python Package using Twine when a release is</span>
 <span class="c1"># created</span>
 
 <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Upload Python Package</span>
@@ -210,7 +208,6 @@ a fork.</p>
         <span class="no">twine upload dist/*</span>
 </code></pre></div>
 
-
 <p>Here it is clear in the 'Build and publish' step that the PyPI username and
 password required for <a href="https://twine.readthedocs.io/en/latest">Twine</a> to
 upload the package to PyPI are contained in the <code>secrets</code> data structure that
@@ -230,7 +227,7 @@ GitHub Actions is the <code>setup-python</code> action used in the above and fou
 <p>You can create your own generic GitHub actions and publish them for others to
 use; all you need to do is define an <code>action.yml</code> file in the root of the
 repository.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span> <span class="s">&quot;Generic</span><span class="nv"> </span><span class="s">Action</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">&lt;dependency&gt;&quot;</span>
+<div class="yaml highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span> <span class="s">&quot;Generic</span><span class="nv"> </span><span class="s">Action</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">&lt;dependency&gt;&quot;</span>
 <span class="nt">description</span><span class="p">:</span> <span class="s">&quot;A</span><span class="nv"> </span><span class="s">generic</span><span class="nv"> </span><span class="s">action</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">shared</span><span class="nv"> </span><span class="s">on</span><span class="nv"> </span><span class="s">GitHub</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">other</span><span class="nv"> </span><span class="s">workflows</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">use&quot;</span>
 <span class="nt">branding</span><span class="p">:</span>
   <span class="nt">icon</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">...</span>
@@ -248,12 +245,10 @@ repository.</p>
       <span class="nt">shell</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bash</span>
 </code></pre></div>
 
-
 <p>To publish the Action, create a Release in the repository.</p>
 <p>Other people can use this by adding:</p>
-<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;GITHUB_USER&gt;/&lt;REPO_NAME&gt;@master</span>
+<div class="yaml highlight"><pre><span></span><code><span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;GITHUB_USER&gt;/&lt;REPO_NAME&gt;@master</span>
 </code></pre></div>
-
 
 <h2>Links</h2>
 <ul>

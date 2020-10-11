@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -127,7 +129,7 @@ result, matrix <em>C</em>, in blue; a single element of <em>C</em> is highlighte
 red, and the corresponding row and column of <em>A</em> and <em>B</em> are also
 highlighted.</p>
 <p>We implement this in CUDA C as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">matrixMultiply</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">A</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">B</span><span class="p">,</span>  
+<div class="highlight"><pre><span></span><code><span class="n">__global__</span> <span class="kt">void</span> <span class="n">matrixMultiply</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">A</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">B</span><span class="p">,</span>  
 <span class="kt">float</span> <span class="o">*</span><span class="n">C</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numACols</span><span class="p">,</span>  
 <span class="kt">int</span> <span class="n">numBRows</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numBCols</span><span class="p">,</span>  
     <span class="kt">int</span> <span class="n">numCRows</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numCCols</span><span class="p">)</span>  
@@ -151,7 +153,6 @@ highlighted.</p>
     <span class="p">}</span>  
 <span class="p">}</span>
 </code></pre></div>
-
 
 <p>This is reasonably simple. Each thread figures out which output matrix
 element it is responsible for, simply by checking the thread indices. It
@@ -288,7 +289,7 @@ the same row index), as does each sub-column of the tile from <span class="math"
 data re-use reduces the retrievals from global memory by a factor of
 <span class="math">\(a\)</span>.</p>
 <p>Here is the kernel for tiled matrix multiplication.</p>
-<div class="highlight"><pre><span></span><code><span class="n">__global__</span> <span class="kt">void</span> <span class="nf">matrixMultiply</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">A</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">B</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">C</span><span class="p">,</span>  
+<div class="highlight"><pre><span></span><code><span class="n">__global__</span> <span class="kt">void</span> <span class="n">matrixMultiply</span><span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="n">A</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">B</span><span class="p">,</span> <span class="kt">float</span> <span class="o">*</span><span class="n">C</span><span class="p">,</span>  
   <span class="kt">int</span> <span class="n">numARows</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numACols</span><span class="p">,</span>  
   <span class="kt">int</span> <span class="n">numBRows</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numBCols</span><span class="p">,</span>  
   <span class="kt">int</span> <span class="n">numCRows</span><span class="p">,</span> <span class="kt">int</span> <span class="n">numCCols</span><span class="p">)</span> <span class="p">{</span>
@@ -329,7 +330,7 @@ data re-use reduces the retrievals from global memory by a factor of
   <span class="c1">// and over rows of the B matrix for a given  </span>
   <span class="c1">// column index (equal to the column index of  </span>
   <span class="c1">// the C element)  </span>
-  <span class="kt">int</span> <span class="n">numTiles</span> <span class="o">=</span> <span class="p">(</span><span class="n">numACols</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_WIDTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">numTiles</span> <span class="o">=</span> <span class="p">(</span><span class="n">numACols</span><span class="mi">-1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_WIDTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
 
   <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">tl</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">tl</span> <span class="o">&lt;</span> <span class="n">numTiles</span><span class="p">;</span> <span class="o">++</span><span class="n">tl</span><span class="p">)</span> <span class="p">{</span>
 
@@ -364,7 +365,6 @@ data re-use reduces the retrievals from global memory by a factor of
 <span class="p">}</span>
 </code></pre></div>
 
-
 <p>In each thread block, the <span class="math">\(a^2\)</span> threads load two float values each and
 perform <span class="math">\(2a\)</span> floating-point operations to compute the dot product of the
 row and column sub-sections (both of length <span class="math">\(a\)</span>) required for the single
@@ -389,16 +389,15 @@ by tiling the data.</p>
     needs only to load a single element from each of <span class="math">\(A\)</span> and <span class="math">\(B\)</span> into
     shared memory to construct the tiles. This means the host code that
     calls the kernel needs to use <code>TILE_WIDTH</code> to define the block size:</p>
-<div class="highlight"><pre><span></span><code><span class="n">gridXSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">numCCols</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_WIDTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>  
-<span class="n">gridYSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">numCRows</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_WIDTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>  
+<div class="highlight"><pre><span></span><code><span class="n">gridXSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">numCCols</span><span class="mi">-1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_WIDTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>  
+<span class="n">gridYSize</span> <span class="o">=</span> <span class="p">(</span><span class="n">numCRows</span><span class="mi">-1</span><span class="p">)</span><span class="o">/</span><span class="n">TILE_WIDTH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>  
 <span class="n">dim3</span> <span class="nf">DimGrid</span><span class="p">(</span><span class="n">gridXSize</span><span class="p">,</span> <span class="n">gridYSize</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>  <span class="c1">// gridSize blocks in the</span>
 <span class="n">grid</span>  
-<span class="n">dim3</span> <span class="nf">DimBlock</span><span class="p">(</span><span class="n">TILE_WIDTH</span><span class="p">,</span> <span class="n">TILE_WIDTH</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// blockSize threads in</span>
+<span class="n">dim3</span> <span class="n">DimBlock</span><span class="p">(</span><span class="n">TILE_WIDTH</span><span class="p">,</span> <span class="n">TILE_WIDTH</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// blockSize threads in</span>
 <span class="n">each</span> <span class="n">block</span>  
 <span class="n">matrixMultiply</span><span class="o">&lt;&lt;&lt;</span><span class="n">DimGrid</span><span class="p">,</span><span class="n">DimBlock</span><span class="o">&gt;&gt;&gt;</span><span class="p">(</span><span class="n">deviceA</span><span class="p">,</span> <span class="n">deviceB</span><span class="p">,</span>
 <span class="n">deviceC</span><span class="p">,</span> <span class="p">...</span>
 </code></pre></div>
-
 
 </li>
 <li>
@@ -430,10 +429,13 @@ by tiling the data.</p>
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -447,6 +449,8 @@ by tiling the data.</p>
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -467,6 +471,8 @@ by tiling the data.</p>
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>

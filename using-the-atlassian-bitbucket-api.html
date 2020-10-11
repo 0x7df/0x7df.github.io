@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -82,12 +84,10 @@ authentication. Using:</p>
 <div class="highlight"><pre><span></span><code>curl -u &lt;username&gt;:&lt;password&gt; ...
 </code></pre></div>
 
-
 <p>is no good in a script if the script is intended to be used by several people.
 Just:</p>
 <div class="highlight"><pre><span></span><code>curl -u &lt;username&gt; ...
 </code></pre></div>
-
 
 <p>is better, as the password is then requested by curl and can be entered
 by the user at the command line. However, the password is requested each time
@@ -98,7 +98,6 @@ this. If the file is called <code>.netrc</code> and stored in the user's home di
 then the <code>-n</code> / <code>--netrc</code> option can be used. The syntax of the file is:</p>
 <div class="highlight"><pre><span></span><code><span class="err">machine &lt;host.domain.com&gt; login &lt;username&gt; password &lt;password&gt;</span>
 </code></pre></div>
-
 
 <p>The same <code>.netrc</code> file can hold lines for multiple hosts, so it would be fine
 to add a line for Bitbucket to an existing <code>.netrc</code> or to create it if it
@@ -111,7 +110,6 @@ key to their account. Using the API, we can do:</p>
 <div class="highlight"><pre><span></span><code>curl --netrc-file <span class="s2">&quot;</span><span class="nv">$NETRC_FILE</span><span class="s2">&quot;</span> -o json.tmp <span class="s2">&quot;</span><span class="si">${</span><span class="nv">URL</span><span class="si">}</span><span class="s2">/ssh/1.0/keys&quot;</span>
 </code></pre></div>
 
-
 <p>to get any SSH keys already associated with the user's Bitbucket account,
 where we have stored the full path to the authentication file discussed above
 in the variable <code>$NETRC_FILE</code>, and the URL to the Bitbucket server in <code>$URL</code>.
@@ -120,7 +118,6 @@ The data returned by the API call gets stored in a file called <code>json.tmp</c
 <div class="highlight"><pre><span></span><code>cat json.tmp <span class="p">|</span> python -m json.tool
 </code></pre></div>
 
-
 <p>from which it's easy to extract the SSH key returned and match it against the
 user's SSH key(s) in <code>${HOME}/.ssh</code>.</p>
 <p>If there's no match, then we can take an existing key (or create one with
@@ -128,7 +125,6 @@ user's SSH key(s) in <code>${HOME}/.ssh</code>.</p>
 <div class="highlight"><pre><span></span><code>curl --netrc-file <span class="s2">&quot;</span><span class="nv">$NETRC_FILE</span><span class="s2">&quot;</span> -i -H <span class="s2">&quot;Content-Type:application/json&quot;</span> <span class="se">\</span>
      -X POST --data <span class="s1">&#39;{&quot;text&quot;: &quot;&#39;</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">SSH_KEY</span><span class="si">}</span><span class="s2">&quot;</span><span class="s1">&#39;&quot;}&#39;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">URL</span><span class="si">}</span><span class="s2">/ssh/1.0/keys&quot;</span>
 </code></pre></div>
-
 
 <p>Here we have already stored the SSH key we want to post in the <code>$SSH_KEY</code>
 variable. The <code>-i</code> flag includes the HTTP header in the output, and the <code>-H</code>
@@ -140,12 +136,10 @@ use of a 'POST' request.</p>
 <div class="highlight"><pre><span></span><code><span class="err">X11 forwarding request failed on channel 0</span>
 </code></pre></div>
 
-
 <p>message when using SSH can be suppressed by adding:</p>
 <div class="highlight"><pre><span></span><code><span class="err">Host &lt;URL&gt; [&lt;URL&gt; ...]</span>
 <span class="err">  ForwardX11 no</span>
 </code></pre></div>
-
 
 <p>to the <code>$HOME/.ssh/config</code> file.)</p>
 <h2>Forking a repository</h2>
@@ -155,20 +149,17 @@ use of a 'POST' request.</p>
      <span class="p">|</span> grep <span class="s2">&quot;\&quot;name\&quot;:\&quot;</span><span class="si">${</span><span class="nv">REPO_NAME</span><span class="si">}</span><span class="s2">\&quot;&quot;</span>
 </code></pre></div>
 
-
 <p>and to create a user fork of a Bitbucket repository <code>$REPO_NAME</code> under project
 <code>$PROJECT</code>:</p>
 <div class="highlight"><pre><span></span><code>curl --netrc-file <span class="s2">&quot;</span><span class="nv">$NETRC_FILE</span><span class="s2">&quot;</span> -X POST -H <span class="s2">&quot;Content-Type:application/json&quot;</span>
      --data <span class="s1">&#39;{}&#39;</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">URL</span><span class="si">}</span><span class="s2">/api/1.0/projects/</span><span class="si">${</span><span class="nv">PROJECT</span><span class="si">}</span><span class="s2">/repos/</span><span class="si">${</span><span class="nv">REPO_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div>
 
-
 <h2>Changing repository permissions and settings</h2>
 <p>Changing permissions can also be done via the API:</p>
 <div class="highlight"><pre><span></span><code>curl --netrc-file <span class="s2">&quot;</span><span class="nv">$NETRC_FILE</span><span class="s2">&quot;</span> -X PUT <span class="se">\</span>
      <span class="s2">&quot;</span><span class="si">${</span><span class="nv">URL</span><span class="si">}</span><span class="s2">/api/1.0/projects/~</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">/repos/</span><span class="si">${</span><span class="nv">REPO_NAME</span><span class="si">}</span><span class="s2">/permissions/groups?permission=REPO_READ&amp;name=</span><span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div>
-
 
 <p>In this example a repository <code>$REPO_NAME</code> in <code>$USER</code>'s personal space has had
 read permission added for <code>$USER_NAME</code> (which could also be the name of a
@@ -178,7 +169,6 @@ group defined on Bitbucket).</p>
      --data <span class="s1">&#39;{&quot;type&quot;:&quot;fast-forward-only&quot;,&quot;matcher&quot;:{&quot;id&quot;:&quot;*&quot;,&quot;type&quot;:{&quot;id&quot;:&quot;PATTERN&quot;}}}&#39;</span> <span class="se">\</span>
      <span class="s2">&quot;</span><span class="si">${</span><span class="nv">URL</span><span class="si">}</span><span class="s2">/branch-permissions/2.0/projects/~</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">/repos/</span><span class="si">${</span><span class="nv">REPO_NAME</span><span class="si">}</span><span class="s2">/restrictions&quot;</span>
 </code></pre></div>
-
 
 <p>Here we've added protection against re-writing history to all branches. In
 the web interface to Bitbucket we would do this in 'Settings' / 'Branch

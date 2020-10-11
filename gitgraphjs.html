@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -79,7 +81,6 @@
 <p>The documentation recommends installation via:</p>
 <div class="highlight"><pre><span></span><code>npm install @gitgraph/js
 </code></pre></div>
-
 
 <p>where <code>@gitgraph</code> (as opposed to just <code>gitgraph</code>) is v2 of the library.</p>
 <p>However, usage directly in a web page via a CDN is also possible, to bypass
@@ -126,7 +127,6 @@ installation.</p>
 <span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 
-
 <p>which renders as:</p>
 <p><img alt="Basic example of a GitGraph-generated image" src="https://0x7df.github.io/images/GitGraph_basic_example.png"></p>
 <p>Note that random commit hashes are generated automatically when the page is
@@ -149,18 +149,15 @@ tar xzf tmp.tar.gz <span class="o">&amp;&amp;</span> rm tmp.tar.gz
 <span class="nb">cd</span> reveal.js-3.8.0
 </code></pre></div>
 
-
 <p>There is a template <code>index.html</code> which can be viewed directly in a browser:</p>
 <div class="highlight"><pre><span></span><code>cp index.html test.html
 open test.html <span class="c1"># On a Mac</span>
 </code></pre></div>
 
-
 <p>or served by a web server:</p>
 <div class="highlight"><pre><span></span><code>python3 -m http.server <span class="p">&amp;</span>
 open http://localhost:8000/test.html
 </code></pre></div>
-
 
 <h2>GitGraph.js code in a Reveal.js presentation</h2>
 <p>Getting the GitGraph.js image to render correctly is slightly convoluted, or at
@@ -169,14 +166,12 @@ least this way that I hacked around is; there might be better ways.</p>
 <div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;graph-container&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </code></pre></div>
 
-
 <p>and then renders the graph in that node of the DOM using some JavaScript:</p>
 <div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
     <span class="kr">const</span> <span class="nx">graphContainer</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;graph-container&quot;</span><span class="p">);</span>
     <span class="c1">// Do stuff with graphContainer...</span>
 <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </code></pre></div>
-
 
 <p>If you just put the named <code>div</code> element inside one of reveal.js's
 <code>&lt;section&gt;...&lt;/section&gt;</code> constructs, which define slides, the graph doesn't
@@ -213,7 +208,6 @@ didn't look into this.</p>
 <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </code></pre></div>
 
-
 <p>and then the definition code for the graph we want to render:</p>
 <div class="highlight"><pre><span></span><code><span class="c">&lt;!-- Git Graphs --&gt;</span>
 <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -226,7 +220,6 @@ didn't look into this.</p>
     <span class="p">}</span>
 <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </code></pre></div>
-
 
 <p>which is the same as the example code in the GitGraph.js template index.html,
 except enclosed in a function definition.</p>
@@ -249,32 +242,12 @@ except enclosed in a function definition.</p>
 <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 </code></pre></div>
 
-
 <p>To add multiple graphs, I just:</p>
 <ul>
 <li>added the additional containers <code>graph-container2</code>, <code>graph-container3</code>, ..., in the appropriate places in the slides</li>
 <li>created corresponding functions <code>drawGit2</code>, <code>drawGit3</code>, ..., in the same
-  <code>&lt;script&gt;</code> block, and</li>
-<li>added calls to the new functions to the same event listener (that listens to the
-  <code>data-state</code> value)</li>
+  `<script></li>
 </ul>
-<p>This means that the first slide sends an event that triggers the event listener
-to render all the graphs.</p>
-<p>A full example is at <a href="https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b">https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b</a>.</p>
-<h2>PDF export</h2>
-<p>To
-<a href="https://github.com/hakimel/reveal.js#pdf-export">export the reveal.js presentation to PDF</a>
-, it is necessary to serve it via a web server, and use the <code>?print-pdf</code> query
-string; i.e.:</p>
-<div class="highlight"><pre><span></span><code>python3 -m http.server <span class="m">8080</span>
-open http://localhost:8080/test.html?print-pdf
-</code></pre></div>
-
-
-<p>Then use the 'Save as PDF' destination in the browser's 'Print' menu. This only
-works in Google Chrome and Chromium. The PDF export of the <a href="https://gist.github.com/0x7df/10b3056efc997c502218b4a54f6f532b">example mentioned
-above</a> is
-<a href="https://0x7df.github.io/attachments/test_gitgraphjs_in_revealjs.pdf">here</a>.</p>
 
 
         

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="CHAPTER 1 - Thermodynamics of Dry Air The effective molecular weight, \( M_{eff}\) of dry air is a weighted average of the molecular weights of the main permanent constituents: $$ M_{\mathrm{eff}}...">
+        <meta name="description" content="CHAPTER 1 - Thermodynamics of dry air The effective molecular weight, \( M_{eff}\) of dry air is a weighted average of the molecular weights of the main permanent constituents: $$ M_{\mathrm{eff}}...">
         <meta name="keywords" content="atmospheric science, meteorology, physics">
         <link rel="icon" href="https://0x7df.github.io/favicon.ico">
 
@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -74,7 +76,7 @@
 
         <!-- Content -->
     <div class="container content">
-        <h2>CHAPTER 1 - Thermodynamics of Dry Air</h2>
+        <h2>CHAPTER 1 - Thermodynamics of dry air</h2>
 <p>The effective molecular weight, <span class="math">\( M_{eff}\)</span> of dry
 air is a weighted average of the molecular weights of the main permanent
 constituents:</p>
@@ -85,7 +87,7 @@ $ n^{\mathrm{th}}\)</span> constituent. Given the data in the
 table, the effective molecular weight of dry air is:</p>
 <div class="math">$$ M_{\mathrm{eff}} = (0.7557 \times 28.016) + (0.2315 \times
 32.000) + (0.0128 \times 39.944) $$</div>
-<h2>CHAPTER 3 - Parcel Buoyancy and Atmospheric Stability</h2>
+<h2>CHAPTER 3 - Parcel buoyancy and atmospheric stability</h2>
 <p><em>Two model atmospheres often used in theoretical work are the
 homogeneous atmosphere:</em></p>
 <div class="math">$$ \rho(z) = \rho_0 $$</div>
@@ -336,10 +338,13 @@ and for a standard atmosphere,<span class="math">\(T'\)</span> = 275.154 K,<span
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -353,6 +358,8 @@ and for a standard atmosphere,<span class="math">\(T'\)</span> = 275.154 K,<span
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -373,6 +380,8 @@ and for a standard atmosphere,<span class="math">\(T'\)</span> = 275.154 K,<span
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>

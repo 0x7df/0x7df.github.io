@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -86,7 +88,6 @@ find:</p>
     <span class="p">|</span> xargs -0 grep -Il <span class="s2">&quot;^[ ]*\#\!/[^\#\!]*sh&quot;</span>
 </code></pre></div>
 
-
 <p>The <code>find</code> command searches for all files in the <code>~/Code</code> directory (filtering
 out any that are inside a <code>.git</code> directory) and passes the resulting list to
 <code>xargs</code>, which runs the <code>grep</code> command on each result.</p>
@@ -109,7 +110,6 @@ as:</p>
 <span class="c1">#!/usr/bin/env bash</span>
 </code></pre></div>
 
-
 <p>Note also that only cases where the sha-bang is preceded by zero or more spaces
 are matched, to prevent, for example, <code>this is a sha-bang: #!/bin/bash</code> from
 being matched.</p>
@@ -125,12 +125,10 @@ habit of using them systematically across all my scripts, and to start using
 <span class="nb">set</span> -o pipefail
 </code></pre></div>
 
-
 <p>to the top of all scripts that didn't already have them. If a script fails
 because of an error in a pipe, no information is printed; but:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">echo</span> <span class="si">${</span><span class="nv">PIPESTATUS</span><span class="p">[*]</span><span class="si">}</span>
 </code></pre></div>
-
 
 <p>will show the return codes of each command in the pipe; irritatingly, this
 works only in Bash and not in Korn shell scripts. (There is an equivalent
@@ -140,12 +138,10 @@ works only in Bash and not in Korn shell scripts. (There is an equivalent
 <div class="highlight"><pre><span></span><code><span class="o">[</span> ... <span class="o">]</span>
 </code></pre></div>
 
-
 <p>and the extended version, originally introduced in Korn shell and later ported
 to Bash:</p>
 <div class="highlight"><pre><span></span><code><span class="o">[[</span> ... <span class="o">]]</span>
 </code></pre></div>
-
 
 <p>The latter has a few advantages.</p>
 <p>Quoting variables within <code>[[ ... ]]</code> isn't necessary. <code>[</code> is a command
@@ -154,7 +150,6 @@ comparison is unset, e.g.:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">a</span><span class="o">=</span>
 <span class="o">[</span> <span class="nv">$a</span> -lt <span class="nv">$b</span> <span class="o">]</span>
 </code></pre></div>
-
 
 <p>then <code>[</code> sees only two arguments, and therefore complains that <code>-lt</code> is not
 a permissible operator for what it thinks is a two-argument form of the
@@ -165,23 +160,19 @@ test. However, this isn't the case with <code>[[ .. ]]</code> constructs.</p>
 <span class="o">[[</span> <span class="nv">$a</span> <span class="o">==</span> <span class="nv">$b</span> <span class="o">||</span> <span class="nv">$c</span> <span class="o">==</span> <span class="nv">$d</span> <span class="o">]]</span>
 </code></pre></div>
 
-
 <p>The <code>&lt;</code> and <code>&gt;</code> relational operators work without being escaped:</p>
 <div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="nv">$a</span> &lt; <span class="nv">$b</span> <span class="o">]]</span>
 <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">&quot;</span> <span class="se">\&lt;</span> <span class="s2">&quot;</span><span class="nv">$b</span><span class="s2">&quot;</span> <span class="o">]</span>
 </code></pre></div>
-
 
 <p>but remember of course that these are text comparisons, so:</p>
 <div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="m">9</span> &gt; <span class="m">54</span> <span class="o">]]</span>   <span class="c1"># Returns true</span>
 <span class="o">[[</span> <span class="m">9</span> -gt <span class="m">54</span> <span class="o">]]</span> <span class="c1"># Returns false</span>
 </code></pre></div>
 
-
 <p>The extended test command implements the <code>=~</code> regular-expression match:</p>
 <div class="highlight"><pre><span></span><code><span class="o">[[</span> <span class="nv">foobar</span> <span class="o">=</span>~ bar <span class="o">]]</span>
 </code></pre></div>
-
 
 <p>It should be noted tht file globbing and word splitting do not take place in
 the extended test command. From the Advanced Bash-Scripting Guide (attributed
@@ -192,7 +183,6 @@ to Stephane Chazelas):</p>
 <span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">&quot;</span> <span class="o">==</span> <span class="s2">&quot;z*&quot;</span> <span class="o">]</span> <span class="c1"># True if $a is equal to z* (literal matching).</span>
 </code></pre></div>
 
-
 <h2>Explicit typing</h2>
 <p>In Bash, either <code>declare</code> or its synonym <code>typeset</code> can be used to specify the
 type of variables. I prefer <code>typeset</code>, as it's also recognised by the Korn
@@ -201,7 +191,6 @@ shell:</p>
 <span class="nb">typeset</span> -r constant
 </code></pre></div>
 
-
 <p>The <code>-r</code> form has the alternative <code>readonly</code>, but using the <code>typeset</code> form also
 gives some consistency since <code>typeset</code> has other uses, such as declaring
 arrays:</p>
@@ -209,22 +198,18 @@ arrays:</p>
 <span class="nb">typeset</span> -A an_array <span class="c1"># Bash v4 and Korn shell</span>
 </code></pre></div>
 
-
 <p>as well as allowing multiple attributes to be declared at once:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">typeset</span> -ir integer_constant
 </code></pre></div>
-
 
 <p>and attributes to be removed:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">typeset</span> +r variable <span class="c1"># No longer read-only</span>
 </code></pre></div>
 
-
 <p>and finally in functions to define the variable scope to be local to
 the function:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">typeset</span> local_variable
 </code></pre></div>
-
 
 <p>The variable is local whether or not other arguments (e.g. <code>-i</code>, <code>-r</code>, etc.)
 are supplied. Note that a variable inside a function declared with <code>readonly</code>

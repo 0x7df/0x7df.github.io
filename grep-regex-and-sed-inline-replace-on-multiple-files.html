@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -101,7 +103,6 @@ needed to pick out the <code>\$latex</code>, <code>\$</code>, <code>&amp;s=1</co
 <div class="highlight"><pre><span></span><code>grep <span class="s1">&#39;\\$[latex]\{5\}&#39;</span> <span class="k">$(</span>find ./content -name <span class="s2">&quot;*.md&quot;</span><span class="k">)</span>
 </code></pre></div>
 
-
 <p>Here, the last part - <code>$(find ./content -name "*.md")</code> - is just using the find
 command to get all the files in the content directory (which is where all the
 MarkDown-format article files are stored), which have file-names ending in
@@ -147,14 +148,12 @@ start of the regular expression.</p>
 <div class="highlight"><pre><span></span><code>grep <span class="s1">&#39;^\\$[latex]\{5\}&#39;</span> <span class="k">$(</span>find content -name <span class="s2">&quot;*.md&quot;</span><span class="k">)</span>
 </code></pre></div>
 
-
 <h2>Search and replace with <code>sed</code></h2>
 <p>So far we've used grep which lists the matches; this was useful just to
 work out and test the regex. Now we have that right, we need to switch to <code>sed</code>
 - stream editor - to do the search and replace. The sed syntax is:</p>
 <div class="highlight"><pre><span></span><code>sed s/string1/string2/g inputfile &gt; outputfile
 </code></pre></div>
-
 
 <p>The runs sed with the script <code>s/string1/string2/g</code>, which tells sed to
 substitute (because of the starting <code>s</code>) the string <code>string1</code> with the
@@ -168,11 +167,9 @@ added, giving in general:</p>
 <div class="highlight"><pre><span></span><code>sed -i s/string1/string2/g inputfile
 </code></pre></div>
 
-
 <p>or in our case:</p>
 <div class="highlight"><pre><span></span><code>sed -i s/<span class="s1">&#39;^\\$[latex]\{5\}&#39;</span>/<span class="s1">&#39;$$&#39;</span>/g inputfile
 </code></pre></div>
-
 
 <p>The final step in building this up is to take care of the fact that I want to
 do this with dozens of files, and I don't want to do it manually. I could
@@ -180,7 +177,6 @@ write a script that loops over the files, but it's easier to use the <code>xargs
 command:</p>
 <div class="highlight"><pre><span></span><code>find content -name *.md <span class="p">|</span> xargs sed -i s/<span class="s1">&#39;^\\$[latex]\{5\}&#39;</span>/<span class="s1">&#39;$$&#39;</span>/g
 </code></pre></div>
-
 
 <p>Here the output of the find command, which is a list of the files that
 were found, is piped to the xargs command, which takes the list passed to it
@@ -191,7 +187,6 @@ a line</em> (and which are therefore most likely to be associated with displayed
 in-line equations), with <code>$$</code>.</p>
 <div class="highlight"><pre><span></span><code>find content -name *.md <span class="p">|</span> xargs sed -i s/<span class="s1">&#39;\\\$$&#39;</span>/<span class="s1">&#39;$$&#39;</span>/g
 </code></pre></div>
-
 
 <p>The difference here is that we have now had to escape the dollar sign - <code>\$</code>
 rather than just <code>$</code> - because we have added a final <code>$</code> which is the special

@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +94,6 @@ directives, which we'll look at here.</p>
 <div class="highlight"><pre><span></span><code><span class="err">!$OMP BARRIER</span>
 </code></pre></div>
 
-
 <p>All threads must arrive at a barrier before any thread can proceed past it.</p>
 <p>For example, consider the following code, which populates shared arrays <code>a</code> and
 <code>b</code> with the thread numbers and the numbers of the threads' neighbours:</p>
@@ -130,7 +131,6 @@ directives, which we'll look at here.</p>
 <span class="k">end program </span><span class="n">barrier</span>
 </code></pre></div>
 
-
 <p>Without any synchronisation:</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o barrier.x barrier.f95
 $ ./barrier.x 
@@ -144,7 +144,6 @@ $ ./barrier.x
        <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
        <span class="m">3</span>           <span class="m">0</span>           <span class="m">0</span>           <span class="m">0</span>
 </code></pre></div>
-
 
 <p>The results are both wrong and non-deterministic, because some threads proceed to the
 lines where <code>a</code> is read before <code>a</code> has been fully populated. Correct placement
@@ -164,7 +163,6 @@ of the barrier:</p>
 <span class="c">!$OMP END PARALLEL</span>
 </code></pre></div>
 
-
 <p>leads to the correct result:</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o barrier.x barrier.f95
 $ ./barrier.x 
@@ -174,7 +172,6 @@ $ ./barrier.x
        <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>           <span class="m">3</span>
        <span class="m">3</span>           <span class="m">0</span>           <span class="m">1</span>           <span class="m">2</span>
 </code></pre></div>
-
 
 <p>Care must be taken about control flow: a likely bug is where some
 threads reach a barrier and some don't, due to an <code>IF</code> condition.</p>
@@ -187,7 +184,6 @@ protect updates to shared variables.</p>
 <span class="err">...</span>
 <span class="err">!$OMP END CRITICAL</span>
 </code></pre></div>
-
 
 <p>For example, consider implementing a stack:</p>
 <div class="highlight"><pre><span></span><code><span class="k">module </span><span class="n">critical_mod</span>
@@ -268,7 +264,6 @@ protect updates to shared variables.</p>
 <span class="k">end program critical</span>
 </code></pre></div>
 
-
 <p>Here, we create an initial stack of ten values, then enter a loop in which the
 latest value is popped off the stack and processed, during which there is a 50:50
 probability of a new value being created and added to the stack. Because the
@@ -287,13 +282,11 @@ applies to only a single statement.</p>
 <span class="err">...</span>
 </code></pre></div>
 
-
 <p>where the statement must have one of the forms:</p>
 <div class="highlight"><pre><span></span><code><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&lt;</span><span class="n">op</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span>
 <span class="n">x</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">op</span><span class="o">&gt;</span> <span class="n">x</span>
 <span class="n">x</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">intr</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">expr</span><span class="o">&gt;</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>and <code>&lt;op&gt;</code> is one of <code>+</code>, <code>*</code>, <code>-</code>, <code>/</code>, <code>.and.</code>, <code>.or.</code>, <code>.eqv.</code> or <code>.neqv.</code>;
 and <code>&lt;intr&gt;</code> is one of <code>max</code>, <code>min</code>, <code>iand</code>, <code>ior</code> or <code>ieor</code>. Note that the
@@ -316,7 +309,6 @@ no longer required.</p>
 <span class="k">subroutine </span><span class="n">omp_unset_lock</span><span class="p">(</span><span class="n">omp_lock_kind</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="p">)</span>
 <span class="k">subroutine </span><span class="n">omp_destroy_lock</span><span class="p">(</span><span class="n">omp_lock_kind</span> <span class="o">&lt;</span><span class="n">var</span><span class="o">&gt;</span><span class="p">)</span>
 </code></pre></div>
-
 
 <hr/>
 

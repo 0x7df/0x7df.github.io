@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -134,7 +136,6 @@ the complexity rating given by the
 <span class="n">pylint</span>  
  <span class="n">Messages</span> <span class="k">Found</span><span class="p">:</span> <span class="mi">1</span>
 </code></pre></div>
-
 
 <p>The <em>cyclomatic complexity</em> metric was defined by <a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=1702388&amp;filter%3DAND%28p_IS_Number%3A35895%29">Thomas J. McCabe in a
 1976
@@ -239,7 +240,6 @@ using:</p>
 <span class="err">(&quot;13:1: &#39;run&#39;&quot;, 8)</span>
 </code></pre></div>
 
-
 <p>You can add the <code>-d</code> option (documented
 <a href="http://nedbatchelder.com/blog/200803/python_code_complexity_microtool.html">here</a>)
 to produce output that can be passed to the
@@ -249,7 +249,6 @@ graph. I.e.:</p>
 <div class="highlight"><pre><span></span><code><span class="err">&gt; python -m mccabe -d example.py | \\  </span>
 <span class="err">dot -Tpng -o example.png</span>
 </code></pre></div>
-
 
 <p>produces something like this:</p>
 <p><img src="images/example_mccabe_graph.png" style="width: 200px; height: auto;"></p>
@@ -269,18 +268,17 @@ paths; but it seems like a good start.</p>
 fine-tune the warnings that are issued. For instance, once the
 strictness level is up to medium or above, you might start to get a lot
 of warnings from Pylint about invalid constant names:</p>
-<div class="highlight"><pre><span></span><code><span class="err">example.py  </span>
-<span class="c">Line: 1  </span>
-<span class="c">pylint: invalid-name / Invalid constant name &quot;nmats&quot;  </span>
-<span class="c">Line: 17  </span>
-<span class="c">pylint: invalid-name / Invalid constant name &quot;dcoeff&quot;  </span>
-<span class="c">Line: 21  </span>
-<span class="c">pylint: invalid-name / Invalid constant name &quot;tpower&quot;  </span>
-<span class="c">Line: 23  </span>
-<span class="c">pylint: invalid-name / Invalid constant name &quot;tmp0&quot;  </span>
-<span class="err">...</span>
+<div class="highlight"><pre><span></span><code><span class="n">example</span><span class="o">.</span><span class="n">py</span>  
+<span class="n">Line</span><span class="p">:</span> <span class="mi">1</span>  
+<span class="n">pylint</span><span class="p">:</span> <span class="n">invalid</span><span class="o">-</span><span class="n">name</span> <span class="o">/</span> <span class="n">Invalid</span> <span class="n">constant</span> <span class="n">name</span> <span class="s2">&quot;nmats&quot;</span>  
+<span class="n">Line</span><span class="p">:</span> <span class="mi">17</span>  
+<span class="n">pylint</span><span class="p">:</span> <span class="n">invalid</span><span class="o">-</span><span class="n">name</span> <span class="o">/</span> <span class="n">Invalid</span> <span class="n">constant</span> <span class="n">name</span> <span class="s2">&quot;dcoeff&quot;</span>  
+<span class="n">Line</span><span class="p">:</span> <span class="mi">21</span>  
+<span class="n">pylint</span><span class="p">:</span> <span class="n">invalid</span><span class="o">-</span><span class="n">name</span> <span class="o">/</span> <span class="n">Invalid</span> <span class="n">constant</span> <span class="n">name</span> <span class="s2">&quot;tpower&quot;</span>  
+<span class="n">Line</span><span class="p">:</span> <span class="mi">23</span>  
+<span class="n">pylint</span><span class="p">:</span> <span class="n">invalid</span><span class="o">-</span><span class="n">name</span> <span class="o">/</span> <span class="n">Invalid</span> <span class="n">constant</span> <span class="n">name</span> <span class="s2">&quot;tmp0&quot;</span>  
+<span class="o">...</span>
 </code></pre></div>
-
 
 <p>The <a href="https://www.python.org/dev/peps/pep-0008">PEP8 style guide</a>
 suggests constants should be in upper case; I'm happy with this rule but
@@ -317,7 +315,6 @@ configuration file. An example is:</p>
 <span class="o">-</span> <span class="n">trailing</span><span class="o">-</span><span class="n">whitespace</span>  
 <span class="o">-</span> <span class="n">too</span><span class="o">-</span><span class="n">few</span><span class="o">-</span><span class="kd">public</span><span class="o">-</span><span class="n">methods</span>
 </code></pre></div>
-
 
 <p>The really nice part is that configurations can inherit from other
 configurations. For example, Prospector's different <code>--strictness</code>
@@ -370,10 +367,13 @@ adding them to a profile. The useful extra options are:</p>
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -387,6 +387,8 @@ adding them to a profile. The useful extra options are:</p>
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -407,6 +409,8 @@ adding them to a profile. The useful extra options are:</p>
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>

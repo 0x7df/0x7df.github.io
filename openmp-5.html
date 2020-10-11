@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -166,7 +168,6 @@ we're calculating the Mandelbrot set correctly.</p>
 <span class="k">end program </span><span class="n">mandelbrot_serial</span>
 </code></pre></div>
 
-
 <p>We implement a one-dimensional loop over the pixels, and first find the indices in
 the <span class="math">\(x\)</span>- and <span class="math">\(y\)</span>-dimensions of the pixel, and from these the <span class="math">\(x\)</span> and <span class="math">\(y\)</span>
 co-ordinates; these are of course the real and imaginary parts of the complex
@@ -181,11 +182,9 @@ coordinates are printed to allow plotting.</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -o mandelbrot_serial.x mandelbrot_serial.f95
 </code></pre></div>
 
-
 <p>and running:</p>
 <div class="highlight"><pre><span></span><code>$ ./mandelbrot_serial.x &gt; mandelbrot_serial.csv
 </code></pre></div>
-
 
 <p>gives a comma-separated value file to plot using some Python:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
@@ -205,11 +204,9 @@ coordinates are printed to allow plotting.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 
-
 <p>so that:</p>
 <div class="highlight"><pre><span></span><code>$ ./mandelbrot_serial.py
 </code></pre></div>
-
 
 <p>gives:
 <img alt="Alt Text" src="https://0x7df.github.io/images/mandelbrot_serial.png">
@@ -241,7 +238,6 @@ cover later there are much better ways of doing it.</p>
 <span class="c">!$OMP END PARALLEL</span>
 </code></pre></div>
 
-
 <p>Simply inserting the <code>!$OMP PARALLEL</code> directive pair gives an answer that's a
 factor of <span class="math">\(N\)</span> too large, because all <span class="math">\(N\)</span> threads perform the whole loop (each
 getting the correct answer in its private copy of <code>n_diverged</code>), and of course
@@ -265,7 +261,6 @@ and give each block to a thread:</p>
 <span class="c">!$OMP END PARALLEL</span>
 </code></pre></div>
 
-
 <p>This reduced the time to about 55% of the serial value on four threads, which
 is only about half of the theoretically available speed-up. If, instead, we
 try:</p>
@@ -285,7 +280,6 @@ try:</p>
 <span class="c">!$OMP END PARALLEL</span>
 </code></pre></div>
 
-
 <p>which cycles over the threads and allocates each pixel to the next thread. This
 reduced the time to about 39% of the original, which is better. Why?</p>
 <p>We can see more clearly what's happening by timing individual threads within
@@ -296,14 +290,12 @@ the parallel block. In the first example, typical times for the threads are:</p>
 <span class="err">       0   2.95700002</span>
 </code></pre></div>
 
-
 <p>whereas for the second example:</p>
 <div class="highlight"><pre><span></span><code><span class="err">       0   2.01200008    </span>
 <span class="err">       3   2.05299997    </span>
 <span class="err">       2   2.05900002    </span>
 <span class="err">       1   2.06500006</span>
 </code></pre></div>
-
 
 <p>Evidently, the time per thread is much more balanced in the second example; in
 the first, there's a factor of 15 difference between the time taken by the
@@ -315,14 +307,12 @@ conducted by each thread:</p>
 <span class="err">       0  343662484</span>
 </code></pre></div>
 
-
 <p>we see this is imbalanced by at least as much, whereas in the faster scheme:</p>
 <div class="highlight"><pre><span></span><code><span class="err">       0   170697247</span>
 <span class="err">       1   170807456</span>
 <span class="err">       2   170696023</span>
 <span class="err">       3   170513769</span>
 </code></pre></div>
-
 
 <p>The second version has better <em>load balance</em> - a naive
 distribution of work, like dividing pixels equally between threads, can be poorly
@@ -362,10 +352,13 @@ material under the following terms: you must give appropriate credit, provide a 
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -379,6 +372,8 @@ material under the following terms: you must give appropriate credit, provide a 
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -399,6 +394,8 @@ material under the following terms: you must give appropriate credit, provide a 
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>

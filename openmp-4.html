@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -85,7 +87,6 @@ The first step is done in parallel.</p>
 <div class="highlight"><pre><span></span><code><span class="err">REDUCTION(&lt;op&gt;:&lt;list...&gt;)</span>
 </code></pre></div>
 
-
 <p>For example:</p>
 <div class="highlight"><pre><span></span><code><span class="k">program </span><span class="n">reduction</span>
     <span class="k">use </span><span class="n">OMP_LIB</span>
@@ -113,13 +114,11 @@ The first step is done in parallel.</p>
 <span class="k">end program </span><span class="n">reduction</span>
 </code></pre></div>
 
-
 <p>&nbsp;</p>
 <div class="highlight"><pre><span></span><code>$ gfortran -fopenmp -o reduction1 reduction1.f95
 $ ./reduction1
  <span class="nv">b</span> <span class="o">=</span>          <span class="m">25</span>
 </code></pre></div>
-
 
 <p>The initial value of the <em>reduction variable</em>, <code>b</code>, is saved, and then each
 thread gets its own private copy of <code>b</code>, initialised to zero. Inside the

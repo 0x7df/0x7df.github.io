@@ -43,6 +43,8 @@
                                 <a href="https://0x7df.github.io/">Blog Home</a>
                                 <a href="http://0x7df.io">Site Home</a>
                                 <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
                     </div>
                 </div>
             </div>
@@ -96,7 +98,6 @@ source of parallelism in many, particularly scientific, applications.</p>
 <span class="err">[!$OMP END DO]</span>
 </code></pre></div>
 
-
 <p>The closing directive is optional.</p>
 <p>The <code>!$OMP DO</code> directive can take:</p>
 <ul>
@@ -113,7 +114,6 @@ shorthand version:</p>
 <span class="err">[!$OMP END PARALLEL DO]</span>
 </code></pre></div>
 
-
 <p>This can take all the clauses that the <code>PARALLEL</code> directive can take.</p>
 <p>Returning to our Mandelbrot set example, we can replace the logic for manually
 distributing threads with the <code>!$OMP DO</code> directive:</p>
@@ -126,7 +126,6 @@ distributing threads with the <code>!$OMP DO</code> directive:</p>
   <span class="o">!</span><span class="err">$</span><span class="n">OMP</span> <span class="k">END</span> <span class="k">DO</span>
 </code></pre></div>
 
-
 <p>The speedup we see is comparable with the first example, where we divided the
 pixels into a set of <span class="math">\(N\)</span> contiguous blocks, where <span class="math">\(N\)</span> was the number of threads
 used.</p>
@@ -137,7 +136,6 @@ be controlled explicitly using the <code>SCHEDULE</code> clause:</p>
 <div class="highlight"><pre><span></span><code><span class="err">!$OMP DO SCHEDULE(STATIC[,n]|DYNAMIC[,n]|AUTO|GUIDED|RUNTIME)</span>
 <span class="err">...</span>
 </code></pre></div>
-
 
 <p>where <code>n</code> is an integer chunk size to be passed to the scheduling algorithm.</p>
 <h5><code>STATIC</code></h5>
@@ -190,7 +188,6 @@ and low overheads.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">OMP_SCHEDULE</span><span class="o">=</span><span class="s2">&quot;dynamic, 8&quot;</span>
 </code></pre></div>
 
-
 <h4>Choosing a schedule</h4>
 <p>The following rules of thumb will help choosing a schedule:</p>
 <ol>
@@ -241,10 +238,13 @@ material under the following terms: you must give appropriate credit, provide a 
     mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
     mathjaxscript.type = 'text/javascript';
     mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
         "MathJax.Hub.Config({" +
         "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
         "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
         "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
         "    displayAlign: '"+ align +"'," +
@@ -258,6 +258,8 @@ material under the following terms: you must give appropriate credit, provide a 
         "        preview: 'TeX'," +
         "    }, " +
         "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
         "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
         "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
         "    }, " +
@@ -278,6 +280,8 @@ material under the following terms: you must give appropriate credit, provide a 
                 "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
             "});" +
         "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
