@@ -57,7 +57,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Using tmux over ssh in iTerm2</h1>
-                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Fri 09 October 2020, modified Fri 09 October 2020, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 11 October 2020, modified Sun 11 October 2020, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -77,19 +77,19 @@
         <!-- Content -->
     <div class="container content">
         <p>I want to be able to open multiple terminal windows on my laptop with an
-SSH connection to a remote machine. This setup combining <a href="iterm2.com">iTerm2</a>
-and <a href="tmuxguide.readthedocs.io">tmux</a> seems to work. Note that iTerms2 has
+SSH connection to a remote machine. This setup combining <a href="https://iterm2.com">iTerm2</a>
+and <a href="https://tmuxguide.readthedocs.io">tmux</a> seems to work. Note that iTerms2 has
 built-in tmux integration, which is what allows this to work (i.e. it isn't
 possible in the native Terminal app on macOS).</p>
 <p>Both need to be installed:</p>
-<div class="highlight"><pre><span></span><code><span class="err">brew install tmux</span>
-<span class="err">brew cask install iterm2</span>
+<div class="highlight"><pre><span></span><code>brew install tmux
+brew cask install iterm2
 </code></pre></div>
 
 <p>(iTerm2 is installed from a Cask as it's distributed as a binary; Homebrew
 knows to add it to Launchpad.)</p>
 <p>Then in iTerm2, <code>ssh</code> to the remote machine using the following:</p>
-<div class="highlight"><pre><span></span><code><span class="err">ssh -t &lt;user&gt;@&lt;remote&gt; &#39;tmux -CC new -A -s &lt;name&gt;&#39;</span>
+<div class="highlight"><pre><span></span><code>ssh -t &lt;user&gt;@&lt;remote&gt; <span class="s1">&#39;tmux -CC new -A -s &lt;name&gt;&#39;</span>
 </code></pre></div>
 
 <p>(documented
@@ -114,8 +114,8 @@ machine, such that it continues running in the background, even if you log out
 of the remote. The you can re-attach after logging back in again. This means
 you can continue where you left off if you move from one local client to
 another, or just if your SSH connection is lost.</p>
-<p>With the tmux integrgation in iTerm2, if you have opened multiple windows,
-then after when reattaching to a session, the original windows re-open.
+<p>With the tmux integration in iTerm2, if you've opened multiple windows,
+then after re-attaching to a session, the original windows re-open.
 (In ordinary tmux, re-attaching to a session restores the <em>tmux</em> windows and
 panes, and picks up where you left off, but as before, all this will be in the
 same single desktop window.)</p>
@@ -138,19 +138,19 @@ Connection to tems closed.
 </code></pre></div>
 
 <p>The SSH connection will be closed. Now run the command:</p>
-<div class="highlight"><pre><span></span><code><span class="err">ssh -t &lt;user&gt;@&lt;remote&gt; &#39;tmux -CC new -A -s &lt;name&gt;&#39;</span>
+<div class="highlight"><pre><span></span><code>ssh -t &lt;user&gt;@&lt;remote&gt; &#39;tmux -CC new -A -s &lt;name&gt;&#39;
 </code></pre></div>
 
 <p>again, and the connection will be re-established, with the original windows
 re-opened, so you can carry on where you left off.</p>
-<p>You don't need to manually detach the session; if the SSH connection is lost,
+<p>You don't have to manually detach the session; if the SSH connection is lost,
 you lose your network connection, or whatever, you can still re-run the
 command and re-attach to the tmux session.</p>
 <h2>Burying the original iTerm2 session</h2>
 <p>Once your remote session is established, the original iTerm2 session where you
 ran the <code>ssh ...</code> command is fairly redundant; above we showed that you can
 return to that session to access the tmux menu that allows you to detach.
-However, you can also detach from the iTerm2 menu bar )'Shell -&gt; tmux -&gt;
+However, you can also detach from the iTerm2 menu bar ('Shell -&gt; tmux -&gt;
 Detach') or the keyboard shortcut <code>^</code>+<code>Shift</code>+<code>Cmd</code>+<code>D</code>. iTerm2 allows you
 therefore to 'bury' that session so it's not cluttering up your desktop. Go to
 'Session -&gt; Bury Session' in that session's menu bar, or use the keyboard

@@ -1,5 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-10-11T14:41:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Brew installation</title><link href="https://0x7df.github.io/brew-installation.html" rel="alternate"></link><published>2020-10-11T14:40:00+01:00</published><updated>2020-10-11T14:41:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/brew-installation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;On a fresh Mac out of the box, &lt;code&gt;git&lt;/code&gt; is apparently available:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-10-11T14:50:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Using tmux over ssh in iTerm2</title><link href="https://0x7df.github.io/using-tmux-over-ssh-in-iterm2.html" rel="alternate"></link><published>2020-10-11T14:50:00+01:00</published><updated>2020-10-11T14:50:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/using-tmux-over-ssh-in-iterm2.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I want to be able to open multiple terminal windows on my laptop with an
+SSH connection to a remote machine. This setup combining &lt;a href="https://iterm2.com"&gt;iTerm2&lt;/a&gt;
+and &lt;a href="https://tmuxguide.readthedocs.io"&gt;tmux&lt;/a&gt; seems to work. Note that iTerms2 has
+built-in tmux integration, which is what allows this to work (i.e. it isn't
+possible in the native Terminal app on macOS).&lt;/p&gt;
+&lt;p&gt;Both need to be installed:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;brew install tmux
+brew cask install iterm2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;(iTerm2 is installed from a Cask as it's distributed as a binary; Homebrew
+knows to add it to Launchpad.)&lt;/p&gt;
+&lt;p&gt;Then in iTerm2, &lt;code&gt;ssh&lt;/code&gt; to the remote machine using the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ssh -t &amp;lt;user&amp;gt;@&amp;lt;remote&amp;gt; &lt;span class="s1"&gt;&amp;#39;tmux -CC new -A -s &amp;lt;name&amp;gt;&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;(documented
+&lt;a href="https://gitlab.com/gnachman/iterm2/-/wikis/tmux-Integration-Best-Practices"&gt;here&lt;/a&gt;
+.) The &lt;code&gt;-s &amp;lt;name&amp;gt;&lt;/code&gt; option gives the tmux session a name, and the &lt;code&gt;-A&lt;/code&gt; flag
+makes tmux reattach to the named session if it already exists; this means the
+same command can be used whether creating a new or attaching to an existing
+session. (More on detaching and attaching to sessions below.) You might need
+to add &lt;code&gt;-u&lt;/code&gt; to force tmux to be in UTF-8 mode, depending on the remote system.&lt;/p&gt;
+&lt;p&gt;A new iTerm2 window opens locally containing a session on the remote
+machine &lt;code&gt;&amp;lt;remote&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The key thing now is, if you open a new window from the 'Shell -&amp;gt; New Window'
+menu, or using the &lt;code&gt;Cmd&lt;/code&gt;+&lt;code&gt;N&lt;/code&gt; shortcut, the new window is connected to the
+remote machine automatically. These are proper windows, in the sense of being able
+to move them around on the desktop independently of each other (the usual
+meaning of 'window') rather than in the sense usually meant in the context of
+tmux. With tmux, while you can open multiple 'windows' you can usually only
+see one at a time within the single desktop window.&lt;/p&gt;
+&lt;h2&gt;Detaching and re-attaching&lt;/h2&gt;
+&lt;p&gt;As is standard with tmux, you can 'detach' the session running on the remote
+machine, such that it continues running in the background, even if you log out
+of the remote. The you can re-attach after logging back in again. This means
+you can continue where you left off if you move from one local client to
+another, or just if your SSH connection is lost.&lt;/p&gt;
+&lt;p&gt;With the tmux integration in iTerm2, if you've opened multiple windows,
+then after re-attaching to a session, the original windows re-open.
+(In ordinary tmux, re-attaching to a session restores the &lt;em&gt;tmux&lt;/em&gt; windows and
+panes, and picks up where you left off, but as before, all this will be in the
+same single desktop window.)&lt;/p&gt;
+&lt;p&gt;To detach a session, return to the original iTerm2 window where you ran the
+&lt;code&gt;ssh&lt;/code&gt; command. There will be a menu, like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;** tmux mode started **
+
+Command Menu
+----------------------------
+esc    Detach cleanly.
+  X    Force-quit tmux mode.
+  L    Toggle logging.
+  C    Run tmux command.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pressing &lt;code&gt;Esc&lt;/code&gt; here will detach the tmux session and give the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;Detaching...
+Detached
+Connection to tems closed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The SSH connection will be closed. Now run the command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;ssh -t &amp;lt;user&amp;gt;@&amp;lt;remote&amp;gt; &amp;#39;tmux -CC new -A -s &amp;lt;name&amp;gt;&amp;#39;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;again, and the connection will be re-established, with the original windows
+re-opened, so you can carry on where you left off.&lt;/p&gt;
+&lt;p&gt;You don't have to manually detach the session; if the SSH connection is lost,
+you lose your network connection, or whatever, you can still re-run the
+command and re-attach to the tmux session.&lt;/p&gt;
+&lt;h2&gt;Burying the original iTerm2 session&lt;/h2&gt;
+&lt;p&gt;Once your remote session is established, the original iTerm2 session where you
+ran the &lt;code&gt;ssh ...&lt;/code&gt; command is fairly redundant; above we showed that you can
+return to that session to access the tmux menu that allows you to detach.
+However, you can also detach from the iTerm2 menu bar ('Shell -&amp;gt; tmux -&amp;gt;
+Detach') or the keyboard shortcut &lt;code&gt;^&lt;/code&gt;+&lt;code&gt;Shift&lt;/code&gt;+&lt;code&gt;Cmd&lt;/code&gt;+&lt;code&gt;D&lt;/code&gt;. iTerm2 allows you
+therefore to 'bury' that session so it's not cluttering up your desktop. Go to
+'Session -&amp;gt; Bury Session' in that session's menu bar, or use the keyboard
+shortcut &lt;code&gt;Opt&lt;/code&gt;+&lt;code&gt;Shift&lt;/code&gt;+&lt;code&gt;Cmd&lt;/code&gt;+&lt;code&gt;B&lt;/code&gt;. You can 'dig up' buried sessions from the
+'Session -&amp;gt; Buried Sessions' menu. You can also set the default behaviour of
+tmux to always bury these sessions, in 'iTerm2 -&amp;gt; Preferences -&amp;gt; General -&amp;gt;
+tmux'.&lt;/p&gt;</content><category term="misc"></category></entry><entry><title>Brew installation</title><link href="https://0x7df.github.io/brew-installation.html" rel="alternate"></link><published>2020-10-11T14:40:00+01:00</published><updated>2020-10-11T14:41:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/brew-installation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;On a fresh Mac out of the box, &lt;code&gt;git&lt;/code&gt; is apparently available:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; which git
 /usr/bin/git
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
