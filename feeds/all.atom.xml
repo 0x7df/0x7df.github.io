@@ -1,5 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-10-11T14:27:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Changing the default shell to Bash on macOS Catalina</title><link href="https://0x7df.github.io/changing-the-default-shell-to-bash-on-macos-catalina.html" rel="alternate"></link><published>2020-10-11T14:15:00+01:00</published><updated>2020-10-11T14:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/changing-the-default-shell-to-bash-on-macos-catalina.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Changing the default shell to the system Bash&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-10-11T14:41:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Brew installation</title><link href="https://0x7df.github.io/brew-installation.html" rel="alternate"></link><published>2020-10-11T14:40:00+01:00</published><updated>2020-10-11T14:41:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/brew-installation.html</id><summary type="html"></summary><content type="html">&lt;p&gt;On a fresh Mac out of the box, &lt;code&gt;git&lt;/code&gt; is apparently available:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; which git
+/usr/bin/git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;but not actually:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; git --version
+xcode-select: note: no developer tools were found at
+&lt;span class="s1"&gt;&amp;#39;/Applications/Xcode.app&amp;#39;&lt;/span&gt;, requesting install. Choose an option in the
+dialog to download the &lt;span class="nb"&gt;command&lt;/span&gt; line developer tools.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I would prefer to have as much as possible managed by &lt;code&gt;brew&lt;/code&gt;, so a prerequisite
+task is to installing anything is to install &lt;code&gt;brew&lt;/code&gt;. This is done by:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/bin/bash -c&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;curl -fsSL https://raw.githubusercontent.com/Homebrew/master.install.sh&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;which installs a bunch of stuff in &lt;code&gt;/usr/local/&lt;/code&gt;. (NB &lt;code&gt;/usr/local/&lt;/code&gt; was
+previously empty.)&lt;/p&gt;
+&lt;p&gt;In the process of installing &lt;code&gt;brew&lt;/code&gt;, the very same Command Line Tools as were
+required above for Git to start working were downloaded anyway. Homebrew
+itself requires either the Command Line Tools for Xcode, or the full Xcode
+application (or both), for some formulae (because these give access to a
+compiler, Make, etc.). So, if not already available, the Command Line Tools
+for Xcode are automatically downloaded and installed by the Homebrew installer.&lt;/p&gt;
+&lt;p&gt;These are located in &lt;code&gt;/Library/Developer/CommandLineTools&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;After this process, &lt;code&gt;/usr/local/&lt;/code&gt; is populated with a bunch of
+Homebrew-specific folders:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/usr/local/Caskroom
+/usr/local/Cellar
+/usr/local/Frameworks
+/usr/local/Homebrew
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;as well as various general standard Unix names (that were created by
+Homebrew):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;/usr/local/bin
+/usr/local/etc
+/usr/local/include
+/usr/local/lib
+/usr/local/opt
+/usr/local/sbin
+/usr/local/share
+/usr/local/var
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Most are empty to start with and will be popoulated by Homebrew when packages
+are installed.&lt;/p&gt;
+&lt;p&gt;The exceptions are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/usr/local/Homebrew&lt;/code&gt; - this contains the cloned Git repository of Homebrew
+  itself, cloned from &lt;code&gt;https://github.com/Homebrew/brew&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/usr/local/bin&lt;/code&gt; - contains a symlink &lt;code&gt;brew&lt;/code&gt; linking back to
+  &lt;code&gt;/usr/local/Homebrew/bin/brew&lt;/code&gt;. rhis is the primary executable run when you
+  type &lt;code&gt;brew&lt;/code&gt; (because as standard &lt;code&gt;/usr/local/bin&lt;/code&gt; is on the &lt;code&gt;$PATH&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Inside &lt;code&gt;usr/local/Homebrew&lt;/code&gt; is also &lt;code&gt;Library&lt;/code&gt;, which (according to its README):&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;contains all the code run by the official &lt;code&gt;brew&lt;/code&gt; and &lt;code&gt;brew cask&lt;/code&gt; commands in
+&lt;code&gt;Homebrew&lt;/code&gt; and all formulae (package descriptions) in taps (repositories
+containing formulae) in &lt;code&gt;Taps&lt;/code&gt; subdirectories.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;and within this are folders &lt;code&gt;Homebrew&lt;/code&gt;, which contains what is presumably the
+main source code of Homebrew, and &lt;code&gt;Taps&lt;/code&gt;, which will contain repositories of
+formulae.&lt;/p&gt;
+&lt;p&gt;Under this &lt;code&gt;Taps&lt;/code&gt; folder, we initially have only a &lt;code&gt;homebrew/homebrew-core&lt;/code&gt;
+repository of formulae. This is a separate Git repo cloned from
+&lt;a href="https://github.com/Homebrew/homebrew-core"&gt;https://github.com/Homebrew/homebrew-core&lt;/a&gt;,
+which contans inside its &lt;code&gt;Formula&lt;/code&gt; directory many Ruby
+scripts - these are the formulae that describe how a package should
+be installed. For example, in here is &lt;code&gt;git.rb&lt;/code&gt;, which begins:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Git&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Formula&lt;/span&gt;
+  &lt;span class="n"&gt;desc&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Distributed revision control system&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;homepage&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://git-scm.com&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+  &lt;span class="n"&gt;sha256&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+  &lt;span class="n"&gt;license&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+  &lt;span class="n"&gt;head&lt;/span&gt; &lt;span class="o"&gt;...&lt;/span&gt;
+
+  &lt;span class="o"&gt;...&lt;/span&gt;
+
+  &lt;span class="n"&gt;depends_on&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;gettext&amp;quot;&lt;/span&gt;
+  &lt;span class="n"&gt;depends_on&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;pcre2&amp;quot;&lt;/span&gt;
+
+  &lt;span class="o"&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;After the Homebrew installation has completed, we can verify that the Xcode
+Command Line Tools have been installed with:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; xcode-select -p
+/Library/Developer/CommandLineTools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and that Homebrew recognises them:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; brew config
+...
+CLT: &lt;span class="m"&gt;12&lt;/span&gt;.0.0.0.1.1599194153
+Xcode: N/A
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, as a side-effect of this, Git works:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; git --version
+git version &lt;span class="m"&gt;2&lt;/span&gt;.24.3 &lt;span class="o"&gt;(&lt;/span&gt;Apple Git-128&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Note however, that it's the Apple version of Git that has come with the Xcode
+CLT, not Homebrew's version.&lt;/p&gt;
+&lt;p&gt;Now, when I do:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;brew install git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Homebrew reports an updated tap (&lt;code&gt;homebrew/core&lt;/code&gt;), indicating that the Git
+repository at &lt;code&gt;/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core&lt;/code&gt; has
+been updated; and one Formula having been updated; then, the two dependencies
+we saw above (&lt;code&gt;gettext&lt;/code&gt; and &lt;code&gt;pcre2&lt;/code&gt;) are installed, before &lt;code&gt;git&lt;/code&gt; itself is
+installed. As a result, there are new folders for each of these dependencies in
+&lt;code&gt;/usr/local/Cellar&lt;/code&gt;, and a number of symlinks in &lt;code&gt;/usr/local/bin&lt;/code&gt; pointing back
+to them.&lt;/p&gt;
+&lt;p&gt;Now - after opening a new terminal at least - I get the following:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; which git
+/usr/local/bin/git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; git --version
+git version &lt;span class="m"&gt;2&lt;/span&gt;.28.0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content><category term="misc"></category></entry><entry><title>Changing the default shell to Bash on macOS Catalina</title><link href="https://0x7df.github.io/changing-the-default-shell-to-bash-on-macos-catalina.html" rel="alternate"></link><published>2020-10-11T14:15:00+01:00</published><updated>2020-10-11T14:27:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/changing-the-default-shell-to-bash-on-macos-catalina.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Changing the default shell to the system Bash&lt;/h1&gt;
 &lt;p&gt;The default shell on macOS Catalina was changed to Zsh.&lt;/p&gt;
 &lt;p&gt;To change back to Bash, use the &lt;code&gt;chpass&lt;/code&gt; command:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&amp;gt; which chpass

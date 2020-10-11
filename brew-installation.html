@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="On a fresh Mac out of the box, git is apparently available: &gt; which git :::text /usr/bin/git but not actually: git --version :::text xcode-select: note: no developer tools were found at...">
+        <meta name="description" content="On a fresh Mac out of the box, git is apparently available: &gt; which git /usr/bin/git but not actually: &gt; git --version xcode-select: note: no developer tools were found at...">
         <meta name="keywords" content="">
         <link rel="icon" href="https://0x7df.github.io/favicon.ico">
 
@@ -57,7 +57,7 @@
               <div class="col-lg-12">
                   <div class="header-content">
                       <h1 class="header-title">Brew installation</h1>
-                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Sat 03 October 2020, modified Sat 03 October 2020, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Sun 11 October 2020, modified Sun 11 October 2020, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
                       <div class="header-underline"></div>
                       <div class="clearfix"></div>
                       <p class="pull-right header-tags">
@@ -78,22 +78,18 @@
     <div class="container content">
         <p>On a fresh Mac out of the box, <code>git</code> is apparently available:</p>
 <div class="highlight"><pre><span></span><code>&gt; which git
-
-:::text
 /usr/bin/git
 </code></pre></div>
 
 <p>but not actually:</p>
-<div class="highlight"><pre><span></span><code>git --version
-
-:::text
+<div class="highlight"><pre><span></span><code>&gt; git --version
 xcode-select: note: no developer tools were found at
 <span class="s1">&#39;/Applications/Xcode.app&#39;</span>, requesting install. Choose an option in the
 dialog to download the <span class="nb">command</span> line developer tools.
 </code></pre></div>
 
 <p>I would prefer to have as much as possible managed by <code>brew</code>, so a prerequisite
-task is to install <code>brew</code>. This is done by:</p>
+task is to installing anything is to install <code>brew</code>. This is done by:</p>
 <div class="highlight"><pre><span></span><code>/bin/bash -c<span class="s2">&quot;</span><span class="k">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/master.install.sh<span class="k">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 
@@ -101,10 +97,10 @@ task is to install <code>brew</code>. This is done by:</p>
 previously empty.)</p>
 <p>In the process of installing <code>brew</code>, the very same Command Line Tools as were
 required above for Git to start working were downloaded anyway. Homebrew
-requires either the Command Line Tools for Xcode, or the full Xcode application
-(or both), for some formulae (because these give access to a compiler, Make,
-etc.). So, if not already available, the Command Line Tools for Xcode are
-automatically downloaded and installed by the Homebrew installer.</p>
+itself requires either the Command Line Tools for Xcode, or the full Xcode
+application (or both), for some formulae (because these give access to a
+compiler, Make, etc.). So, if not already available, the Command Line Tools
+for Xcode are automatically downloaded and installed by the Homebrew installer.</p>
 <p>These are located in <code>/Library/Developer/CommandLineTools</code>.</p>
 <p>After this process, <code>/usr/local/</code> is populated with a bunch of
 Homebrew-specific folders:</p>
@@ -114,7 +110,7 @@ Homebrew-specific folders:</p>
 /usr/local/Homebrew
 </code></pre></div>
 
-<p>as well as various general standard Unix places (that were created by
+<p>as well as various general standard Unix names (that were created by
 Homebrew):</p>
 <div class="highlight"><pre><span></span><code>/usr/local/bin
 /usr/local/etc
@@ -133,10 +129,10 @@ are installed.</p>
 <li><code>/usr/local/Homebrew</code> - this contains the cloned Git repository of Homebrew
   itself, cloned from <code>https://github.com/Homebrew/brew</code>.</li>
 <li><code>/usr/local/bin</code> - contains a symlink <code>brew</code> linking back to
-  <code>/usr/local/Homebrew/bin/brew</code>; this is the primary executable run when you
+  <code>/usr/local/Homebrew/bin/brew</code>. rhis is the primary executable run when you
   type <code>brew</code> (because as standard <code>/usr/local/bin</code> is on the <code>$PATH</code>.</li>
 </ul>
-<p>Inside <code>usr/local/Homebrew</code> is also <code>Library</code>, which (according to its README)</p>
+<p>Inside <code>usr/local/Homebrew</code> is also <code>Library</code>, which (according to its README):</p>
 <blockquote>
 <p>contains all the code run by the official <code>brew</code> and <code>brew cask</code> commands in
 <code>Homebrew</code> and all formulae (package descriptions) in taps (repositories
@@ -150,7 +146,7 @@ repository of formulae. This is a separate Git repo cloned from
 <a href="https://github.com/Homebrew/homebrew-core">https://github.com/Homebrew/homebrew-core</a>,
 which contans inside its <code>Formula</code> directory many Ruby
 scripts - these are the formulae that describe how a package should
-be installed. For exampe, in here is <code>git.rb</code>, which begins:</p>
+be installed. For example, in here is <code>git.rb</code>, which begins:</p>
 <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Git</span> <span class="o">&lt;</span> <span class="no">Formula</span>
   <span class="n">desc</span> <span class="s2">&quot;Distributed revision control system&quot;</span>
   <span class="n">homepage</span> <span class="s2">&quot;https://git-scm.com&quot;</span>
@@ -169,25 +165,19 @@ be installed. For exampe, in here is <code>git.rb</code>, which begins:</p>
 
 <p>After the Homebrew installation has completed, we can verify that the Xcode
 Command Line Tools have been installed with:</p>
-<div class="highlight"><pre><span></span><code>xcode-select -p
-
-:::text
+<div class="highlight"><pre><span></span><code>&gt; xcode-select -p
 /Library/Developer/CommandLineTools
 </code></pre></div>
 
 <p>and that Homebrew recognises them:</p>
-<div class="highlight"><pre><span></span><code>brew config
-
-:::text
+<div class="highlight"><pre><span></span><code>&gt; brew config
 ...
 CLT: <span class="m">12</span>.0.0.0.1.1599194153
 Xcode: N/A
 </code></pre></div>
 
 <p>Now, as a side-effect of this, Git works:</p>
-<div class="highlight"><pre><span></span><code>git --version
-
-:::text
+<div class="highlight"><pre><span></span><code>&gt; git --version
 git version <span class="m">2</span>.24.3 <span class="o">(</span>Apple Git-128<span class="o">)</span>
 </code></pre></div>
 
@@ -197,7 +187,7 @@ CLT, not Homebrew's version.</p>
 <div class="highlight"><pre><span></span><code>brew install git
 </code></pre></div>
 
-<p>I get reports of an updated tap (<code>homebrew/core</code>), indicating that the Git
+<p>Homebrew reports an updated tap (<code>homebrew/core</code>), indicating that the Git
 repository at <code>/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core</code> has
 been updated; and one Formula having been updated; then, the two dependencies
 we saw above (<code>gettext</code> and <code>pcre2</code>) are installed, before <code>git</code> itself is
@@ -205,16 +195,12 @@ installed. As a result, there are new folders for each of these dependencies in
 <code>/usr/local/Cellar</code>, and a number of symlinks in <code>/usr/local/bin</code> pointing back
 to them.</p>
 <p>Now - after opening a new terminal at least - I get the following:</p>
-<div class="highlight"><pre><span></span><code>which git
-
-:::text
+<div class="highlight"><pre><span></span><code>&gt; which git
 /usr/local/bin/git
+</code></pre></div>
 
-
-:::bash
-git --version
-
-:::text
+<p>and:</p>
+<div class="highlight"><pre><span></span><code>&gt; git --version
 git version <span class="m">2</span>.28.0
 </code></pre></div>
 
