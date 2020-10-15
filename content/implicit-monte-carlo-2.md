@@ -1,12 +1,13 @@
-Title: imc
-Date: 2018-07-20 20:30
-Category:  
-Modified: 2018-07-20 20:30
-Tags: 
-Slug: 
+Title: Implicit Monte Carlo (2)
+Date: 2020-10-15 15:38
+Category:
+Modified: 2020-10-15 15:38
+Tags:
+Slug:
 Author: 0x7df
-Summary: 
+Summary:
 Status: draft
+
 
 u_m = c_v RT (mol^-1)
 
@@ -69,4 +70,4 @@ a = 8\pi^5 / 15c^3h^3
 
              = (8\gamma\pi 15 c^3 h^3 / 8 \pi^5 c^3 h^2 T^4) \int ... d\nu
 
-             
+
