@@ -1,12 +1,14 @@
-Title: Implicit Monte Carlo
-Date: 2018-07-20 20:30
+Title: Implicit Monte Carlo 1
+Date: 2020-10-15 17:24
 Category:
-Modified: 2018-07-20 20:30
+Modified: 2020-10-15 17:24
 Tags:
 Slug:
 Author: 0x7df
 Summary:
-Status: draft
+Status: published
+
+# Overview
 
 Implicit Monte Carlo (IMC) is a Monte Carlo method for solving the thermal
 radiation transport equation, published by
@@ -24,49 +26,53 @@ rates.
 
 One benefit of this 'effective scattering' is _variance reduction_. Because
 particles are never absorbed, but simply scatter around until they leave the
-system (losing energy gradually to _represent_ absorption), each particle
+system (losing energy gradually, to _represent_ absorption), each particle
 contributes to the solution over a large area of the problem space. If
 particles were absorbed directly, in accordance with the material opacities,
 they would contribute only locally to the solution, and many more particles
 would have to be simulated to get a good, low-variance solution everywhere.
 
-The main benefit however, is the ability of IMC to capture the non-linear
-behaviour of thermal radiation transport, where the materials' opacities to
+This, however, is possible to achieve in 'standard', as opposed to 'implicit'
+Monte Carlo methods.
+The defining aspect is the ability of IMC to better treat the non-linear
+behaviour of thermal radiation transport, whereby the materials' opacities to
 radiation and the emission rates are driven by their temperatures, which are
 of course driven in turn by the radiation field. This non-linearity can be
 dealt with explicitly, by computing a radiation time-step with constant
 temperatures and material properties, and then updating the temperatures and
 opacities at the end of the time-step according to the new radiation fluxes.
-However, in optically-thick systems where the radiation field is tightly-
+However, in optically-thick systems, where the radiation field is tightly-
 coupled with the material, and the material and radiation are in or close to
 thermal equilibrium, a very short time-step is required that makes the whole
-process very inefficient. IMC modified this process by treating only a
-fraction of the total radiation emission term as an explicit source term fixed
-throughout the time-step, and deal with the remainder of the energy emission
+process very inefficient. IMC modifies this process by treating only a
+fraction of the total radiation emission term as an explicit source term, fixed
+throughout the time-step, and deals with the remainder of the energy emission
 by way of the 'effective scattering' mechanism: an effective scattering term
 is introduced which represents the absorption and re-emission (isotropically)
 of radiation.
 
-To understand this consider a computational cell which radiation is entering
+To understand this better, consider a computational cell which radiation is entering
 from the left side (e.g. a plane Marshak wave advancing through a 1D slab). The
 cell has a fixed temperature and therefore fixed opacities and absorption and
 emission rates. In a standard Monte Carlo scheme, particles entering from the
 left boundary are preferentially absorbed in the left part of the cell
 (in optically thick problems the cells are by definition many mean-free-paths
-wide). However the emission rate is effecticely constant throughout the whole
+wide). However the emission rate is constant throughout the whole
 cell, so in effect the emission process is unphysically decoupled from the
 absorption. In Implicit Monte Carlo, a fraction of both the absorption and
 emission processes are taken care of through the mechanism of effective
-scattering, so are very tightly coupled. Effectively, the IMC method allows
-to a certain extent sub-grid-scale information about the absorption and re-
+scattering, so are very tightly coupled. Effectively, the IMC method allows,
+to a certain extent, sub-grid-scale information about the absorption and re-
 emission processes to be accounted for.
+
+# Discretisation of the energy equation
 
 Mathematically, IMC is simply the Monte Carlo solution of a time-dependent
 transport equation which has been _implicitly discretised_ in time, which
 yields unconditional stability with respect to time-step length, just as an
 implicitly-discretised finite-difference scheme is unconditionally stable.
 (The implicitly-discretised equations derived by Fleck and Cummings do not,
-in fact, need to be solved by the Monte Carlo method to yield the key benefit.)
+in fact, need to be solved by the Monte Carlo method to yield this key benefit.)
 
 Consider the basic finite differencing of a simple differential equation
 
@@ -89,7 +95,7 @@ $$ u^{n+1} \approx u^n + \Delta t \left[
     \left(1 - \alpha\right) f{\left(u^n\right)}
 \right] $$
 
-(and $\alpha = 1/2$ yields the well-known Crank-Nicholson scheme). Similarly,
+(with which $\alpha = 1/2$ yields the well-known Crank-Nicholson scheme). Similarly,
 in IMC, the radiation energy density equation:
 
 $$ \frac{\partial u_r}{\partial t} = \beta \sigma \left( \phi - cu_r \right) $$
@@ -104,26 +110,27 @@ $$
 The value of $u_r$, the radiation energy density, on the right-hand side has
 been replaced with an implicit difference
 $\alpha u_r^{n+1} + \left(1-\alpha\right) u_r^n$. The value of $\alpha$ can be
-left as a free parameter, even chosen at run time.
+left as a free parameter, chosen according to the specifics of the problem to
+be solved.
 
-The other time-dependent quantities on  the RHS are: $\beta$, which is a metric
-of the degree of non-linearity of the problem, defined as:
+The other time-dependent quantities on  the RHS are:
 
-$$ \beta = \frac{\partial u_r}{\partial u_m} $$
-
-where $u_m$ is the material energy desnity; $\sigma$, which is the total
-interaction cross-section (a property of the
-medium and a function of the local temperature); and $\phi$, which is the
-scalar intensity of the radiation:
-
-$$ \phi{\left(x,t\right)} = \int_{-1}^1{I{\left(x,t,\mu\right)} d\mu } $$
-
-(We have assumed a 1D system where $x$ is the spatial dimension and $\mu$ the
-direction cosine of the radiation.)
+- $\beta$, which is a metric of the degree of non-linearity of the problem,
+  defined as:
+  $$ \beta = \frac{\partial u_r}{\partial u_m} $$
+  where $u_m$ is the material energy density;
+- $\sigma$, which is the total interaction cross-section (a property of the
+  medium and a function of the local temperature); and
+- $\phi$, which is the scalar intensity of the radiation:
+  $$ \phi{\left(x,t\right)} = \int_{-1}^1{I{\left(x,t,\mu\right)} d\mu } $$
+  (We have assumed a 1D system where $x$ is the spatial dimension and $\mu$ the
+  direction cosine of the radiation.)
 
 In the discretised equation, $\beta$ and $\sigma$ have been substituted with
 values averaged over the time-step, and $\phi$ by a value $\phi^\lambda$,
-where the superscript $\lambda$ denotes an as-yet unspecified time centring.
+where the superscript $\lambda$ denotes an as-yet unspecified time centering.
+
+# Discretisation of the transport equation
 
 Similarly, the transport equation:
 
