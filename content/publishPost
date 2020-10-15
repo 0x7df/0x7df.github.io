@@ -80,7 +80,7 @@ fi
 typeset -r BASE_URL="http://0x7df.github.io"
 POST_URL=$(grep '^Slug: .\+$' ${FILENAME} | cut -d":" -f2 | xargs)
 if [[ -z "${POST_URL}" ]] ; then
-    POST_URL=$(basename -s .md ${FILENAME}) 
+    POST_URL=$(basename -s .md ${FILENAME})
 fi
 if [[ -z "${POST_URL}" ]] ; then
     echo "Error determining URL of post"

@@ -98,9 +98,22 @@ while IFS= read -n 1 -p "> ${SENT_INPUT}" -r ; do
         if [[ "$(list | wc -l)" == 1 ]] ; then
             LOWR_INPUT=$(list)
             make -C .. regenerate >/dev/null 2>&1 &
+            PID1="$!"
+            sleep 1
+            if ! kill -0 "${PID1}" ; then
+                echo "Regenerate failed"
+                exit 1
+            fi
             make -C .. serve >/dev/null 2>&1 &
+            PID2="$!"
+            sleep 1
+            if ! kill -0 "${PID2}" >/dev/null 2>&1 ; then
+                echo "Serve failed"
+                exit 2
+            fi
             open http://127.0.0.1:8000/drafts/${LOWR_INPUT%md}html
             ./editPost "${LOWR_INPUT}"
+            kill "${PID1}" "${PID2}"
             break
         else
             exit 1
