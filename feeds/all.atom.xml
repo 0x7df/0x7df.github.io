@@ -1,5 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-10-14T13:17:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Using tmux over ssh in iTerm2</title><link href="https://0x7df.github.io/using-tmux-over-ssh-in-iterm2.html" rel="alternate"></link><published>2020-10-11T14:50:00+01:00</published><updated>2020-10-11T14:50:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/using-tmux-over-ssh-in-iterm2.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I want to be able to open multiple terminal windows on my laptop with an
+<feed xmlns="http://www.w3.org/2005/Atom"><title>0x7df</title><link href="https://0x7df.github.io/" rel="alternate"></link><link href="https://0x7df.github.io/feeds/all.atom.xml" rel="self"></link><id>https://0x7df.github.io/</id><updated>2020-10-15T17:24:00+01:00</updated><subtitle>0x7df subtitle</subtitle><entry><title>Implicit Monte Carlo 1</title><link href="https://0x7df.github.io/implicit-monte-carlo-1.html" rel="alternate"></link><published>2020-10-15T17:24:00+01:00</published><updated>2020-10-15T17:24:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-15:/implicit-monte-carlo-1.html</id><summary type="html"></summary><content type="html">&lt;h1&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Implicit Monte Carlo (IMC) is a Monte Carlo method for solving the thermal
+radiation transport equation, published by
+&lt;a href="https://www.sciencedirect.com/science/article/pii/0021999171900155"&gt;Fleck and Cummings in 1971&lt;/a&gt;
+, according to which:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The method is based upon the concept of effective scattering, wherein a
+fraction of the radiative energy absorbed is instantaneously and
+isotropically reradiated in a manner analogous to a scattering process.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The modelled particles in IMC are not photons, but represent 'packets' of
+photons, whose total energy changes as they interact with the background
+material in a way that captures the local energy absorption and radiation
+rates.&lt;/p&gt;
+&lt;p&gt;One benefit of this 'effective scattering' is &lt;em&gt;variance reduction&lt;/em&gt;. Because
+particles are never absorbed, but simply scatter around until they leave the
+system (losing energy gradually, to &lt;em&gt;represent&lt;/em&gt; absorption), each particle
+contributes to the solution over a large area of the problem space. If
+particles were absorbed directly, in accordance with the material opacities,
+they would contribute only locally to the solution, and many more particles
+would have to be simulated to get a good, low-variance solution everywhere.&lt;/p&gt;
+&lt;p&gt;This, however, is possible to achieve in 'standard', as opposed to 'implicit'
+Monte Carlo methods.
+The defining aspect is the ability of IMC to better treat the non-linear
+behaviour of thermal radiation transport, whereby the materials' opacities to
+radiation and the emission rates are driven by their temperatures, which are
+of course driven in turn by the radiation field. This non-linearity can be
+dealt with explicitly, by computing a radiation time-step with constant
+temperatures and material properties, and then updating the temperatures and
+opacities at the end of the time-step according to the new radiation fluxes.
+However, in optically-thick systems, where the radiation field is tightly-
+coupled with the material, and the material and radiation are in or close to
+thermal equilibrium, a very short time-step is required that makes the whole
+process very inefficient. IMC modifies this process by treating only a
+fraction of the total radiation emission term as an explicit source term, fixed
+throughout the time-step, and deals with the remainder of the energy emission
+by way of the 'effective scattering' mechanism: an effective scattering term
+is introduced which represents the absorption and re-emission (isotropically)
+of radiation.&lt;/p&gt;
+&lt;p&gt;To understand this better, consider a computational cell which radiation is entering
+from the left side (e.g. a plane Marshak wave advancing through a 1D slab). The
+cell has a fixed temperature and therefore fixed opacities and absorption and
+emission rates. In a standard Monte Carlo scheme, particles entering from the
+left boundary are preferentially absorbed in the left part of the cell
+(in optically thick problems the cells are by definition many mean-free-paths
+wide). However the emission rate is constant throughout the whole
+cell, so in effect the emission process is unphysically decoupled from the
+absorption. In Implicit Monte Carlo, a fraction of both the absorption and
+emission processes are taken care of through the mechanism of effective
+scattering, so are very tightly coupled. Effectively, the IMC method allows,
+to a certain extent, sub-grid-scale information about the absorption and re-
+emission processes to be accounted for.&lt;/p&gt;
+&lt;h1&gt;Discretisation of the energy equation&lt;/h1&gt;
+&lt;p&gt;Mathematically, IMC is simply the Monte Carlo solution of a time-dependent
+transport equation which has been &lt;em&gt;implicitly discretised&lt;/em&gt; in time, which
+yields unconditional stability with respect to time-step length, just as an
+implicitly-discretised finite-difference scheme is unconditionally stable.
+(The implicitly-discretised equations derived by Fleck and Cummings do not,
+in fact, need to be solved by the Monte Carlo method to yield this key benefit.)&lt;/p&gt;
+&lt;p&gt;Consider the basic finite differencing of a simple differential equation&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial u}{\partial t} = f{\left(u\right)} $$&lt;/div&gt;
+&lt;p&gt;An explicit time discretisation is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ u^{n+1} \approx u^n + \Delta t \; f{\left(u^n\right)} $$&lt;/div&gt;
+&lt;p&gt;and an implicit one is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ u^{n+1} \approx u^n + \Delta t \; f{\left(u^{n+1}\right)} $$&lt;/div&gt;
+&lt;p&gt;In the implicit scheme, the right-hand-side is evaluated using the end-of-time
+step values (time level &lt;span class="math"&gt;\(n+1\)&lt;/span&gt;), the explicit scheme using the values
+from time level &lt;span class="math"&gt;\(n\)&lt;/span&gt;. A scheme can also be constructed that mixes the two:&lt;/p&gt;
+&lt;div class="math"&gt;$$ u^{n+1} \approx u^n + \Delta t \left[
+    \alpha            \:    f{\left(u^{n+1}\right)} +
+    \left(1 - \alpha\right) f{\left(u^n\right)}
+\right] $$&lt;/div&gt;
+&lt;p&gt;(with which &lt;span class="math"&gt;\(\alpha = 1/2\)&lt;/span&gt; yields the well-known Crank-Nicholson scheme). Similarly,
+in IMC, the radiation energy density equation:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{\partial u_r}{\partial t} = \beta \sigma \left( \phi - cu_r \right) $$&lt;/div&gt;
+&lt;p&gt;is discretised as:&lt;/p&gt;
+&lt;div class="math"&gt;$$ u_r^{n+1} \approx u_r^n + \Delta t
+    \hat\beta \hat\sigma \left( \phi^\lambda - c\left[ \alpha u_r^{n+1} + \left(1-\alpha\right)u_r^n
+ \right] \right)
+$$&lt;/div&gt;
+&lt;p&gt;The value of &lt;span class="math"&gt;\(u_r\)&lt;/span&gt;, the radiation energy density, on the right-hand side has
+been replaced with an implicit difference
+&lt;span class="math"&gt;\(\alpha u_r^{n+1} + \left(1-\alpha\right) u_r^n\)&lt;/span&gt;. The value of &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; can be
+left as a free parameter, chosen according to the specifics of the problem to
+be solved.&lt;/p&gt;
+&lt;p&gt;The other time-dependent quantities on  the RHS are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\beta\)&lt;/span&gt;, which is a metric of the degree of non-linearity of the problem,
+  defined as:
+  &lt;div class="math"&gt;$$ \beta = \frac{\partial u_r}{\partial u_m} $$&lt;/div&gt;
+  where &lt;span class="math"&gt;\(u_m\)&lt;/span&gt; is the material energy density;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;, which is the total interaction cross-section (a property of the
+  medium and a function of the local temperature); and&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\phi\)&lt;/span&gt;, which is the scalar intensity of the radiation:
+  &lt;div class="math"&gt;$$ \phi{\left(x,t\right)} = \int_{-1}^1{I{\left(x,t,\mu\right)} d\mu } $$&lt;/div&gt;
+  (We have assumed a 1D system where &lt;span class="math"&gt;\(x\)&lt;/span&gt; is the spatial dimension and &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; the
+  direction cosine of the radiation.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In the discretised equation, &lt;span class="math"&gt;\(\beta\)&lt;/span&gt; and &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; have been substituted with
+values averaged over the time-step, and &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; by a value &lt;span class="math"&gt;\(\phi^\lambda\)&lt;/span&gt;,
+where the superscript &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; denotes an as-yet unspecified time centering.&lt;/p&gt;
+&lt;h1&gt;Discretisation of the transport equation&lt;/h1&gt;
+&lt;p&gt;Similarly, the transport equation:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I = \frac{1}{2}c\sigma u_r $$&lt;/div&gt;
+&lt;p&gt;is discretised as:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I
+= \frac{1}{2}c\sigma \left[\alpha u^{n+1}_r + \left(1-\alpha\right) u^n_r\right] $$&lt;/div&gt;
+&lt;p&gt;If the discretised energy equation is solved for &lt;span class="math"&gt;\(u^{n+1}_r\)&lt;/span&gt;, it is then
+possible to write an equation for &lt;span class="math"&gt;\(\alpha u^{n+1}_r + \left(1-\alpha\right)u^n_r\)&lt;/span&gt;,
+which can be substituted into the transport equation. That is:&lt;/p&gt;
+&lt;div class="math"&gt;$$ u_r^{n+1} \approx u_r^n + \Delta t
+    \hat\beta \hat\sigma \left( \phi^\lambda - c\left[ \alpha u_r^{n+1} + \left(1-\alpha\right)u_r^n
+ \right] \right)
+$$&lt;/div&gt;
+&lt;p&gt;is rearranged to give:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+u_r^{n+1} \approx
+\left[ \frac{1-\left(1-\alpha\right)\hat\beta c\Delta t\hat\sigma}{1+\alpha\hat\beta c\Delta t\hat\sigma} \right] u^n_r
++
+\left[ \frac{\hat\beta\hat\sigma\Delta t}{1+\alpha\hat\beta c\Delta t\hat\sigma} \right] \phi^\lambda
+$$&lt;/div&gt;
+&lt;p&gt;which allows us to write:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \alpha u^{n+1}_r + \left(1-\alpha\right) u^n_r =
+\frac{\alpha\hat\beta\hat\sigma\Delta t}{1 + \alpha\hat\beta c\Delta t\hat\sigma} \phi^\lambda
++
+\frac{1}{1 + \alpha\hat\beta c\Delta t\hat\sigma} u^n_r
+$$&lt;/div&gt;
+&lt;p&gt;Substituting this into the transport equation gives:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I
+= \frac{1}{2}\sigma
+    \left[ \frac{\alpha\hat\beta c\hat\sigma\Delta t}{1 + \alpha\hat\beta c\Delta t\hat\sigma} \phi^\lambda
++
+\frac{c}{1 + \alpha\hat\beta c\Delta t\hat\sigma} u^n_r\right]
+$$&lt;/div&gt;
+&lt;p&gt;which we can re-write as:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I =
+\frac{1}{2} \sigma_s \phi^\lambda
++
+\frac{1}{2} c\sigma_a u^n_r
+$$&lt;/div&gt;
+&lt;p&gt;where the first term on the right is the equivalent of a scattering term with
+cross-section &lt;span class="math"&gt;\(\sigma_s\)&lt;/span&gt; given by:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \sigma_s = \frac{\alpha\hat\beta c\hat\sigma\Delta t}{1 + \alpha\hat\beta c\Delta t\hat\sigma}\sigma $$&lt;/div&gt;
+&lt;p&gt;and the second term on the right is the 'remaining' source term, where
+&lt;span class="math"&gt;\(\sigma_a\)&lt;/span&gt; is the absorption cross-section:&lt;/p&gt;
+&lt;div class="math"&gt;$$ \sigma_a = \frac{1}{1 + \alpha\hat\beta c\Delta t\hat\sigma} \sigma  $$&lt;/div&gt;
+&lt;p&gt;derived from the fact that &lt;span class="math"&gt;\(\sigma = \sigma_s + \sigma_a\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Effectively, a fraction of the original emission term on the RHS as been re-cast
+as a scattering term, leaving a modified direct emission term.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="misc"></category></entry><entry><title>Using tmux over ssh in iTerm2</title><link href="https://0x7df.github.io/using-tmux-over-ssh-in-iterm2.html" rel="alternate"></link><published>2020-10-11T14:50:00+01:00</published><updated>2020-10-11T14:50:00+01:00</updated><author><name>0x7df</name></author><id>tag:0x7df.github.io,2020-10-11:/using-tmux-over-ssh-in-iterm2.html</id><summary type="html"></summary><content type="html">&lt;p&gt;I want to be able to open multiple terminal windows on my laptop with an
 SSH connection to a remote machine. This setup combining &lt;a href="https://iterm2.com"&gt;iTerm2&lt;/a&gt;
 and &lt;a href="https://tmuxguide.readthedocs.io"&gt;tmux&lt;/a&gt; seems to work. Note that iTerms2 has
 built-in tmux integration, which is what allows this to work (i.e. it isn't

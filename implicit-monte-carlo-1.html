@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Overview Implicit Monte Carlo (IMC) is a Monte Carlo method for solving the thermal radiation transport equation, published by Fleck and Cummings in 1971 , according to which: The method is based...">
+        <meta name="keywords" content="">
+        <link rel="icon" href="https://0x7df.github.io/favicon.ico">
+
+        <title>Implicit Monte Carlo 1 - 0x7df</title>
+
+        <!-- Stylesheets -->
+        <link href="https://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <!-- /Stylesheets -->
+
+        <!-- RSS Feeds -->
+        <link href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="0x7df Full Atom Feed" />
+        <!-- /RSS Feeds -->
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    </head>
+
+    <body>
+
+        <!-- Header -->
+    <div class="header-container gradient">
+
+            <!-- Static navbar -->
+            <div class="container">
+                <div class="header-nav">
+                    <div class="header-logo">
+                        <a class="pull-left" href="https://0x7df.github.io/"><img class="mr20" src="https://0x7df.github.io/images/0x7df_60x60.png" alt="logo">0x7df</a>
+                    </div>
+                    <div class="nav pull-right">
+                                <a href="https://0x7df.github.io/">Blog Home</a>
+                                <a href="http://0x7df.io">Site Home</a>
+                                <a href="https://0x7df.github.io/categories.html">Categories</a>
+                            <a  href="https://0x7df.github.io/pages/0x7df-application.html">0x7df application</a>
+                            <a  href="https://0x7df.github.io/pages/about.html">About</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Static navbar -->
+
+            <!-- Header -->
+    <!-- Header -->
+    <div class="container header-wrapper">
+        <div class="row">
+              <div class="col-lg-12">
+                  <div class="header-content">
+                      <h1 class="header-title">Implicit Monte Carlo 1</h1>
+                      <p class="header-date">By <a href="https://0x7df.github.io/author/0x7df.html">0x7df</a>, Thu 15 October 2020, modified Thu 15 October 2020, in category <a href="https://0x7df.github.io/category/misc.html">Misc</a></p>
+                      <div class="header-underline"></div>
+                      <div class="clearfix"></div>
+                      <p class="pull-right header-tags">
+                          <span class="glyphicon glyphicon-tags mr5" aria-hidden="true"></span>
+                      </p>
+                  </div>
+              </div>
+        </div>
+    </div>
+    <!-- /Header -->
+            <!-- /Header -->
+
+        </div>
+        <!-- /Header -->
+
+
+        <!-- Content -->
+    <div class="container content">
+        <h1>Overview</h1>
+<p>Implicit Monte Carlo (IMC) is a Monte Carlo method for solving the thermal
+radiation transport equation, published by
+<a href="https://www.sciencedirect.com/science/article/pii/0021999171900155">Fleck and Cummings in 1971</a>
+, according to which:</p>
+<blockquote>
+<p>The method is based upon the concept of effective scattering, wherein a
+fraction of the radiative energy absorbed is instantaneously and
+isotropically reradiated in a manner analogous to a scattering process.</p>
+</blockquote>
+<p>The modelled particles in IMC are not photons, but represent 'packets' of
+photons, whose total energy changes as they interact with the background
+material in a way that captures the local energy absorption and radiation
+rates.</p>
+<p>One benefit of this 'effective scattering' is <em>variance reduction</em>. Because
+particles are never absorbed, but simply scatter around until they leave the
+system (losing energy gradually, to <em>represent</em> absorption), each particle
+contributes to the solution over a large area of the problem space. If
+particles were absorbed directly, in accordance with the material opacities,
+they would contribute only locally to the solution, and many more particles
+would have to be simulated to get a good, low-variance solution everywhere.</p>
+<p>This, however, is possible to achieve in 'standard', as opposed to 'implicit'
+Monte Carlo methods.
+The defining aspect is the ability of IMC to better treat the non-linear
+behaviour of thermal radiation transport, whereby the materials' opacities to
+radiation and the emission rates are driven by their temperatures, which are
+of course driven in turn by the radiation field. This non-linearity can be
+dealt with explicitly, by computing a radiation time-step with constant
+temperatures and material properties, and then updating the temperatures and
+opacities at the end of the time-step according to the new radiation fluxes.
+However, in optically-thick systems, where the radiation field is tightly-
+coupled with the material, and the material and radiation are in or close to
+thermal equilibrium, a very short time-step is required that makes the whole
+process very inefficient. IMC modifies this process by treating only a
+fraction of the total radiation emission term as an explicit source term, fixed
+throughout the time-step, and deals with the remainder of the energy emission
+by way of the 'effective scattering' mechanism: an effective scattering term
+is introduced which represents the absorption and re-emission (isotropically)
+of radiation.</p>
+<p>To understand this better, consider a computational cell which radiation is entering
+from the left side (e.g. a plane Marshak wave advancing through a 1D slab). The
+cell has a fixed temperature and therefore fixed opacities and absorption and
+emission rates. In a standard Monte Carlo scheme, particles entering from the
+left boundary are preferentially absorbed in the left part of the cell
+(in optically thick problems the cells are by definition many mean-free-paths
+wide). However the emission rate is constant throughout the whole
+cell, so in effect the emission process is unphysically decoupled from the
+absorption. In Implicit Monte Carlo, a fraction of both the absorption and
+emission processes are taken care of through the mechanism of effective
+scattering, so are very tightly coupled. Effectively, the IMC method allows,
+to a certain extent, sub-grid-scale information about the absorption and re-
+emission processes to be accounted for.</p>
+<h1>Discretisation of the energy equation</h1>
+<p>Mathematically, IMC is simply the Monte Carlo solution of a time-dependent
+transport equation which has been <em>implicitly discretised</em> in time, which
+yields unconditional stability with respect to time-step length, just as an
+implicitly-discretised finite-difference scheme is unconditionally stable.
+(The implicitly-discretised equations derived by Fleck and Cummings do not,
+in fact, need to be solved by the Monte Carlo method to yield this key benefit.)</p>
+<p>Consider the basic finite differencing of a simple differential equation</p>
+<div class="math">$$ \frac{\partial u}{\partial t} = f{\left(u\right)} $$</div>
+<p>An explicit time discretisation is:</p>
+<div class="math">$$ u^{n+1} \approx u^n + \Delta t \; f{\left(u^n\right)} $$</div>
+<p>and an implicit one is:</p>
+<div class="math">$$ u^{n+1} \approx u^n + \Delta t \; f{\left(u^{n+1}\right)} $$</div>
+<p>In the implicit scheme, the right-hand-side is evaluated using the end-of-time
+step values (time level <span class="math">\(n+1\)</span>), the explicit scheme using the values
+from time level <span class="math">\(n\)</span>. A scheme can also be constructed that mixes the two:</p>
+<div class="math">$$ u^{n+1} \approx u^n + \Delta t \left[
+    \alpha            \:    f{\left(u^{n+1}\right)} +
+    \left(1 - \alpha\right) f{\left(u^n\right)}
+\right] $$</div>
+<p>(with which <span class="math">\(\alpha = 1/2\)</span> yields the well-known Crank-Nicholson scheme). Similarly,
+in IMC, the radiation energy density equation:</p>
+<div class="math">$$ \frac{\partial u_r}{\partial t} = \beta \sigma \left( \phi - cu_r \right) $$</div>
+<p>is discretised as:</p>
+<div class="math">$$ u_r^{n+1} \approx u_r^n + \Delta t
+    \hat\beta \hat\sigma \left( \phi^\lambda - c\left[ \alpha u_r^{n+1} + \left(1-\alpha\right)u_r^n
+ \right] \right)
+$$</div>
+<p>The value of <span class="math">\(u_r\)</span>, the radiation energy density, on the right-hand side has
+been replaced with an implicit difference
+<span class="math">\(\alpha u_r^{n+1} + \left(1-\alpha\right) u_r^n\)</span>. The value of <span class="math">\(\alpha\)</span> can be
+left as a free parameter, chosen according to the specifics of the problem to
+be solved.</p>
+<p>The other time-dependent quantities on  the RHS are:</p>
+<ul>
+<li><span class="math">\(\beta\)</span>, which is a metric of the degree of non-linearity of the problem,
+  defined as:
+  <div class="math">$$ \beta = \frac{\partial u_r}{\partial u_m} $$</div>
+  where <span class="math">\(u_m\)</span> is the material energy density;</li>
+<li><span class="math">\(\sigma\)</span>, which is the total interaction cross-section (a property of the
+  medium and a function of the local temperature); and</li>
+<li><span class="math">\(\phi\)</span>, which is the scalar intensity of the radiation:
+  <div class="math">$$ \phi{\left(x,t\right)} = \int_{-1}^1{I{\left(x,t,\mu\right)} d\mu } $$</div>
+  (We have assumed a 1D system where <span class="math">\(x\)</span> is the spatial dimension and <span class="math">\(\mu\)</span> the
+  direction cosine of the radiation.)</li>
+</ul>
+<p>In the discretised equation, <span class="math">\(\beta\)</span> and <span class="math">\(\sigma\)</span> have been substituted with
+values averaged over the time-step, and <span class="math">\(\phi\)</span> by a value <span class="math">\(\phi^\lambda\)</span>,
+where the superscript <span class="math">\(\lambda\)</span> denotes an as-yet unspecified time centering.</p>
+<h1>Discretisation of the transport equation</h1>
+<p>Similarly, the transport equation:</p>
+<div class="math">$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I = \frac{1}{2}c\sigma u_r $$</div>
+<p>is discretised as:</p>
+<div class="math">$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I
+= \frac{1}{2}c\sigma \left[\alpha u^{n+1}_r + \left(1-\alpha\right) u^n_r\right] $$</div>
+<p>If the discretised energy equation is solved for <span class="math">\(u^{n+1}_r\)</span>, it is then
+possible to write an equation for <span class="math">\(\alpha u^{n+1}_r + \left(1-\alpha\right)u^n_r\)</span>,
+which can be substituted into the transport equation. That is:</p>
+<div class="math">$$ u_r^{n+1} \approx u_r^n + \Delta t
+    \hat\beta \hat\sigma \left( \phi^\lambda - c\left[ \alpha u_r^{n+1} + \left(1-\alpha\right)u_r^n
+ \right] \right)
+$$</div>
+<p>is rearranged to give:</p>
+<div class="math">$$
+u_r^{n+1} \approx
+\left[ \frac{1-\left(1-\alpha\right)\hat\beta c\Delta t\hat\sigma}{1+\alpha\hat\beta c\Delta t\hat\sigma} \right] u^n_r
++
+\left[ \frac{\hat\beta\hat\sigma\Delta t}{1+\alpha\hat\beta c\Delta t\hat\sigma} \right] \phi^\lambda
+$$</div>
+<p>which allows us to write:</p>
+<div class="math">$$ \alpha u^{n+1}_r + \left(1-\alpha\right) u^n_r =
+\frac{\alpha\hat\beta\hat\sigma\Delta t}{1 + \alpha\hat\beta c\Delta t\hat\sigma} \phi^\lambda
++
+\frac{1}{1 + \alpha\hat\beta c\Delta t\hat\sigma} u^n_r
+$$</div>
+<p>Substituting this into the transport equation gives:</p>
+<div class="math">$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I
+= \frac{1}{2}\sigma
+    \left[ \frac{\alpha\hat\beta c\hat\sigma\Delta t}{1 + \alpha\hat\beta c\Delta t\hat\sigma} \phi^\lambda
++
+\frac{c}{1 + \alpha\hat\beta c\Delta t\hat\sigma} u^n_r\right]
+$$</div>
+<p>which we can re-write as:</p>
+<div class="math">$$ \frac{1}{c} \frac{\partial I}{\partial t} + \mu \frac{\partial I}{\partial x} + \sigma I =
+\frac{1}{2} \sigma_s \phi^\lambda
++
+\frac{1}{2} c\sigma_a u^n_r
+$$</div>
+<p>where the first term on the right is the equivalent of a scattering term with
+cross-section <span class="math">\(\sigma_s\)</span> given by:</p>
+<div class="math">$$ \sigma_s = \frac{\alpha\hat\beta c\hat\sigma\Delta t}{1 + \alpha\hat\beta c\Delta t\hat\sigma}\sigma $$</div>
+<p>and the second term on the right is the 'remaining' source term, where
+<span class="math">\(\sigma_a\)</span> is the absorption cross-section:</p>
+<div class="math">$$ \sigma_a = \frac{1}{1 + \alpha\hat\beta c\Delta t\hat\sigma} \sigma  $$</div>
+<p>derived from the fact that <span class="math">\(\sigma = \sigma_s + \sigma_a\)</span>.</p>
+<p>Effectively, a fraction of the original emission term on the RHS as been re-cast
+as a scattering term, leaving a modified direct emission term.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+        
+    </div>
+        <!-- /Content --> 
+
+        <!-- Footer -->
+        <div class="footer gradient-2">
+            <div class="container footer-container ">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Sitemap</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://0x7df.github.io/archives.html">Archives</a></li>
+                            <li><a href="https://0x7df.github.io/tags.html">Tags</a></li>
+                            <li><a href="https://0x7df.github.io/authors.html">Authors</a></li>
+                            <li><a href="https://0x7df.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">Atom Feed</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Social</div>
+                        <ul class="list-unstyled">
+                            <li><a href="https://twitter.com/@0x7df" target="_blank">Twitter</a></li>
+                            <li><a href="https://github.com/0x7df" target="_blank">GitHub</a></li>
+                            <li><a href="https://www.facebook.com/0x7df" target="_blank">Facebook</a></li>
+                            <li><a href="https://stackoverflow.com/users/4802778" target="_blank">StackOverflow</a></li>
+                            <li><a href="http://www.freecodecamp.com/0x7df" target="_blank">FreeCodeCamp</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+                        <div class="footer-title">Links</div>
+                        <ul class="list-unstyled">
+                            <li><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
+                            <li><a href="http://python.org/" target="_blank">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
+                            <li><a href="https://github.com/barrysteyn/pelican_plugin-render_math" target="_blank">Maths plugin</a></li>
+                            <li><a href="https://github.com/molivier/nest" target="_blank">Nest theme</a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                            <li><a href="" target="_blank"></a></li>
+                        </ul>
+                    </div> 
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <p class="pull-right text-right">
+                            <small><em>Proudly powered by <a href="http://docs.getpelican.com/" target="_blank">pelican</a></em></small><br/>
+                            <small><em>Theme and code by <a href="https://github.com/molivier" target="_blank">molivier</a></em></small><br/>
+                            <small>&copy; 0x7df 2015</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Footer -->
+    </body>
+</html>
