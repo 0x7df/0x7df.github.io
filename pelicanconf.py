@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
+from os import listdir
+from os.path import isfile, join
+import json
 
 AUTHOR = u'0x7df'
 SITENAME = u'0x7df'
@@ -48,14 +51,13 @@ DEFAULT_METADATA = {
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
 
-PLUGIN_PATHS = ["/Users/msleigh/Perm/Pelican/pelican-plugins"]
 PLUGINS = ["render_math"]
 
 # NEST Template
 THEME = 'nest'
 SITESUBTITLE = u'0x7df subtitle'
 # Minified CSS
-NEST_CSS_MINIFY = True
+NEST_CSS_MINIFY = False
 # Add items to top menu before pages
 MENUITEMS = [('Blog Home', '/'),
              ('Site Home', 'http://0x7df.io'),
@@ -135,3 +137,13 @@ STATIC_PATHS = ['images', 'extra/favicon.ico']
 EXTRA_PATH_METADATA = {
     'extra/favicon.ico': {'path': 'favicon.ico'},
 }
+
+# Staticman comments
+commentsPath = "./content/comments"
+
+def ymlToJson(file):
+    with open(commentsPath + "/" + file) as stream:
+        return json.load(stream)
+
+commentsYML = [f for f in listdir(commentsPath) if isfile(join(commentsPath, f))]
+COMMENTS = list(map(ymlToJson, commentsYML))
