@@ -37,7 +37,8 @@ UNIT=""
 EXTRA_FIELD="stat --format="
 WIDTH=0
 FIELDS=1
-while getopts ":dpstw" opt; do
+PUBLISH=0
+while getopts ":dpstwx" opt; do
   case ${opt} in
     d ) SHOWDRAFTS=1
       ;;
@@ -56,6 +57,8 @@ while getopts ":dpstw" opt; do
     w ) ORDER_BY="-rS"
         EXTRA_FIELD="wc -w"
         WIDTH=36
+      ;;
+    x ) PUBLISH=1
       ;;
     \? ) echo "Usage: filter_posts [-d] [-p] [-s] [-t]"
       ;;
@@ -97,23 +100,28 @@ while IFS= read -n 1 -p "> ${SENT_INPUT}" -r ; do
         # Error if we haven't got down to a single file from the input provided
         if [[ "$(list | wc -l)" == 1 ]] ; then
             LOWR_INPUT=$(list)
-            make -C .. regenerate >/dev/null 2>&1 &
-            PID1="$!"
-            sleep 1
-            if ! kill -0 "${PID1}" ; then
-                echo "Regenerate failed"
-                exit 1
+            if [[ "${PUBLISH}" == 1 ]] ; then
+                ./publishPost "${LOWR_INPUT}"
+                open https://0x7df.github.io/${LOWR_INPUT%md}html
+            else
+                make -C .. regenerate >/dev/null 2>&1 &
+                PID1="$!"
+                sleep 1
+                if ! kill -0 "${PID1}" ; then
+                    echo "Regenerate failed"
+                    exit 1
+                fi
+                make -C .. serve >/dev/null 2>&1 &
+                PID2="$!"
+                sleep 1
+                if ! kill -0 "${PID2}" >/dev/null 2>&1 ; then
+                    echo "Serve failed"
+                    exit 2
+                fi
+                open http://127.0.0.1:8000/drafts/${LOWR_INPUT%md}html
+                ./editPost "${LOWR_INPUT}"
+                kill "${PID1}" "${PID2}"
             fi
-            make -C .. serve >/dev/null 2>&1 &
-            PID2="$!"
-            sleep 1
-            if ! kill -0 "${PID2}" >/dev/null 2>&1 ; then
-                echo "Serve failed"
-                exit 2
-            fi
-            open http://127.0.0.1:8000/drafts/${LOWR_INPUT%md}html
-            ./editPost "${LOWR_INPUT}"
-            kill "${PID1}" "${PID2}"
             break
         else
             exit 1
