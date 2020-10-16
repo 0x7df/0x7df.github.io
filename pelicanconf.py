@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
+from os import listdir
+import yaml
 
 AUTHOR = u'0x7df'
 SITENAME = u'0x7df'
@@ -135,3 +137,13 @@ STATIC_PATHS = ['images', 'extra/favicon.ico']
 EXTRA_PATH_METADATA = {
     'extra/favicon.ico': {'path': 'favicon.ico'},
 }
+
+#Staticman Comments
+commentsPath = "./content/comments"
+
+def ymlToJson(file):
+    with open(commentsPath + "/" + file) as stream:
+        return yaml.load(stream)
+
+commentsYML = [f for f in listdir(commentsPath) if isfile(join(commentsPath, f))]
+COMMENTS = list(map(ymlToJson, commentsYML))
