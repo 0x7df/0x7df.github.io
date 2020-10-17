@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from os import listdir
 from os.path import isfile, join
 import yaml
+import json
 
 AUTHOR = u'0x7df'
 SITENAME = u'0x7df'
@@ -144,7 +145,7 @@ commentsPath = "./content/comments"
 
 def ymlToJson(file):
     with open(commentsPath + "/" + file) as stream:
-        return yaml.load(stream)
+        return json.load(stream)
 
 commentsYML = [f for f in listdir(commentsPath) if isfile(join(commentsPath, f))]
 COMMENTS = list(map(ymlToJson, commentsYML))
