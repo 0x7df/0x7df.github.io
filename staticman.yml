@@ -6,7 +6,7 @@ comments:
   # There are many more required config values here, not shown:
   # use the file linked above as a template
 
-  branch: "master"
+  branch: "source"
 
   moderation: true
 
