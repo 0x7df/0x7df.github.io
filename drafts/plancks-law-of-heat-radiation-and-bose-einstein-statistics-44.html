@@ -11,7 +11,10 @@
         <title>Planck's law of heat radiation and Bose-Einstein statistics (4/4) - 0x7df</title>
 
         <!-- Stylesheets -->
-        <link href="https://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/fonts.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/nest.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/pygment.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -110,18 +113,16 @@ quantum...</p>
 <p>Leads to Planck's formula (justfying \beta = 1/kT from thermodynamics)</p>
 
 
-        <div>
-            <h3 id="comments">COMMENTS</h3>
-        </div>
+        <h3 id="comments">Comments</h3>
 
-        <div id="comment-post">
+        <div class="form-style">
+            <h3>Add comment</h3>
             <form method="POST" action="https://comment-bot-0x7df.herokuapp.com/v2/entry/0x7df/0x7df.github.io/source/comments">
-                <input name="options[redirect]" type="hidden" value="https://0x7df.github.io/plancks-law-of-heat-radiation-and-bose-einstein-statistics-44">
-                <input name="fields[url]" type="hidden" value="plancks-law-of-heat-radiation-and-bose-einstein-statistics-44">
-                <div><label>Name: <input name="fields[name]" type="text"></label></div>
-                <div><label>E-mail: <input name="fields[email]" type="email"></label></div>
-                <div><label>Message: <textarea name="fields[message]"></textarea></label></div>
-                <button type="submit">Submit</button>
+                    <input    name="options[redirect]" type="hidden" value="https://0x7df.github.io/plancks-law-of-heat-radiation-and-bose-einstein-statistics-44">
+                    <input    name="fields[url]"       type="hidden" value="plancks-law-of-heat-radiation-and-bose-einstein-statistics-44">
+                    <input    name="fields[name]"      type="text" placeholder="Name">
+                    <textarea name="fields[message]"               placeholder="Comment"></textarea>
+                    <input                             type="button" value="Submit"/>
             </form>
         </div>
 

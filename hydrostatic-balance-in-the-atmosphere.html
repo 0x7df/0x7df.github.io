@@ -11,7 +11,10 @@
         <title>Hydrostatic balance in the atmosphere - 0x7df</title>
 
         <!-- Stylesheets -->
-        <link href="https://0x7df.github.io/theme/css/all.min.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/fonts.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/nest.css" rel="stylesheet">
+        <link href="https://0x7df.github.io/theme/css/pygment.css" rel="stylesheet">
         <!-- /Stylesheets -->
 
         <!-- RSS Feeds -->
@@ -264,18 +267,16 @@ atmospheres](https://plot.ly/~0x7df/11.png)](https://plot.ly/~0x7df/11/ "Pressur
 </script>
 
 
-        <div>
-            <h3 id="comments">COMMENTS</h3>
-        </div>
+        <h3 id="comments">Comments</h3>
 
-        <div id="comment-post">
+        <div class="form-style">
+            <h3>Add comment</h3>
             <form method="POST" action="https://comment-bot-0x7df.herokuapp.com/v2/entry/0x7df/0x7df.github.io/source/comments">
-                <input name="options[redirect]" type="hidden" value="https://0x7df.github.io/hydrostatic-balance-in-the-atmosphere">
-                <input name="fields[url]" type="hidden" value="hydrostatic-balance-in-the-atmosphere">
-                <div><label>Name: <input name="fields[name]" type="text"></label></div>
-                <div><label>E-mail: <input name="fields[email]" type="email"></label></div>
-                <div><label>Message: <textarea name="fields[message]"></textarea></label></div>
-                <button type="submit">Submit</button>
+                    <input    name="options[redirect]" type="hidden" value="https://0x7df.github.io/hydrostatic-balance-in-the-atmosphere">
+                    <input    name="fields[url]"       type="hidden" value="hydrostatic-balance-in-the-atmosphere">
+                    <input    name="fields[name]"      type="text" placeholder="Name">
+                    <textarea name="fields[message]"               placeholder="Comment"></textarea>
+                    <input                             type="button" value="Submit"/>
             </form>
         </div>
 
