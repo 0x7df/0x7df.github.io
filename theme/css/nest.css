@@ -408,6 +408,9 @@ blockquote{
 	-moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
 	-webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
 }
+.comment {
+    font-weight: bold;
+}
 
 /* Spaces */
 .mr5 { margin-right: 5px;}
@@ -452,7 +455,7 @@ blockquote{
 	-webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
 }
 .form-style h3{
-	background: #4D4D4D;
+	background: #333;
 	text-transform: uppercase;
 	color: #fff;
 	font-size: 18px;
