@@ -25,7 +25,7 @@ comments:
     date:
       type: date
       options:
-        format: "timestamp-seconds"
+        format: "iso8601"
 
   # You may want a different set of "required fields". Staticman will
   # reject posts without all of these fields
