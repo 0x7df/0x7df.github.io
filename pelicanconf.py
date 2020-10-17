@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 from os import listdir
+from os.path import isfile, join
 import yaml
 
 AUTHOR = u'0x7df'
@@ -57,7 +58,7 @@ PLUGINS = ["render_math"]
 THEME = 'nest'
 SITESUBTITLE = u'0x7df subtitle'
 # Minified CSS
-NEST_CSS_MINIFY = True
+NEST_CSS_MINIFY = False
 # Add items to top menu before pages
 MENUITEMS = [('Blog Home', '/'),
              ('Site Home', 'http://0x7df.io'),
